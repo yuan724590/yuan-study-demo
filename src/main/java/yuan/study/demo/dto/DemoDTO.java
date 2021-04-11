@@ -11,7 +11,7 @@ public class DemoDTO {
     @Builder
     @NoArgsConstructor
     @AllArgsConstructor
-    public static class ThreadLocalDTO{
+    public static class ThreadLocalDTO {
 
         /**
          * 需要缓存的值
