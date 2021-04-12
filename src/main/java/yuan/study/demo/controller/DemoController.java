@@ -49,4 +49,12 @@ public class DemoController {
     public String mapCompare() {
         return demoService.mapCompare();
     }
+
+    /**
+     * 去重
+     */
+    @PostMapping(value = "/duplicateRemoval", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public String duplicateRemoval() {
+        return demoService.duplicateRemoval();
+    }
 }

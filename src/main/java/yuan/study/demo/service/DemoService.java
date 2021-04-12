@@ -22,4 +22,9 @@ public interface DemoService {
      * 几种map对比
      */
     String mapCompare();
+
+    /**
+     * 去重
+     */
+    String duplicateRemoval();
 }

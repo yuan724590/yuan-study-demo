@@ -10,6 +10,7 @@ import yuan.study.demo.service.DemoService;
 import java.util.*;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 
 @Slf4j
@@ -114,5 +115,25 @@ public class DemoServiceImpl implements DemoService {
             }
         });
         return future;
+    }
+
+    @Override
+    public String duplicateRemoval(){
+        List<Integer> list = new ArrayList<>(1000_0000);
+        for(int i = 0; i < 1000_0000; i++){
+            list.add(i);
+        }
+        long t1 = System.currentTimeMillis();
+        List<Integer> list1 = list.stream().distinct().collect(Collectors.toList());
+        long t2 = System.currentTimeMillis() - t1;
+        //3375 5218 909 922 815
+        System.out.println("distinct耗时为:" + t2);
+
+        long t11 = System.currentTimeMillis();
+        List<Integer> setList = new ArrayList<>(new HashSet<>(list));
+        long t22 = System.currentTimeMillis() - t11;
+        //555 534 595 653 614
+        System.out.println("HashSet耗时为:" + t22);
+        return "success";
     }
 }
