@@ -27,4 +27,14 @@ public interface DemoService {
      * 去重
      */
     String duplicateRemoval();
+
+    /**
+     * SimpleDateFormat同步获取时间
+     */
+    String syncGetTime();
+
+    /**
+     * localDateTime的使用
+     */
+    String localDateTime();
 }

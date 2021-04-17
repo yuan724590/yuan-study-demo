@@ -7,6 +7,10 @@ import org.springframework.util.CollectionUtils;
 import yuan.study.demo.dto.DemoDTO;
 import yuan.study.demo.service.DemoService;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -20,6 +24,8 @@ public class DemoServiceImpl implements DemoService {
     private static ExecutorService cachedThreadPool = Executors.newCachedThreadPool();
 
     public static AtomicInteger atomicInteger = new AtomicInteger(0);
+
+    private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
 
     @Override
     public String threadLocal(String value) {
@@ -134,6 +140,65 @@ public class DemoServiceImpl implements DemoService {
         long t22 = System.currentTimeMillis() - t11;
         //555 534 595 653 614
         System.out.println("HashSet耗时为:" + t22);
+        return "success";
+    }
+
+    @Override
+    public String syncGetTime(){
+        try {
+            List<Future> futureList = new ArrayList<>();
+            for(int i = 0; i < 500; i++){
+                futureList.add(cachedThreadPool.submit(() -> checkSimpleDateTime()));
+            }
+            for(int i = 0; i < futureList.size(); i++){
+                futureList.get(i).get(1, TimeUnit.SECONDS);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "success";
+    }
+
+    /**
+     * 校验SimpleDateTime的时间戳
+     */
+    private void checkSimpleDateTime(){
+        String dateString = sdf.format(new Date());
+        try {
+
+            Date parseDate = sdf.parse(dateString);
+            String dateString2 = sdf.format(parseDate);
+            if(!dateString.equals(dateString2)){
+                System.out.println("SimpleDateFormat非线程安全");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    @Override
+    public String localDateTime(){
+        LocalDateTime localDateTime = LocalDateTime.now();
+        //获取日期
+        int day = localDateTime.getDayOfMonth();
+        System.out.println(day);
+        //时间延后一天
+        day = localDateTime.plusDays(1).getDayOfMonth();
+        System.out.println(day);
+        //时间提前一天
+        day = localDateTime.minusDays(1).getDayOfMonth();
+        System.out.println(day);
+        //比较时间
+        LocalDateTime localDateTime1 = LocalDateTime.of(2018, 1, 1, 1, 1, 1);
+        boolean isAfter = localDateTime1.isAfter(localDateTime);
+        System.out.println(isAfter);
+        boolean isBefore = localDateTime1.isBefore(localDateTime);
+        System.out.println(isAfter);
+        //格式化时间
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS");
+        String formatTime = dateTimeFormatter.format(localDateTime);
+        System.out.println(formatTime);
         return "success";
     }
 }

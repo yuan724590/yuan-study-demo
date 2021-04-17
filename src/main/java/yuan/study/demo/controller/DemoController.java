@@ -57,4 +57,20 @@ public class DemoController {
     public String duplicateRemoval() {
         return demoService.duplicateRemoval();
     }
+
+    /**
+     * SimpleDateFormat同步获取时间
+     */
+    @PostMapping(value = "/syncGetTime", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public String syncGetTime() {
+        return demoService.syncGetTime();
+    }
+
+    /**
+     * localDateTime的使用
+     */
+    @PostMapping(value = "/localDateTime", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public String localDateTime() {
+        return demoService.localDateTime();
+    }
 }
