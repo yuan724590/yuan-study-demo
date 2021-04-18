@@ -2,10 +2,7 @@ package yuan.study.demo.controller;
 
 import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import yuan.study.demo.dto.DemoDTO;
 import yuan.study.demo.service.DemoService;
 
@@ -72,5 +69,37 @@ public class DemoController {
     @PostMapping(value = "/localDateTime", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public String localDateTime() {
         return demoService.localDateTime();
+    }
+
+    /**
+     * 创建对象
+     */
+    @PostMapping(value = "/createObject", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public String createObject() {
+        return demoService.createObject();
+    }
+
+    /**
+     * 属性可见
+     */
+    @GetMapping(value = "/accessible")
+    public String accessible(){
+        return demoService.accessible();
+    }
+
+    /**
+     * 两种构造器的区别, Declared关键词的意思
+     */
+    @GetMapping(value = "/getDeclaredConstructor")
+    public String getDeclaredConstructor(){
+        return demoService.getDeclaredConstructor();
+    }
+
+    /**
+     * 查看内存消耗
+     */
+    @GetMapping(value = "/getMemory")
+    public String getMemory(){
+        return demoService.getMemory();
     }
 }
