@@ -24,14 +24,6 @@ public class DemoController {
     }
 
     /**
-     * subList相关测试
-     */
-    @PostMapping(value = "/subList", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public String arrayList() {
-        return demoService.subList();
-    }
-
-    /**
      * entrySet, keySet, foreach性能相关测试
      */
     @PostMapping(value = "/entrySet", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)

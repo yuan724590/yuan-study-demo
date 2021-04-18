@@ -49,18 +49,6 @@ public class DemoServiceImpl implements DemoService {
     }
 
     @Override
-    public String subList(){
-        List<Integer> list = new ArrayList<>();
-        list.add(1);
-        list.add(1);
-        list.add(1);
-        list.add(1);
-        list.add(1);
-        ArrayList arrayList = (ArrayList) list.subList(0, 1);
-        return "success";
-    }
-
-    @Override
     public String entrySet(){
         Map<Integer, Boolean> map = new HashMap<>();
         for(int i = 0; i < 1000_0000; i++){

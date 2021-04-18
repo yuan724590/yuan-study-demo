@@ -9,11 +9,6 @@ public interface DemoService {
     String threadLocal(String value);
 
     /**
-     * subList相关测试
-     */
-    String subList();
-
-    /**
      * entrySet, keySet, foreach性能相关测试
      */
     String entrySet();
