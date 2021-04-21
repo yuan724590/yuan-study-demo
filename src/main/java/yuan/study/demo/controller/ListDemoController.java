@@ -43,4 +43,12 @@ public class ListDemoController {
     public String syncList() {
         return demoService.syncList();
     }
+
+    /**
+     * 测试list的最大长度
+     */
+    @GetMapping(value = "/testMaxListSize")
+    public String testMaxListSize() {
+        return demoService.testMaxListSize();
+    }
 }

@@ -20,4 +20,9 @@ public interface ListDemoService {
      * 线程安全的list
      */
     String syncList();
+
+    /**
+     * 测试list的最大长度
+     */
+    String testMaxListSize();
 }

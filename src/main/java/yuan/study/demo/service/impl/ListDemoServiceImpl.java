@@ -3,6 +3,7 @@ package yuan.study.demo.service.impl;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import yuan.study.demo.entity.Students;
 import yuan.study.demo.service.ListDemoService;
 
 import java.util.*;
@@ -68,6 +69,16 @@ public class ListDemoServiceImpl implements ListDemoService {
         //解决arrayList并发问题
         List<Integer> list = Collections.synchronizedList(new ArrayList<>());
         List<Integer> list1 = new CopyOnWriteArrayList<>();
+        return "success";
+    }
+
+    @Override
+    public String testMaxListSize(){
+        List<Integer> list = new ArrayList<>();
+        Students students = (Students)list;
+        //OOM
+//        List<Boolean> list = new ArrayList<>(Integer.MAX_VALUE - 8);
+//        list = new ArrayList<>(Integer.MAX_VALUE);
         return "success";
     }
 }
