@@ -9,21 +9,6 @@ public interface DemoService {
     String threadLocal(String value);
 
     /**
-     * entrySet, keySet, foreach性能相关测试
-     */
-    String entrySet();
-
-    /**
-     * 几种map对比
-     */
-    String mapCompare();
-
-    /**
-     * 去重
-     */
-    String duplicateRemoval();
-
-    /**
      * SimpleDateFormat同步获取时间
      */
     String syncGetTime();
@@ -52,4 +37,9 @@ public interface DemoService {
      * 查看内存消耗
      */
     String getMemory();
+
+    /**
+     * 语法
+     */
+    String grammar();
 }
