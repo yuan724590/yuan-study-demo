@@ -35,4 +35,28 @@ public class ErrorController {
     public String heapSpaceOOM(){
         return errorService.heapSpaceOOM();
     }
+
+    /**
+     * 通过线程造成泄露
+     */
+    @GetMapping(value = "/stackLeakByThread")
+    public String stackLeakByThread(){
+        return errorService.stackLeakByThread();
+    }
+
+    /**
+     * 运行时常量池OOM
+     */
+    @GetMapping(value = "/runtimeConstantPoolOOM")
+    public String runtimeConstantPoolOOM(){
+        return errorService.runtimeConstantPoolOOM();
+    }
+
+    /**
+     * 直接内存OOM
+     */
+    @GetMapping(value = "/directMemoryOOM")
+    public String directMemoryOOM(){
+        return errorService.directMemoryOOM();
+    }
 }

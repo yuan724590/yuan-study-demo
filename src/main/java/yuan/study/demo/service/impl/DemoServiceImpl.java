@@ -247,4 +247,23 @@ public class DemoServiceImpl implements DemoService {
         System.out.println(i);//结果是11
         return "success";
     }
+
+    @Override
+    public String stringIntern(){
+        String str1 = new StringBuilder("计算机").append("软件").toString();
+        String str11 = new StringBuilder("计算机").append("软件").toString();
+        String intern1 = str1.intern();
+        String str12 = "计算机软件";
+        System.out.println(str1 == str11);  //JDK6 false JDK8 false
+        System.out.println(str1 == intern1);//JDK6 false JDK8 true
+        System.out.println(str1 == str12);  //JDK6 true JDK8 true
+        // JDK6 intern方法会把首次遇到的字符串实例复制到永久代的字符串常量池存储, 返回的也是永久代里面
+        // 这个字符串实例的引用, StringBuilder创建的字符串对象实例在java堆上, 所以不相等
+
+        // JDK8 intern()和StringBuilder创建的字符串对象实例在java堆上, 返回的引用地址相同, 也相等
+        String str2 = new StringBuilder("ja").append("va").toString();
+        System.out.println(str2.intern() == str2);//JDK6 false JDK8 false
+        //如果是已经创建过的字符串, 如"java", 则是不相等, 因为并不满足intern()的首次遇到原则, 则在JDK6 / 8 都不相等
+        return "success";
+    }
 }

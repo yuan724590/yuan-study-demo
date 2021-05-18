@@ -17,4 +17,19 @@ public interface ErrorService {
      * 堆溢出问题复现
      */
     String heapSpaceOOM();
+
+    /**
+     * 通过线程造成泄露
+     */
+    String stackLeakByThread();
+
+    /**
+     * 运行时常量池OOM
+     */
+    String runtimeConstantPoolOOM();
+
+    /**
+     * 直接内存OOM
+     */
+    String directMemoryOOM();
 }

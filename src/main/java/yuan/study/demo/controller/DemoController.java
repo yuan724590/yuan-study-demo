@@ -78,4 +78,12 @@ public class DemoController {
     public String grammar(){
         return demoService.grammar();
     }
+
+    /**
+     * string的intern方法测试
+     */
+    @GetMapping(value = "/stringIntern")
+    public String stringIntern(){
+        return demoService.stringIntern();
+    }
 }

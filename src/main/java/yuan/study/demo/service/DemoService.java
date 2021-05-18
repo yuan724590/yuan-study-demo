@@ -42,4 +42,11 @@ public interface DemoService {
      * 语法
      */
     String grammar();
+
+    /**
+     * string的intern方法测试
+     */
+    String stringIntern();
+
+
 }
