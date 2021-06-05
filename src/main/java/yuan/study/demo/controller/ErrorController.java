@@ -37,7 +37,7 @@ public class ErrorController {
     }
 
     /**
-     * 通过线程造成泄露
+     * 通过线程造成泄露, 栈溢出问题复现2(会造成win假死!!!!)
      */
     @GetMapping(value = "/stackLeakByThread")
     public String stackLeakByThread(){
