@@ -250,6 +250,33 @@ public class DemoServiceImpl implements DemoService {
 
     @Override
     public String stringIntern(){
+        String str0 = new String("计算机软件吧");
+        String str00 = new String("计算机软件吧");
+        System.out.println(str0 == str00); //JDK8 false
+
+        str0 = "计算机软";
+        str00 = "计算机软";
+        System.out.println(str0 == str00); //JDK8 true
+
+        str0 = "计算机软" + "哈哈";
+        str00 = "计算机软" + "哈哈";
+        System.out.println(str0 == str00); //JDK8 true
+
+        final String str01 = new String("计算机挺好");
+        final String str02 = new String("计算机挺好");
+        System.out.println(str01 == str02); //JDK8 false
+
+        final String str03 = "计算";
+        final String str04 = "机挺好的";
+        String str05 = str03 + str04;
+        String str06 = "计算机挺好的";
+        System.out.println(str05 == str06); //JDK8 true
+
+        String str07 = "计算";
+        String str08 = str07 + "01";
+        String str09 = "计算01";
+        System.out.println(str07 == str08); //JDK8 false
+
         String str1 = new StringBuilder("计算机").append("软件").toString();
         String str11 = new StringBuilder("计算机").append("软件").toString();
         String intern1 = str1.intern();
