@@ -48,5 +48,8 @@ public interface DemoService {
      */
     String stringIntern();
 
-
+    /**
+     * double测试
+     */
+    String doubleDemo();
 }

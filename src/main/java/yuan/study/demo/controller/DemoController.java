@@ -86,4 +86,12 @@ public class DemoController {
     public String stringIntern(){
         return demoService.stringIntern();
     }
+
+    /**
+     * double测试
+     */
+    @GetMapping(value = "/doubleDemo")
+    public String doubleDemo(){
+        return demoService.doubleDemo();
+    }
 }

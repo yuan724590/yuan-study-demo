@@ -11,9 +11,28 @@
         <java.version>1.8</java.version>
         <spring.version>2.2.2.RELEASE</spring.version>
         <lombok.version>1.18.18</lombok.version>
+        <org.bytedeco.javacv.version>1.4.3</org.bytedeco.javacv.version>
+        <ffmpeg-platform.version>4.1-1.4.4</ffmpeg-platform.version>
+        <animated-gif-lib.version>1.4</animated-gif-lib.version>
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>org.bytedeco</groupId>
+            <artifactId>javacv</artifactId>
+            <version>${org.bytedeco.javacv.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.bytedeco.javacpp-presets</groupId>
+            <artifactId>ffmpeg-platform</artifactId>
+            <version>${ffmpeg-platform.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.madgag</groupId>
+            <artifactId>animated-gif-lib</artifactId>
+            <version>${animated-gif-lib.version}</version>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>

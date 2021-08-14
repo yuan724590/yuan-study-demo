@@ -3,11 +3,13 @@ package yuan.study.demo.service.impl;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import yuan.study.demo.entity.Book;
 import yuan.study.demo.service.Java8DemoService;
 
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ForkJoinPool;
+import java.util.stream.Collectors;
 
 
 @Slf4j
@@ -549,5 +551,18 @@ public class Java8DemoServiceImpl implements Java8DemoService {
             }
             System.out.println("forkJoinPool.execute" + j);
         });
+    }
+
+    @Override
+    public String limit(){
+        List<Book> list = new ArrayList<>();
+        for(int i = 0; i <5; i++){
+            list.add(new Book(i, "aaa"));
+        }
+
+        final List<Book> list1 = list.stream().sorted(Comparator.comparing(Book::getId).reversed()).filter(e -> e.getId() < 3).limit(1).collect(Collectors.toList());
+        list1.add(new Book(5, "aaa"));
+        int a = 1;
+        return "";
     }
 }

@@ -293,4 +293,15 @@ public class DemoServiceImpl implements DemoService {
         //如果是已经创建过的字符串, 如"java", 则是不相等, 因为并不满足intern()的首次遇到原则, 则在JDK6 / 8 都不相等
         return "success";
     }
+
+    @Override
+    public String doubleDemo(){
+        double a1 = 0.111111111111111111111111111111111111111111111;
+        double a2 = 0.111111111111111;
+        //55.111111111111114
+        double a3 = 55.11111111111111115;
+        //17个展示位 0.11111111111111112
+        double a4 = 0.111111111111111115;
+        return "";
+    }
 }
