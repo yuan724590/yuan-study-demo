@@ -114,19 +114,21 @@ public class SubjectServiceImpl implements SubjectService {
             int[] temp = nums1; nums1 = nums2; nums2 = temp;
             int tmp = m; m = n; n = tmp;
         }
-        int iMin = 0, iMax = m, halfLen = (m + n + 1) / 2;
+        int min = 0, max = m, halfLen = (m + n + 1) / 2;
         int i, j, maxLeft, minRight;
-        while (iMin <= iMax) {
-            i = (iMin + iMax) / 2;
+        while (min <= max) {
+            i = (min + max) / 2;
             j = halfLen - i;
-            if (i < iMax && nums2[j - 1] > nums1[i]){
-                iMin = i + 1; // i is too small
-            } else if (i > iMin && nums1[i-1] > nums2[j]) {
-                iMax = i - 1; // i is too big
+            if (i < max && nums2[j - 1] > nums1[i]){
+                min = i + 1; // i is too small
+            } else if (i > min && nums1[i - 1] > nums2[j]) {
+                max = i - 1; // i is too big
             } else { // i is perfect
                 if (i == 0) {
+                    // nums1最小的比nums2最大的值还大
                     maxLeft = nums2[j - 1];
                 } else if (j == 0) {
+                    // nums1最大的比nums2最小的值还小
                     maxLeft = nums1[i - 1];
                 } else {
                     maxLeft = Math.max(nums1[i - 1], nums2[j - 1]);
