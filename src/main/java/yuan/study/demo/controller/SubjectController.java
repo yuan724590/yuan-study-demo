@@ -45,4 +45,13 @@ public class SubjectController {
     public void queryPositiveArrayMedian() {
         subjectService.queryPositiveArrayMedian();
     }
+
+    /**
+     * 寻找两个正序数组的中位数
+     */
+    @GetMapping(value = "/get/longest/palindromeString")
+    public void getTheLongestPalindromeString() {
+        subjectService.getTheLongestPalindromeString();
+    }
+
 }
