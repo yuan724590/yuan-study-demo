@@ -297,4 +297,26 @@ public class DemoServiceImpl implements DemoService {
         double a4 = 0.111111111111111115;
         return "";
     }
+
+    private static volatile int race = 0;
+
+    private static void increase() {
+        for(int i = 0; i < 10000; i++){
+            race ++;
+        }
+    }
+
+    @Override
+    public String volatileDemo() {
+        CompletableFuture future = CompletableFuture.allOf(
+                CompletableFuture.runAsync(DemoServiceImpl::increase),
+                CompletableFuture.runAsync(DemoServiceImpl::increase),
+                CompletableFuture.runAsync(DemoServiceImpl::increase)
+        );
+        future.join();
+        //25102
+        //进行值覆盖时会造成问题
+        System.out.println(race);
+        return "success";
+    }
 }

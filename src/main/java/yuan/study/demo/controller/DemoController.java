@@ -94,4 +94,12 @@ public class DemoController {
     public String doubleDemo(){
         return demoService.doubleDemo();
     }
+
+    /**
+     * volatile测试
+     */
+    @GetMapping(value = "/volatileDemo")
+    public String volatileDemo(){
+        return demoService.volatileDemo();
+    }
 }

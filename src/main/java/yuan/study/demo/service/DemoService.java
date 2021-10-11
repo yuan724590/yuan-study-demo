@@ -52,4 +52,9 @@ public interface DemoService {
      * double测试
      */
     String doubleDemo();
+
+    /**
+     * volatile测试
+     */
+    String volatileDemo();
 }
