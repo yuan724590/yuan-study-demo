@@ -70,8 +70,19 @@ public class Java8DemoServiceImpl implements Java8DemoService {
         allOf();
         //任一线程都执行完毕之后结束, 有出参
         anyOf();
-
+        //优雅的循环生成线程
+        loopAsync();
         return "success";
+    }
+
+    private void loopAsync(){
+        List<Book> list = new ArrayList<>();
+        list.add(new Book(1, "a"));
+        list.add(new Book(2, "b"));
+        CompletableFuture.allOf(list.stream()
+                .map(e -> CompletableFuture.runAsync(() -> e.setName("c")))
+                .toArray(CompletableFuture[]::new))
+                .join();
     }
 
     /**
