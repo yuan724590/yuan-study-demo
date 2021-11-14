@@ -84,14 +84,14 @@ public class DynamicAgent {
         }
     }
 
-    public static void main(String[] args) {
-        UserServiceCglib cglib = new UserServiceCglib();
-        UserServiceImpl bookFacedImpl = (UserServiceImpl) cglib.getInstance(new UserServiceImpl());
-        bookFacedImpl.addUser();
-
-        JDKProxy jdkProxy = new JDKProxy();
-        UserManageService userManageService = (UserManageService) jdkProxy.newProxy(new UserManageImpl());
-        userManageService.addUser("1", "aa");
-    }
+//    public static void main(String[] args) {
+//        UserServiceCglib cglib = new UserServiceCglib();
+//        UserServiceImpl bookFacedImpl = (UserServiceImpl) cglib.getInstance(new UserServiceImpl());
+//        bookFacedImpl.addUser();
+//
+//        JDKProxy jdkProxy = new JDKProxy();
+//        UserManageService userManageService = (UserManageService) jdkProxy.newProxy(new UserManageImpl());
+//        userManageService.addUser("1", "aa");
+//    }
 
 }

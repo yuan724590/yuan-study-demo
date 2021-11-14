@@ -31,8 +31,8 @@ public class FieldHasNoPolymorphic {
         }
     }
 
-    public static void main(String[] args) {
-        Father gay = new Son();
-        System.out.println("This gay has $" + gay.money);
-    }
+//    public static void main(String[] args) {
+//        Father gay = new Son();
+//        System.out.println("This gay has $" + gay.money);
+//    }
 }
