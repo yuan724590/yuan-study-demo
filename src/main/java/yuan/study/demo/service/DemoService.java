@@ -48,5 +48,13 @@ public interface DemoService {
      */
     String stringIntern();
 
+    /**
+     * double测试
+     */
+    String doubleDemo();
 
+    /**
+     * volatile测试
+     */
+    String volatileDemo();
 }

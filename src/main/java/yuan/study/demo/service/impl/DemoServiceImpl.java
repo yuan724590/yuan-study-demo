@@ -1,13 +1,8 @@
 package yuan.study.demo.service.impl;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
-import yuan.study.demo.dto.DemoDTO;
 import yuan.study.demo.entity.Students;
 import yuan.study.demo.service.DemoService;
 
@@ -17,12 +12,10 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
-import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.Collectors;
 
 
 @Slf4j
@@ -291,6 +284,39 @@ public class DemoServiceImpl implements DemoService {
         String str2 = new StringBuilder("ja").append("va").toString();
         System.out.println(str2.intern() == str2);//JDK6 false JDK8 false
         //如果是已经创建过的字符串, 如"java", 则是不相等, 因为并不满足intern()的首次遇到原则, 则在JDK6 / 8 都不相等
+        return "success";
+    }
+
+    @Override
+    public String doubleDemo(){
+        double a1 = 0.111111111111111111111111111111111111111111111;
+        double a2 = 0.111111111111111;
+        //55.111111111111114
+        double a3 = 55.11111111111111115;
+        //17个展示位 0.11111111111111112
+        double a4 = 0.111111111111111115;
+        return "";
+    }
+
+    private static volatile int race = 0;
+
+    private static void increase() {
+        for(int i = 0; i < 10000; i++){
+            race ++;
+        }
+    }
+
+    @Override
+    public String volatileDemo() {
+        CompletableFuture future = CompletableFuture.allOf(
+                CompletableFuture.runAsync(DemoServiceImpl::increase),
+                CompletableFuture.runAsync(DemoServiceImpl::increase),
+                CompletableFuture.runAsync(DemoServiceImpl::increase)
+        );
+        future.join();
+        //25102
+        //进行值覆盖时会造成问题
+        System.out.println(race);
         return "success";
     }
 }

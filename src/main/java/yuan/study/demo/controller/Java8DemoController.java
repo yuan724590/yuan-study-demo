@@ -25,4 +25,12 @@ public class Java8DemoController {
     public String syncList() {
         return demoService.completableFuture();
     }
+
+    /**
+     * 使用limit
+     */
+    @GetMapping(value = "/limit")
+    public String limit() {
+        return demoService.limit();
+    }
 }
