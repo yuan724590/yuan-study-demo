@@ -13,7 +13,7 @@ import javax.annotation.Resource;
  * @author yuan
  * @Date 2021/4/18 20:09
  */
-@RequestMapping("/demo")
+@RequestMapping
 @RestController
 public class ListDemoController {
 

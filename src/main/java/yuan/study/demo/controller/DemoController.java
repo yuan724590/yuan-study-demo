@@ -8,7 +8,7 @@ import yuan.study.demo.service.DemoService;
 
 import javax.annotation.Resource;
 
-@RequestMapping("/demo")
+@RequestMapping
 @RestController
 public class DemoController {
 

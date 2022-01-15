@@ -1,15 +1,12 @@
 package yuan.study.demo.controller;
 
 import org.springframework.http.MediaType;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import yuan.study.demo.dto.DemoDTO;
-import yuan.study.demo.service.DemoService;
 import yuan.study.demo.service.MapDemoService;
 
 import javax.annotation.Resource;
 
-@RequestMapping("/demo")
+@RequestMapping
 @RestController
 public class MapDemoController {
 

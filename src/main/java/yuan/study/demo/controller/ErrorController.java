@@ -5,7 +5,7 @@ import yuan.study.demo.service.ErrorService;
 
 import javax.annotation.Resource;
 
-@RequestMapping("/demo")
+@RequestMapping
 @RestController
 public class ErrorController {
 
