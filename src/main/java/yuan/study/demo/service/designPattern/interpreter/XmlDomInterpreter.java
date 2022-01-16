@@ -1,11 +1,10 @@
 package yuan.study.demo.service.designPattern.interpreter;
 
-public class XmlDomInterpreter implements Interpreter {
+public class XmlDomInterpreter extends Interpreter {
   
-  @Override
-  public void interpret(Context context) {
+    @Override
+    public void interpret(Context context) {
 
-    System.out.println("xml dom Interpreter:" + context.getData());
-  } 
-  
+        System.out.println("xml dom Interpreter:" + context.getData());
+    }
 } 
