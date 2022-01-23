@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Getter
-public class WeatherData implements Subject{
+public class WeatherData extends Subject{
 
     /**
      * 温度
@@ -26,10 +26,11 @@ public class WeatherData implements Subject{
     /**
      * 观察者列表
      */
-	private List<ObserverInterface> observerInterfaceList;
+	private List<Observer> observerList;
 
 	public WeatherData() { 
-		this.observerInterfaceList = new ArrayList<>();
+
+		this.observerList = new ArrayList<>();
 	}
 
     /**
@@ -44,20 +45,20 @@ public class WeatherData implements Subject{
 	}
 
 	@Override
-	public void registerObserver(ObserverInterface observerInterface) {
+	public void registerObserver(Observer observer) {
 
-		observerInterfaceList.add(observerInterface);
+		observerList.add(observer);
 	}
 
 	@Override
-	public void removeObserver(ObserverInterface observerInterface) {
+	public void removeObserver(Observer observer) {
 
-		observerInterfaceList.remove(observerInterface);
+		observerList.remove(observer);
 	}
 
 	@Override
 	public void notifyObserverList() {
 
-		observerInterfaceList.forEach(item -> item.update(temperature, pressure, humidity));
+		observerList.forEach(item -> item.update(temperature, pressure, humidity));
 	}
 }

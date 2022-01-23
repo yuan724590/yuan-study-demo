@@ -64,15 +64,15 @@ public class DemoController {
     }
 
     /**
-     * 查看内存消耗
+     * 获取硬件信息
      */
-    @GetMapping(value = "/getMemory")
-    public String getMemory(){
-        return demoService.getMemory();
+    @GetMapping(value = "/getHardwareInformation")
+    public String getHardwareInformation(){
+        return demoService.getHardwareInformation();
     }
 
     /**
-     * 语法
+     * 基本语法测试
      */
     @GetMapping(value = "/grammar")
     public String grammar(){
@@ -101,5 +101,13 @@ public class DemoController {
     @GetMapping(value = "/volatileDemo")
     public String volatileDemo(){
         return demoService.volatileDemo();
+    }
+
+    /**
+     * 属性拷贝工具的性能测试
+     */
+    @GetMapping(value = "/attribute/copy/test")
+    public String attributeCopy(){
+        return demoService.attributeCopy();
     }
 }

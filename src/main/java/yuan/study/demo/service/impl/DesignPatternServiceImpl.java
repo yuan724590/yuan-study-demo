@@ -42,7 +42,7 @@ import yuan.study.demo.service.designPattern.mediator.ConcreteMediator;
 import yuan.study.demo.service.designPattern.mediator.Leader;
 import yuan.study.demo.service.designPattern.memento.Original;
 import yuan.study.demo.service.designPattern.memento.Storage;
-import yuan.study.demo.service.designPattern.observer.Observer;
+import yuan.study.demo.service.designPattern.observer.WeatherObserver;
 import yuan.study.demo.service.designPattern.observer.WeatherData;
 import yuan.study.demo.service.designPattern.prototype.Animal;
 import yuan.study.demo.service.designPattern.prototype.Cat;
@@ -308,13 +308,13 @@ public class DesignPatternServiceImpl implements DesignPatternService {
         // 创建一个天气数据
         WeatherData weatherData = new WeatherData();
         // 注册到weatherData
-        Observer observer = new Observer();
-        weatherData.registerObserver(observer);
-        weatherData.registerObserver(new Observer());
-        weatherData.registerObserver(new Observer());
+        WeatherObserver weatherObserver = new WeatherObserver();
+        weatherData.registerObserver(weatherObserver);
+        weatherData.registerObserver(new WeatherObserver());
+        weatherData.registerObserver(new WeatherObserver());
         weatherData.setData(10f, 11f, 12f);
 
-        weatherData.removeObserver(observer);
+        weatherData.removeObserver(weatherObserver);
         weatherData.setData(100f, 110f, 120f);
         return "success";
     }
@@ -360,10 +360,11 @@ public class DesignPatternServiceImpl implements DesignPatternService {
         Invoker invoker = new Invoker();
         //命令接收者处理人
         Receiver receiver = new Receiver();
-        Command command1 = new OrderTakeout(receiver);
         //下单命令
-        Command command2 = new DeliverTakeout(receiver);
+        Command command1 = new OrderTakeout(receiver);
         //送货命令
+        Command command2 = new DeliverTakeout(receiver);
+        //接受命令
         Command command3 = new ReceiveTakeout(receiver);
         invoker.setCommand(command1);
         invoker.setCommand(command2);

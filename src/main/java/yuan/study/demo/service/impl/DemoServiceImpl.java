@@ -2,14 +2,22 @@ package yuan.study.demo.service.impl;
 
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.beanutils.PropertyUtils;
+import org.dozer.DozerBeanMapper;
 import org.springframework.stereotype.Service;
+import yuan.study.demo.entity.GoodsInfo;
+import yuan.study.demo.entity.GoodsInfoCopy;
 import yuan.study.demo.entity.Students;
 import yuan.study.demo.service.DemoService;
+import yuan.study.demo.utils.CopierUtil;
 
 import java.io.*;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -218,7 +226,7 @@ public class DemoServiceImpl implements DemoService {
     }
 
     @Override
-    public String getMemory(){
+    public String getHardwareInformation(){
         long start = Runtime.getRuntime().freeMemory();
         Object obj = new Object();
         //查看jvm空闲内存大小
@@ -228,6 +236,8 @@ public class DemoServiceImpl implements DemoService {
         //打印map使用的内存大小
         System.out.println("使用掉的内存："+ useMemory + "B");
         obj = null;
+        //获取当前CPU核心数
+        System.out.println(Runtime.getRuntime().availableProcessors());
         return "success";
     }
 
@@ -317,6 +327,51 @@ public class DemoServiceImpl implements DemoService {
         //25102
         //进行值覆盖时会造成问题
         System.out.println(race);
+        return "success";
+    }
+
+    @Override
+    public String attributeCopy() {
+        GoodsInfo goodsInfo = new GoodsInfo();
+        goodsInfo.setId(1);
+        goodsInfo.setGoodsBrand("商品品牌");
+        goodsInfo.setGoodsType((byte) 1);
+        goodsInfo.setGoodsName("商品名");
+        goodsInfo.setGoodsPrice(new BigDecimal(1));
+        goodsInfo.setHistoricalLowestPrice(new BigDecimal(1));
+        goodsInfo.setImageUrl("www.baidu.com");
+        goodsInfo.setImageHeight(1);
+        goodsInfo.setImageWidth(1);
+        goodsInfo.setCreateTime(1);
+        goodsInfo.setUpdateTime(1);
+        long t1 = System.currentTimeMillis();
+        for(int i = 0; i < 10_0000; i++){
+            CopierUtil.copyProperties(goodsInfo, GoodsInfoCopy.class);
+        }
+        t1 = System.currentTimeMillis() - t1;
+        //94ms
+        System.out.println("CopierUtil工具耗时为:" + t1);
+
+        long t2 = System.currentTimeMillis();
+        DozerBeanMapper beanMapper = new DozerBeanMapper();
+        for(int i = 0; i < 10_0000; i++){
+            beanMapper.map(goodsInfo, GoodsInfoCopy.class);
+        }
+        t2 = System.currentTimeMillis() - t2;
+        //2秒, 2310ms
+        System.out.println("DozerBeanMapper工具耗时为:" + t2);
+
+        long t3 = System.currentTimeMillis();
+        try {
+            for(int i = 0; i < 10_0000; i++) {
+                BeanUtils.copyProperties(goodsInfo, GoodsInfoCopy.class);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        t3 = System.currentTimeMillis() - t3;
+        //8分钟, 484930ms
+        System.out.println("BeanUtils工具耗时为:" + t3);
         return "success";
     }
 }

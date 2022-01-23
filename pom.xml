@@ -15,9 +15,16 @@
         <ffmpeg-platform.version>4.1-1.4.4</ffmpeg-platform.version>
         <animated-gif-lib.version>1.4</animated-gif-lib.version>
         <commons.collections.version>3.2.2</commons.collections.version>
+        <dozer.version>5.5.1</dozer.version>
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>net.sf.dozer</groupId>
+            <artifactId>dozer</artifactId>
+            <version>${dozer.version}</version>
+        </dependency>
+
         <dependency>
             <groupId>org.bytedeco</groupId>
             <artifactId>javacv</artifactId>

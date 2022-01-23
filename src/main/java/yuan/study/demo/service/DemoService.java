@@ -34,12 +34,12 @@ public interface DemoService {
     String getDeclaredConstructor();
 
     /**
-     * 查看内存消耗
+     * 获取硬件信息
      */
-    String getMemory();
+    String getHardwareInformation();
 
     /**
-     * 语法
+     * 基本语法测试
      */
     String grammar();
 
@@ -57,4 +57,9 @@ public interface DemoService {
      * volatile测试
      */
     String volatileDemo();
+
+    /**
+     * 属性拷贝工具的性能测试
+     */
+    String attributeCopy();
 }

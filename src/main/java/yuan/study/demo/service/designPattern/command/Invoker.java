@@ -9,7 +9,7 @@ public class Invoker {
 
     public void setCommand(Command command){
 
-        commands.add( command);
+        commands.add(command);
     }
 
     public void call() {
