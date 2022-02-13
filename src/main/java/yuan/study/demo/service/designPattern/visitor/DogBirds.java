@@ -12,6 +12,7 @@ public class DogBirds extends Birds {
 
     @Override
     public void accept(Visitor visitor) {
+
         visitor.payPrice(this);
     }
 }
