@@ -24,6 +24,9 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.LockSupport;
+import java.util.concurrent.locks.ReentrantLock;
 
 
 @Slf4j
@@ -47,6 +50,112 @@ public class DemoServiceImpl implements DemoService {
         //不使用时及时清除,防止造成内存问题
         threadLocal.remove();
         return result;
+    }
+
+    @Override
+    public String countDownLatch(){
+        try{
+            ExecutorService service = Executors.newFixedThreadPool(3);
+            final CountDownLatch latch = new CountDownLatch(3);
+            for (int i = 0; i < 3; i++) {
+                Runnable runnable = new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            System.out.println("子线程" + Thread.currentThread().getName() + "开始执行");
+                            Thread.sleep(1000);
+                            System.out.println("子线程" + Thread.currentThread().getName() + "执行完成");
+                            latch.countDown();//当前线程调用此方法，则计数减一
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                };
+                service.execute(runnable);
+            }
+            System.out.println("主线程" + Thread.currentThread().getName() + "等待子线程执行完成...");
+            //阻塞当前线程，直到计数器的值为0
+            latch.await();
+            System.out.println("主线程" + Thread.currentThread().getName() + "开始执行...");
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return "success";
+    }
+
+    @Override
+    public String reentrantLockAndCondition(){
+        ReentrantLock lock = new ReentrantLock();
+        Condition condition = lock.newCondition();
+
+        List<String> list = new ArrayList<>();
+        // 实现线程A
+        Thread threadA = new Thread(() -> {
+            lock.lock();
+            for (int i = 1; i <= 10; i++) {
+                list.add("abc");
+                System.out.println("线程A向list中添加一个元素，此时list中的元素个数为：" + list.size());
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                if (list.size() == 5)
+                    condition.signal();
+            }
+            lock.unlock();
+        });
+        // 实现线程B
+        Thread threadB = new Thread(() -> {
+            lock.lock();
+            if (list.size() != 5) {
+                try {
+                    condition.await();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+            System.out.println("线程B收到通知，开始执行自己的业务...");
+            lock.unlock();
+        });
+        threadB.start();
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        threadA.start();
+        return "success";
+    }
+
+    @Override
+    public String lockSupport() {
+        List<String> list = new ArrayList<>();
+        // 实现线程B
+        final Thread threadB = new Thread(() -> {
+            if (list.size() != 5) {
+                LockSupport.park();
+            }
+            System.out.println("线程B收到通知，开始执行自己的业务...");
+        });
+        // 实现线程A
+        Thread threadA = new Thread(() -> {
+            for (int i = 1; i <= 10; i++) {
+                list.add("abc");
+                System.out.println("线程A向list中添加一个元素，此时list中的元素个数为：" + list.size());
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                if (list.size() == 5){
+                    LockSupport.unpark(threadB);
+                }
+            }
+        });
+        threadA.start();
+        threadB.start();
+        return "success";
     }
 
     @Override

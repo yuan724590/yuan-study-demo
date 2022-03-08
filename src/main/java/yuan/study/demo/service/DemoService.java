@@ -9,6 +9,21 @@ public interface DemoService {
     String threadLocal(String value);
 
     /**
+     * countDownLatch使用的demo
+     */
+    String countDownLatch();
+
+    /**
+     * ReentrantLock+Condition使用的demo
+     */
+    String reentrantLockAndCondition();
+
+    /**
+     * lockSupport使用的demo
+     */
+    String lockSupport();
+
+    /**
      * SimpleDateFormat同步获取时间
      */
     String syncGetTime();

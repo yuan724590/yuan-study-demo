@@ -24,6 +24,30 @@ public class DemoController {
     }
 
     /**
+     * countDownLatch使用的demo
+     */
+    @PostMapping(value = "/countDownLatch", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public String countDownLatch() {
+        return demoService.countDownLatch();
+    }
+
+    /**
+     * ReentrantLock+Condition使用的demo
+     */
+    @PostMapping(value = "/reentrantLock/and/condition", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public String reentrantLockAndCondition() {
+        return demoService.reentrantLockAndCondition();
+    }
+
+    /**
+     * lockSupport使用的demo
+     */
+    @PostMapping(value = "/lockSupport", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public String lockSupport() {
+        return demoService.lockSupport();
+    }
+
+    /**
      * SimpleDateFormat同步获取时间
      */
     @PostMapping(value = "/syncGetTime", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
