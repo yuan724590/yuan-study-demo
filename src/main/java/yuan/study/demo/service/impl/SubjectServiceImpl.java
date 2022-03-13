@@ -252,4 +252,23 @@ public class SubjectServiceImpl implements SubjectService {
         return s.substring(start, start + maxLen);
     }
 
+    @Override
+    public void zigzagTransformation(){
+        convert("PAYPALISHIRING", 4);
+    }
+
+    public String convert(String s, int numRows) {
+        if(numRows == 1){
+            return s;
+        }
+        int charIndex = 0;
+        char[] chars = new char[s.length()];
+        for(int i = 0; i < numRows; i++){
+            for(int j = i; j < s.length();){
+                chars[charIndex++] = s.charAt(j);
+                j = j + ((i == numRows - 1) ? 2 * numRows - 2 : (i == 0 || j / (numRows - 1) % 2 == 0 ? 2 * numRows - 2 - 2 * i : 2 * i));
+            }
+        }
+        return new String(chars);
+    }
 }

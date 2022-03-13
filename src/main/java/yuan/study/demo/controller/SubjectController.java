@@ -7,7 +7,6 @@ import yuan.study.demo.service.SubjectService;
 
 import javax.annotation.Resource;
 
-@RequestMapping("/sub")
 @RestController
 public class SubjectController {
 
@@ -52,6 +51,14 @@ public class SubjectController {
     @GetMapping(value = "/get/longest/palindromeString")
     public void getTheLongestPalindromeString() {
         subjectService.getTheLongestPalindromeString();
+    }
+
+    /**
+     * Z字形变换
+     */
+    @GetMapping(value = "/zigzag/transformation")
+    public void zigzagTransformation() {
+        subjectService.zigzagTransformation();
     }
 
 }
