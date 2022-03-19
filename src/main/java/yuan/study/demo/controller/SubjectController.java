@@ -61,4 +61,12 @@ public class SubjectController {
         subjectService.zigzagTransformation();
     }
 
+    /**
+     * 整数反转
+     */
+    @GetMapping(value = "/integer/inversion")
+    public void integerInversion() {
+        subjectService.integerInversion();
+    }
+
 }

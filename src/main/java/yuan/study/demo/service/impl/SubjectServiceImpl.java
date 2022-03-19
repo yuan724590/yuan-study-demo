@@ -271,4 +271,21 @@ public class SubjectServiceImpl implements SubjectService {
         }
         return new String(chars);
     }
+
+    @Override
+    public void integerInversion(){
+        System.out.println(reverse(1534236469));
+    }
+
+    public int reverse(int x) {
+        long result = 0;
+        while (x != 0){
+            result = result * 10 + x % 10;
+            x = x / 10;
+        }
+        if (result > Integer.MAX_VALUE || result < Integer.MIN_VALUE){
+            return 0;
+        }
+        return (int)result;
+    }
 }
