@@ -288,4 +288,22 @@ public class SubjectServiceImpl implements SubjectService {
         }
         return (int)result;
     }
+
+    @Override
+    public void convertStringNumber(){
+        System.out.println(myAtoi("words and 987"));
+    }
+
+    public int myAtoi(String s) {
+        char[] charArr = new char[s.length()];
+        int j = 0;
+        char a;
+        for(int i = 0; i < s.length(); i++){
+            a = s.charAt(i);
+            if((a >= '0' && a <= '9') || a == '-'){
+                charArr[j++] = a;
+            }
+        }
+        return Integer.valueOf(String.valueOf(Arrays.copyOf(charArr, j)));
+    }
 }

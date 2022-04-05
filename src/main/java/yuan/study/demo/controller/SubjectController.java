@@ -69,4 +69,11 @@ public class SubjectController {
         subjectService.integerInversion();
     }
 
+    /**
+     * 字符串转换整数
+     */
+    @GetMapping(value = "/convert/string/number")
+    public void convertStringNumber() {
+        subjectService.convertStringNumber();
+    }
 }
