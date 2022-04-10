@@ -76,4 +76,12 @@ public class SubjectController {
     public void convertStringNumber() {
         subjectService.convertStringNumber();
     }
+
+    /**
+     * 回文数
+     */
+    @GetMapping(value = "/palindrome/number")
+    public void palindromeNumber() {
+        subjectService.palindromeNumber();
+    }
 }

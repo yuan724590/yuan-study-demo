@@ -306,4 +306,39 @@ public class SubjectServiceImpl implements SubjectService {
         }
         return Integer.valueOf(String.valueOf(Arrays.copyOf(charArr, j)));
     }
+
+    @Override
+    public void palindromeNumber(){
+        System.out.println(isPalindrome(12322));
+        System.out.println(isPalindrome1(12322));
+    }
+
+    /**
+     * 将数字反序排序, 如果是回文一定和原值相同
+     */
+    public boolean isPalindrome1(int x) {
+        if(x < 0)
+            return false;
+        int y = 0;
+        int quo = x;
+        while(quo != 0){
+            y = y * 10 + quo % 10;
+            quo = quo / 10;
+        }
+        return y == x;
+    }
+
+    /**
+     * 头尾对比
+     */
+    public boolean isPalindrome(int x) {
+        String xStr = String.valueOf(x);
+        int mid = (xStr.length() + 1) / 2;
+        for(int i = 0; i < mid; i++){
+            if(xStr.charAt(i) != xStr.charAt(xStr.length() - i - 1)){
+                return false;
+            }
+        }
+        return true;
+    }
 }
