@@ -100,4 +100,12 @@ public class SubjectController {
     public void holdMostWater(){
         subjectService.holdMostWater();
     }
+
+    /**
+     * 整数转罗马数字
+     */
+    @GetMapping(value = "/integer/to/romanNumeral")
+    public void romanNumeral(){
+        subjectService.romanNumeral();
+    }
 }
