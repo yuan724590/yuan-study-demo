@@ -2,6 +2,7 @@ package yuan.study.demo.service.impl;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import yuan.study.demo.entity.BalanceTree;
 import yuan.study.demo.entity.TreeNode;
 import yuan.study.demo.service.TreeService;
 
@@ -11,7 +12,7 @@ public class TreeServiceImpl implements TreeService {
 
     @Override
     public void binaryFindTree(){
-        TreeNode treeNode = new TreeNode(0, null, null);
+        TreeNode treeNode = new TreeNode(0);
         //增加二叉查找树的节点
         insertBinaryFindTreeNode(treeNode, -5);
         insertBinaryFindTreeNode(treeNode, -2);
@@ -81,7 +82,6 @@ public class TreeServiceImpl implements TreeService {
      * 增加二叉查找树的节点
      */
     private void insertBinaryFindTreeNode(TreeNode treeNode, int value){
-        //找到插入节点的位置
         TreeNode parent;
         TreeNode current = treeNode;
         while(true){
@@ -92,16 +92,32 @@ public class TreeServiceImpl implements TreeService {
             if(value > current.getValue()){
                 current = current.getRightNode();
                 if(current == null){
-                    parent.setRightNode(new TreeNode(value, null, null));
+                    parent.setRightNode(new TreeNode(value));
                     return;
                 }
             }else{
                 current = current.getLeftNode();
                 if(current == null){
-                    parent.setLeftNode(new TreeNode(value, null, null));
+                    parent.setLeftNode(new TreeNode(value));
                     return;
                 }
             }
         }
+    }
+
+    @Override
+    public void binaryBalanceTree(){
+        BalanceTree balanceTree = new BalanceTree();
+        balanceTree.add(new TreeNode(10));
+        balanceTree.add(new TreeNode(11));
+        balanceTree.add(new TreeNode(7));
+        balanceTree.add(new TreeNode(6));
+        balanceTree.add(new TreeNode(8));
+        balanceTree.add(new TreeNode(9));
+
+        System.out.println("中序遍历");
+        balanceTree.infixOrder();
+
+        System.out.println("树的高度：" + balanceTree.height());
     }
 }

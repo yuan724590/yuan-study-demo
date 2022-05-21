@@ -1,27 +1,47 @@
 package yuan.study.demo.service.impl;
 
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.dozer.DozerBeanMapper;
+import org.elasticsearch.action.index.IndexRequest;
+import org.elasticsearch.client.RestClient;
+import org.elasticsearch.client.RestHighLevelClient;
+import org.elasticsearch.common.xcontent.XContentType;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.stereotype.Service;
+import sun.misc.BASE64Encoder;
+import yuan.study.demo.configuration.ElasticsearchConfiguration;
 import yuan.study.demo.entity.GoodsInfo;
 import yuan.study.demo.entity.GoodsInfoCopy;
 import yuan.study.demo.entity.Students;
 import yuan.study.demo.service.DemoService;
+import yuan.study.demo.utils.Base64Util;
 import yuan.study.demo.utils.CopierUtil;
 
+import javax.annotation.Resource;
+import javax.imageio.ImageIO;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.*;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
 import java.math.BigDecimal;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.nio.ByteBuffer;
+import java.nio.FloatBuffer;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.List;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.locks.Condition;
@@ -482,5 +502,110 @@ public class DemoServiceImpl implements DemoService {
         //8分钟, 484930ms
         System.out.println("BeanUtils工具耗时为:" + t3);
         return "success";
+    }
+
+    @Override
+    public String esAliKnn(){
+//        insert();
+        String base64Str = imgToBase64("https://pic.to8to.com/adcms/20220429/7c75383f6bbbd346f91196ffbf7f4efd.jpg");
+        float[] floatArray = convertBase64ToArray(base64Str);
+        for(int i = 0; i < floatArray.length; i++){
+            try{
+                BigDecimal bigDecimal = new BigDecimal(floatArray[i]);
+                System.out.println(bigDecimal.divide(new BigDecimal(1), 2, BigDecimal.ROUND_HALF_UP).toString());
+            }catch (Exception e){
+
+            }
+        }
+        return "success";
+    }
+
+    public float[] convertBase64ToArray(String base64Str) {
+        byte[] decode = Base64.getDecoder().decode(base64Str.replace("\r\n", "").getBytes());
+        FloatBuffer floatBuffer = ByteBuffer.wrap(decode).asFloatBuffer();
+        float[] dims = new float[floatBuffer.capacity()];
+        floatBuffer.get(dims);
+        return dims;
+    }
+
+    public String convertArrayToBase64(float[] array) {
+        final int capacity = Float.BYTES * array.length;
+        final ByteBuffer bb = ByteBuffer.allocate(capacity);
+        for (float v : array) {
+            bb.putFloat(v);
+        }
+        bb.rewind();
+        final ByteBuffer encodedBB = Base64.getEncoder().encode(bb);
+
+        return new String(encodedBB.array());
+    }
+
+    @Resource
+    private RestHighLevelClient restHighLevelClient;
+
+    public void insert(){
+        try {
+            IndexRequest indexRequest = new IndexRequest("test", "default");
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("name", "风景1");
+            String base64Str = imgToBase64("https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fpic1.win4000.com%2Fwallpaper%2F2019-06-17%2F5d07582a6b690.jpg&refer=http%3A%2F%2Fpic1.win4000.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1654352851&t=69800081e2315432024489c001d78ce5");
+            jsonObject.put("embedding_vector", base64Str);
+            indexRequest.source(jsonObject, XContentType.JSON);
+            indexRequest.id("1");
+            restHighLevelClient.index(indexRequest);
+
+            indexRequest = new IndexRequest("test", "default");
+            jsonObject = new JSONObject();
+            jsonObject.put("name", "风景2");
+            base64Str = imgToBase64("https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fitem%2F201410%2F10%2F20141010165320_kEUVj.thumb.700_0.jpeg&refer=http%3A%2F%2Fb-ssl.duitang.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1654352851&t=8bbfce58bbc45194841d92c81217e5cf");
+            jsonObject.put("embedding_vector", base64Str);
+            indexRequest.source(jsonObject, XContentType.JSON);
+            indexRequest.id("2");
+            restHighLevelClient.index(indexRequest);
+
+            indexRequest = new IndexRequest("test", "default");
+            jsonObject = new JSONObject();
+            jsonObject.put("name", "风景3");
+            base64Str = imgToBase64("https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fhbimg.b0.upaiyun.com%2Ff7ee82e2354854624b89737fdb82365036eaf18a32bc3-rqjJB2_fw658&refer=http%3A%2F%2Fhbimg.b0.upaiyun.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1654352851&t=d40270d82e217ebe9b70d5313d12a4f6");
+            jsonObject.put("embedding_vector", base64Str);
+            indexRequest.source(jsonObject, XContentType.JSON);
+            indexRequest.id("3");
+            restHighLevelClient.index(indexRequest);
+        } catch (Exception e) {
+            log.error("请求es进行新增失败, e:{}",  e.getStackTrace());
+        }
+    }
+
+    public static String imgToBase64(String path){
+        byte[] data = null;
+        InputStream in = null;
+        ByteArrayOutputStream out = null;
+        try{
+            URL url = new URL(path);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("GET");
+            connection.setConnectTimeout(5000);
+            connection.setReadTimeout(5000);
+            in = connection.getInputStream();
+            out = new ByteArrayOutputStream();
+            byte[] b = new byte[1024];
+            int len = 0;
+            while((len =in.read(b)) != -1){
+                out.write(b,0,len);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally {
+            try{
+                if(in != null ){
+                    in.close();
+                }
+            }catch (IOException e){
+                e.getStackTrace();
+            }
+        }
+        System.out.println("转换后的图片大小："+out.toByteArray().length/1024);
+        BASE64Encoder base = new BASE64Encoder();
+        return base.encode(out.toByteArray());
     }
 }

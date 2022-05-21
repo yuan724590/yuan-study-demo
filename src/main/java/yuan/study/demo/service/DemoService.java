@@ -77,4 +77,9 @@ public interface DemoService {
      * 属性拷贝工具的性能测试
      */
     String attributeCopy();
+
+    /**
+     * es图片检索工具测试
+     */
+    String esAliKnn();
 }

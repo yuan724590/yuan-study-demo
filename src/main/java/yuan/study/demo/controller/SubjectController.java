@@ -84,4 +84,20 @@ public class SubjectController {
     public void palindromeNumber() {
         subjectService.palindromeNumber();
     }
+
+    /**
+     * 正则表达式匹配
+     */
+    @GetMapping(value = "/regular/expression/matching")
+    public void regularExpressionMatching(){
+        subjectService.regularExpressionMatching();
+    }
+
+    /**
+     * 盛最多水的容器
+     */
+    @GetMapping(value = "/hold/most/water")
+    public void holdMostWater(){
+        subjectService.holdMostWater();
+    }
 }

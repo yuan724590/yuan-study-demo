@@ -2,9 +2,11 @@ package yuan.study.demo.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.ToString;
 
 @Data
 @AllArgsConstructor
+@ToString
 public class TreeNode {
 
     /**
@@ -21,4 +23,8 @@ public class TreeNode {
      * 右节点
      */
     public TreeNode rightNode;
+
+    public TreeNode(Integer value){
+        this.value = value;
+    }
 }

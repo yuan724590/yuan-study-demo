@@ -134,4 +134,12 @@ public class DemoController {
     public String attributeCopy(){
         return demoService.attributeCopy();
     }
+
+    /**
+     * es图片检索工具测试
+     */
+    @GetMapping(value = "/es/ali-knn/test")
+    public String esAliKnn(){
+        return demoService.esAliKnn();
+    }
 }

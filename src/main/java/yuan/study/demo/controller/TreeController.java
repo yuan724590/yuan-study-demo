@@ -19,8 +19,16 @@ public class TreeController {
     /**
      * 二叉查找树
      */
-    @GetMapping(value = "/binaryFindTree")
-    public void subjectTest() {
+    @GetMapping(value = "/binary/find/tree")
+    public void binaryFindTree() {
         treeService.binaryFindTree();
+    }
+
+    /**
+     * 平衡二叉(查找)树
+     */
+    @GetMapping(value = "/binary/balance/tree")
+    public void subjectTest() {
+        treeService.binaryBalanceTree();
     }
 }

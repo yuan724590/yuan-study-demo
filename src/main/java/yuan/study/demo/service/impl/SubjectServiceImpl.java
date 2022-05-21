@@ -341,4 +341,69 @@ public class SubjectServiceImpl implements SubjectService {
         }
         return true;
     }
+
+    @Override
+    public void regularExpressionMatching(){
+        System.out.println(isMatch("aaa", "baa"));//.*
+    }
+
+    public boolean isMatch(String s, String p) {
+        int m = s.length();
+        int n = p.length();
+
+        boolean[][] booleanArr = new boolean[m + 1][n + 1];
+        booleanArr[0][0] = true;
+        for (int i = 0; i <= m; ++i) {
+            for (int j = 1; j <= n; ++j) {
+                if (p.charAt(j - 1) == '*') {
+                    booleanArr[i][j] = booleanArr[i][j - 2];
+                    if (matches(s, p, i, j - 1)) {
+                        booleanArr[i][j] = booleanArr[i][j] || booleanArr[i - 1][j];
+                    }
+                } else {
+                    if (matches(s, p, i, j)) {
+                        booleanArr[i][j] = booleanArr[i - 1][j - 1];
+                    }
+                }
+            }
+        }
+        return booleanArr[m][n];
+    }
+
+    public boolean matches(String s, String p, int i, int j) {
+        if (i == 0) {
+            return false;
+        }
+        if (p.charAt(j - 1) == '.') {
+            return true;
+        }
+        return s.charAt(i - 1) == p.charAt(j - 1);
+    }
+
+    @Override
+    public void holdMostWater(){
+        System.out.println(maxArea(new int[]{1,8,6,2,5,4,8,3,7}));
+    }
+
+    public int maxArea(int[] height) {
+        if (height == null || height.length < 1) {
+            return 0;
+        }
+        int maxValue = 0;
+        int left = 0, right = height.length - 1, area;
+        // 当两个指针没有重合时
+        while (left < right) {
+            area = (height[left] < height[right] ? height[left] : height[right]) * (right - left);
+            if(maxValue < area){
+                maxValue = area;
+            }
+            // 那个值小就挪动那个指针
+            if (height[left] <= height[right]) {
+                left++;
+            } else {
+                right--;
+            }
+        }
+        return maxValue;
+    }
 }
