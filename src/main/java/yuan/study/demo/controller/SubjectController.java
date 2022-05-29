@@ -104,8 +104,16 @@ public class SubjectController {
     /**
      * 整数转罗马数字
      */
-    @GetMapping(value = "/integer/to/romanNumeral")
-    public void romanNumeral(){
-        subjectService.romanNumeral();
+    @GetMapping(value = "/int/to/roman")
+    public void IntToRoman(){
+        subjectService.intToRoman();
+    }
+
+    /**
+     * 罗马数字转整数
+     */
+    @GetMapping(value = "/roman/to/int")
+    public void romanToInt(){
+        subjectService.romanToInt();
     }
 }

@@ -408,8 +408,8 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
-    public void romanNumeral(){
-        System.out.println(intToRoman(1994));
+    public void intToRoman(){
+        System.out.println(intToRoman(1998));
     }
 
     public String intToRoman(int num) {
@@ -424,5 +424,32 @@ public class SubjectServiceImpl implements SubjectService {
             }
         }
         return res.toString();
+    }
+
+    @Override
+    public void romanToInt(){
+        System.out.println(romanToInt("IX"));
+    }
+
+    public int romanToInt(String s) {
+        char reps[] = {'M', 'D', 'C', 'L', 'X', 'V', 'I'};
+        int values[] = {1000, 500, 100,  50, 10,   5,   1};
+        int value = 0;
+        for(int i = 0; i < s.length(); i++){
+           for(int j = 0; j < reps.length; j++){
+               if(s.charAt(i) == reps[j]){
+                   if((i + 1 < s.length() && j >= 1 && s.charAt(i + 1) == reps[j - 1])
+                           || (i + 1 < s.length() && j >= 2 && s.charAt(i + 1) == reps[j - 2])){
+                       //如果下一个值 > 当前值 || 下两个的值 > 当前值
+                       value = value - values[j];
+                       break;
+                   }else{
+                       value = value + values[j];
+                       break;
+                   }
+               }
+           }
+        }
+        return value;
     }
 }
