@@ -116,4 +116,12 @@ public class SubjectController {
     public void romanToInt(){
         subjectService.romanToInt();
     }
+
+    /**
+     * 最长公共前缀
+     */
+    @GetMapping(value = "/longest/common/prefix")
+    public void longestCommonPrefix(){
+        subjectService.longestCommonPrefix();
+    }
 }
