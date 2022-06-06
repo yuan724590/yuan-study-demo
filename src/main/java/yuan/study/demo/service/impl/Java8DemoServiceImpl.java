@@ -7,9 +7,7 @@ import yuan.study.demo.entity.Book;
 import yuan.study.demo.service.Java8DemoService;
 
 import java.util.*;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ForkJoinPool;
-import java.util.stream.Collectors;
+import java.util.concurrent.*;
 
 
 @Slf4j
@@ -121,6 +119,38 @@ public class Java8DemoServiceImpl implements Java8DemoService {
                 })
         );
         System.out.println("allOf结果:" + future2.join());
+
+        ExecutorService pool = Executors.newFixedThreadPool(2);
+        CompletableFuture future = CompletableFuture.allOf(
+                CompletableFuture.runAsync(()->{
+                    int i = 0;
+                    while(i < 10){
+                        System.out.println("activeCount:" + ((ThreadPoolExecutor) pool).getActiveCount());
+                        sleep(500);
+                        i++;
+                    }
+                }),
+                CompletableFuture.runAsync(()->{
+                    int a = 1;
+                    sleep(2000);
+                }, pool),
+                CompletableFuture.runAsync(()->{
+                    int a = 2;
+                    sleep(3000);
+                }, pool)
+        );
+        future.join();
+        System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+        System.out.println("activeCount:" + ((ThreadPoolExecutor) pool).getActiveCount());
+    }
+
+
+    private void sleep(int millis){
+        try {
+            Thread.sleep(millis);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
