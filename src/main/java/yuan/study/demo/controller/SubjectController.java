@@ -124,4 +124,12 @@ public class SubjectController {
     public void longestCommonPrefix(){
         subjectService.longestCommonPrefix();
     }
+
+    /**
+     * 三数之和
+     */
+    @GetMapping(value = "/three/sum")
+    public void threeSum(){
+        subjectService.threeSum();
+    }
 }
