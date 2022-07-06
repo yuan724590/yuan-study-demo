@@ -132,4 +132,12 @@ public class SubjectController {
     public void threeSum(){
         subjectService.threeSum();
     }
+
+    /**
+     * 最接近的三数之和
+     */
+    @GetMapping(value = "/three/sum/closet")
+    public void threeSumClosest(){
+        subjectService.threeSumClosest();
+    }
 }

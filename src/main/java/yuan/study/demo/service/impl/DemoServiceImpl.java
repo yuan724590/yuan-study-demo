@@ -47,6 +47,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.LockSupport;
 import java.util.concurrent.locks.ReentrantLock;
+import java.util.stream.Collectors;
 
 
 @Slf4j
@@ -107,7 +108,6 @@ public class DemoServiceImpl implements DemoService {
     public String reentrantLockAndCondition(){
         ReentrantLock lock = new ReentrantLock();
         Condition condition = lock.newCondition();
-
         List<String> list = new ArrayList<>();
         // 实现线程A
         Thread threadA = new Thread(() -> {
@@ -607,5 +607,534 @@ public class DemoServiceImpl implements DemoService {
         System.out.println("转换后的图片大小："+out.toByteArray().length/1024);
         BASE64Encoder base = new BASE64Encoder();
         return base.encode(out.toByteArray());
+    }
+
+    @Override
+    public String sortingAlgorithm(){
+        //冒泡排序
+        bubbleSort();
+        //选择排序
+        selectionSort();
+        //快速排序
+        quickSort();
+        //双轴快排
+        dualPivotQuicksort();
+        //三轴快排
+        triplePivotQuicksort();
+        //插入排序
+        insertionSort();
+        //双列插入排序
+        pairInsertionSort();
+        //归并排序
+        mergeSort();
+        //堆排序
+        heapSort();
+        //希尔排序
+        shellSort();
+        //桶排序
+        bucketSort();
+        return "success";
+    }
+
+    /**
+     * 桶排序
+     */
+    private void bucketSort(){
+        //获取随机数组
+        int[] dataArray = getRandomArray();
+        if (dataArray.length <= 1){
+            log.info("桶排序的结果为:{}", dataArray);
+            return;
+        }
+        bucketSort(dataArray);
+        log.info("桶排序的结果为:{}", dataArray);
+    }
+
+    private void bucketSort(int[] dataArray) {
+        // 找到最大值最小值
+        int max = dataArray[0], min = dataArray[0];
+        for (int i = 0; i < dataArray.length; i++) {
+            if (dataArray[i] > max){
+                max = dataArray[i];
+            }
+            if (dataArray[i] < min){
+                min = dataArray[i];
+            }
+        }
+        //获取桶的数量
+        int[] bucketArray = new int[max - min + 1];
+        for(int i = 0; i < dataArray.length; i++){
+            bucketArray[dataArray[i] - min]++;
+        }
+        //遍历桶数组
+        int index = 0;
+        for(int i = 0; i < bucketArray.length; i++){
+            for(int j = 0; j < bucketArray[i]; j++){
+                dataArray[index++] = i;
+            }
+        }
+    }
+
+    /**
+     * 双列插入排序
+     * 在左边元素比较大时，会越界
+     */
+    private void pairInsertionSort(){
+        //获取随机数组
+        int[] dataArray = getRandomArray();
+        if (dataArray.length <= 1){
+            log.info("双列插入排序排序的结果为:{}", dataArray);
+            return;
+        }
+        int left = 0, right = dataArray.length - 1;
+        //跳过了序列开头已有序的部分
+        do {
+            if (left >= right) {
+                return;
+            }
+        } while (dataArray[++left] >= dataArray[left - 1]);
+
+        for (int k = left; ++left <= right; k = ++left) {
+            int a1 = dataArray[k], a2 = dataArray[left];
+
+            if (a1 < a2) {
+                a2 = a1;
+                a1 = dataArray[left];
+            }
+            while (a1 < dataArray[--k]) {
+                dataArray[k + 2] = dataArray[k];
+            }
+            dataArray[++k + 1] = a1;
+
+            while (a2 < dataArray[--k]) {
+                dataArray[k + 1] = dataArray[k];
+            }
+            dataArray[k + 1] = a2;
+        }
+        int last = dataArray[right];
+
+        while (last < dataArray[--right]) {
+            dataArray[right + 1] = dataArray[right];
+        }
+        dataArray[right + 1] = last;
+        log.info("双列插入排序排序的结果为:{}", dataArray);
+    }
+
+    /**
+     * 希尔排序
+     */
+    public void shellSort(){
+        //获取随机数组
+        int[] dataArray = getRandomArray();
+        if (dataArray.length <= 1){
+            log.info("希尔排序的结果为:{}", dataArray);
+            return;
+        }
+        //增量长度
+        double gap = dataArray.length;
+        int dk, sentinel, k;
+        while(true){
+            //逐渐减小增量长度
+            gap = (int)Math.ceil(gap / 2);
+            //确定增量长度
+            dk = (int)gap;
+            for(int i = 0; i < dk; i++){
+                //用增量将序列分割，分别进行直接插入排序。随着增量变小为1，最后整体进行直接插入排序
+                for(int j = i + dk; j < dataArray.length; j = j + dk){
+                    sentinel = dataArray[j];
+                    k = j - dk;
+                    while(k >= 0 && sentinel < dataArray[k]){
+                        dataArray[k + dk] = dataArray[k];
+                        k = k - dk;
+                    }
+                    dataArray[k + dk] = sentinel;
+                }
+            }
+            //当dk为1的时候，整体进行直接插入排序
+            if(dk == 1){
+                break;
+            }
+        }
+        log.info("希尔排序的结果为:{}", dataArray);
+    }
+
+    /**
+     * 堆排序
+     */
+    private void heapSort(){
+        //获取随机数组
+        int[] dataArray = getRandomArray();
+        if (dataArray.length <= 1){
+            log.info("堆排序的结果为:{}", dataArray);
+            return;
+        }
+        long startTimestamp = System.currentTimeMillis();
+        //构建堆
+        buildHeap(dataArray);
+        int data;
+        for(int i = dataArray.length - 1; i >= 0; i--){
+            data = dataArray[0];
+            dataArray[0] = dataArray[i];
+            dataArray[i] = data;
+            adjustHeap(dataArray, 0, i);
+        }
+        log.info("堆排序的结果为:{}, 花费时间为:{}ms", dataArray, System.currentTimeMillis() - startTimestamp);
+    }
+
+    /**
+     * 构建堆
+     */
+    private void buildHeap(int[] dataArray){
+        int parentNode = dataArray.length / 2 - 1;
+        for(int i = parentNode; i >= 0; i--){
+            //调整堆
+            adjustHeap(dataArray, i, dataArray.length);
+        }
+    }
+
+    /**
+     * 调整堆
+     */
+    private void adjustHeap(int[] dataArray, int i, int len){
+        if(i >= len) {
+            return;
+        }
+        int c1 = 2 * i + 1;
+        int c2 = 2 * i + 2;
+        int max = i;
+        if(c1 < len && dataArray[c1] > dataArray[max]){
+            max = c1;
+        }
+        if(c2 < len && dataArray[c2] > dataArray[max]){
+            max = c2;
+        }
+        if(max != i){
+            int data = dataArray[max];
+            dataArray[max] = dataArray[i];
+            dataArray[i] = data;
+            adjustHeap(dataArray, max, len);
+        }
+    }
+
+    /**
+     * 归并排序
+     */
+    private void mergeSort() {
+        //获取随机数组
+        int[] dataArray = getRandomArray();
+        if (dataArray.length <= 1){
+            log.info("归并排序的结果为:{}", dataArray);
+            return;
+        }
+        long startTimestamp = System.currentTimeMillis();
+        int[] temp = new int[dataArray.length];
+        int[] data = mergeSort(dataArray, 0, dataArray.length - 1);
+        log.info("归并排序的结果为:{}, 花费时间为:{}ms", data, System.currentTimeMillis() - startTimestamp);
+    }
+
+    /**
+     * 归并排序
+     */
+    private int[] mergeSort(int[] data, int left, int right) {
+        if(left < right){
+            //找出中间索引
+            int center = (left + right) / 2;
+            //对左边数组进行递归
+            mergeSort(data, left, center);
+            //对右边数组进行递归
+            mergeSort(data, center + 1, right);
+            //合并
+            return merge(data, left, center, right);
+        }
+        return new int[0];
+    }
+
+    /**
+     * 合并
+     */
+    private int[] merge(int[] data, int left, int center, int right) {
+        int [] tempArray = new int[data.length];
+        int mid = center + 1, third = left, tmp = left;
+        while(left <= center && mid <= right){
+            //从两个数组中取出最小的放入中间数组
+            if(data[left] <= data[mid]){
+                tempArray[third++] = data[left++];
+            }else{
+                tempArray[third++] = data[mid++];
+            }
+        }
+        //剩余部分依次放入中间数组
+        while(mid <= right){
+            tempArray[third++] = data[mid++];
+        }
+        while(left <= center){
+            tempArray[third++] = data[left++];
+        }
+        //将中间数组中的内容复制回原数组
+        while(tmp <= right){
+            data[tmp] = tempArray[tmp++];
+        }
+        return data;
+    }
+
+    /**
+     * 插入排序
+     */
+    private void insertionSort(){
+        //获取随机数组
+        int[] dataArray = getRandomArray();
+        if (dataArray.length <= 1){
+            log.info("插入排序的结果为:{}", dataArray);
+            return;
+        }
+        long startTimestamp = System.currentTimeMillis();
+        int temp;
+        for (int i = 1; i < dataArray.length; i++) {
+            for(int j = i; j > 0; j--){
+                if(dataArray[j] < dataArray[j - 1]){
+                    temp = dataArray[j];
+                    dataArray[j] = dataArray[j - 1];
+                    dataArray[j - 1] = temp;
+                }else {
+                    break;
+                }
+            }
+        }
+        log.info("插入排序的结果为:{}, 花费时间为:{}ms", dataArray, System.currentTimeMillis() - startTimestamp);
+    }
+
+    /**
+     * 快速排序
+     */
+    public void quickSort(){
+        //获取随机数组
+        int[] dataArray = getRandomArray();
+        long startTimestamp = System.currentTimeMillis();
+        //快速排序实现方法
+        quickSortRealization(dataArray, 0, dataArray.length - 1);
+        log.info("快速排序的结果为:{}, 花费时间为:{}ms", dataArray, System.currentTimeMillis() - startTimestamp);
+    }
+
+    /**
+     * 快速排序实现方法
+     */
+    private void quickSortRealization(int[] dataArray, int lowIndex, int highIndex){
+        if(lowIndex < highIndex){
+            int part = partition(dataArray, lowIndex, highIndex);
+            //递归调用, 处理其左序列
+            quickSortRealization(dataArray, lowIndex,part - 1);
+            //递归调用, 处理其右序列
+            quickSortRealization(dataArray, part + 1, highIndex);
+        }
+    }
+
+    /**
+     * 划分方法
+     */
+    private int partition(int[] dataArray, int lowIndex, int highIndex){
+        //使用 dataArray[low]作为枢轴元素
+        int pivot = dataArray[lowIndex];
+        //从两端交替向内扫描
+        while(lowIndex < highIndex){
+            while(lowIndex < highIndex && dataArray[highIndex] >= pivot) {
+                highIndex--;
+            }
+            //将比 pivot 小的元素移向低端
+            dataArray[lowIndex] = dataArray[highIndex];
+            while(lowIndex < highIndex && dataArray[lowIndex] <= pivot){
+                lowIndex++;
+            }
+            //将比 pivot 大的元素移向高端
+            dataArray[highIndex] = dataArray[lowIndex];
+        }
+        //设置枢轴
+        dataArray[lowIndex] = pivot;
+        //返回枢轴元素位置
+        return lowIndex;
+    }
+
+    /**
+     * 双轴快排
+     */
+    private void dualPivotQuicksort(){
+        //获取随机数组
+        int[] dataArray = getRandomArray();
+        long startTimestamp = System.currentTimeMillis();
+        //快速排序实现方法
+        dualPivotQuicksort(dataArray, 0, dataArray.length - 1);
+        log.info("双轴快速排序的结果为:{}, 花费时间为:{}ms", dataArray, System.currentTimeMillis() - startTimestamp);
+    }
+
+    private void dualPivotQuicksort(int[] a, int left, int right){
+        do {
+            if (left >= right) {
+                return;
+            }
+        } while (a[++left] >= a[left - 1]);
+
+        for (int k = left; ++left <= right; k = ++left) {
+            int a1 = a[k], a2 = a[left];
+
+            if (a1 < a2) {
+                a2 = a1; a1 = a[left];
+            }
+            while (a1 < a[--k]) {
+                a[k + 2] = a[k];
+            }
+            a[++k + 1] = a1;
+
+            while (a2 < a[--k]) {
+                a[k + 1] = a[k];
+            }
+            a[k + 1] = a2;
+        }
+        int last = a[right];
+
+        while (last < a[--right]) {
+            a[right + 1] = a[right];
+        }
+        a[right + 1] = last;
+    }
+
+    /**
+     * 三轴快排
+     */
+    private void triplePivotQuicksort(){
+        //获取随机数组
+        int[] dataArray = getRandomArray();
+        if (dataArray.length <= 1){
+            log.info("三轴快排的结果为:{}", dataArray);
+            return;
+        }
+        long startTimestamp = System.currentTimeMillis();
+        Random random = new Random();
+        dataArray = triplePivotQuicksort(dataArray, 0, dataArray.length - 1, 0, random);
+        log.info("三轴快排的结果为:{}, 花费时间为:{}ms", dataArray, System.currentTimeMillis() - startTimestamp);
+    }
+
+    /**
+     * 三轴快排
+     */
+    public int[] triplePivotQuicksort(int[] arr, int left, int right, int temp, Random random){
+        if (left >= right){
+            return null;
+        }
+
+        int[] res = partition3ways(arr, left, right, temp, random);
+
+        triplePivotQuicksort(arr, left, res[0], temp, random);
+        triplePivotQuicksort(arr, res[1], right, temp, random);
+        return arr;
+    }
+
+    /**
+     * 循环不变量：arr[left + 1, lt] < v，arr[lt + 1, i - 1] == v，arr[gt, right] > v
+     */
+    public int[] partition3ways(int[] arr, int left, int right, int temp, Random random){
+
+        //随机选择标定点，和arr[left]互换
+        int p = random.nextInt(right - left + 1) + left;
+
+        swap(arr, p, left, temp);
+
+        int i = left + 1;
+        int lt = left;
+        int gt = right + 1;
+
+        //i == gt时,arr[gt]肯定大于arr[left]，所以要结束循环
+        while (i < gt){
+            if (arr[i] < arr[left]){
+                //当arr[i] < arr[left]时，将arr[i]和arr[lt + 1]互换，i继续向前
+                lt++;
+                swap(arr, lt, i, temp);
+                i++;
+            }else if (arr[i] == arr[left]){
+                //当arr[i] == arr[left]时，lt不动，i继续向前
+                i++;
+            }else if (arr[i] > arr[left]){
+                //当arr[i] > arr[left]时，将arr[i]和arr[gt - 1]互换，i不动，因为换过来的元素还要进行判断
+                gt--;
+                swap(arr, gt, i, temp);
+            }
+        }
+
+        //遍历结束后，将arr[lt]和arr[left]互换，此时元素区间发生了改变
+        //arr[left, lt - 1] < v，arr[lt, gt - 1] == v，arr[gt, right] > v
+        //其中等于arr[left]的区间不用再返回，只需返回两侧区间的索引
+        swap(arr, lt, left, temp);
+        int[] res = {lt - 1, gt};
+        return res;
+    }
+
+    public void swap(int[] arr, int i, int j, int temp){
+        temp = arr[i];
+        arr[i] = arr[j];
+        arr[j] = temp;
+    }
+
+    /**
+     * 选择排序
+     */
+    public void selectionSort(){
+        //获取随机数组
+        int[] dataArray = getRandomArray();
+        if (dataArray.length <= 1){
+            log.info("选择排序的结果为:{}", dataArray);
+            return;
+        }
+        long startTimestamp = System.currentTimeMillis();
+        int temp, index;
+        for (int i = 0; i < dataArray.length - 1; i++){
+            temp = 0;
+            //选择当前值为最小值索引
+            index = i;
+            for (int j = i + 1; j < dataArray.length; j++){
+                if (dataArray[index] > dataArray[j]){
+                    //修改最小值索引
+                    index = j;
+                }
+            }
+
+            temp = dataArray[index];
+            dataArray[index] = dataArray[i];
+            dataArray[i] = temp;
+        }
+        log.info("选择排序的结果为:{}, 花费时间为:{}ms", dataArray, System.currentTimeMillis() - startTimestamp);
+    }
+
+    /**
+     * 冒泡排序
+     */
+    private void bubbleSort(){
+        //获取随机数组
+        int[] dataArray = getRandomArray();
+        if(dataArray.length > 1){
+            log.info("冒泡排序的结果为:{}", dataArray);
+            return;
+        }
+        long startTimestamp = System.currentTimeMillis();
+        int data;
+        for(int i = 0; i < dataArray.length - 1; i++){
+            for(int j = 0; j < dataArray.length - i - 1; j++){
+                if(dataArray[j] > dataArray[j + 1]){
+                    data = dataArray[j];
+                    dataArray[j] = dataArray[j + 1];
+                    dataArray[j + 1] = data;
+                }
+            }
+        }
+        log.info("冒泡排序的结果为:{}, 花费时间为:{}ms", dataArray, System.currentTimeMillis() - startTimestamp);
+    }
+
+    /**
+     * 获取随机数组
+     */
+    private int[] getRandomArray(){
+        int[] dataArray = new int[10];
+        Random random = new Random();
+        for(int i = 0; i < 10; i++){
+            dataArray[i] = random.nextInt(100);
+        }
+        return dataArray;
     }
 }

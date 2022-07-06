@@ -82,4 +82,9 @@ public interface DemoService {
      * es图片检索工具测试
      */
     String esAliKnn();
+
+    /**
+     * 排序算法
+     */
+    String sortingAlgorithm();
 }

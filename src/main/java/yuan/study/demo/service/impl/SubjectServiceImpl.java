@@ -521,4 +521,33 @@ public class SubjectServiceImpl implements SubjectService {
         }
         return result;
     }
+
+    @Override
+    public void threeSumClosest(){
+        System.out.println(threeSumClosest(new int[]{0,2,1,-3}, 1));
+    }
+
+    public int threeSumClosest(int[] nums, int target) {
+        Arrays.sort(nums);
+        int res = 0, sum, diff = Integer.MAX_VALUE, j, k;
+        for(int i = 0; i < nums.length - 2; ++i){
+            j = i + 1;
+            k = nums.length - 1;
+            while(j < k){
+                sum = nums[i] + nums[j] + nums[k];
+                if(sum == target) {
+                    return sum;
+                }
+                if(Math.abs(sum - target) < diff){
+                    diff = Math.abs(sum - target);
+                    res = sum;
+                }
+                if(sum < target)
+                    j++;
+                else if(sum > target)
+                    k--;
+            }
+        }
+        return res;
+    }
 }

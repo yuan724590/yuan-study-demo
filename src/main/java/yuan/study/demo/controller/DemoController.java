@@ -142,4 +142,12 @@ public class DemoController {
     public String esAliKnn(){
         return demoService.esAliKnn();
     }
+
+    /**
+     * 排序算法
+     */
+    @GetMapping(value = "/sorting/algorithm")
+    public String sortingAlgorithm(){
+        return demoService.sortingAlgorithm();
+    }
 }
