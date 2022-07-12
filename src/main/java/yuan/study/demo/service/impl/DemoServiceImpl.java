@@ -572,7 +572,7 @@ public class DemoServiceImpl implements DemoService {
             indexRequest.id("3");
             restHighLevelClient.index(indexRequest);
         } catch (Exception e) {
-            log.error("请求es进行新增失败, e:{}",  e.getStackTrace());
+            log.error("请求es进行新增失败, e:{}", e.getStackTrace());
         }
     }
 
@@ -604,7 +604,7 @@ public class DemoServiceImpl implements DemoService {
                 e.getStackTrace();
             }
         }
-        System.out.println("转换后的图片大小："+out.toByteArray().length/1024);
+        System.out.println("转换后的图片大小：" + out.toByteArray().length / 1024);
         BASE64Encoder base = new BASE64Encoder();
         return base.encode(out.toByteArray());
     }

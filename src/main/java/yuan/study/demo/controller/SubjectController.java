@@ -140,4 +140,12 @@ public class SubjectController {
     public void threeSumClosest(){
         subjectService.threeSumClosest();
     }
+
+    /**
+     * 电话号码的字母组合
+     */
+    @GetMapping(value = "/letter/combinations")
+    public void letterCombinations(){
+        subjectService.letterCombinations();
+    }
 }
