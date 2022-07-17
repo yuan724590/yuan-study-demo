@@ -87,4 +87,9 @@ public interface DemoService {
      * 排序算法
      */
     String sortingAlgorithm();
+
+    /**
+     * 布隆过滤器
+     */
+    String bloomFilter();
 }

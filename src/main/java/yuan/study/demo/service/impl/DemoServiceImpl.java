@@ -3,6 +3,9 @@ package yuan.study.demo.service.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.google.common.base.Charsets;
+import com.google.common.hash.BloomFilter;
+import com.google.common.hash.Funnels;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.PropertyUtils;
@@ -1136,5 +1139,25 @@ public class DemoServiceImpl implements DemoService {
             dataArray[i] = random.nextInt(100);
         }
         return dataArray;
+    }
+
+    @Override
+    public String bloomFilter(){
+        int total = 100_0000;
+        //默认的误判率为0.03D, 这里是0.0002, 误判率越低, 匹配精度越高, 但是存储空间越大
+        BloomFilter<CharSequence> bf = BloomFilter.create(Funnels.stringFunnel(Charsets.UTF_8), total, 0.0002);
+        //初始化total条数据到过滤器中
+        for(int i = 0; i < total; i++){
+            bf.put("" + i);
+        }
+        //判断值是否在存在过滤器中
+        int count = 0;
+        for(int i = 0; i < total + 1_0000; i++){
+            if(bf.mightContain("" + i)){
+                count++;
+            }
+        }
+        System.out.println("已匹配数量: " + count);
+        return "success";
     }
 }

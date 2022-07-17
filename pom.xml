@@ -20,6 +20,7 @@
         <fastjson.version>1.2.61</fastjson.version>
         <snakeyaml.version>1.23</snakeyaml.version>
         <jackson-datatype-jsr310.version>2.9.9</jackson-datatype-jsr310.version>
+        <guava.version>28.1-jre</guava.version>
     </properties>
 
     <dependencies>
@@ -112,6 +113,12 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>${lombok.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>${guava.version}</version>
         </dependency>
     </dependencies>
 

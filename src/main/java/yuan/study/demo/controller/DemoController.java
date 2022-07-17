@@ -150,4 +150,12 @@ public class DemoController {
     public String sortingAlgorithm(){
         return demoService.sortingAlgorithm();
     }
+
+    /**
+     * 布隆过滤器
+     */
+    @GetMapping(value = "/bloom/filter")
+    public String bloomFilter(){
+        return demoService.bloomFilter();
+    }
 }
