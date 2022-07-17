@@ -591,4 +591,56 @@ public class SubjectServiceImpl implements SubjectService {
             temp.deleteCharAt(temp.length() - 1);
         }
     }
+
+    @Override
+    public void fourSum(){
+        fourSum(new int[]{1,0,-1,0,-2,2}, 0);
+    }
+
+    public static List<List<Integer>> fourSum(int[] nums, int target) {
+        List<List<Integer>> ans = new LinkedList<>();
+        if(nums == null || nums.length < 4) {
+            return ans;
+        }
+
+        Arrays.sort(nums);
+        int frontPtr, postPtr;
+        List<Integer> subList = new LinkedList<>();
+        for(int i = 0; i < nums.length; i++) {
+            if(i > 0 && nums[i] == nums[i - 1]) {
+                continue;
+            }
+            for(int j = i + 1; j < nums.length; j++) {
+                if(j > i + 1 && nums[j] == nums[j - 1]) {
+                    continue;
+                }
+                frontPtr = j + 1;
+                postPtr = nums.length - 1;
+                long tempTarget = (long)target - nums[i] - nums[j];
+                while(frontPtr < postPtr) {
+                    if((long)nums[frontPtr] + nums[postPtr] == tempTarget) {
+                        subList.add(nums[i]);
+                        subList.add(nums[j]);
+                        subList.add(nums[frontPtr]);
+                        subList.add(nums[postPtr]);
+                        ans.add(subList);
+                        subList.clear();
+                        while(frontPtr < postPtr && (nums[frontPtr] == nums[frontPtr + 1])) {
+                            frontPtr++;
+                        }
+                        while(frontPtr < postPtr && (nums[postPtr] == nums[postPtr - 1])) {
+                            postPtr--;
+                        }
+                        frontPtr++;
+                        postPtr--;
+                    } else if((long)nums[frontPtr] + nums[postPtr] < tempTarget) {
+                        frontPtr++;
+                    } else {
+                        postPtr--;
+                    }
+                }
+            }
+        }
+        return ans;
+    }
 }

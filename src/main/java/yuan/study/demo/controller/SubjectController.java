@@ -148,4 +148,12 @@ public class SubjectController {
     public void letterCombinations(){
         subjectService.letterCombinations();
     }
+
+    /**
+     * 四数之和
+     */
+    @GetMapping(value = "/four/sum")
+    public void fourSum(){
+        subjectService.fourSum();
+    }
 }
