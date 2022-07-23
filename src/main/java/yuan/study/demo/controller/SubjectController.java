@@ -156,4 +156,12 @@ public class SubjectController {
     public void fourSum(){
         subjectService.fourSum();
     }
+
+    /**
+     * 删除链表的倒数第 N 个结点
+     */
+    @GetMapping(value = "/remove/nth/from/end")
+    public void removeNthFromEnd(){
+        subjectService.removeNthFromEnd();
+    }
 }

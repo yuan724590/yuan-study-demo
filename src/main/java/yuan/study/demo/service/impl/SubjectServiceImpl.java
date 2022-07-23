@@ -1,5 +1,6 @@
 package yuan.study.demo.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import yuan.study.demo.service.SubjectService;
@@ -642,5 +643,78 @@ public class SubjectServiceImpl implements SubjectService {
             }
         }
         return ans;
+    }
+
+    @Override
+    public void removeNthFromEnd(){
+        ListNode head = new ListNode();
+        head.val = 1;
+        ListNode head1 = new ListNode();
+        head1.val = 2;
+        head.next = head1;
+        ListNode head2 = new ListNode();
+        head2.val = 3;
+        head1.next = head2;
+        ListNode head3 = new ListNode();
+        head3.val = 4;
+        head2.next = head3;
+        ListNode head4 = new ListNode();
+        head4.val = 5;
+        head3.next = head4;
+        ListNode headCopy = head;
+        head = removeNthFromEnd1(head, 2);
+        for(;;){
+            System.out.println(head.val + ",");
+            head = head.next;
+            if(head == null){
+                break;
+            }
+        }
+
+        head = removeNthFromEnd2(headCopy, 2);
+        for(;;){
+            System.out.println(head.val + ",");
+            head = head.next;
+            if(head == null){
+                break;
+            }
+        }
+    }
+
+    int i = 0;
+
+    public ListNode removeNthFromEnd1(ListNode head, int n) {
+        if(head.next != null){
+            removeNthFromEnd1(head.next, n);
+            i ++;
+        }
+        if(i == n){
+            head.next = head.next.next;
+        }
+        return head;
+    }
+
+    public ListNode removeNthFromEnd2(ListNode head, int n) {
+        ListNode head1 = head, head2 = head;
+        int i = 0;
+        do {
+            head = head.next;
+            i++;
+        } while (head != null);
+        if(i == 1){
+            return null;
+        }
+        n = n >= i ? n - i : n;
+        if(n == 0){
+            return head2.next;
+        }
+        for(int j = 0; j < i; j++){
+            if(j + n + 1 == i){
+                head1.next = head1.next.next;
+                return head2;
+            }
+            head1 = head1.next;
+        }
+        return head2;
     }
 }
