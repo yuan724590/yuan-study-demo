@@ -164,4 +164,12 @@ public class SubjectController {
     public void removeNthFromEnd(){
         subjectService.removeNthFromEnd();
     }
+
+    /**
+     * 有效的括号
+     */
+    @GetMapping(value = "/is/valid/brackets")
+    public void isValidBrackets(){
+        subjectService.isValidBrackets();
+    }
 }
