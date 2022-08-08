@@ -12,4 +12,9 @@ public class BuyCarProxy implements BuyCar{
         //为客户买车
         customer.buyCar(cash);
     }
+
+    @Override
+    public String buyAHundredCars(int cash){
+        return cash + "元买不起算了吧";
+    }
 }

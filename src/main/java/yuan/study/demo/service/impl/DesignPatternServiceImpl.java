@@ -223,7 +223,7 @@ public class DesignPatternServiceImpl implements DesignPatternService {
         Customer customer = new Customer();
         customer.buyCar(1600_0000);
         //消费者走中介买车
-        BuyCarProxy buyCarProxy=new BuyCarProxy(customer);
+        BuyCarProxy buyCarProxy = new BuyCarProxy(customer);
         buyCarProxy.buyCar(2000_0000);
         return "success";
     }

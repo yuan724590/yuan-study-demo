@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:app="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        https://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/aop
+        https://www.springframework.org/schema/aop/spring-aop.xsd
+        http://www.springframework.org/schema/context
+        https://www.springframework.org/schema/context/spring-context.xsd"
+>
+    <aop:aspectj-autoproxy />
+
+    <bean id="customer" class="yuan.study.demo.service.designPattern.proxy.Customer"/>
+
+    <bean id="serviceInterceptor" class="yuan.study.demo.service.aop.ServiceInterceptor" />
+
+    <bean id="buyCarProxyFactoryBean" class="org.springframework.aop.framework.ProxyFactoryBean">
+        <property name="targetName" value="customer"/>
+        <property name="interceptorNames" value="serviceInterceptor"/>
+    </bean>
+
+
+
+
+    <bean id="springService" class="yuan.study.demo.service.aop.impl.SpringServiceImpl"/>
+
+    <app:config>
+        <aop:aspect id="aop" ref="springService">
+            <aop:pointcut id="anyPublic" expression="execution(public * *(..))"/>
+            <aop:before method="before" pointcut-ref="anyPublic"/>
+            <aop:around method="around" pointcut-ref="anyPublic"/>
+        </aop:aspect>
+    </app:config>
+</beans>

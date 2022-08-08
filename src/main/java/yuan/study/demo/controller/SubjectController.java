@@ -172,4 +172,12 @@ public class SubjectController {
     public void isValidBrackets(){
         subjectService.isValidBrackets();
     }
+
+    /**
+     * 合并两个有序链表
+     */
+    @GetMapping(value = "/merge/two/lists")
+    public void mergeTwoLists(){
+        subjectService.mergeTwoLists();
+    }
 }

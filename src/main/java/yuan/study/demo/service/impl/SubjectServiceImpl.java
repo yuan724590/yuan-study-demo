@@ -739,4 +739,71 @@ public class SubjectServiceImpl implements SubjectService {
         }
         return stack.isEmpty();
     }
+
+    @Override
+    public void mergeTwoLists(){
+        ListNode head = new ListNode();
+        head.val = 1;
+        ListNode head1 = new ListNode();
+        head1.val = 2;
+        head.next = head1;
+        ListNode head2 = new ListNode();
+        head2.val = 3;
+        head1.next = head2;
+        ListNode head3 = new ListNode();
+        head3.val = 4;
+        head2.next = head3;
+        ListNode head4 = new ListNode();
+        head4.val = 5;
+        head3.next = head4;
+        ListNode headCopy = head;
+
+        head = new ListNode();
+        head.val = 1;
+        head1 = new ListNode();
+        head1.val = 3;
+        head.next = head1;
+        head2 = new ListNode();
+        head2.val = 5;
+        head1.next = head2;
+        ListNode headCopy1 = head;
+        ListNode listNode = mergeTwoLists(headCopy, headCopy1);
+        while(listNode.next != null){
+            System.out.println(listNode.val);
+            listNode = listNode.next;
+        }
+    }
+
+    public ListNode mergeTwoLists(ListNode list1, ListNode list2) {
+        ListNode head = new ListNode(-1);
+        ListNode headNode = head;
+        while(list1 != null || list2 != null) {
+
+            if (list1 == null) {
+                while(list2 != null) {
+                    head.next = list2;
+                    list2 = list2.next;
+                    head = head.next;
+                }
+                return headNode.next;
+            } else if (list2 == null) {
+                while(list1 != null) {
+                    head.next = list1;
+                    list1 = list1.next;
+                    head = head.next;
+                }
+                return headNode.next;
+            }
+            if (list1.val > list2.val) {
+                head.next = list2;
+                list2 = list2.next;
+                head = head.next;
+            } else {
+                head.next = list1;
+                list1 = list1.next;
+                head = head.next;
+            }
+        }
+        return headNode.next;
+    }
 }
