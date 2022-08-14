@@ -86,7 +86,7 @@ public class SubjectController {
     }
 
     /**
-     * 正则表达式匹配
+     * 10 - 正则表达式匹配
      */
     @GetMapping(value = "/regular/expression/matching")
     public void regularExpressionMatching(){
@@ -166,7 +166,7 @@ public class SubjectController {
     }
 
     /**
-     * 有效的括号
+     * 20 - 有效的括号
      */
     @GetMapping(value = "/is/valid/brackets")
     public void isValidBrackets(){
@@ -179,5 +179,13 @@ public class SubjectController {
     @GetMapping(value = "/merge/two/lists")
     public void mergeTwoLists(){
         subjectService.mergeTwoLists();
+    }
+
+    /**
+     * 括号生成
+     */
+    @GetMapping(value = "/generate/parenthesis")
+    public void generateParenthesis(){
+        subjectService.generateParenthesis();
     }
 }

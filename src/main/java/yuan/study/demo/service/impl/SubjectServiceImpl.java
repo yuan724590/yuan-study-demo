@@ -1,6 +1,5 @@
 package yuan.study.demo.service.impl;
 
-import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import yuan.study.demo.service.SubjectService;
@@ -805,5 +804,34 @@ public class SubjectServiceImpl implements SubjectService {
             }
         }
         return headNode.next;
+    }
+
+    @Override
+    public void generateParenthesis(){
+        System.out.println(generateParenthesis(3));
+    }
+
+    private List<String> parenthesisList = new ArrayList<>();
+
+    public List<String> generateParenthesis(int n) {
+        backtracking(n, n, new StringBuffer());
+        return parenthesisList;
+    }
+
+    private void backtracking(int left, int right, StringBuffer path) {
+        if (left == 0 && right == 0) {
+            parenthesisList.add(path.toString());
+            return;
+        }
+        if (left > 0) {
+            path.append("(");
+            backtracking(left - 1, right, path);
+            path.deleteCharAt(path.length() - 1);
+        }
+        if (left < right) {
+            path.append(")");
+            backtracking(left, right - 1, path);
+            path.deleteCharAt(path.length() - 1);
+        }
     }
 }

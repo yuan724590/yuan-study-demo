@@ -10,30 +10,14 @@
         http://www.springframework.org/schema/context
         https://www.springframework.org/schema/context/spring-context.xsd"
 >
-    <aop:aspectj-autoproxy />
 
     <bean id="customer" class="yuan.study.demo.service.designPattern.proxy.Customer"/>
 
     <bean id="serviceInterceptor" class="yuan.study.demo.service.aop.ServiceInterceptor" />
 
-    <bean id="buyCarProxyFactoryBean" class="org.springframework.aop.framework.ProxyFactoryBean">
-        <property name="targetName" value="customer"/>
+    <bean class="org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator">
+        <property name="beanNames" value="*"/>
         <property name="interceptorNames" value="serviceInterceptor"/>
     </bean>
 
-
-
-
-    <bean id="springService" class="yuan.study.demo.service.aop.impl.SpringServiceImpl"/>
-
-    <app:config>
-        <aop:aspect id="aop" ref="springService">
-            <aop:pointcut id="anyPublic" expression="execution(public * *(..))"/>
-            <aop:before method="before" pointcut-ref="anyPublic"/>
-            <aop:around method="around" pointcut-ref="anyPublic"/>
-            <aop:after method="after" pointcut-ref="anyPublic"/>
-            <aop:after-returning method="afterReturning" pointcut-ref="anyPublic"/>
-            <aop:after-throwing method="afterThrowing" pointcut-ref="anyPublic"/>
-        </aop:aspect>
-    </app:config>
 </beans>
