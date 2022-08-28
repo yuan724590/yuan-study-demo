@@ -26,14 +26,6 @@ public class Students implements Cloneable, Serializable {
      */
     private String name;
 
-    private Students(int id){
-        this.id = id;
-    }
-
-    Students(String name){
-        this.name = name;
-    }
-
     @Override
     public Students clone() {
         Students students = null;

@@ -23,20 +23,4 @@ public class Book {
      * 名字
      */
     private String name;
-
-    @Data
-    @NoArgsConstructor
-    @AllArgsConstructor
-    public static class BookClass{
-
-        /**
-         * 书号
-         */
-        private int id;
-
-        /**
-         * 名字
-         */
-        private String name;
-    }
 }

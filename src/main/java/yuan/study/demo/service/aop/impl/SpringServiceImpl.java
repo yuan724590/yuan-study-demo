@@ -15,6 +15,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ReflectionUtils;
 import yuan.study.demo.configuration.TestConfiguration;
+import yuan.study.demo.entity.MyThrowsAdvice;
 import yuan.study.demo.service.aop.SpringService;
 import yuan.study.demo.configuration.AspectJConfiguration;
 import yuan.study.demo.service.aop.ServiceInterceptor;
@@ -123,6 +124,7 @@ public class SpringServiceImpl implements SpringService {
                 System.out.printf("\n 开始执行afterReturning, 获取的方式为:%s, 参数:%s \n", method.getName(), JSON.toJSONString(args));
             }
         });
+        factory.addAdvice(new MyThrowsAdvice());
         map.put("1", "2");
         Map<String, String> proxy = factory.getProxy();
         proxy.put("1", "3");
