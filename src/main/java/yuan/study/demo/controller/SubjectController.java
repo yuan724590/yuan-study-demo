@@ -188,4 +188,20 @@ public class SubjectController {
     public void generateParenthesis(){
         subjectService.generateParenthesis();
     }
+
+    /**
+     * 合并k个有序链表
+     */
+    @GetMapping(value = "/merge/k/lists")
+    public void mergeKLists(){
+        subjectService.mergeKLists();
+    }
+
+    /**
+     * 两两交换链表中的节点
+     */
+    @GetMapping(value = "/swap/pairs")
+    public void swapPairs(){
+        subjectService.swapPairs();
+    }
 }

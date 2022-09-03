@@ -834,4 +834,149 @@ public class SubjectServiceImpl implements SubjectService {
             path.deleteCharAt(path.length() - 1);
         }
     }
+
+    @Override
+    public void mergeKLists(){
+        ListNode head = new ListNode();
+        head.val = 1;
+        ListNode head1 = new ListNode();
+        head1.val = 2;
+        head.next = head1;
+        ListNode head2 = new ListNode();
+        head2.val = 3;
+        head1.next = head2;
+        ListNode head3 = new ListNode();
+        head3.val = 4;
+        head2.next = head3;
+        ListNode head4 = new ListNode();
+        head4.val = 5;
+        head3.next = head4;
+        ListNode headCopy = head;
+
+        head = new ListNode();
+        head.val = 1;
+        head1 = new ListNode();
+        head1.val = 3;
+        head.next = head1;
+        head2 = new ListNode();
+        head2.val = 5;
+        head1.next = head2;
+        ListNode headCopy1 = head;
+        //使用归并排序进行合并
+        ListNode listNode = mergeKLists(new ListNode[]{headCopy, headCopy1});
+        while(listNode != null){
+            System.out.println(listNode.val);
+            listNode = listNode.next;
+        }
+        //使用优先队列进行合并
+        listNode = mergeKLists1(new ListNode[]{headCopy, headCopy1});
+        while(listNode != null){
+            System.out.println(listNode.val);
+            listNode = listNode.next;
+        }
+    }
+
+    public ListNode mergeKLists(ListNode[] lists) {
+        if (lists.length == 0) return null;
+        return mergeTowLists(lists, 0, lists.length - 1);
+    }
+
+    private ListNode mergeTowLists(ListNode[] lists, int start, int end) {
+        if (start == end) {
+            return lists[start];
+        }
+        int middle = start + (end - start) / 2;
+        ListNode left = mergeTowLists(lists, start, middle);
+        ListNode right = mergeTowLists(lists, middle + 1, end);
+        return merge(left, right);
+    }
+
+    private ListNode merge(ListNode left, ListNode right) {
+        ListNode dummyHead = new ListNode(0);
+        ListNode pre = dummyHead;
+        while (left != null && right != null) {
+            if (left.val <= right.val) {
+                pre.next = new ListNode(left.val);
+                left = left.next;
+            } else {
+                pre.next = new ListNode(right.val);
+                right = right.next;
+            }
+            pre = pre.next;
+        }
+        while (left != null) {
+            pre.next = new ListNode(left.val);
+            left = left.next;
+            pre = pre.next;
+        }
+        while (right != null) {
+            pre.next = new ListNode(right.val);
+            right = right.next;
+            pre = pre.next;
+        }
+        return dummyHead.next;
+    }
+
+    /**
+     * 使用优先队列进行合并
+     */
+    public ListNode mergeKLists1(ListNode[] lists) {
+        if (lists.length == 0) {
+            return null;
+        }
+        ListNode dummyHead = new ListNode(0);
+        ListNode curr = dummyHead;
+        PriorityQueue<ListNode> pq = new PriorityQueue<>(Comparator.comparingInt(o -> o.val));
+
+        for (ListNode list : lists) {
+            if (list == null) {
+                continue;
+            }
+            pq.add(list);
+        }
+
+        while (!pq.isEmpty()) {
+            ListNode nextNode = pq.poll();
+            curr.next = nextNode;
+            curr = curr.next;
+            if (nextNode.next != null) {
+                pq.add(nextNode.next);
+            }
+        }
+        return dummyHead.next;
+    }
+
+    @Override
+    public String swapPairs(){
+        ListNode head = new ListNode();
+        head.val = 1;
+        ListNode head1 = new ListNode();
+        head1.val = 2;
+        head.next = head1;
+        ListNode head2 = new ListNode();
+        head2.val = 3;
+        head1.next = head2;
+        ListNode head3 = new ListNode();
+        head3.val = 4;
+        head2.next = head3;
+        ListNode head4 = new ListNode();
+        head4.val = 5;
+        head3.next = head4;
+        ListNode listNode = swapPairs(head);
+        while(listNode != null){
+            System.out.println(listNode.val);
+            listNode = listNode.next;
+        }
+        return "success";
+    }
+
+    public ListNode swapPairs(ListNode head) {
+        if(head == null || head.next == null){
+            return head;
+        }
+        ListNode next = head.next;
+        head.next = swapPairs(next.next);
+        next.next = head;
+        return next;
+    }
 }
