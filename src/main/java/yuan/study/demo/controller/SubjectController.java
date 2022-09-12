@@ -204,4 +204,12 @@ public class SubjectController {
     public void swapPairs(){
         subjectService.swapPairs();
     }
+
+    /**
+     * K 个一组翻转链表
+     */
+    @GetMapping(value = "/reverse/k/group")
+    public void reverseKGroup(){
+        subjectService.reverseKGroup();
+    }
 }

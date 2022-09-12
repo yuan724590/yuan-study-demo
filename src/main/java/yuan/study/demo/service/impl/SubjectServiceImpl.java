@@ -646,20 +646,7 @@ public class SubjectServiceImpl implements SubjectService {
 
     @Override
     public void removeNthFromEnd(){
-        ListNode head = new ListNode();
-        head.val = 1;
-        ListNode head1 = new ListNode();
-        head1.val = 2;
-        head.next = head1;
-        ListNode head2 = new ListNode();
-        head2.val = 3;
-        head1.next = head2;
-        ListNode head3 = new ListNode();
-        head3.val = 4;
-        head2.next = head3;
-        ListNode head4 = new ListNode();
-        head4.val = 5;
-        head3.next = head4;
+        ListNode head = getListNode();
         ListNode headCopy = head;
         head = removeNthFromEnd1(head, 2);
         for(;;){
@@ -948,6 +935,16 @@ public class SubjectServiceImpl implements SubjectService {
 
     @Override
     public String swapPairs(){
+        ListNode head = getListNode();
+        ListNode listNode = swapPairs(head);
+        while(listNode != null){
+            System.out.println(listNode.val);
+            listNode = listNode.next;
+        }
+        return "success";
+    }
+
+    private ListNode getListNode(){
         ListNode head = new ListNode();
         head.val = 1;
         ListNode head1 = new ListNode();
@@ -962,12 +959,10 @@ public class SubjectServiceImpl implements SubjectService {
         ListNode head4 = new ListNode();
         head4.val = 5;
         head3.next = head4;
-        ListNode listNode = swapPairs(head);
-        while(listNode != null){
-            System.out.println(listNode.val);
-            listNode = listNode.next;
-        }
-        return "success";
+        ListNode head5 = new ListNode();
+        head5.val = 6;
+        head4.next = head5;
+        return head;
     }
 
     public ListNode swapPairs(ListNode head) {
@@ -978,5 +973,37 @@ public class SubjectServiceImpl implements SubjectService {
         head.next = swapPairs(next.next);
         next.next = head;
         return next;
+    }
+
+    @Override
+    public String reverseKGroup(){
+        ListNode head = getListNode();
+        ListNode listNode = reverseKGroup(head, 3);
+        while(listNode != null){
+            System.out.println(listNode.val);
+            listNode = listNode.next;
+        }
+        return "success";
+    }
+
+    public ListNode reverseKGroup(ListNode head, int k) {
+        ListNode dummy = new ListNode(0), prev = dummy, curr = head, next;
+        dummy.next = head;
+        int length = 0;
+        while(head != null) {
+            length++;
+            head = head.next;
+        }
+        for(int i = 0; i < length / k; i++) {
+            for(int j = 1; j < k; j++) {
+                next = curr.next;
+                curr.next = next.next;
+                next.next = prev.next;
+                prev.next = next;
+            }
+            prev = curr;
+            curr = prev.next;
+        }
+        return dummy.next;
     }
 }
