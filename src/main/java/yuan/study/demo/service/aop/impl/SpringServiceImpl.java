@@ -4,11 +4,14 @@ package yuan.study.demo.service.aop.impl;
 import com.alibaba.fastjson.JSON;
 import com.google.common.base.Throwables;
 import lombok.extern.slf4j.Slf4j;
+import org.aopalliance.aop.Advice;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.aop.AfterReturningAdvice;
 import org.springframework.aop.MethodBeforeAdvice;
 import org.springframework.aop.aspectj.annotation.AspectJProxyFactory;
+import org.springframework.aop.framework.AdvisedSupport;
+import org.springframework.aop.framework.AdvisedSupportListener;
 import org.springframework.aop.framework.ProxyFactory;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -93,8 +96,22 @@ public class SpringServiceImpl implements SpringService {
         buyCar = new Customer();
         ProxyFactory proxyFactory = new ProxyFactory(buyCar);
         proxyFactory.addAdvice(new ServiceInterceptor());
+        proxyFactory.addListener(new AdvisedSupportListener() {
+            @Override
+            public void activated(AdvisedSupport advised) {
+                System.out.println("AOP配置对象已激活:" + JSON.toJSONString(advised));
+            }
+
+            @Override
+            public void adviceChanged(AdvisedSupport advised) {
+                System.out.println("AOP配置对象已变化, advised:" + JSON.toJSONString(advised));
+            }
+        });
         buyCar = (BuyCar) proxyFactory.getProxy();
         buyCar.buyAHundredCars(1111);
+
+        proxyFactory.addAdvice(new Advice() {
+        });
         return "success";
     }
 
