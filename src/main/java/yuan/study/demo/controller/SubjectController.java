@@ -212,4 +212,20 @@ public class SubjectController {
     public void reverseKGroup(){
         subjectService.reverseKGroup();
     }
+
+    /**
+     * 删除有序数组中的重复项
+     */
+    @GetMapping(value = "/remove/duplicates")
+    public void removeDuplicates(){
+        subjectService.removeDuplicates();
+    }
+
+    /**
+     * 移除元素
+     */
+    @GetMapping(value = "/remove/element")
+    public void removeElement(){
+        subjectService.removeElement();
+    }
 }

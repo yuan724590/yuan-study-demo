@@ -1006,4 +1006,45 @@ public class SubjectServiceImpl implements SubjectService {
         }
         return dummy.next;
     }
+
+    @Override
+    public String removeDuplicates(){
+        System.out.println(removeDuplicates(new int[]{0,0,1,1,1,2,2,3,3,4}));
+        return "success";
+    }
+
+    public int removeDuplicates(int[] nums) {
+        if(nums.length == 1){
+            return nums.length;
+        }
+        // 使用双指针
+        int i = 0, j =1;
+        while(j < nums.length){
+            if(nums[i] != nums[j]){
+                i++;
+                nums[i] = nums[j];
+            }
+            j++;
+        }
+        return i + 1;
+    }
+
+    @Override
+    public String removeElement() {
+        System.out.println(removeElement(new int[]{0,1,2,2,3,0,4,2}, 2));
+        return "success";
+    }
+
+    public int removeElement(int[] nums, int val) {
+        int i = 0, j = 0;
+        for(; j < nums.length; j++){
+            if(nums[j] != val){
+                if(i != j){
+                    nums[i] = nums[j];
+                }
+                i++;
+            }
+        }
+        return i;
+    }
 }
