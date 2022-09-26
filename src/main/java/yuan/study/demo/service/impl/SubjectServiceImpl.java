@@ -1047,4 +1047,49 @@ public class SubjectServiceImpl implements SubjectService {
         }
         return i;
     }
+
+    @Override
+    public String findStrIndex(){
+        System.out.println(strStr("sadbutsad", "sad"));
+        return "success";
+    }
+
+    public int strStr(String haystack, String needle) {
+//        return haystack.indexOf(needle);
+        for(int i = 0; i < haystack.length(); i++){
+            if(haystack.charAt(i) == needle.charAt(0) && i + needle.length() <= haystack.length() && haystack.substring(i, i + needle.length()).equals(needle)){
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    @Override
+    public String divide(){
+        System.out.println(divide(100, 3));
+        return "success";
+    }
+
+    public int divide(int dividend, int divisor) {
+        if (dividend == 0) {
+            return 0;
+        }
+        if (dividend == Integer.MIN_VALUE && divisor == -1) {
+            return Integer.MAX_VALUE;
+        }
+        //用异或来计算是否符号相异
+        boolean negative = (dividend ^ divisor) < 0;
+        long t = Math.abs((long) dividend), d = Math.abs((long) divisor);
+        int result = 0;
+        for (int i = 31; i >= 0; i--) {
+            //找出足够大的数2^n * divisor
+            if ((t >> i) >= d) {
+                //将结果加上2^n
+                result += 1 << i;
+                //将被除数减去2^n*divisor
+                t -= d << i;
+            }
+        }
+        return negative ? -result : result;
+    }
 }

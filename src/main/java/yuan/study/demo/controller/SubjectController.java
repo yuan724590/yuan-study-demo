@@ -228,4 +228,20 @@ public class SubjectController {
     public void removeElement(){
         subjectService.removeElement();
     }
+
+    /**
+     * 找出字符串中第一个匹配项的下标
+     */
+    @GetMapping(value = "/find/str/index")
+    public void findStrIndex(){
+        subjectService.findStrIndex();
+    }
+
+    /**
+     * 两数相除
+     */
+    @GetMapping(value = "/divide")
+    public void divide(){
+        subjectService.divide();
+    }
 }

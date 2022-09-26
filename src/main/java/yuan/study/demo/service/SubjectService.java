@@ -1115,4 +1115,52 @@ public interface SubjectService {
      * 0 <= val <= 100
      */
     String removeElement();
+
+    /**
+     * 给你两个字符串 haystack 和 needle ，请你在 haystack 字符串中找出 needle 字符串的第一个匹配项的下标（下标从 0 开始）。如果 needle 不是 haystack 的一部分，则返回  -1 。
+     *
+     *  
+     *
+     * 示例 1：
+     *
+     * 输入：haystack = "sadbutsad", needle = "sad"
+     * 输出：0
+     * 解释："sad" 在下标 0 和 6 处匹配。
+     * 第一个匹配项的下标是 0 ，所以返回 0 。
+     * 示例 2：
+     *
+     * 输入：haystack = "leetcode", needle = "leeto"
+     * 输出：-1
+     * 解释："leeto" 没有在 "leetcode" 中出现，所以返回 -1 。
+     */
+    String findStrIndex();
+
+    /**
+     * 给定两个整数，被除数 dividend 和除数 divisor。将两数相除，要求不使用乘法、除法和 mod 运算符。
+     *
+     * 返回被除数 dividend 除以除数 divisor 得到的商。
+     *
+     * 整数除法的结果应当截去（truncate）其小数部分，例如：truncate(8.345) = 8 以及 truncate(-2.7335) = -2
+     *
+     *  
+     *
+     * 示例 1:
+     *
+     * 输入: dividend = 10, divisor = 3
+     * 输出: 3
+     * 解释: 10/3 = truncate(3.33333..) = truncate(3) = 3
+     * 示例 2:
+     *
+     * 输入: dividend = 7, divisor = -3
+     * 输出: -2
+     * 解释: 7/-3 = truncate(-2.33333..) = -2
+     *  
+     *
+     * 提示：
+     *
+     * 被除数和除数均为 32 位有符号整数。
+     * 除数不为 0。
+     * 假设我们的环境只能存储 32 位有符号整数，其数值范围是 [−231,  231 − 1]。本题中，如果除法结果溢出，则返回 231 − 1。
+     */
+    String divide();
 }
