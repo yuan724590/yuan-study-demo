@@ -244,4 +244,12 @@ public class SubjectController {
     public void divide(){
         subjectService.divide();
     }
+
+    /**
+     * 串联所有单词的子串
+     */
+    @GetMapping(value = "/findSubstring")
+    public void findSubstring(){
+        subjectService.findSubstring();
+    }
 }

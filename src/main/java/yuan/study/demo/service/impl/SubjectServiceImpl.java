@@ -1092,4 +1092,92 @@ public class SubjectServiceImpl implements SubjectService {
         }
         return negative ? -result : result;
     }
+
+    @Override
+    public String findSubstring(){
+        System.out.println(findSubstring("wordgoodgoodgoodbestword", new String[]{"word","good","best","word"}));
+        return "success";
+    }
+
+    public List<Integer> findSubstring(String s, String[] words) {
+        //返回答案列表
+        List<Integer> list = new ArrayList<>();
+        //记录words字符串数组中每个单词出现的次数
+        Map<String, Integer> map = new HashMap<>();
+        int n = s.length();
+        int m = words.length;
+        //题目条件每个单词等长
+        int oneNum = words[0].length();
+        //所有单词的总长度
+        int allNum = m * oneNum;
+        //特殊条件判断
+        if (allNum > n) {
+            return list;
+        }
+        //记录频次
+        for (String word : words) {
+            map.put(word, map.getOrDefault(word, 0) + 1);
+        }
+        //每次移动的步长为单个单词的长度
+        //假设单词长度为3，那么我们只要把开头定为索引的0,1,2即可覆盖所有情况
+        //因为以3开头是由0开头移动一个步长而来，所有只用记录前面的情况
+        for (int i = 0; i < oneNum; i++) {
+            //左窗口边界
+            int left = i;
+            //右窗口边界
+            int right = i;
+            //记录匹配的单词数
+            int cnt = 0;
+            //临时记录子串
+            Map<String, Integer> tempMap = new HashMap<>();
+            while (right + oneNum <= n) {
+                //先截取一个单词长度的子串
+                String w = s.substring(right, right + oneNum);
+                //右窗口移动
+                right += oneNum;
+                //如果原本记录频次的哈希表中没有这个子串
+                if (!map.containsKey(w)) {
+                    //左窗口移动
+                    left = right;
+                    //匹配的单词数清零
+                    cnt = 0;
+                    //临时记录子串的哈希表清空
+                    tempMap.clear();
+                } else {
+                    //如果原本记录频次的哈希表中有这个子串(单词)
+                    //临时记录子串的哈希表也记录该单词的个数
+                    tempMap.put(w, tempMap.getOrDefault(w, 0) + 1);
+                    //匹配的单词数加一
+                    cnt++;
+                    //当临时哈希表中的该单词数量多余原本的哈希表的该单词数量
+                    while (tempMap.getOrDefault(w, 0) > map.getOrDefault(w, 0)) {
+                        //从左边开始截取子串
+                        String head = s.substring(left, left + oneNum);
+                        //对应临时哈希表中的单词数减一
+                        tempMap.put(head, tempMap.getOrDefault(head, 0) - 1);
+                        //匹配的单词数减一
+                        cnt--;
+                        //左窗口移动
+                        left += oneNum;
+                    }
+                    //如果匹配的单词数等于字符串列表中的单词数
+                    if (cnt == m) {
+                        //说明找到一种符合题意的情况，加入起始位置，即左窗口
+                        list.add(left);
+                        //那么我们开始下次匹配的情况
+                        //需先将左边的从第一个单词先舍弃
+                        //因为题目中words中的单词是可以随意组合，没有顺序，但只能用一次
+                        String head = s.substring(left, left + oneNum);
+                        //对应临时哈希表中该单词的的次数减一
+                        tempMap.put(head, tempMap.get(head) - 1);
+                        //匹配的单词数减一
+                        cnt--;
+                        //左窗口移动
+                        left += oneNum;
+                    }
+                }
+            }
+        }
+        return list;
+    }
 }
