@@ -246,10 +246,18 @@ public class SubjectController {
     }
 
     /**
-     * 串联所有单词的子串
+     * 30 - 串联所有单词的子串
      */
     @GetMapping(value = "/findSubstring")
     public void findSubstring(){
         subjectService.findSubstring();
+    }
+
+    /**
+     * 下一个排列
+     */
+    @GetMapping(value = "/nextPermutation")
+    public void nextPermutation(){
+        subjectService.nextPermutation();
     }
 }

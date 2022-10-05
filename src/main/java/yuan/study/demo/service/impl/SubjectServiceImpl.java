@@ -1180,4 +1180,52 @@ public class SubjectServiceImpl implements SubjectService {
         }
         return list;
     }
+
+    @Override
+    public String nextPermutation(){
+        int[] nums = new int[]{5,4,7,5,3,2};
+        nextPermutation(nums);
+        System.out.println(Arrays.toString(nums));
+        return "success";
+    }
+
+    public void nextPermutation(int[] nums) {
+        boolean flag = true;
+        int aid = -1;
+        for (int i = nums.length - 1; i > 0; i--) {
+            if (nums[i] > nums[i - 1]) {
+                aid = i - 1;
+                flag = false;
+                break;
+            }
+        }
+        if (flag) {
+            //flag为true的话，说明数组是降序排列，直接反转数组即可
+            reverse(nums, 0, nums.length - 1);
+            return;
+        }
+        for (int i = nums.length - 1; i > aid; i--) {
+            if (nums[i] > nums[aid]) {
+                //将遍历过的部分那个比i-1大的最小值和i-1位置交换
+                int temp = nums[i];
+                nums[i] = nums[aid];
+                nums[aid] = temp;
+                break;
+            }
+        }
+        reverse(nums, aid + 1, nums.length - 1);//将位置aid+1到最后进行一个倒序即可
+    }
+
+    /**
+     * 反转数组
+     */
+    private void reverse(int[] nums, int start, int end) {
+        while (start < end) {
+            int temp = nums[start];
+            nums[start] = nums[end];
+            nums[end] = temp;
+            start++;
+            end--;
+        }
+    }
 }
