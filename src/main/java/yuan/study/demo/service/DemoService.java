@@ -92,4 +92,9 @@ public interface DemoService {
      * 布隆过滤器
      */
     String bloomFilter();
+
+    /**
+     * 不常用redis的功能
+     */
+    String testRedis();
 }

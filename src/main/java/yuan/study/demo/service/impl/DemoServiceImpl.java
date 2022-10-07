@@ -15,6 +15,11 @@ import org.elasticsearch.client.RestClient;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.common.xcontent.XContentType;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.data.geo.Distance;
+import org.springframework.data.geo.GeoResults;
+import org.springframework.data.geo.Metrics;
+import org.springframework.data.redis.connection.RedisGeoCommands;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import sun.misc.BASE64Encoder;
 import yuan.study.demo.configuration.ElasticsearchConfiguration;
@@ -22,7 +27,7 @@ import yuan.study.demo.entity.*;
 import yuan.study.demo.service.DemoService;
 import yuan.study.demo.utils.Base64Util;
 import yuan.study.demo.utils.CopierUtil;
-
+import org.springframework.data.geo.Point;
 import javax.annotation.Resource;
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -54,6 +59,9 @@ import java.util.stream.Collectors;
 @Slf4j
 @Service
 public class DemoServiceImpl implements DemoService {
+
+    @Resource
+    private RedisTemplate redisTemplate;
 
     private static ExecutorService cachedThreadPool = Executors.newCachedThreadPool();
 
@@ -1157,5 +1165,73 @@ public class DemoServiceImpl implements DemoService {
         }
         System.out.println("已匹配数量: " + count);
         return "success";
+    }
+
+    @Override
+    public String testRedis(){
+
+        redisBit();
+
+        redisHyperLogLog();
+
+        redisGeo();
+
+        return "success";
+    }
+
+    private void redisBit(){
+        String key = "yuan-study-demo:bit";
+        redisTemplate.opsForValue().setBit(key, 1, true);
+        redisTemplate.opsForValue().setBit(key, 3, true);
+        redisTemplate.opsForValue().setBit(key, 5, true);
+        System.out.println(redisTemplate.opsForValue().getBit(key, 1));
+        System.out.println(redisTemplate.opsForValue().getBit(key, 2));
+        System.out.println(redisTemplate.opsForValue().getBit(key, 3));
+    }
+
+    private void redisHyperLogLog(){
+        String key = "yuan-study-demo:hyperLogLog";
+        Random random = new Random();
+        for(int i = 0; i < 1000; i++){
+            redisTemplate.opsForHyperLogLog().add(key, random.nextInt(100));
+        }
+        System.out.println("HyperLogLog的长度为:" + redisTemplate.opsForHyperLogLog().size(key));
+
+        String keyV2 = "yuan-study-demo:hyperLogLogV2";
+        for(int i = 0; i < 1000; i++){
+            redisTemplate.opsForHyperLogLog().add(keyV2, random.nextInt(200));
+        }
+        System.out.println("HyperLogLogV2的长度为:" + redisTemplate.opsForHyperLogLog().size(keyV2));
+        String unionKey = "yuan-study-demo:hyperLogLog:union";
+        redisTemplate.opsForHyperLogLog().union(unionKey, key, keyV2);
+        System.out.println("HyperLogLog中union的长度为:" + redisTemplate.opsForHyperLogLog().size(unionKey));
+    }
+
+    private void redisGeo(){
+        String key = "yuan-study-demo:geo";
+        //添加成员
+        Students student1 = new Students();
+        student1.setId(1);
+        student1.setName("王小明");
+        redisTemplate.opsForGeo().add(key, new Point(114.085947,22.547), student1);
+
+        Students student2 = new Students();
+        student2.setId(2);
+        student2.setName("李小狼");
+        redisTemplate.opsForGeo().add(key, new Point(121.43333,34.50000), student2);
+
+        Students student3 = new Students();
+        student3.setId(3);
+        student3.setName("张三");
+        redisTemplate.opsForGeo().add(key, new Point(116.397128, 39.916527), student3);
+
+        Distance distance = redisTemplate.opsForGeo().distance(key, student1, student2, Metrics.MILES);
+        System.out.println("两个成员的距离:" + JSON.toJSONString(distance));
+
+        List<Point> pointList = redisTemplate.opsForGeo().position(key, student1);
+        System.out.println("student1的坐标为:" + JSON.toJSONString(pointList));
+
+        GeoResults<RedisGeoCommands.GeoLocation<String>> geoResults = redisTemplate.opsForGeo().radius(key, student1, new Distance(100, Metrics.KILOMETERS));
+        System.out.println("100公里内同学的的坐标为:" + JSON.toJSONString(geoResults.getContent()));
     }
 }

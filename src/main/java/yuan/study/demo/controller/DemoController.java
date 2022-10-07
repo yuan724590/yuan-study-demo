@@ -158,4 +158,12 @@ public class DemoController {
     public String bloomFilter(){
         return demoService.bloomFilter();
     }
+
+    /**
+     * 不常用redis的功能
+     */
+    @GetMapping(value = "/test/redis")
+    public String testRedis(){
+        return demoService.testRedis();
+    }
 }
