@@ -8,13 +8,10 @@ import com.google.common.hash.BloomFilter;
 import com.google.common.hash.Funnels;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.beanutils.BeanUtils;
-import org.apache.commons.beanutils.PropertyUtils;
 import org.dozer.DozerBeanMapper;
 import org.elasticsearch.action.index.IndexRequest;
-import org.elasticsearch.client.RestClient;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.common.xcontent.XContentType;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.data.geo.Distance;
 import org.springframework.data.geo.GeoResults;
 import org.springframework.data.geo.Metrics;
@@ -22,21 +19,14 @@ import org.springframework.data.redis.connection.RedisGeoCommands;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import sun.misc.BASE64Encoder;
-import yuan.study.demo.configuration.ElasticsearchConfiguration;
 import yuan.study.demo.entity.*;
 import yuan.study.demo.service.DemoService;
-import yuan.study.demo.utils.Base64Util;
 import yuan.study.demo.utils.CopierUtil;
 import org.springframework.data.geo.Point;
 import javax.annotation.Resource;
-import javax.imageio.ImageIO;
-import javax.swing.*;
-import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.io.*;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
 import java.math.BigDecimal;
 import java.net.HttpURLConnection;
@@ -53,7 +43,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.LockSupport;
 import java.util.concurrent.locks.ReentrantLock;
-import java.util.stream.Collectors;
 
 
 @Slf4j
@@ -642,7 +631,113 @@ public class DemoServiceImpl implements DemoService {
         shellSort();
         //桶排序
         bucketSort();
+        //计数排序
+        countSort();
+        //基数排序
+        radixSort();
         return "success";
+    }
+
+    /**
+     * 基数排序
+     */
+    private void radixSort(){
+        //获取随机数组
+        int[] dataArray = getRandomArray();
+        if (dataArray.length <= 1){
+            log.info("基数排序的结果为:{}", dataArray);
+            return;
+        }
+        bucketSort(dataArray);
+        log.info("基数排序的结果为:{}", dataArray);
+    }
+
+    private int[] radixSort(int[] dataArray) {
+        int mod = 10;
+        int dev = 1;
+        //获取最高位数
+        int maxDigit = getMaxDigit(dataArray);
+        for (int i = 0; i < maxDigit; i++, dev *= 10, mod *= 10) {
+            // 考虑负数的情况，这里扩展一倍队列数，其中 [0-9]对应负数，[10-19]对应正数 (bucket + 10)
+            int[][] counter = new int[mod * 2][0];
+
+            for (int j = 0; j < dataArray.length; j++) {
+                int bucket = ((dataArray[j] % mod) / dev) + mod;
+                counter[bucket] = arrayAppend(counter[bucket], dataArray[j]);
+            }
+
+            int pos = 0;
+            for (int[] bucket : counter) {
+                for (int value : bucket) {
+                    dataArray[pos++] = value;
+                }
+            }
+        }
+        return dataArray;
+    }
+
+    /**
+     * 获取最高位数
+     */
+    private int getMaxDigit(int[] arr) {
+        int maxValue = arr[0];
+        for (int value : arr) {
+            if (maxValue < value) {
+                maxValue = value;
+            }
+        }
+        if (maxValue == 0) {
+            return 1;
+        }
+        int lenght = 0;
+        for (long temp = maxValue; temp != 0; temp /= 10) {
+            lenght++;
+        }
+        return lenght;
+    }
+
+    /**
+     * 自动扩容，并保存数据
+     */
+    private int[] arrayAppend(int[] arr, int value) {
+        arr = Arrays.copyOf(arr, arr.length + 1);
+        arr[arr.length - 1] = value;
+        return arr;
+    }
+
+    /**
+     * 计数排序
+     */
+    public void countSort() {
+        int[] array = new int[]{5, 6, 11, 11, 12, 10, 7, 8, 9};
+        // 找出数组A中的最大值、最小值
+        int max = Integer.MIN_VALUE;
+        int min = Integer.MAX_VALUE;
+        for (int num : array) {
+            max = Math.max(max, num);
+            min = Math.min(min, num);
+        }
+        // 初始化计数数组count
+        // 长度为最大值减最小值加1
+        int[] count = new int[max - min + 1];
+        // 对计数数组各元素赋值
+        for (int num : array) {
+            // 数组中的元素要减去最小值，再作为新索引
+            count[num - min]++;
+        }
+        // 创建结果数组
+        int[] resArray = new int[array.length];
+        // 创建结果数组的起始索引
+        int index = 0;
+        // 遍历计数数组，将计数数组的索引填充到结果数组中
+        for (int i = 0; i < count.length; i++) {
+            while (count[i] > 0) {
+                // 再将减去的最小值补上
+                resArray[index++] = i + min;
+                count[i]--;
+            }
+        }
+        log.info("计数排序的结果为:{}", resArray);
     }
 
     /**
