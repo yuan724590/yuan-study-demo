@@ -1,7 +1,9 @@
 package yuan.study.demo.service.aop;
 
+import com.alibaba.fastjson.JSON;
 import org.springframework.aop.IntroductionInfo;
 import org.springframework.aop.MethodBeforeAdvice;
+import org.springframework.aop.framework.AopContext;
 import org.springframework.aop.framework.ProxyFactory;
 import org.springframework.aop.support.DefaultIntroductionAdvisor;
 import yuan.study.demo.service.designPattern.proxy.BuyCar;
@@ -16,10 +18,13 @@ public class IntroductionAdvisorDemo implements BuyCar, Comparable<IntroductionA
         //ProxyFactory proxyFactory = new ProxyFactory(introductionAdvisorDemo);
         ProxyFactory proxyFactory = new ProxyFactory();
         proxyFactory.setTarget(introductionAdvisorDemo);
+        //设置暴露代理对象到aopContext, 未开启则无法使用AopContext.currentProxy()
+        proxyFactory.setExposeProxy(true);
         proxyFactory.addAdvisor(new DefaultIntroductionAdvisor(new MethodBeforeAdvice() {
             @Override
             public void before(Method method, Object[] args, Object target) throws Throwable {
-                System.out.println("before:" + method);
+                Object proxy = AopContext.currentProxy();
+                System.out.println("before:" + JSON.toJSONString(method) + "\n proxy:%s" + JSON.toJSONString(proxy));
             }
         }, new IntroductionInfo() {
             @Override
