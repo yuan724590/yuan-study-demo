@@ -260,4 +260,12 @@ public class SubjectController {
     public void nextPermutation(){
         subjectService.nextPermutation();
     }
+
+    /**
+     * 最长有效括号
+     */
+    @GetMapping(value = "/longestValidParentheses")
+    public void longestValidParentheses(){
+        subjectService.longestValidParentheses();
+    }
 }
