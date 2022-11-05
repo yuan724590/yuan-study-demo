@@ -268,4 +268,20 @@ public class SubjectController {
     public void longestValidParentheses(){
         subjectService.longestValidParentheses();
     }
+
+    /**
+     * 搜索旋转排序数组
+     */
+    @GetMapping(value = "/search")
+    public void search(){
+        subjectService.search();
+    }
+
+    /**
+     * 在排序数组中查找元素的第一个和最后一个位置
+     */
+    @GetMapping(value = "/searchRange")
+    public void searchRange(){
+        subjectService.searchRange();
+    }
 }

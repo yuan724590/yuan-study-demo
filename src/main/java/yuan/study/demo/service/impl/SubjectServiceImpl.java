@@ -1,5 +1,6 @@
 package yuan.study.demo.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import yuan.study.demo.service.SubjectService;
@@ -1255,5 +1256,87 @@ public class SubjectServiceImpl implements SubjectService {
             }
         }
         return max > validLen ? max : validLen;
+    }
+
+    @Override
+    public String search(){
+        System.out.println(search(new int[]{4,5,6,7,0,1,2}, 0));
+        return "success";
+    }
+
+    /**
+     * 最坏的情况还是O(n)故不行
+     */
+    public int search1(int[] nums, int target) {
+        if(target >= nums[0]){
+            for(int i = 0; i < nums.length; i++){
+                if(target == nums[i]){
+                    return i;
+                }
+            }
+        }else{
+            for(int i = nums.length - 1; i >= 0; i--){
+                if(target == nums[i]){
+                    return i;
+                }
+            }
+        }
+        return -1;
+    }
+
+    public int search(int[] nums, int target) {
+        int len = nums.length, left = 0, right = len - 1, mid;
+        while(left <= right){
+            mid = (left + right) / 2;
+            if(nums[mid] == target){
+                return mid;
+            } else if(nums[mid] < nums[right]){
+                if(nums[mid] < target && target <= nums[right])
+                    left = mid + 1;
+                else
+                    right = mid - 1;
+            }
+            else{
+                if(nums[left] <= target && target < nums[mid])
+                    right = mid - 1;
+                else
+                    left = mid + 1;
+            }
+        }
+        return -1;
+    }
+
+    @Override
+    public String searchRange(){
+        System.out.println(JSON.toJSONString(searchRange(new int[]{2,2,2}, 2)));
+        return "success";
+    }
+
+    public int[] searchRange(int[] nums, int target) {
+        int[] res = new int[] {-1, -1};
+        res[0] = binarySearch(nums, target, true);
+        res[1] = binarySearch(nums, target, false);
+        return res;
+    }
+
+    public int binarySearch(int[] nums, int target, boolean leftOrRight) {
+        int res = -1;
+        int left = 0, right = nums.length - 1, mid;
+        while(left <= right) {
+            mid = left + (right - left) / 2;
+            if(target < nums[mid])
+                right = mid - 1;
+            else if(target > nums[mid])
+                left = mid + 1;
+            else {
+                res = mid;
+                //处理target == nums[mid]
+                if(leftOrRight)
+                    right = mid - 1;
+                else
+                    left = mid + 1;
+            }
+        }
+        return res;
     }
 }
