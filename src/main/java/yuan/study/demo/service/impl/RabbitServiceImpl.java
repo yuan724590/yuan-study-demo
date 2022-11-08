@@ -25,7 +25,7 @@ public class RabbitServiceImpl implements RabbitService {
     @Override
     public String delay(String msg){
         msg = "当前时间为:" + System.currentTimeMillis() + ", 需要发送的内容:" + msg;
-        rabbitTemplate.convertAndSend(RabbitConfiguration.BUSINESS_QUEUE_EXCHANGE, "", msg);
+        rabbitTemplate.convertAndSend(RabbitConfiguration.BUSINESS_QUEUE_B, msg);
         return "success";
     }
 }
