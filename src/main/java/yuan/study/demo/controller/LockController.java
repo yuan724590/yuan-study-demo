@@ -25,4 +25,12 @@ public class LockController {
     public String reentrantLock() {
         return lockService.reentrantLock();
     }
+
+    /**
+     * synchronized锁增加条件使用
+     */
+    @GetMapping(value = "/condition/synchronized")
+    public String conditionSynchronized() {
+        return lockService.conditionSynchronized();
+    }
 }
