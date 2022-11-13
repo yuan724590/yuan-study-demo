@@ -6,10 +6,6 @@ import yuan.study.demo.service.TreeService;
 
 import javax.annotation.Resource;
 
-/**
- * @author yuan
- * @Date 2022/4/6 23:11
- */
 @RestController
 public class TreeController {
 

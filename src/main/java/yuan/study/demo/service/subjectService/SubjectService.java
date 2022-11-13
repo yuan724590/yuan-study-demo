@@ -1,4 +1,4 @@
-package yuan.study.demo.service;
+package yuan.study.demo.service.subjectService;
 
 
 public interface SubjectService {
@@ -538,9 +538,9 @@ public interface SubjectService {
      *
      * 说明：你不能倾斜容器。
      *
-     * 来源：力扣（LeetCode）
-     * 链接：https://leetcode.cn/problems/container-with-most-water
-     * 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+     * 
+     * 
+     * 
      */
     void holdMostWater();
 
@@ -676,10 +676,6 @@ public interface SubjectService {
      * 1 <= strs.length <= 200
      * 0 <= strs[i].length <= 200
      * strs[i] 仅由小写英文字母组成
-     *
-     * 来源：力扣（LeetCode）
-     * 链接：https://leetcode.cn/problems/longest-common-prefix
-     * 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
      */
     void longestCommonPrefix();
 
@@ -764,10 +760,6 @@ public interface SubjectService {
      *
      * 0 <= digits.length <= 4
      * digits[i] 是范围 ['2', '9'] 的一个数字。
-     *
-     * 来源：力扣（LeetCode）
-     * 链接：https://leetcode.cn/problems/letter-combinations-of-a-phone-number
-     * 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
      */
     void letterCombinations();
 
@@ -796,10 +788,6 @@ public interface SubjectService {
      * 1 <= nums.length <= 200
      * -109 <= nums[i] <= 109
      * -109 <= target <= 109
-     *
-     * 来源：力扣（LeetCode）
-     * 链接：https://leetcode.cn/problems/4sum
-     * 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
      */
     void fourSum();
 
@@ -867,10 +855,6 @@ public interface SubjectService {
      *
      * 1 <= s.length <= 104
      * s 仅由括号 '()[]{}' 组成
-     *
-     * 来源：力扣（LeetCode）
-     * 链接：https://leetcode.cn/problems/valid-parentheses
-     * 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
      */
     void isValidBrackets();
 
@@ -1062,10 +1046,6 @@ public interface SubjectService {
      * 1 <= nums.length <= 3 * 104
      * -104 <= nums[i] <= 104
      * nums 已按 升序 排列
-     *
-     * 来源：力扣（LeetCode）
-     * 链接：https://leetcode.cn/problems/remove-duplicates-from-sorted-array
-     * 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
      */
     String removeDuplicates();
 

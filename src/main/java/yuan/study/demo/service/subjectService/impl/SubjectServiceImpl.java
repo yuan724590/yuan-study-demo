@@ -1,9 +1,9 @@
-package yuan.study.demo.service.impl;
+package yuan.study.demo.service.subjectService.impl;
 
 import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import yuan.study.demo.service.SubjectService;
+import yuan.study.demo.service.subjectService.SubjectService;
 
 import java.util.*;
 

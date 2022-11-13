@@ -9,10 +9,6 @@ import yuan.study.demo.service.ListDemoService;
 
 import javax.annotation.Resource;
 
-/**
- * @author yuan
- * @Date 2021/4/18 20:09
- */
 @RequestMapping
 @RestController
 public class ListDemoController {

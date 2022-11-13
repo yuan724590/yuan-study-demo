@@ -7,10 +7,6 @@ import yuan.study.demo.service.Java8DemoService;
 
 import javax.annotation.Resource;
 
-/**
- * @author yuan
- * @Date 2021/4/22 1:22
- */
 @RequestMapping
 @RestController
 public class Java8DemoController {

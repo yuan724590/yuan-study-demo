@@ -1,9 +1,8 @@
-package yuan.study.demo.controller;
+package yuan.study.demo.controller.subject;
 
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import yuan.study.demo.service.SubjectService;
+import yuan.study.demo.service.subjectService.SubjectService;
 
 import javax.annotation.Resource;
 

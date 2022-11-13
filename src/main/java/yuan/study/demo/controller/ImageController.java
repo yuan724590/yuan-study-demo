@@ -7,9 +7,6 @@ import yuan.study.demo.service.ImageService;
 
 import javax.annotation.Resource;
 
-/**
- * @author yuan
- */
 @RequestMapping("/image")
 @RestController
 public class ImageController {
