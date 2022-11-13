@@ -23,6 +23,14 @@ public class LockController {
     }
 
     /**
+     * 可重入读写锁的使用
+     */
+    @GetMapping(value = "/reentrantReadWriteLock")
+    public String reentrantReadWriteLock() {
+        return lockService.reentrantReadWriteLock();
+    }
+
+    /**
      * synchronized锁增加条件使用
      */
     @GetMapping(value = "/condition/synchronized")

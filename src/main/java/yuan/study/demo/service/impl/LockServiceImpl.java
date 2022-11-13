@@ -2,17 +2,15 @@ package yuan.study.demo.service.impl;
 
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
-import yuan.study.demo.entity.Students;
-import yuan.study.demo.service.DemoService;
 import yuan.study.demo.service.LockService;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 import java.util.concurrent.*;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 
 @Slf4j
@@ -93,6 +91,38 @@ public class LockServiceImpl implements LockService {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+    private Map<String,String> cacheData = new HashMap<>();
+
+    @Override
+    public String reentrantReadWriteLock() {
+        String key = "reentrantReadWriteLock-key";
+        ReentrantReadWriteLock lock = new ReentrantReadWriteLock();
+        //获取读锁
+        lock.readLock().lock();
+        try{
+            //如果缓存有效, 直接使用data
+            String data = cacheData.get(key);
+            if(StringUtils.isNotEmpty(data)){
+                return data;
+            }
+        }finally {
+            //释放读锁
+            lock.readLock().unlock();
+        }
+
+        //获取写锁
+        lock.writeLock().lock();
+        try{
+            //如果缓存无效，更新cache;
+            String data = "";
+            cacheData.put(key,data);
+            return data;
+        }finally {
+            //释放写锁
+            lock.writeLock().unlock();
         }
     }
 
