@@ -166,4 +166,12 @@ public class DemoController {
     public String testRedis(){
         return demoService.testRedis();
     }
+
+    /**
+     * 桥接方法
+     */
+    @GetMapping(value = "/bridge/method")
+    public String bridgeMethod(){
+        return demoService.bridgeMethod();
+    }
 }

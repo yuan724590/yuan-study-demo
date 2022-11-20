@@ -12,6 +12,7 @@ import org.dozer.DozerBeanMapper;
 import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.common.xcontent.XContentType;
+import org.springframework.core.BridgeMethodResolver;
 import org.springframework.data.geo.Distance;
 import org.springframework.data.geo.GeoResults;
 import org.springframework.data.geo.Metrics;
@@ -25,9 +26,7 @@ import yuan.study.demo.utils.CopierUtil;
 import org.springframework.data.geo.Point;
 import javax.annotation.Resource;
 import java.io.*;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
+import java.lang.reflect.*;
 import java.math.BigDecimal;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -1328,5 +1327,31 @@ public class DemoServiceImpl implements DemoService {
 
         GeoResults<RedisGeoCommands.GeoLocation<String>> geoResults = redisTemplate.opsForGeo().radius(key, student1, new Distance(100, Metrics.KILOMETERS));
         System.out.println("100公里内同学的的坐标为:" + JSON.toJSONString(geoResults.getContent()));
+    }
+
+    @Override
+    public String bridgeMethod(){
+        try {
+            //会获取的两个方法 - 协变返回值类型
+            BridgeChild child = (BridgeChild)Class.forName("yuan.study.demo.entity.BridgeChild").newInstance();
+            Method[] methods = child.getClass().getDeclaredMethods();
+            for(Method method : methods){
+                method.invoke(child, "啦啦啦");
+            }
+
+            //会获取的两个方法 - 类型擦除
+            BridgeChild2 bridgeChild2 = (BridgeChild2)Class.forName("yuan.study.demo.entity.BridgeChild2").newInstance();
+            methods = bridgeChild2.getClass().getDeclaredMethods();
+            for(Method method : methods){
+                method.invoke(bridgeChild2, "啦啦啦");
+            }
+
+            //获取到非桥接的方法
+            Method method = BridgeMethodResolver.findBridgedMethod(bridgeChild2.getClass().getMethod("hello", String.class));
+            method.invoke(bridgeChild2, "啦啦啦");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "success";
     }
 }

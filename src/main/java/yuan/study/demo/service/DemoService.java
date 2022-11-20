@@ -97,4 +97,9 @@ public interface DemoService {
      * 不常用redis的功能
      */
     String testRedis();
+
+    /**
+     * 桥接方法
+     */
+    String bridgeMethod();
 }
