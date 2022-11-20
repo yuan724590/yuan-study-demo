@@ -3,6 +3,7 @@ package yuan.study.demo.service.subjectService.impl;
 import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import yuan.study.demo.entity.ListNode;
 import yuan.study.demo.service.subjectService.SubjectService;
 
 import java.util.*;
@@ -62,13 +63,6 @@ public class SubjectServiceImpl implements SubjectService {
         }else{
             return new ListNode((l1.val + l2.val + carry) % 10, addListNode(l1.next, l2.next, (l1.val + l2.val + carry) / 10));
         }
-    }
-    public class ListNode {
-      int val;
-      ListNode next;
-      ListNode() {}
-      ListNode(int val) { this.val = val; }
-      ListNode(int val, ListNode next) { this.val = val; this.next = next; }
     }
 
     @Override

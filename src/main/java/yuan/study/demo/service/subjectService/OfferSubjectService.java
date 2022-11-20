@@ -51,4 +51,34 @@ public interface OfferSubjectService {
      * 0 <= m <= 1000
      */
     String findNumberIn2DArray();
+
+    /**
+     * 示例 1：
+     *
+     * 输入：s = "We are happy."
+     * 输出："We%20are%20happy."
+     *  
+     *
+     * 限制：
+     *
+     * 0 <= s 的长度 <= 10000
+     */
+    String replaceSpace();
+
+    /**
+     * 输入一个链表的头节点，从尾到头反过来返回每个节点的值（用数组返回）。
+     *
+     *  
+     *
+     * 示例 1：
+     *
+     * 输入：head = [1,3,2]
+     * 输出：[2,3,1]
+     *  
+     *
+     * 限制：
+     *
+     * 0 <= 链表长度 <= 10000
+     */
+    String reversePrint();
 }

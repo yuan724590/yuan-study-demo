@@ -2,6 +2,7 @@ package yuan.study.demo.service.subjectService.impl;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import yuan.study.demo.entity.ListNode;
 import yuan.study.demo.service.subjectService.OfferSubjectService;
 
 @Slf4j
@@ -87,5 +88,55 @@ public class OfferSubjectServiceImpl implements OfferSubjectService {
             }
         }
         return false;
+    }
+
+    @Override
+    public String replaceSpace(){
+        String result = replaceSpace("We are happy.");
+        log.info("执行结果:{}", result);
+        return "success";
+    }
+
+    public String replaceSpace(String s) {
+        if(s == null){
+            return "";
+        }
+        StringBuilder stringBuilder = new StringBuilder();
+        for(int i = 0; i < s.length(); i++){
+            if(' ' == s.charAt(i)){
+                stringBuilder.append("%20");
+            }else{
+                stringBuilder.append(s.charAt(i));
+            }
+        }
+        return stringBuilder.toString();
+    }
+
+    @Override
+    public String reversePrint(){
+        ListNode listNode3 = new ListNode(1, null);
+        ListNode listNode2 = new ListNode(3, listNode3);
+        ListNode listNode1 = new ListNode(2, listNode2);
+        int[] result = reversePrint(listNode1);
+        log.info("执行结果:{}", result);
+        return "success";
+    }
+
+    public int[] reversePrint(ListNode head) {
+        int len = 0;
+        ListNode node = head;
+        while (node != null) {
+            len++;
+            node = node.next;
+        }
+        int[] arr = new int[len];
+
+        node = head;
+        for (int i = len - 1; i > -1; i--) {
+            arr[i] = node.val;
+            node = node.next;
+        }
+
+        return arr;
     }
 }

@@ -30,4 +30,20 @@ public class OfferSubjectController {
     public String findNumberIn2DArray() {
         return subjectService.findNumberIn2DArray();
     }
+
+    /**
+     * 05. 替换空格
+     */
+    @GetMapping(value = "/replace/space")
+    public String replaceSpace() {
+        return subjectService.replaceSpace();
+    }
+
+    /**
+     * 06. 从尾到头打印链表
+     */
+    @GetMapping(value = "/reverse/print")
+    public String reversePrint() {
+        return subjectService.reversePrint();
+    }
 }
