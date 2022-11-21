@@ -4,6 +4,7 @@ package yuan.study.demo.service.impl;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.google.common.base.Charsets;
+import com.google.common.base.Throwables;
 import com.google.common.hash.BloomFilter;
 import com.google.common.hash.Funnels;
 import lombok.extern.slf4j.Slf4j;
@@ -29,7 +30,9 @@ import java.io.*;
 import java.lang.reflect.*;
 import java.math.BigDecimal;
 import java.net.HttpURLConnection;
+import java.net.URI;
 import java.net.URL;
+import java.net.URLClassLoader;
 import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
 import java.text.SimpleDateFormat;
@@ -1352,6 +1355,35 @@ public class DemoServiceImpl implements DemoService {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return "success";
+    }
+
+    @Override
+    public String classLoader(){
+       try{
+           File file = new File("E:\\JAVA\\demo");
+           URI uri = file.toURI();
+           URL url = uri.toURL();
+           URLClassLoader urlClassLoader = new URLClassLoader(new URL[]{url});
+           Class cla = urlClassLoader.loadClass("Test");
+           cla.getDeclaredMethod("say").invoke(cla);
+
+           MyClassLoader myClassLoader = new MyClassLoader("E:\\JAVA\\demo");
+           Class<?> clazz = myClassLoader.loadClass("Test");
+           //调用静态方法
+           clazz.getDeclaredMethod("say").invoke(clazz);
+
+           Object o = clazz.newInstance();
+           Method print = clazz.getDeclaredMethod("print", String.class);
+           print.invoke(o, "调用方法");
+
+           System.out.println(clazz.getClassLoader());
+           System.out.println(clazz.getClassLoader().getParent());
+           System.out.println(clazz.getClassLoader().getParent().getParent());
+           System.out.println(clazz.getClassLoader().getParent().getParent().getParent());
+       }catch (Exception e){
+           log.error("classLoader异常, e:{}", Throwables.getStackTraceAsString(e));
+       }
         return "success";
     }
 }

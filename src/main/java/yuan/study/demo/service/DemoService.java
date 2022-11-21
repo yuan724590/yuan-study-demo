@@ -102,4 +102,9 @@ public interface DemoService {
      * 桥接方法
      */
     String bridgeMethod();
+
+    /**
+     * 类加载器
+     */
+    String classLoader();
 }

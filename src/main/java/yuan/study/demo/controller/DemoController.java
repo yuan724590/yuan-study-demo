@@ -174,4 +174,12 @@ public class DemoController {
     public String bridgeMethod(){
         return demoService.bridgeMethod();
     }
+
+    /**
+     * 类加载器
+     */
+    @GetMapping(value = "/class/loader")
+    public String classLoader(){
+        return demoService.classLoader();
+    }
 }
