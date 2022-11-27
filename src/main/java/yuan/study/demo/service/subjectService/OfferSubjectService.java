@@ -81,4 +81,52 @@ public interface OfferSubjectService {
      * 0 <= 链表长度 <= 10000
      */
     String reversePrint();
+
+    /**
+     * 输入某二叉树的前序遍历和中序遍历的结果，请构建该二叉树并返回其根节点。
+     *
+     * 假设输入的前序遍历和中序遍历的结果中都不含重复的数字。
+     *
+     *  
+     *
+     * 示例 1:
+     *
+     *
+     * Input: preorder = [3,9,20,15,7], inorder = [9,3,15,20,7]
+     * Output: [3,9,20,null,null,15,7]
+     * 示例 2:
+     *
+     * Input: preorder = [-1], inorder = [-1]
+     * Output: [-1]
+     *  
+     *
+     * 限制：
+     *
+     * 0 <= 节点个数 <= 5000
+     */
+    String buildTree();
+
+    /**
+     * 用两个栈实现一个队列。队列的声明如下，请实现它的两个函数 appendTail 和 deleteHead ，分别完成在队列尾部插入整数和在队列头部删除整数的功能。(若队列中没有元素，deleteHead 操作返回 -1 )
+     *
+     *  
+     *
+     * 示例 1：
+     *
+     * 输入：
+     * ["CQueue","appendTail","deleteHead","deleteHead","deleteHead"]
+     * [[],[3],[],[],[]]
+     * 输出：[null,null,3,-1,-1]
+     * 示例 2：
+     *
+     * 输入：
+     * ["CQueue","deleteHead","appendTail","appendTail","deleteHead","deleteHead"]
+     * [[],[],[5],[2],[],[]]
+     * 输出：[null,-1,null,null,5,2]
+     * 提示：
+     *
+     * 1 <= values <= 10000
+     * 最多会对 appendTail、deleteHead 进行 10000 次调用
+     */
+    String twoStackQueue();
 }

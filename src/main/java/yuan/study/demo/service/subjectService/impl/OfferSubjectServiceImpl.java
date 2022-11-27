@@ -1,9 +1,14 @@
 package yuan.study.demo.service.subjectService.impl;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import yuan.study.demo.entity.ListNode;
 import yuan.study.demo.service.subjectService.OfferSubjectService;
+
+import java.util.Arrays;
+import java.util.LinkedList;
 
 @Slf4j
 @Service
@@ -138,5 +143,110 @@ public class OfferSubjectServiceImpl implements OfferSubjectService {
         }
 
         return arr;
+    }
+
+    @Override
+    public String buildTree(){
+        TreeNode result = buildTree(new int[]{3,9,20,15,7}, new int[]{9,3,15,20,7});
+
+        buildTree1(new int[]{3,9,20,15,7}, new int[]{9,3,15,20,7});
+        log.info("执行结果:{}", result);
+        return "success";
+    }
+
+    private int[] preOrder, inOrder;
+
+    public TreeNode buildTree(int[] preorder, int[] inorder) {
+        this.preOrder = preorder;
+        this.inOrder = inorder;
+        return dfs(0, preorder.length - 1, 0, inorder.length - 1);
+    }
+
+    private TreeNode dfs(int preS, int preE, int inS, int inE) {
+        if (preS > preE) return null;
+        TreeNode root = new TreeNode(preOrder[preS]);
+
+        for (int i = inS; i <= inE; i++) {
+            if (inOrder[i] == preOrder[preS]) {
+                root.left = dfs(preS + 1, preS + i - inS, inS, i - 1);
+                root.right = dfs(preS + i - inS + 1, preE, i + 1, inE);
+                break;
+            }
+        }
+        return root;
+    }
+
+    public TreeNode buildTree1(int[] preorder, int[] inorder) {
+        int n = preorder.length;
+        if (n == 0)
+            return null;
+        int rootVal = preorder[0], rootIndex = 0;
+        for (int i = 0; i < n; i++) {
+            if (inorder[i] == rootVal) {
+                rootIndex = i;
+                break;
+            }
+        }
+        TreeNode root = new TreeNode(rootVal);
+        root.left = buildTree1(Arrays.copyOfRange(preorder, 1, 1 + rootIndex), Arrays.copyOfRange(inorder, 0, rootIndex));
+        root.right = buildTree1(Arrays.copyOfRange(preorder, 1 + rootIndex, n), Arrays.copyOfRange(inorder, rootIndex + 1, n));
+
+        return root;
+    }
+
+    @AllArgsConstructor
+    @Data
+    class TreeNode {
+        int val;
+
+        TreeNode left;
+
+        TreeNode right;
+
+        TreeNode(int x) {
+            val = x;
+        }
+    }
+
+    @Override
+    public String twoStackQueue(){
+        CQueue cQueue = new CQueue();
+        cQueue.appendTail(1);
+        cQueue.appendTail(2);
+        cQueue.appendTail(3);
+        cQueue.appendTail(4);
+        System.out.println(cQueue.deleteHead());
+        System.out.println(cQueue.deleteHead());
+        System.out.println(cQueue.deleteHead());
+        System.out.println(cQueue.deleteHead());
+        return "success";
+    }
+
+    class CQueue {
+        LinkedList<Integer> stack1;
+        LinkedList<Integer> stack2;
+
+        public CQueue() {
+            stack1 = new LinkedList<>();
+            stack2 = new LinkedList<>();
+        }
+
+        public void appendTail(int value) {
+            stack1.add(value);
+        }
+
+        public int deleteHead() {
+            if (stack2.isEmpty()) {
+                if (stack1.isEmpty()){
+                    return -1;
+                }
+                while (!stack1.isEmpty()) {
+                    stack2.add(stack1.pop());
+                }
+                return stack2.pop();
+            } else {
+                return stack2.pop();
+            }
+        }
     }
 }

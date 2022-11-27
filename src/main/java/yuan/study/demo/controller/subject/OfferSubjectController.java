@@ -46,4 +46,20 @@ public class OfferSubjectController {
     public String reversePrint() {
         return subjectService.reversePrint();
     }
+
+    /**
+     * 07. 重建二叉树
+     */
+    @GetMapping(value = "/build/tree")
+    public String buildTree() {
+        return subjectService.buildTree();
+    }
+
+    /**
+     * 09. 用两个栈实现队列
+     */
+    @GetMapping(value = "/two/stack/Queue")
+    public String twoStackQueue() {
+        return subjectService.twoStackQueue();
+    }
 }
