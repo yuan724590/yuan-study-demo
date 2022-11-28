@@ -32,6 +32,22 @@ public class DemoController {
     }
 
     /**
+     * cyclicBarrier使用的demo
+     */
+    @PostMapping(value = "/cyclicBarrier", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public String cyclicBarrier() {
+        return demoService.cyclicBarrier();
+    }
+
+    /**
+     * semaphore使用的demo
+     */
+    @PostMapping(value = "/semaphore", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public String semaphore() {
+        return demoService.semaphore();
+    }
+
+    /**
      * ReentrantLock+Condition使用的demo
      */
     @PostMapping(value = "/reentrantLock/and/condition", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)

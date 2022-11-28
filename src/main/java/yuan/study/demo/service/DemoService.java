@@ -14,6 +14,16 @@ public interface DemoService {
     String countDownLatch();
 
     /**
+     * cyclicBarrier使用的demo
+     */
+    String cyclicBarrier();
+
+    /**
+     * semaphore使用的demo
+     */
+    String semaphore();
+
+    /**
      * ReentrantLock+Condition使用的demo
      */
     String reentrantLockAndCondition();

@@ -37,4 +37,20 @@ public class LockController {
     public String conditionSynchronized() {
         return lockService.conditionSynchronized();
     }
+
+    /**
+     * stampedLock
+     */
+    @GetMapping(value = "/stampedLock")
+    public String stampedLock() {
+        return lockService.stampedLock();
+    }
+
+    /**
+     * lockSupport
+     */
+    @GetMapping(value = "/lockSupport")
+    public String lockSupport() {
+        return lockService.lockSupport();
+    }
 }

@@ -1,6 +1,7 @@
 package yuan.study.demo.service.impl;
 
 
+import com.google.common.base.Throwables;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
@@ -8,9 +9,7 @@ import yuan.study.demo.service.LockService;
 
 import java.util.*;
 import java.util.concurrent.*;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
+import java.util.concurrent.locks.*;
 
 
 @Slf4j
@@ -159,5 +158,84 @@ public class LockServiceImpl implements LockService {
             }
         }
         log.info("执行线程:{}, 结束", threadName);
+    }
+
+    @Override
+    public String stampedLock(){
+        StampedLock stampedLock = new StampedLock();
+        //写锁
+        int x = 111, y = 333;
+        long writeLock = stampedLock.writeLock();
+        try {
+            x += new Random().nextInt(10);
+            y += new Random().nextInt(10);
+        } finally {
+            stampedLock.unlockWrite(writeLock);
+        }
+        System.out.println("x= " + x + ", y=" + y);
+
+        //乐观锁
+        long optimisticRead = stampedLock.tryOptimisticRead();
+        if (!stampedLock.validate(optimisticRead)) {
+            optimisticRead = stampedLock.readLock();
+            try {
+                x += new Random().nextInt(10);
+                y += new Random().nextInt(10);
+            } finally {
+                stampedLock.unlockRead(optimisticRead);
+            }
+        }
+        System.out.println("x= " + x + ", y=" + y);
+
+        //读锁转写锁
+        long readLock = stampedLock.readLock();
+        try {
+            while (x == 0.0 && y == 0.0) {
+                writeLock = stampedLock.tryConvertToWriteLock(readLock);
+                if (writeLock != 0L) {
+                    readLock = writeLock;
+                    x += new Random().nextInt(10);
+                    y += new Random().nextInt(10);
+                    break;
+                } else {
+                    stampedLock.unlockRead(readLock);
+                    readLock = stampedLock.writeLock();
+                }
+            }
+        } finally {
+            stampedLock.unlock(readLock);
+        }
+        System.out.println("x= " + x + ", y=" + y);
+        return "success";
+    }
+
+    @Override
+    public String lockSupport(){
+        try{
+            changeObjectThread.start();
+            changeObjectThread.interrupt();
+        }catch (Exception e){
+            log.error("lockSupport异常, e:{}", Throwables.getStackTraceAsString(e));
+        }
+        return "success";
+    }
+
+    private static ChangeObjectThread changeObjectThread = new ChangeObjectThread("changeObjectThread");
+
+    public static class ChangeObjectThread extends Thread {
+
+        public ChangeObjectThread(String name) {
+            super(name);
+        }
+
+        @Override
+        public void run() {
+            System.out.println("in " + getName());
+            LockSupport.park();
+            if (Thread.currentThread().isInterrupted()) {
+                System.out.println("被中断了");
+            }
+            System.out.println("继续执行");
+        }
     }
 }

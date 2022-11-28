@@ -54,14 +54,14 @@ public class MapDemoServiceImpl implements MapDemoService {
     @Override
     public String mapCompare(){
         //线程安全的Map
-        Map<Integer, Boolean> hashtableMap = new Hashtable<>();
-        Future future1 = syncPut(hashtableMap);
-        Future future2 = syncPut(hashtableMap);
+        Map<Integer, Boolean> hashTableMap = new Hashtable<>();
+        Future future1 = syncPut(hashTableMap);
+        Future future2 = syncPut(hashTableMap);
         futureGet(future1);
         futureGet(future2);
-        System.out.println(hashtableMap);
+        System.out.println(hashTableMap);
 
-        //相当于线程不安全的Hashtable, 也有更多的实现方法
+        //相当于线程不安全的HashTable, 也有更多的实现方法
         Map<Integer, Boolean> map = new HashMap<>();
         Future future3 = syncPut(map);
         Future future4 = syncPut(map);

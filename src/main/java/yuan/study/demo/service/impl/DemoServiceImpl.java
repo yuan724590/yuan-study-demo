@@ -105,6 +105,62 @@ public class DemoServiceImpl implements DemoService {
     }
 
     @Override
+    public String cyclicBarrier(){
+        CyclicBarrier cyclicBarrier = new CyclicBarrier(3, () -> {
+            System.out.println("汇总1 ...");
+            try {
+                Thread.sleep(3000);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            System.out.println("汇总2 ...");
+        });
+        for(int i = 0;i < 3;i ++) {
+            new Thread(() -> {
+                try {
+                    Thread.sleep((long)(Math.random() * 2000));
+
+                    int randomInt = new Random().nextInt(500);
+                    System.out.println("hello " + randomInt);
+
+                    cyclicBarrier.await();
+
+                    System.out.println("world " + randomInt);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }).start();
+        }
+        return "success";
+    }
+
+    @Override
+    public String semaphore(){
+        Semaphore semaphore = new Semaphore(3);
+
+        for (int i = 0; i < 5; i++) {
+            new Thread(() -> {
+                try {
+                    semaphore.acquire();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+                try {
+                    System.out.println(Thread.currentThread().getName() + " start...");
+                    TimeUnit.SECONDS.sleep(1);
+                    System.out.println(Thread.currentThread().getName() + " end...");
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } finally {
+                    semaphore.release();
+                }
+            }).start();
+        }
+        return "success";
+    }
+
+    @Override
     public String reentrantLockAndCondition(){
         ReentrantLock lock = new ReentrantLock();
         Condition condition = lock.newCondition();

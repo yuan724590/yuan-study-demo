@@ -17,4 +17,14 @@ public interface LockService {
      * synchronized锁增加条件使用
      */
     String conditionSynchronized();
+
+    /**
+     * stampedLock
+     */
+    String stampedLock();
+
+    /**
+     * lockSupport
+     */
+    String lockSupport();
 }
