@@ -21,9 +21,22 @@
         <snakeyaml.version>1.23</snakeyaml.version>
         <jackson-datatype-jsr310.version>2.9.9</jackson-datatype-jsr310.version>
         <guava.version>28.1-jre</guava.version>
+        <jmh.version>1.36</jmh.version>
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>org.openjdk.jmh</groupId>
+            <artifactId>jmh-core</artifactId>
+            <version>${jmh.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.openjdk.jmh</groupId>
+            <artifactId>jmh-generator-annprocess</artifactId>
+            <version>${jmh.version}</version>
+        </dependency>
+
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
             <artifactId>jackson-datatype-jsr310</artifactId>
