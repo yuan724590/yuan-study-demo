@@ -13,6 +13,10 @@ import org.dozer.DozerBeanMapper;
 import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.common.xcontent.XContentType;
+import org.redisson.Redisson;
+import org.redisson.api.RBlockingDeque;
+import org.redisson.api.RDelayedQueue;
+import org.redisson.api.RedissonClient;
 import org.springframework.core.BridgeMethodResolver;
 import org.springframework.data.geo.Distance;
 import org.springframework.data.geo.GeoResults;
@@ -53,6 +57,9 @@ public class DemoServiceImpl implements DemoService {
 
     @Resource
     private RedisTemplate redisTemplate;
+
+    @Resource
+    private RedissonClient redissonClient;
 
     private static ExecutorService cachedThreadPool = Executors.newCachedThreadPool();
 
@@ -1329,7 +1336,35 @@ public class DemoServiceImpl implements DemoService {
 
         redisGeo();
 
+        String queue = "yuan-study-demo:blockingDeque";
+        delayedQueue("设置value值", queue);
+        getDelayQueue(queue);
         return "success";
+    }
+
+    public <T> void getDelayQueue(String queueCode){
+        try{
+            RBlockingDeque blockingDeque = redissonClient.getBlockingDeque(queueCode);
+            while (true){
+                T value = (T) blockingDeque.take();
+                log.info("getDelayQueue收到消息, 入参:{}, 结果:{}", queueCode, JSON.toJSONString(value));
+            }
+        }catch (Exception e){
+            log.error("getDelayQueue执行异常, 入参:{}, e:{}", queueCode, Throwables.getStackTraceAsString(e));
+        }
+    }
+
+    private void delayedQueue(String value, String queue){
+        RBlockingDeque blockingDeque = redissonClient.getBlockingDeque(queue);
+        RDelayedQueue delayedQueue = redissonClient.getDelayedQueue(blockingDeque);
+        blockingDeque.expire(3, TimeUnit.SECONDS);
+        delayedQueue.expire(3, TimeUnit.SECONDS);
+        if(delayedQueue.size() > 1){
+            log.error("队列已满, 丢弃数据, size={}", delayedQueue.size());
+            return;
+        }
+        log.info("设置数据, size={}, value:{}", delayedQueue.size(), value);
+        delayedQueue.offer(value, 2, TimeUnit.SECONDS);
     }
 
     private void redisBit(){

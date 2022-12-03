@@ -22,9 +22,16 @@
         <jackson-datatype-jsr310.version>2.9.9</jackson-datatype-jsr310.version>
         <guava.version>28.1-jre</guava.version>
         <jmh.version>1.36</jmh.version>
+        <redisson.version>3.18.0</redisson.version>
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>org.redisson</groupId>
+            <artifactId>redisson-spring-boot-starter</artifactId>
+            <version>${redisson.version}</version>
+        </dependency>
+
         <dependency>
             <groupId>org.openjdk.jmh</groupId>
             <artifactId>jmh-core</artifactId>
