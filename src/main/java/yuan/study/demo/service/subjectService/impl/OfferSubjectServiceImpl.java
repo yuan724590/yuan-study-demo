@@ -249,4 +249,48 @@ public class OfferSubjectServiceImpl implements OfferSubjectService {
             }
         }
     }
+
+    @Override
+    public String fib(){
+        System.out.println("计算结果为:" + fib(90));
+        return "success";
+    }
+
+    public int fib(int n) {
+        if (n <= 1) {
+            return n;
+        }
+        int first = 0, second = 1, result = 0;
+        while (--n > 0) {
+            result = first + second;
+            if (result >= 1000000007) {
+                result -= 1000000007;
+            }
+            first = second;
+            second = result;
+        }
+        return result;
+    }
+
+    @Override
+    public String numWays(){
+        System.out.println("计算结果为:" + numWays(4));
+        return "success";
+    }
+
+    public int numWays(int n) {
+        return getStep(n);
+    }
+
+    private int getStep(int n){
+        if(n < 2)
+            return 1;
+        int a = 1, b = 1;
+        for(int i = 2; i <= n; i++){
+            a = a + b;
+            b = a - b;
+            a = a >= 1000000007 ? (a - 1000000007) : a;
+        }
+        return a;
+    }
 }

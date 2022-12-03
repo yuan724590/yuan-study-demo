@@ -62,4 +62,20 @@ public class OfferSubjectController {
     public String twoStackQueue() {
         return subjectService.twoStackQueue();
     }
+
+    /**
+     * 10- I. 斐波那契数列
+     */
+    @GetMapping(value = "/fib")
+    public String fib() {
+        return subjectService.fib();
+    }
+
+    /**
+     * 10- II. 青蛙跳台阶问题
+     */
+    @GetMapping(value = "/numWays")
+    public String numWays() {
+        return subjectService.numWays();
+    }
 }
