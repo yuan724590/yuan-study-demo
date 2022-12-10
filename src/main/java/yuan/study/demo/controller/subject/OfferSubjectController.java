@@ -78,4 +78,20 @@ public class OfferSubjectController {
     public String numWays() {
         return subjectService.numWays();
     }
+
+    /**
+     * 11. 旋转数组的最小数字
+     */
+    @GetMapping(value = "/minArray")
+    public String minArray() {
+        return subjectService.minArray();
+    }
+
+    /**
+     * 12. 矩阵中的路径
+     */
+    @GetMapping(value = "/exist")
+    public String exist() {
+        return subjectService.exist();
+    }
 }

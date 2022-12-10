@@ -293,4 +293,62 @@ public class OfferSubjectServiceImpl implements OfferSubjectService {
         }
         return a;
     }
+
+    @Override
+    public String minArray(){
+        System.out.println("计算结果为:" + minArray(new int[]{3,3,1,3}));
+        return "success";
+    }
+
+    public int minArray(int[] numbers) {
+        for (int i = 1; i < numbers.length; i++) {
+            if(numbers[i - 1] > numbers[i]) {
+                return numbers[i];
+            }
+        }
+        return numbers[0];
+    }
+
+    @Override
+    public String exist(){
+        boolean flag = exist(new char[][]{{'A','B','C','E'},{'S','F','E','S'},{'A','D','E','E'}}, "ABCESEEEFS");
+        System.out.println("计算结果为:" + flag);
+        return "success";
+    }
+
+    public boolean exist(char[][] board, String word) {
+        if (board == null || board.length == 0 || board[0].length == 0) {
+            return false;
+        }
+
+        char[] chars = word.toCharArray();
+        boolean[][] visited = new boolean[board.length][board[0].length];
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board[0].length; j++) {
+                // 从 (0, 0) 点开始进行 dfs 操作，不断地去找，
+                // 如果以 (0, 0) 点没有对应的路径的话，那么就从 (0, 1) 点开始去找
+                if (dfs(board, chars, visited, i, j, 0)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private boolean dfs(char[][] board, char[] chars, boolean[][] visited, int i, int j, int start) {
+        if (i < 0 || i >= board.length || j < 0 || j >= board[0].length
+                || chars[start] != board[i][j] || visited[i][j]) {
+            return false;
+        }
+        if (start == chars.length - 1) {
+            return true;
+        }
+        visited[i][j] = true;
+        boolean ans = dfs(board, chars, visited, i + 1, j, start + 1)
+                || dfs(board, chars, visited, i - 1, j, start + 1)
+                || dfs(board, chars, visited, i, j + 1, start + 1)
+                || dfs(board, chars, visited, i, j - 1, start + 1);
+        visited[i][j] = false;
+        return ans;
+    }
 }
