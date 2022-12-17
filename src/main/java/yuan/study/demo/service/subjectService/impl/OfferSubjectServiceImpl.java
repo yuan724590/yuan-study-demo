@@ -351,4 +351,60 @@ public class OfferSubjectServiceImpl implements OfferSubjectService {
         visited[i][j] = false;
         return ans;
     }
+
+    @Override
+    public String cuttingRope(){
+        System.out.println("计算结果为:" + cuttingRope(8));
+        return "success";
+    }
+
+    public int cuttingRope(int n) {
+        if (n == 1 || n == 2)
+            return 1;
+        if (n == 3)
+            return 2;
+        int sum = 1;
+        while (n > 4){
+            sum *= 3;
+            n -= 3;
+        }
+        return sum * n;
+    }
+
+    @Override
+    public String cuttingRope2(){
+        System.out.println("计算结果为:" + cuttingRope2(1000010003));
+        return "success";
+    }
+
+    public int cuttingRope2(int n) {
+        if(n == 2)
+            return 1;
+        if(n == 3)
+            return 2;
+        long res = 1;
+        while(n > 4){
+            res *= 3;
+            res = res % 1000000007;
+            n -= 3;
+        }
+        return (int)(res * n % 1000000007);
+    }
+
+    @Override
+    public String hammingWeight(){
+        System.out.println("计算结果为:" + hammingWeight(128));
+        return "success";
+    }
+
+    public int hammingWeight(int n) {
+//        return Integer.bitCount(n);
+
+        int count = 0;
+        while(n != 0){
+            count++;
+            n = n & (n - 1);
+        }
+        return count;
+    }
 }

@@ -94,4 +94,28 @@ public class OfferSubjectController {
     public String exist() {
         return subjectService.exist();
     }
+
+    /**
+     * 14- I. 剪绳子
+     */
+    @GetMapping(value = "/cutting/rope")
+    public String cuttingRope() {
+        return subjectService.cuttingRope();
+    }
+
+    /**
+     * 14- II. 剪绳子 II
+     */
+    @GetMapping(value = "/cutting/rope2")
+    public String cuttingRope2() {
+        return subjectService.cuttingRope2();
+    }
+
+    /**
+     * 15. 二进制中1的个数
+     */
+    @GetMapping(value = "/hamming/weight")
+    public String hammingWeight() {
+        return subjectService.hammingWeight();
+    }
 }
