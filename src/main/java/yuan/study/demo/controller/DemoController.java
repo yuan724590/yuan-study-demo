@@ -198,4 +198,12 @@ public class DemoController {
     public String classLoader(){
         return demoService.classLoader();
     }
+
+    /**
+     * bitSet
+     */
+    @GetMapping(value = "/bitSet")
+    public String bitSet(){
+        return demoService.bitSet();
+    }
 }

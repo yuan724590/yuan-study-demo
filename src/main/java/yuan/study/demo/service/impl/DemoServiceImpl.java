@@ -7,6 +7,7 @@ import com.google.common.base.Charsets;
 import com.google.common.base.Throwables;
 import com.google.common.hash.BloomFilter;
 import com.google.common.hash.Funnels;
+import com.google.common.util.concurrent.RateLimiter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.beanutils.BeanUtils;
 import org.dozer.DozerBeanMapper;
@@ -14,9 +15,7 @@ import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.common.xcontent.XContentType;
 import org.redisson.Redisson;
-import org.redisson.api.RBlockingDeque;
-import org.redisson.api.RDelayedQueue;
-import org.redisson.api.RedissonClient;
+import org.redisson.api.*;
 import org.springframework.core.BridgeMethodResolver;
 import org.springframework.data.geo.Distance;
 import org.springframework.data.geo.GeoResults;
@@ -1330,6 +1329,10 @@ public class DemoServiceImpl implements DemoService {
     @Override
     public String testRedis(){
 
+        redisLimiter();
+
+        redisLock();
+
         redisBit();
 
         redisHyperLogLog();
@@ -1340,6 +1343,39 @@ public class DemoServiceImpl implements DemoService {
         delayedQueue("设置value值", queue);
         getDelayQueue(queue);
         return "success";
+    }
+
+    private void redisLimiter(){
+        RRateLimiter rateLimiter = redissonClient.getRateLimiter("yuan-study-demo:redisLimiter");
+        //分布式模式(也可换为单机模式), 每10s生成一个令牌
+        rateLimiter.trySetRate(RateType.OVERALL, 1, 10, RateIntervalUnit.SECONDS);
+        if(rateLimiter.tryAcquire(1)){
+            System.out.println("我拿到了一个令牌, 所以能执行");
+        }else{
+            System.out.println("令牌无了");
+        }
+        if(rateLimiter.tryAcquire(1)){
+            System.out.println("我又拿到了一个令牌, 所以能执行");
+        }else{
+            System.out.println("令牌又无了");
+        }
+    }
+
+    private void redisLock(){
+        RLock lock = redissonClient.getLock("yuan.study.demo:redisLock");
+        boolean flag = false;
+        try {
+            flag = lock.tryLock(2, 2, TimeUnit.SECONDS);
+            if(flag){
+                System.out.println("我拿到锁了!! 嘿嘿嘿");
+            }
+        } catch (Exception e) {
+            log.error("redisLock 异常, e:{}", Throwables.getStackTraceAsString(e));
+        }finally {
+            if(flag){
+                lock.unlock();
+            }
+        }
     }
 
     public <T> void getDelayQueue(String queueCode){
@@ -1451,7 +1487,7 @@ public class DemoServiceImpl implements DemoService {
 
     @Override
     public String classLoader(){
-       try{
+        try{
            File file = new File("E:\\JAVA\\demo");
            URI uri = file.toURI();
            URL url = uri.toURL();
@@ -1472,9 +1508,27 @@ public class DemoServiceImpl implements DemoService {
            System.out.println(clazz.getClassLoader().getParent());
            System.out.println(clazz.getClassLoader().getParent().getParent());
            System.out.println(clazz.getClassLoader().getParent().getParent().getParent());
-       }catch (Exception e){
-           log.error("classLoader异常, e:{}", Throwables.getStackTraceAsString(e));
-       }
+        }catch (Exception e){
+            log.error("classLoader异常, e:{}", Throwables.getStackTraceAsString(e));
+        }
+        return "success";
+    }
+
+    @Override
+    public String bitSet(){
+        BitSet bitSet = new BitSet();
+        bitSet.set(5, true);
+        bitSet.set(6, true);
+        bitSet.set(7, true);
+        bitSet.clear(6);
+        BitSet bitSet1 = bitSet.get(1,3);
+
+        BitMap bitMap = new BitMap(1000);
+        bitMap.setBit(100);
+        bitMap.setBit(400);
+        System.out.println(bitMap.getBit(100));
+        bitMap.deleteBit(100);
+        System.out.println(bitMap.getBit(100));
         return "success";
     }
 }

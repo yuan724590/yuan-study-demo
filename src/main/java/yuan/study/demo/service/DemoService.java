@@ -117,4 +117,6 @@ public interface DemoService {
      * 类加载器
      */
     String classLoader();
+
+    String bitSet();
 }
