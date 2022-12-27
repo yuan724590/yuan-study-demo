@@ -118,4 +118,20 @@ public class OfferSubjectController {
     public String hammingWeight() {
         return subjectService.hammingWeight();
     }
+
+    /**
+     * 16. 数值的整数次方
+     */
+    @GetMapping(value = "/myPow")
+    public String myPow() {
+        return subjectService.myPow();
+    }
+
+    /**
+     * 17. 打印从1到最大的n位数
+     */
+    @GetMapping(value = "/print/numbers")
+    public String printNumbers() {
+        return subjectService.printNumbers();
+    }
 }

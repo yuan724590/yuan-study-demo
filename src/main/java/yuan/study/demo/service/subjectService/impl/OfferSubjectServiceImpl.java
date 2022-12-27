@@ -1,5 +1,6 @@
 package yuan.study.demo.service.subjectService.impl;
 
+import com.alibaba.fastjson.JSON;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
@@ -7,8 +8,10 @@ import org.springframework.stereotype.Service;
 import yuan.study.demo.entity.ListNode;
 import yuan.study.demo.service.subjectService.OfferSubjectService;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
+import java.util.List;
 
 @Slf4j
 @Service
@@ -407,4 +410,61 @@ public class OfferSubjectServiceImpl implements OfferSubjectService {
         }
         return count;
     }
+
+    @Override
+    public String myPow(){
+        System.out.println("计算结果为:" + myPow(0.1, 2));
+        return "success";
+    }
+
+    public double myPow(double x, int n) {
+        if(n == 0) return 1;
+        if(n == 1) return x;
+        if(n == -1) return 1 / x;
+        double half = myPow(x, n / 2);
+        double mod = myPow(x, n % 2);
+        return half * half * mod;
+    }
+
+    @Override
+    public String printNumbers(){
+        System.out.println("计算结果为:" + JSON.toJSONString(printNumbers(2)));
+        return "success";
+    }
+
+    public int[] printNumbers1(int n) {
+        int value = (int)Math.pow(10, n);
+        int[] arr = new int[value - 1];
+        for(int i = 1; i < value; i++){
+            arr[i - 1] = i;
+        }
+        return arr;
+    }
+
+
+    List<String> ans = new ArrayList<>();
+    public List<String> printNumbers(int n) {
+        StringBuilder sb = new StringBuilder();
+        for(int i = 1;i <= n; ++i){//总位数
+            for(char j = '1'; j <='9'; ++j){
+                sb.append(j);
+                dfs(i, 1, sb);
+                sb.deleteCharAt(sb.length()-1);
+            }
+        }
+        return ans;
+    }
+
+    private void dfs(int len, int idx, StringBuilder sb){
+        if(idx == len){
+            ans.add(sb.toString());
+            return;
+        }
+        for(char j = '0'; j <='9'; ++j){
+            sb.append(j);
+            dfs(len, idx+1, sb);
+            sb.deleteCharAt(sb.length()-1);
+        }
+    }
 }
+
