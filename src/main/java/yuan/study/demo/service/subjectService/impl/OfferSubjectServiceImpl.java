@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import yuan.study.demo.entity.ListNode;
 import yuan.study.demo.service.subjectService.OfferSubjectService;
@@ -465,6 +466,74 @@ public class OfferSubjectServiceImpl implements OfferSubjectService {
             dfs(len, idx+1, sb);
             sb.deleteCharAt(sb.length()-1);
         }
+    }
+
+    @Override
+    public String deleteNode(){
+        ListNode listNode3 = new ListNode(1, null);
+        ListNode listNode2 = new ListNode(3, listNode3);
+        ListNode listNode1 = new ListNode(2, listNode2);
+        System.out.println("计算结果为:" + JSON.toJSONString(deleteNode(listNode1, 2)));
+        return "success";
+    }
+
+    public ListNode deleteNode(ListNode head, int val) {
+        if(head == null){
+            return null;
+        }
+        // 虚拟头节点，统一处理
+        ListNode dummy = new ListNode(-1);
+        dummy.next = head;
+        // 辅助节点
+        ListNode temp = dummy;
+        while(temp.next != null){
+            if(temp.next.val == val){
+                temp.next = temp.next.next;
+                break;
+            }
+            temp = temp.next;
+        }
+        return dummy.next;
+
+    }
+
+    @Override
+    public String isMatch(){
+        System.out.println("计算结果为:" + JSON.toJSONString(isMatch("aaa", "ab*ac*a")));
+        return "success";
+    }
+
+    public boolean isMatch(String s, String p) {
+        if (p.equals(".*")) {
+            return true;
+        }
+
+        // 用dp[i][j]表示p的前i个字符和s的前j个字符的匹配情况
+        int sLen = s.length(), pLen = p.length();
+        boolean[][] dp = new boolean[pLen + 1][sLen + 1];
+
+        // 初始化, 空串可以和空串匹配
+        dp[0][0] = true;
+        // p为空，s非空时，p和s不匹配，所以dp[0][j]都等于false
+
+        for (int i = 1; i <= pLen; ++i) {
+            char pChar = p.charAt(i - 1);
+            for (int j = 0; j <= sLen; ++j) {
+                if (j == 0) {
+                    if (pChar == '*' && i > 1) {
+                        dp[i][j] = dp[i - 2][j];
+                    }
+                } else if (s.charAt(j - 1) == pChar || pChar == '.') {
+                    dp[i][j] = dp[i - 1][j - 1];
+                } else if (pChar == '*' && i > 1) {
+                    dp[i][j] = dp[i - 2][j];
+                    if (s.charAt(j - 1) == p.charAt(i - 2) || p.charAt(i - 2) == '.') {
+                        dp[i][j] = dp[i][j] || dp[i][j - 1];
+                    }
+                }
+            }
+        }
+        return dp[pLen][sLen];
     }
 }
 

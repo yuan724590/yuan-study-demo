@@ -134,4 +134,20 @@ public class OfferSubjectController {
     public String printNumbers() {
         return subjectService.printNumbers();
     }
+
+    /**
+     * 18. 删除链表的节点
+     */
+    @GetMapping(value = "/delete/node")
+    public String deleteNode() {
+        return subjectService.deleteNode();
+    }
+
+    /**
+     * 19. 正则表达式匹配
+     */
+    @GetMapping(value = "/is/match")
+    public String isMatch() {
+        return subjectService.isMatch();
+    }
 }
