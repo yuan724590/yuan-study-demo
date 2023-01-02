@@ -12,4 +12,9 @@ public interface SpringService {
      * aop
      */
     String aop();
+
+    /**
+     * 事件
+     */
+    String event();
 }

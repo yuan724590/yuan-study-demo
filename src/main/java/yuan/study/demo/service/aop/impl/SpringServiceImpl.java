@@ -13,16 +13,21 @@ import org.springframework.aop.aspectj.annotation.AspectJProxyFactory;
 import org.springframework.aop.framework.AdvisedSupport;
 import org.springframework.aop.framework.AdvisedSupportListener;
 import org.springframework.aop.framework.ProxyFactory;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ReflectionUtils;
 import yuan.study.demo.configuration.TestConfiguration;
+import yuan.study.demo.entity.Book;
 import yuan.study.demo.entity.MyThrowsAdvice;
 import yuan.study.demo.service.aop.SpringService;
 import yuan.study.demo.configuration.AspectJConfiguration;
 import yuan.study.demo.service.aop.ServiceInterceptor;
 import yuan.study.demo.service.designPattern.proxy.*;
+import yuan.study.demo.utils.BookRegisterEvent;
+
+import javax.annotation.Resource;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
@@ -33,6 +38,9 @@ import java.util.Map;
 @Slf4j
 @Service
 public class SpringServiceImpl implements SpringService {
+
+    @Resource
+    public ApplicationEventPublisher applicationEventPublisher;
 
     @Override
     public String dynamicProxy(){
@@ -180,5 +188,12 @@ public class SpringServiceImpl implements SpringService {
 
     public void afterThrowing(){
         System.out.println("执行下afterThrowing");
+    }
+
+    @Override
+    public String event(){
+
+        applicationEventPublisher.publishEvent(new BookRegisterEvent(new Book(1, "书名")));
+        return "success";
     }
 }

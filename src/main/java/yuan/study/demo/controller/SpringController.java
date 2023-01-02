@@ -24,10 +24,18 @@ public class SpringController {
     }
 
     /**
-     * 动态代理
+     * aop
      */
     @GetMapping(value = "/spring/aop", produces = MediaType.APPLICATION_JSON_VALUE)
     public String aop() {
         return springService.aop();
+    }
+
+    /**
+     * 事件
+     */
+    @GetMapping(value = "/spring/event", produces = MediaType.APPLICATION_JSON_VALUE)
+    public String event() {
+        return springService.event();
     }
 }
