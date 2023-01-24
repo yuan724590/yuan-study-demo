@@ -150,4 +150,52 @@ public class OfferSubjectController {
     public String isMatch() {
         return subjectService.isMatch();
     }
+
+    /**
+     * 20. 表示数值的字符串
+     */
+    @GetMapping(value = "/is/number")
+    public String isNumber() {
+        return subjectService.isNumber();
+    }
+
+    /**
+     * 21. 调整数组顺序使奇数位于偶数前面
+     */
+    @GetMapping(value = "/exchange")
+    public String exchange() {
+        return subjectService.exchange();
+    }
+
+    /**
+     * 22. 链表中倒数第k个节点
+     */
+    @GetMapping(value = "/getKthFromEnd")
+    public String getKthFromEnd() {
+        return subjectService.getKthFromEnd();
+    }
+
+    /**
+     * 24. 反转链表
+     */
+    @GetMapping(value = "/reverse/list")
+    public String reverseList() {
+        return subjectService.reverseList();
+    }
+
+    /**
+     * 25. 合并两个排序的链表
+     */
+    @GetMapping(value = "/merge/two/lists/24")
+    public String mergeTwoLists() {
+        return subjectService.mergeTwoLists();
+    }
+
+    /**
+     * 26. 树的子结构
+     */
+    @GetMapping(value = "/is/sub/structure")
+    public String isSubStructure() {
+        return subjectService.isSubStructure();
+    }
 }

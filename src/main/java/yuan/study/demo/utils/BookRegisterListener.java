@@ -12,15 +12,15 @@ import yuan.study.demo.entity.Book;
 public class BookRegisterListener {
 
     @EventListener
-    public void sendMsgAgain(BookRegisterEvent bookRegisterEvent) {
-        Book book = (Book) bookRegisterEvent.getSource();
-        log.info("第二次调用, 再次发送消息，书:{}", JSON.toJSONString(book));
-    }
-
-    @EventListener
     public void sendMsg(BookRegisterEvent bookRegisterEvent) {
         Book book = (Book) bookRegisterEvent.getSource();
         log.info("第一次调用, 发送消息，书:{}", JSON.toJSONString(book));
+    }
+
+    @EventListener
+    public void sendMsgAgain(BookRegisterEvent bookRegisterEvent) {
+        Book book = (Book) bookRegisterEvent.getSource();
+        log.info("第二次调用, 再次发送消息，书:{}", JSON.toJSONString(book));
     }
 
     @EventListener

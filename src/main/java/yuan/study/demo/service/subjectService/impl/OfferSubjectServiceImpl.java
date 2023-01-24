@@ -4,7 +4,6 @@ import com.alibaba.fastjson.JSON;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import yuan.study.demo.entity.ListNode;
 import yuan.study.demo.service.subjectService.OfferSubjectService;
@@ -535,5 +534,194 @@ public class OfferSubjectServiceImpl implements OfferSubjectService {
         }
         return dp[pLen][sLen];
     }
-}
 
+    @Override
+    public String isNumber(){
+        System.out.println("计算结果为:" + JSON.toJSONString(isNumber("6+1")));
+        return "success";
+    }
+
+    /**
+     * ‘.’出现正确情况：只出现一次，且在e的前面
+     * ‘e’出现正确情况：只出现一次，且出现前有数字
+     * ‘+’‘-’出现正确情况：只能在开头和e后一位
+     */
+    public boolean isNumber(String s) {
+        if (s == null || s.length() == 0) return false;
+        //去掉首位空格
+        s = s.trim();
+        boolean numFlag = false;
+        boolean dotFlag = false;
+        boolean eFlag = false;
+        for (int i = 0; i < s.length(); i++) {
+
+            if (s.charAt(i) >= '0' && s.charAt(i) <= '9') {
+                //判定为数字，则标记numFlag
+                numFlag = true;
+            } else if (s.charAt(i) == '.' && !dotFlag && !eFlag) {
+                //判定为.  需要没出现过.并且没出现过e
+                dotFlag = true;
+            } else if ((s.charAt(i) == 'e' || s.charAt(i) == 'E') && !eFlag && numFlag) {
+                //判定为e，需要没出现过e，并且出过数字了
+                eFlag = true;
+                //为了避免123e这种请求，出现e之后就标志为false
+                numFlag = false;
+            } else if ((s.charAt(i) == '+' || s.charAt(i) == '-') && (i == 0 || s.charAt(i - 1) == 'e' || s.charAt(i - 1) == 'E')) {
+                //判定为+-符号，只能出现在第一位或者紧接e后面
+            } else {
+                //其他情况，都是非法的
+                return false;
+            }
+        }
+        return numFlag;
+    }
+
+    @Override
+    public String exchange(){
+        System.out.println("计算结果为:" + JSON.toJSONString(exchange(new int[]{1,2,3,4})));
+        return "success";
+    }
+
+    public int[] exchange(int[] nums) {
+        int left = 0;
+        int right = nums.length - 1;
+        while (left < right) {
+            while (left < right && nums[left] % 2 != 0) {
+                left++;
+            }
+            while (left < right && nums[right] % 2 == 0) {
+                right--;
+            }
+            if (left < right) {
+                int temp = nums[left];
+                nums[left] = nums[right];
+                nums[right] = temp;
+            }
+        }
+        return nums;
+    }
+
+    @Override
+    public String getKthFromEnd(){
+        ListNode listNode3 = new ListNode(1, null);
+        ListNode listNode2 = new ListNode(2, listNode3);
+        ListNode listNode1 = new ListNode(3, listNode2);
+        System.out.println("计算结果为:" + JSON.toJSONString(getKthFromEnd(listNode1, 2)));
+        return "success";
+    }
+
+    public ListNode getKthFromEnd(ListNode head, int k) {
+
+        ListNode frontNode = head, behindNode = head;
+        while (frontNode != null && k > 0) {
+            frontNode = frontNode.next;
+            k--;
+        }
+
+        while (frontNode != null) {
+            frontNode = frontNode.next;
+            behindNode = behindNode.next;
+        }
+
+        return behindNode;
+    }
+
+    @Override
+    public String reverseList(){
+        ListNode listNode3 = new ListNode(1, null);
+        ListNode listNode2 = new ListNode(2, listNode3);
+        ListNode listNode1 = new ListNode(3, listNode2);
+        System.out.println("计算结果为:" + JSON.toJSONString(reverseList(listNode1)));
+        return "success";
+    }
+
+    public ListNode reverseList(ListNode head) {
+        ListNode pre = null, cur = head, next;
+        for(;;){
+            if(cur == null){
+                break;
+            }
+            next = cur.next;
+            cur.next = pre;
+            pre = cur;
+            cur = next;
+        }
+        return pre;
+    }
+
+    @Override
+    public String mergeTwoLists(){
+        ListNode listNode3 = new ListNode(3, null);
+        ListNode listNode2 = new ListNode(2, listNode3);
+        ListNode listNode1 = new ListNode(1, listNode2);
+
+        ListNode listNode33 = new ListNode(5, null);
+        ListNode listNode22 = new ListNode(3, listNode33);
+        ListNode listNode11 = new ListNode(1, listNode22);
+        System.out.println("计算结果为:" + JSON.toJSONString(mergeTwoLists(listNode1, listNode11)));
+        return "success";
+    }
+
+    public ListNode mergeTwoLists(ListNode list1, ListNode list2) {
+        ListNode head = new ListNode(-1);
+        ListNode headNode = head;
+        while(list1 != null || list2 != null) {
+
+            if (list1 == null) {
+                while(list2 != null) {
+                    head.next = list2;
+                    list2 = list2.next;
+                    head = head.next;
+                }
+                return headNode.next;
+            } else if (list2 == null) {
+                while(list1 != null) {
+                    head.next = list1;
+                    list1 = list1.next;
+                    head = head.next;
+                }
+                return headNode.next;
+            }
+            if (list1.val > list2.val) {
+                head.next = list2;
+                list2 = list2.next;
+                head = head.next;
+            } else {
+                head.next = list1;
+                list1 = list1.next;
+                head = head.next;
+            }
+        }
+        return headNode.next;
+    }
+
+    @Override
+    public String isSubStructure(){
+        TreeNode treeNode = new TreeNode(1);
+        treeNode.left = new TreeNode(0);
+        treeNode.right = new TreeNode(1);
+        treeNode.left.left = new TreeNode(-4);
+        treeNode.left.right = new TreeNode(3);
+
+        TreeNode treeNodeB = new TreeNode(1);
+        treeNodeB.left = new TreeNode(-4);
+        System.out.println("计算结果为:" + JSON.toJSONString(isSubStructure(treeNode, treeNodeB)));
+        return "success";
+    }
+
+    public boolean isSubStructure(TreeNode A, TreeNode B) {
+        if(A == null || B == null) {
+            return false;
+        }
+        return dfs(A, B) || isSubStructure(A.left, B) || isSubStructure(A.right, B);
+    }
+    public boolean dfs(TreeNode A, TreeNode B){
+        if(B == null) {
+            return true;
+        }
+        if(A == null) {
+            return false;
+        }
+        return A.val == B.val && dfs(A.left, B.left) && dfs(A.right, B.right);
+    }
+}
