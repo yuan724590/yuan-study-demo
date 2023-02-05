@@ -198,4 +198,20 @@ public class OfferSubjectController {
     public String isSubStructure() {
         return subjectService.isSubStructure();
     }
+
+    /**
+     * 27. 二叉树的镜像
+     */
+    @GetMapping(value = "/mirror/tree")
+    public String mirrorTree() {
+        return subjectService.mirrorTree();
+    }
+
+    /**
+     * 28. 对称的二叉树
+     */
+    @GetMapping(value = "/is/symmetric")
+    public String isSymmetric() {
+        return subjectService.isSymmetric();
+    }
 }

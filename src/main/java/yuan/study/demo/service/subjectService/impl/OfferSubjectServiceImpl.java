@@ -724,4 +724,55 @@ public class OfferSubjectServiceImpl implements OfferSubjectService {
         }
         return A.val == B.val && dfs(A.left, B.left) && dfs(A.right, B.right);
     }
+
+    @Override
+    public String mirrorTree(){
+        TreeNode treeNode = new TreeNode(1);
+        treeNode.left = new TreeNode(0);
+        treeNode.right = new TreeNode(1);
+        treeNode.left.left = new TreeNode(-4);
+        treeNode.left.right = new TreeNode(3);
+        mirrorTree(treeNode);
+        System.out.println("计算结果为:" + JSON.toJSONString(treeNode));
+        return "success";
+    }
+
+    private void mirrorTree(TreeNode root){
+        if(root == null){
+            return;
+        }
+        TreeNode right = root.right;
+        root.right = root.left;
+        root.left = right;
+        mirrorTree(root.left);
+        mirrorTree(root.right);
+    }
+
+    @Override
+    public String isSymmetric(){
+        TreeNode treeNode = new TreeNode(1);
+        treeNode.left = new TreeNode(0);
+//        treeNode.right = new TreeNode(1);
+//        treeNode.left.left = new TreeNode(-4);
+//        treeNode.left.right = new TreeNode(3);
+        System.out.println("计算结果为:" + JSON.toJSONString(isSymmetric(treeNode)));
+        return "success";
+    }
+
+    public boolean isSymmetric(TreeNode root) {
+        if (root == null){
+            return true;
+        }
+        return isSymmetric(root.left, root.right);
+    }
+
+    private boolean isSymmetric(TreeNode left, TreeNode right) {
+        if (left == null && right == null){
+            return true;
+        }
+        if (left == null || right == null){
+            return false;
+        }
+        return left.val == right.val && isSymmetric(left.left, right.right) && isSymmetric(left.right, right.left);
+    }
 }
