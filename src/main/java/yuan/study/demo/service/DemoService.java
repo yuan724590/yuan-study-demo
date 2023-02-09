@@ -119,4 +119,9 @@ public interface DemoService {
     String classLoader();
 
     String bitSet();
+
+    /**
+     * 读写excel
+     */
+    String readAndWriteExcel();
 }

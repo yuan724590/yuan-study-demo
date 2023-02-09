@@ -10,6 +10,10 @@ import com.google.common.hash.Funnels;
 import com.google.common.util.concurrent.RateLimiter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.beanutils.BeanUtils;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.dozer.DozerBeanMapper;
 import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.client.RestHighLevelClient;
@@ -712,7 +716,7 @@ public class DemoServiceImpl implements DemoService {
             log.info("基数排序的结果为:{}", dataArray);
             return;
         }
-        bucketSort(dataArray);
+        radixSort(dataArray);
         log.info("基数排序的结果为:{}", dataArray);
     }
 
@@ -1529,6 +1533,35 @@ public class DemoServiceImpl implements DemoService {
         System.out.println(bitMap.getBit(100));
         bitMap.deleteBit(100);
         System.out.println(bitMap.getBit(100));
+        return "success";
+    }
+
+    @Override
+    public String readAndWriteExcel(){
+        try {
+            Workbook workbook = new HSSFWorkbook();
+            FileOutputStream out = new FileOutputStream("E:\\迅雷下载\\这里\\demo.xlsx");
+            Sheet sheet = workbook.createSheet("第一个sheet");
+            Sheet sheet2 = workbook.createSheet("第二个sheet");
+            Row row = sheet.createRow(0);
+            row.createCell(0).setCellValue("A1");
+            row.createCell(1).setCellValue("B1");
+            row.createCell(2).setCellValue("C1");
+            Row row2 = sheet.createRow(1);
+            row2.createCell(0).setCellValue("A2");
+            row2.createCell(1).setCellValue("B2");
+            row2.createCell(2).setCellValue("C2");
+            workbook.write(out);
+
+            Workbook book = new HSSFWorkbook(new FileInputStream("E:\\迅雷下载\\这里\\demo.xlsx"));
+            sheet = book.getSheetAt(0);
+            for(int i = 0; i < sheet.getLastRowNum(); i++){
+                row = sheet.getRow(i);
+                log.info("行号:{}, 值为:{},{},{}", i, row.getCell(0), row.getCell(1), row.getCell(2));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return "success";
     }
 }

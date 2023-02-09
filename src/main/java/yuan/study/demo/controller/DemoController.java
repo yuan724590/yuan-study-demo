@@ -206,4 +206,12 @@ public class DemoController {
     public String bitSet(){
         return demoService.bitSet();
     }
+
+    /**
+     * 读写excel
+     */
+    @GetMapping(value = "/read/write/excel")
+    public String readAndWriteExcel(){
+        return demoService.readAndWriteExcel();
+    }
 }
