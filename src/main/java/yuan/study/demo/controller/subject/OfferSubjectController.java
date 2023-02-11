@@ -214,4 +214,20 @@ public class OfferSubjectController {
     public String isSymmetric() {
         return subjectService.isSymmetric();
     }
+
+    /**
+     * 29. 顺时针打印矩阵
+     */
+    @GetMapping(value = "/spiral/order")
+    public String spiralOrder() {
+        return subjectService.spiralOrder();
+    }
+
+    /**
+     * 30. 包含min函数的栈
+     */
+    @GetMapping(value = "/min/stack")
+    public String minStack() {
+        return subjectService.minStack();
+    }
 }

@@ -775,4 +775,109 @@ public class OfferSubjectServiceImpl implements OfferSubjectService {
         }
         return left.val == right.val && isSymmetric(left.left, right.right) && isSymmetric(left.right, right.left);
     }
+
+    @Override
+    public String spiralOrder(){
+        System.out.println("计算结果为:" + JSON.toJSONString(spiralOrder(new int[][]{{3}, {4}, {5}})));
+        return "success";
+    }
+
+    public int[] spiralOrder(int[][] matrix) {
+        int row = matrix.length;
+        if (row == 0) {
+            return new int[0];
+        }
+        int col = matrix[0].length;
+        int[] res = new int[row * col];
+        int idx = 0, left = 0, top = 0, right = col - 1, bottom = row - 1;
+        while (true) {
+            //从左往右走
+            for (int i = left; i <= right; i++) {
+                res[idx++] = matrix[top][i];
+            }
+            if (++top > bottom) {
+                break;
+            }
+            //从上往下走
+            for (int i = top; i <= bottom; i++) {
+                res[idx++] = matrix[i][right];
+            }
+            if (--right < left) {
+                break;
+            }
+            //从右往左走
+            for (int i = right; i >= left; i--) {
+                res[idx++] = matrix[bottom][i];
+            }
+            if (--bottom < top) {
+                break;
+            }
+            //从下往上走
+            for (int i = bottom; i >= top; i--) {
+                res[idx++] = matrix[i][left];
+            }
+            if (++left > right) {
+                break;
+            }
+        }
+        return res;
+    }
+
+    @Override
+    public String minStack(){
+        MinStack minStack = new MinStack();
+        minStack.push(1);
+        minStack.push(2);
+        minStack.push(3);
+        minStack.push(4);
+        minStack.pop();
+        System.out.println("top计算结果为:" + minStack.top());
+        System.out.println("min计算结果为:" + minStack.min());
+        return "success";
+    }
+
+    class MinStack{
+        private Node head;
+
+        public MinStack() {
+
+        }
+
+        public void push(int x) {
+
+            if (head == null)
+                head = new Node(x, x, null);
+            else
+                head = new Node(x, Math.min(head.min, x), head);
+        }
+
+        public void pop() {
+
+            head = head.next;
+        }
+
+        public int top() {
+
+            return head.val;
+        }
+
+        public int min() {
+
+            return head.min;
+        }
+
+        private class Node {
+
+            int val;
+            int min;
+            Node next;
+
+            public Node(int val, int min, Node next) {
+
+                this.val = val;
+                this.min = min;
+                this.next = next;
+            }
+        }
+    }
 }

@@ -690,6 +690,7 @@ public class DemoServiceImpl implements DemoService {
         //插入排序
         insertionSort();
         //双列插入排序
+        pairInsertionSortByJDK();
         pairInsertionSort();
         //归并排序
         mergeSort();
@@ -848,10 +849,48 @@ public class DemoServiceImpl implements DemoService {
     }
 
     /**
-     * 双列插入排序
-     * 在左边元素比较大时，会越界
+     * 双列插入排序(通用实现)
      */
-    private void pairInsertionSort(){
+    private void pairInsertionSort() {
+        //获取随机数组
+        int[] dataArray = getRandomArray();
+        if (dataArray.length <= 1){
+            log.info("双列插入排序(通用实现)排序的结果为:{}", dataArray);
+            return;
+        }
+        int i, start = 0, end = 0, k, length = dataArray.length;
+        int[] temp = new int[length];
+        temp[0] = dataArray[0];
+        for (i = 1; i < length; i ++){
+            if (dataArray[i] < temp[start]){
+                // 待插入元素比最小的元素小
+                start = (start - 1 + length) % length;
+                temp[start] = dataArray[i];
+            } else if (dataArray[i] > temp[end]){
+                // 待插入元素比最大元素大
+                end = (end + 1 + length) % length;
+                temp[end] = dataArray[i];
+            } else {
+                // 插入元素比最小大，比最大小
+                k = (end + 1 + length) % length;
+                //当插入值比当前值小时，需要移动当前值的位置
+                while (temp[((k - 1) + length) % length] > dataArray[i]) {
+                    temp[(k + length) % length] = temp[(k - 1 + length) % length];
+                    k = (k - 1 + length) % length;
+                }
+                //插入该值
+                temp[(k + length) % length] = dataArray[i];
+                //因为最大值的位置改变，所以需要实时更新结尾的位置
+                end = (end + 1 + length) % length;
+            }
+        }
+        log.info("双列插入排序排序的结果为:{}", temp);
+    }
+
+    /**
+     * 双列插入排序(JDK实现)
+     */
+    private void pairInsertionSortByJDK(){
         //获取随机数组
         int[] dataArray = getRandomArray();
         if (dataArray.length <= 1){
@@ -873,19 +912,19 @@ public class DemoServiceImpl implements DemoService {
                 a2 = a1;
                 a1 = dataArray[left];
             }
-            while (a1 < dataArray[--k]) {
+            while (k > 0 && a1 < dataArray[--k]) {
                 dataArray[k + 2] = dataArray[k];
             }
             dataArray[++k + 1] = a1;
 
-            while (a2 < dataArray[--k]) {
+            while (k > 0 && a2 < dataArray[--k]) {
                 dataArray[k + 1] = dataArray[k];
             }
             dataArray[k + 1] = a2;
         }
         int last = dataArray[right];
 
-        while (last < dataArray[--right]) {
+        while (right > 0 && last < dataArray[--right]) {
             dataArray[right + 1] = dataArray[right];
         }
         dataArray[right + 1] = last;
@@ -1137,35 +1176,41 @@ public class DemoServiceImpl implements DemoService {
         log.info("双轴快速排序的结果为:{}, 花费时间为:{}ms", dataArray, System.currentTimeMillis() - startTimestamp);
     }
 
-    private void dualPivotQuicksort(int[] a, int left, int right){
-        do {
-            if (left >= right) {
-                return;
-            }
-        } while (a[++left] >= a[left - 1]);
-
-        for (int k = left; ++left <= right; k = ++left) {
-            int a1 = a[k], a2 = a[left];
-
-            if (a1 < a2) {
-                a2 = a1; a1 = a[left];
-            }
-            while (a1 < a[--k]) {
-                a[k + 2] = a[k];
-            }
-            a[++k + 1] = a1;
-
-            while (a2 < a[--k]) {
-                a[k + 1] = a[k];
-            }
-            a[k + 1] = a2;
+    private void dualPivotQuicksort(int[] dataArray, int lowIndex, int highIndex){
+        if(lowIndex < highIndex){
+            int part = dualPivotPartition(dataArray, lowIndex, highIndex);
+            //递归调用, 处理其左序列
+            quickSortRealization(dataArray, lowIndex,part - 1);
+            //递归调用, 处理其右序列
+            quickSortRealization(dataArray, part + 1, highIndex);
         }
-        int last = a[right];
+    }
 
-        while (last < a[--right]) {
-            a[right + 1] = a[right];
+    /**
+     * 划分方法
+     */
+    private int dualPivotPartition(int[] dataArray, int left, int right){
+        int data = dataArray[left];
+        int lt = left + 1;
+        int rt = right;
+        while(true){
+            while(lt <= rt && dataArray[lt] < data){
+                lt++;
+            }
+            while(lt <= rt && dataArray[rt] > data){
+                rt--;
+            }
+            if(lt > rt){
+                break;
+            }
+            // 交换
+            swap(dataArray, lt, rt);
+            lt++;
+            rt--;
         }
-        a[right + 1] = last;
+        // 交换
+        swap(dataArray, left, rt);
+        return rt;
     }
 
     /**
@@ -1179,67 +1224,43 @@ public class DemoServiceImpl implements DemoService {
             return;
         }
         long startTimestamp = System.currentTimeMillis();
-        Random random = new Random();
-        dataArray = triplePivotQuicksort(dataArray, 0, dataArray.length - 1, 0, random);
+        dataArray = triplePivotQuicksort(dataArray, 0, dataArray.length - 1);
         log.info("三轴快排的结果为:{}, 花费时间为:{}ms", dataArray, System.currentTimeMillis() - startTimestamp);
     }
 
     /**
      * 三轴快排
      */
-    public int[] triplePivotQuicksort(int[] arr, int left, int right, int temp, Random random){
+    public int[] triplePivotQuicksort(int[] arr, int left, int right){
         if (left >= right){
             return null;
         }
 
-        int[] res = partition3ways(arr, left, right, temp, random);
-
-        triplePivotQuicksort(arr, left, res[0], temp, random);
-        triplePivotQuicksort(arr, res[1], right, temp, random);
-        return arr;
-    }
-
-    /**
-     * 循环不变量：arr[left + 1, lt] < v，arr[lt + 1, i - 1] == v，arr[gt, right] > v
-     */
-    public int[] partition3ways(int[] arr, int left, int right, int temp, Random random){
-
-        //随机选择标定点，和arr[left]互换
-        int p = random.nextInt(right - left + 1) + left;
-
-        swap(arr, p, left, temp);
-
+        int data = arr[left];
         int i = left + 1;
         int lt = left;
-        int gt = right + 1;
+        int rt = right;
 
-        //i == gt时,arr[gt]肯定大于arr[left]，所以要结束循环
-        while (i < gt){
-            if (arr[i] < arr[left]){
-                //当arr[i] < arr[left]时，将arr[i]和arr[lt + 1]互换，i继续向前
+        while (i <= rt){
+            if (arr[i] < data){
+                swap(arr, lt, i);
                 lt++;
-                swap(arr, lt, i, temp);
                 i++;
-            }else if (arr[i] == arr[left]){
-                //当arr[i] == arr[left]时，lt不动，i继续向前
+            }else if (arr[i] == data){
                 i++;
-            }else if (arr[i] > arr[left]){
-                //当arr[i] > arr[left]时，将arr[i]和arr[gt - 1]互换，i不动，因为换过来的元素还要进行判断
-                gt--;
-                swap(arr, gt, i, temp);
+            }else if (arr[i] > data){
+                swap(arr, rt, i);
+                rt--;
             }
         }
 
-        //遍历结束后，将arr[lt]和arr[left]互换，此时元素区间发生了改变
-        //arr[left, lt - 1] < v，arr[lt, gt - 1] == v，arr[gt, right] > v
-        //其中等于arr[left]的区间不用再返回，只需返回两侧区间的索引
-        swap(arr, lt, left, temp);
-        int[] res = {lt - 1, gt};
-        return res;
+        triplePivotQuicksort(arr, left, lt - 1);
+        triplePivotQuicksort(arr, rt + 1, right);
+        return arr;
     }
 
-    public void swap(int[] arr, int i, int j, int temp){
-        temp = arr[i];
+    public void swap(int[] arr, int i, int j){
+        int temp = arr[i];
         arr[i] = arr[j];
         arr[j] = temp;
     }
