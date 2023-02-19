@@ -8,10 +8,7 @@ import org.springframework.stereotype.Service;
 import yuan.study.demo.entity.ListNode;
 import yuan.study.demo.service.subjectService.OfferSubjectService;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 @Slf4j
 @Service
@@ -879,5 +876,69 @@ public class OfferSubjectServiceImpl implements OfferSubjectService {
                 this.next = next;
             }
         }
+    }
+
+    @Override
+    public String validateStackSequences(){
+        int[] pushed = new int[]{1,2,3,4,5};
+        int[] popped = new int[]{4,5,3,2,1};
+        System.out.println("validateStackSequences计算结果为:" + validateStackSequences(pushed, popped));
+        return "success";
+    }
+
+    public boolean validateStackSequences(int[] pushed, int[] popped) {
+
+        Deque<Integer> stack = new ArrayDeque<>();
+        int j = 0;
+        for (int elem : pushed) {
+            stack.push(elem);
+            while (!stack.isEmpty() && stack.peek() == popped[j]) {
+                stack.pop();
+                j++;
+            }
+        }
+        return j == popped.length;
+    }
+
+    @Override
+    public String levelOrder(){
+        TreeNode treeNode = new TreeNode(1);
+        treeNode.left = new TreeNode(0);
+        treeNode.right = new TreeNode(1);
+        treeNode.left.left = new TreeNode(-4);
+        treeNode.left.right = new TreeNode(3);
+        System.out.println("levelOrder计算结果为:" + JSON.toJSONString(levelOrder(treeNode)));
+        return "success";
+    }
+
+    private List<List<Integer>> levelOrderListList = new ArrayList<>();
+
+    private int k = 0;
+
+    public int[] levelOrder(TreeNode root) {
+        dfs(root,0);
+        int[] res = new int[k];
+        int j = 0;
+        for(int i = 0; i < levelOrderListList.size(); i++){
+            for(int num: levelOrderListList.get(i)){
+                res[j] = num;
+                j++;
+            }
+        }
+        return res;
+    }
+
+    private void dfs(TreeNode root,int depth){
+        if(root == null){
+            return;
+        }
+
+        if(levelOrderListList.size() < depth + 1){
+            levelOrderListList.add(new ArrayList<>());
+        }
+        levelOrderListList.get(depth).add(root.val);
+        k++;
+        dfs(root.left,depth + 1);
+        dfs(root.right,depth + 1);
     }
 }

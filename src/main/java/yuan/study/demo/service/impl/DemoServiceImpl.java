@@ -884,6 +884,9 @@ public class DemoServiceImpl implements DemoService {
                 end = (end + 1 + length) % length;
             }
         }
+        for(k = 0; k < length; k++){
+            dataArray[k] = temp[(start + k) % length];
+        }
         log.info("双列插入排序排序的结果为:{}", temp);
     }
 

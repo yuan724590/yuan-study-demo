@@ -230,4 +230,20 @@ public class OfferSubjectController {
     public String minStack() {
         return subjectService.minStack();
     }
+
+    /**
+     * 31. 栈的压入、弹出序列
+     */
+    @GetMapping(value = "/validate/stack/sequences")
+    public String validateStackSequences() {
+        return subjectService.validateStackSequences();
+    }
+
+    /**
+     * 32 - I. 从上到下打印二叉树
+     */
+    @GetMapping(value = "/level/order")
+    public String levelOrder() {
+        return subjectService.levelOrder();
+    }
 }
