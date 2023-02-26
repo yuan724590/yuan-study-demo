@@ -246,4 +246,28 @@ public class OfferSubjectController {
     public String levelOrder() {
         return subjectService.levelOrder();
     }
+
+    /**
+     * 32 - II. 从上到下打印二叉树 II
+     */
+    @GetMapping(value = "/level/order/two")
+    public String levelOrderTwo() {
+        return subjectService.levelOrderTwo();
+    }
+
+    /**
+     * 32 - III. 从上到下打印二叉树 III
+     */
+    @GetMapping(value = "/level/order/three")
+    public String levelOrderThree() {
+        return subjectService.levelOrderThree();
+    }
+
+    /**
+     * 33. 二叉搜索树的后序遍历序列
+     */
+    @GetMapping(value = "/verify/post/order")
+    public String verifyPostOrder() {
+        return subjectService.verifyPostOrder();
+    }
 }

@@ -928,7 +928,7 @@ public class OfferSubjectServiceImpl implements OfferSubjectService {
         return res;
     }
 
-    private void dfs(TreeNode root,int depth){
+    private void dfs(TreeNode root, int depth){
         if(root == null){
             return;
         }
@@ -940,5 +940,92 @@ public class OfferSubjectServiceImpl implements OfferSubjectService {
         k++;
         dfs(root.left,depth + 1);
         dfs(root.right,depth + 1);
+    }
+
+    @Override
+    public String levelOrderTwo(){
+        TreeNode treeNode = new TreeNode(1);
+        treeNode.left = new TreeNode(0);
+        treeNode.right = new TreeNode(1);
+        treeNode.left.left = new TreeNode(-4);
+        treeNode.left.right = new TreeNode(3);
+        System.out.println("levelOrderTwo计算结果为:" + JSON.toJSONString(levelOrderTwo(treeNode)));
+        return "success";
+    }
+
+    public List<List<Integer>> levelOrderTwo(TreeNode root) {
+        dfs(root,0);
+        return levelOrderListList;
+    }
+
+    @Override
+    public String levelOrderThree(){
+        TreeNode treeNode = new TreeNode(1);
+        treeNode.left = new TreeNode(0);
+        treeNode.right = new TreeNode(1);
+        treeNode.left.left = new TreeNode(-4);
+        treeNode.left.right = new TreeNode(3);
+        System.out.println("levelOrderThree计算结果为:" + JSON.toJSONString(levelOrderThree(treeNode)));
+        return "success";
+    }
+
+    public List<List<Integer>> levelOrderThree(TreeNode root) {
+        dfs(root,0);
+        for(int i = 1; i < levelOrderListList.size(); i += 2){
+            Collections.reverse(levelOrderListList.get(i));
+        }
+        return levelOrderListList;
+    }
+
+    @Override
+    public String verifyPostOrder(){
+        int[] postOrder = new int[]{1,3,2,6,5};
+        System.out.println("verifyPostOrder计算结果为:" + JSON.toJSONString(verifyPostorder(postOrder)));
+        return "success";
+    }
+
+    /**
+     * 二叉搜索树中根节点的值大于左子树中的任何一个节点的值，小于右子树中任何一个节点的值，子树也是
+     */
+    public boolean verifyPostorder(int[] postorder) {
+        if (postorder.length < 2){
+            return true;
+        }
+        return verify(postorder, 0, postorder.length - 1);
+    }
+
+    private boolean verify(int[] postorder, int left, int right){
+        if (left >= right){
+            // 当前区域不合法的时候直接返回true就好
+            return true;
+        }
+
+        // 当前树的根节点的值
+        int rootValue = postorder[right];
+
+        int k = left;
+        while (k < right && postorder[k] < rootValue){
+            // 从当前区域找到第一个大于根节点的，说明后续区域数值都在右子树中
+            k++;
+        }
+
+        for (int i = k; i < right; i++){
+            // 进行判断后续的区域是否所有的值都是大于当前的根节点，如果出现小于的值就直接返回false
+            if (postorder[i] < rootValue) {
+                return false;
+            }
+        }
+
+        // 当前树没问题就检查左右子树
+        if (!verify(postorder, left, k - 1)) {
+            // 检查左子树
+            return false;
+        }
+        if (!verify(postorder, k, right - 1)) {
+            // 检查右子树
+            return false;
+        }
+        // 最终都没问题就返回true
+        return true;
     }
 }
