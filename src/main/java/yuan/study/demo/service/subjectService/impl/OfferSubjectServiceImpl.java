@@ -1028,4 +1028,122 @@ public class OfferSubjectServiceImpl implements OfferSubjectService {
         // 最终都没问题就返回true
         return true;
     }
+
+    @Override
+    public String pathSum(){
+        TreeNode treeNode = new TreeNode(5);
+        treeNode.left = new TreeNode(4);
+        treeNode.left.left = new TreeNode(11);
+        treeNode.left.left.left = new TreeNode(7);
+        treeNode.left.left.right = new TreeNode(2);
+        treeNode.right = new TreeNode(8);
+        treeNode.right.left = new TreeNode(13);
+        treeNode.right.right = new TreeNode(4);
+        treeNode.right.right.left = new TreeNode(5);
+        treeNode.right.right.right = new TreeNode(1);
+        System.out.println("pathSum计算结果为:" + JSON.toJSONString(pathSum(treeNode, 22)));
+        return "success";
+    }
+
+    List<Integer> list = new ArrayList<>();
+    List<List<Integer>> listList = new ArrayList<>();
+
+    public List<List<Integer>> pathSum(TreeNode root, int target) {
+        if(root == null){
+            return listList;
+        }
+        pathSumByList(root, target);
+        return listList;
+    }
+
+    private void pathSumByList(TreeNode root, int target){
+        list.add(root.val);
+        if(target == root.val && root.left == null && root.right == null){
+            listList.add(new ArrayList<>(list));
+        }else{
+            if(root.left != null){
+                pathSum(root.left, target - root.val);
+                list.remove(list.size() - 1);
+            }
+            if(root.right != null) {
+                pathSum(root.right, target - root.val);
+                list.remove(list.size() - 1);
+            }
+        }
+    }
+
+    class Node {
+        int val;
+        Node next;
+        Node random;
+
+        public Node(int val) {
+            this.val = val;
+            this.next = null;
+            this.random = null;
+        }
+    }
+
+    @Override
+    public String copyRandomList(){
+        Node node1 = new Node(7);
+        Node node2 = new Node(13);
+        Node node3 = new Node(11);
+        Node node4 = new Node(10);
+        Node node5 = new Node(1);
+        node1.next = node2;
+        node2.next = node3;
+        node3.next = node4;
+        node4.next = node5;
+        node1.random = null;
+        node2.random = node1;
+        node3.random = node5;
+        node4.random = node3;
+        node5.random = node1;
+        Node node = copyRandomList(node1);
+        while(node != null){
+            Integer random = node.random == null ? null : node.random.val;
+            System.out.println("value:" + node.val + ", random.value:" + random);
+            node = node.next;
+        }
+        return "success";
+    }
+
+    public Node copyRandomList(Node head) {
+        if (head == null) {
+            return null;
+        }
+        // 完成链表节点的复制
+        Node cur = head;
+        while (cur != null) {
+            Node copyNode = new Node(cur.val);
+            copyNode.next = cur.next;
+            cur.next = copyNode;
+            cur = cur.next.next;
+        }
+
+        // 完成链表复制节点的随机指针复制
+        cur = head;
+        while (cur != null) {
+            // 注意判断原来的节点有没有random指针
+            if (cur.random != null) {
+                cur.next.random = cur.random.next;
+            }
+            cur = cur.next.next;
+        }
+
+        // 将链表一分为二
+        Node copyHead = head.next;
+        cur = head;
+        Node curCopy = head.next;
+        while (cur != null) {
+            cur.next = cur.next.next;
+            cur = cur.next;
+            if (curCopy.next != null) {
+                curCopy.next = curCopy.next.next;
+                curCopy = curCopy.next;
+            }
+        }
+        return copyHead;
+    }
 }

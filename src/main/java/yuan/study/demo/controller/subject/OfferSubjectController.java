@@ -270,4 +270,20 @@ public class OfferSubjectController {
     public String verifyPostOrder() {
         return subjectService.verifyPostOrder();
     }
+
+    /**
+     * 34. 二叉树中和为某一值的路径
+     */
+    @GetMapping(value = "/path/sum")
+    public String pathSum() {
+        return subjectService.pathSum();
+    }
+
+    /**
+     * 35. 复杂链表的复制
+     */
+    @GetMapping(value = "/copy/random/list")
+    public String copyRandomList() {
+        return subjectService.copyRandomList();
+    }
 }
