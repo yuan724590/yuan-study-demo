@@ -945,13 +945,11 @@ public class DemoServiceImpl implements DemoService {
             return;
         }
         //增量长度
-        double gap = dataArray.length;
-        int dk, sentinel, k;
+        int dk = dataArray.length, sentinel, k;
         while(true){
             //逐渐减小增量长度
-            gap = (int)Math.ceil(gap / 2);
             //确定增量长度
-            dk = (int)gap;
+            dk = dk / 2;
             for(int i = 0; i < dk; i++){
                 //用增量将序列分割，分别进行直接插入排序。随着增量变小为1，最后整体进行直接插入排序
                 for(int j = i + dk; j < dataArray.length; j = j + dk){

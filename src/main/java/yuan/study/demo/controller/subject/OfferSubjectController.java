@@ -286,4 +286,20 @@ public class OfferSubjectController {
     public String copyRandomList() {
         return subjectService.copyRandomList();
     }
+
+    /**
+     * 36. 二叉搜索树与双向链表
+     */
+    @GetMapping(value = "/tree/to/doubly/list")
+    public String treeToDoublyList() {
+        return subjectService.treeToDoublyList();
+    }
+
+    /**
+     * 37. 序列化二叉树
+     */
+    @GetMapping(value = "/serialize/tree")
+    public String serializeTree() {
+        return subjectService.serializeTree();
+    }
 }

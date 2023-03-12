@@ -4,11 +4,13 @@ import com.alibaba.fastjson.JSON;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import yuan.study.demo.entity.ListNode;
 import yuan.study.demo.service.subjectService.OfferSubjectService;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -1146,4 +1148,108 @@ public class OfferSubjectServiceImpl implements OfferSubjectService {
         }
         return copyHead;
     }
+
+    @Override
+    public String treeToDoublyList(){
+        TreeNode treeNode = new TreeNode(4);
+        treeNode.left = new TreeNode(2);
+        treeNode.right = new TreeNode(5);
+        treeNode.left.left = new TreeNode(1);
+        treeNode.left.right = new TreeNode(3);
+        System.out.println("treeToDoublyList计算结果为:" + JSON.toJSONString(treeToDoublyList(treeNode)));
+        return "success";
+    }
+
+    TreeNode pre, head;
+    public TreeNode treeToDoublyList(TreeNode root) {
+        // 边界值
+        if(root == null) {
+            return null;
+        }
+        dfs(root);
+
+        // 头尾连接
+        head.left = pre;
+        pre.right = head;
+        // 返回头节点
+        return head;
+    }
+
+    private void dfs(TreeNode cur) {
+        // 递归结束条件
+        if(cur == null){
+            return;
+        }
+        dfs(cur.left);
+
+        if (pre == null){
+            // 如果pre为空，就说明是第一个节点，头结点，然后用head保存头结点，用于之后的返回
+            head = cur;
+        } else {
+            // 如果不为空，那就说明是中间的节点。并且pre保存的是上一个节点，
+            // 让上一个节点的右指针指向当前节点
+            pre.right = cur;
+        }
+        // 再让当前节点的左指针指向父节点，也就连成了双向链表
+        cur.left = pre;
+        // 保存当前节点，用于下层递归创建
+        pre = cur;
+        dfs(cur.right);
+    }
+
+    @Override
+    public String serializeTree(){
+        TreeNode treeNode = new TreeNode(4);
+        treeNode.left = new TreeNode(2);
+        treeNode.right = new TreeNode(5);
+        treeNode.left.left = new TreeNode(1);
+        treeNode.left.right = new TreeNode(3);
+        System.out.println("serialize计算结果为:" + JSON.toJSONString(serialize(treeNode)));
+        System.out.println("deserialize计算结果为:" + JSON.toJSONString(deserialize("1,2,3,null,null,4,5")));
+        return "success";
+    }
+
+    public String serialize(TreeNode root) {
+        if(root == null){
+            return "null,";
+        }
+        String res = root.val + ",";
+        res += serialize(root.left);
+        res += serialize(root.right);
+        return res;
+    }
+
+    // Decodes your encoded data to tree.
+    public TreeNode deserialize(String data) {
+        String[] arr = data.split(",");
+        Queue<String> queue = new LinkedList<>();
+        for(int i = 0; i < arr.length; i++){
+            queue.offer(arr[i]);
+        }
+        return help(queue);
+    }
+    public TreeNode help(Queue<String> queue){
+        String val = queue.poll();
+        if("null".equals(val)){
+            return null;
+        }
+        TreeNode root = new TreeNode(Integer.valueOf(val));
+        root.left = help(queue);
+        root.right = help(queue);
+        return root;
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
