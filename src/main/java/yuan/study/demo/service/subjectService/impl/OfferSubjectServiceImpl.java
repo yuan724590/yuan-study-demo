@@ -4,13 +4,11 @@ import com.alibaba.fastjson.JSON;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import yuan.study.demo.entity.ListNode;
 import yuan.study.demo.service.subjectService.OfferSubjectService;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -1237,6 +1235,67 @@ public class OfferSubjectServiceImpl implements OfferSubjectService {
         root.left = help(queue);
         root.right = help(queue);
         return root;
+    }
+
+    @Override
+    public String permutation(){
+        System.out.println("permutation计算结果为:" + JSON.toJSONString(permutation("abc")));
+        return "success";
+    }
+
+    List<String> permutationList = new ArrayList<>();
+
+    public String[] permutation(String s) {
+        char[] chs = s.toCharArray();
+        Arrays.sort(chs);
+        s = new String(chs);
+
+        int len = s.length();
+        boolean[] used = new boolean[len];
+        StringBuilder path = new StringBuilder();
+        dfs(s.toCharArray(), len, used, path);
+        return permutationList.toArray(new String[0]);
+    }
+
+    private void dfs(char[] c, int len, boolean[] used, StringBuilder path){
+        if(path.length() == len){
+            permutationList.add(path.toString());
+            return;
+        }
+
+        for(int i = 0; i < len; i++){
+            if(i > 0 && !used[i-1] && c[i] == c[i-1]) continue;
+
+            if(!used[i]){
+                path.append(c[i]);
+                used[i] = true;
+                dfs(c, len, used, path);
+                path.deleteCharAt(path.length() - 1);
+                used[i] = false;
+            }
+        }
+    }
+
+    @Override
+    public String majorityElement(){
+        System.out.println("majorityElement计算结果为:" + JSON.toJSONString(majorityElement(new int[]{1, 2, 3, 2, 2, 2, 5, 4, 2})));
+        return "success";
+    }
+
+    /**
+     * 时间O(n)，空间O(1)
+     */
+    public int majorityElement(int[] nums) {
+        int res = 0, count = 0;
+        for(int i = 0; i < nums.length; i++){
+            if(count == 0){
+                res = nums[i];
+                count++;
+            } else {
+                count = res == nums[i] ? count + 1 : count - 1;
+            }
+        }
+        return res;
     }
 }
 

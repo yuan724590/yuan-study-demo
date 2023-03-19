@@ -302,4 +302,20 @@ public class OfferSubjectController {
     public String serializeTree() {
         return subjectService.serializeTree();
     }
+
+    /**
+     * 38. 字符串的排列
+     */
+    @GetMapping(value = "/permutation")
+    public String permutation() {
+        return subjectService.permutation();
+    }
+
+    /**
+     * 39. 数组中出现次数超过一半的数字
+     */
+    @GetMapping(value = "/majority/element")
+    public String majorityElement() {
+        return subjectService.majorityElement();
+    }
 }
