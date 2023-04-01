@@ -819,33 +819,54 @@ public class DemoServiceImpl implements DemoService {
             log.info("桶排序的结果为:{}", dataArray);
             return;
         }
-        bucketSort(dataArray);
-        log.info("桶排序的结果为:{}", dataArray);
+        log.info("桶排序的结果为:{}", bucketSort(dataArray, 5));
     }
 
-    private void bucketSort(int[] dataArray) {
-        // 找到最大值最小值
-        int max = dataArray[0], min = dataArray[0];
-        for (int i = 0; i < dataArray.length; i++) {
-            if (dataArray[i] > max){
-                max = dataArray[i];
-            }
-            if (dataArray[i] < min){
-                min = dataArray[i];
-            }
+    private int[] bucketSort(int[] arr, int bucketSize){
+        if (arr.length == 0) {
+            return arr;
         }
-        //获取桶的数量
-        int[] bucketArray = new int[max - min + 1];
-        for(int i = 0; i < dataArray.length; i++){
-            bucketArray[dataArray[i] - min]++;
-        }
-        //遍历桶数组
-        int index = 0;
-        for(int i = 0; i < bucketArray.length; i++){
-            for(int j = 0; j < bucketArray[i]; j++){
-                dataArray[index++] = i;
+
+        int minValue = arr[0];
+        int maxValue = arr[0];
+        for (int value : arr) {
+            if (value < minValue) {
+                minValue = value;
+            } else if (value > maxValue) {
+                maxValue = value;
             }
         }
+
+        int bucketCount = (int) Math.floor((maxValue - minValue) / bucketSize) + 1;
+        int[][] buckets = new int[bucketCount][0];
+
+        // 利用映射函数将数据分配到各个桶中
+        for (int i = 0; i < arr.length; i++) {
+            int index = (int) Math.floor((arr[i] - minValue) / bucketSize);
+            buckets[index] = arrAppend(buckets[index], arr[i]);
+        }
+
+        int arrIndex = 0;
+        for (int[] bucket : buckets) {
+            if (bucket.length <= 0) {
+                continue;
+            }
+            // 对每个桶进行排序，这里使用了插入排序
+            insertionSort(bucket);
+            for (int value : bucket) {
+                arr[arrIndex++] = value;
+            }
+        }
+        return arr;
+    }
+
+    /**
+     * 自动扩容，并保存数据
+     */
+    private int[] arrAppend(int[] arr, int value) {
+        arr = Arrays.copyOf(arr, arr.length + 1);
+        arr[arr.length - 1] = value;
+        return arr;
     }
 
     /**
@@ -1100,6 +1121,11 @@ public class DemoServiceImpl implements DemoService {
             return;
         }
         long startTimestamp = System.currentTimeMillis();
+        insertionSort(dataArray);
+        log.info("插入排序的结果为:{}, 花费时间为:{}ms", dataArray, System.currentTimeMillis() - startTimestamp);
+    }
+
+    private void insertionSort(int[] dataArray){
         int temp;
         for (int i = 1; i < dataArray.length; i++) {
             for(int j = i; j > 0; j--){
@@ -1112,7 +1138,6 @@ public class DemoServiceImpl implements DemoService {
                 }
             }
         }
-        log.info("插入排序的结果为:{}, 花费时间为:{}ms", dataArray, System.currentTimeMillis() - startTimestamp);
     }
 
     /**

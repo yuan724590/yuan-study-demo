@@ -318,4 +318,20 @@ public class OfferSubjectController {
     public String majorityElement() {
         return subjectService.majorityElement();
     }
+
+    /**
+     * 40. 最小的k个数
+     */
+    @GetMapping(value = "/get/least/numbers")
+    public String getLeastNumbers() {
+        return subjectService.getLeastNumbers();
+    }
+
+    /**
+     * 41. 数据流中的中位数
+     */
+    @GetMapping(value = "/median/finder")
+    public String medianFinder() {
+        return subjectService.medianFinder();
+    }
 }

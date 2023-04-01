@@ -1297,6 +1297,66 @@ public class OfferSubjectServiceImpl implements OfferSubjectService {
         }
         return res;
     }
+
+    @Override
+    public String getLeastNumbers(){
+        int[] array = getRandomArray();
+        System.out.println("getLeastNumbers计算结果为:" + JSON.toJSONString(getLeastNumbers(array, new Random().nextInt(array.length - 1))));
+        return "success";
+    }
+
+    public int[] getLeastNumbers(int[] arr, int k) {
+        Arrays.sort(arr);
+        return Arrays.copyOfRange(arr, 0, k);
+    }
+
+    /**
+     * 获取随机数组
+     */
+    private int[] getRandomArray(){
+        int[] dataArray = new int[10];
+        Random random = new Random();
+        for(int i = 0; i < 10; i++){
+            dataArray[i] = random.nextInt(100);
+        }
+        return dataArray;
+    }
+
+    @Override
+    public String medianFinder(){
+        MedianFinder medianFinder = new MedianFinder();
+        for(int i = 0; i < 10; i++){
+            medianFinder.addNum(new Random().nextInt(100));
+        }
+        medianFinder.findMedian();
+        return "success";
+    }
+
+    class MedianFinder {
+        //大顶
+        PriorityQueue<Integer> left;
+        //小顶
+        PriorityQueue<Integer> right;
+
+        public MedianFinder() {
+            left = new PriorityQueue<>((n1, n2) -> n2 - n1);
+            right = new PriorityQueue<>();
+        }
+
+        public void addNum(int num) {
+            left.add(num);
+            right.add(left.poll());
+            if(left.size() + 1 < right.size())
+                left.add(right.poll());
+        }
+
+        public double findMedian() {
+            if(right.size() > left.size()){
+                return right.peek();
+            }
+            return (double)(left.peek() + right.peek()) / 2;
+        }
+    }
 }
 
 

@@ -902,4 +902,45 @@ public interface OfferSubjectService {
      * 1 <= 数组长度 <= 50000
      */
     String majorityElement();
+
+    /**
+     * 输入整数数组 arr ，找出其中最小的 k 个数。例如，输入4、5、1、6、2、7、3、8这8个数字，则最小的4个数字是1、2、3、4。
+     *
+     * 示例 1：
+     * 输入：arr = [3,2,1], k = 2
+     * 输出：[1,2] 或者 [2,1]
+     *
+     * 示例 2：
+     * 输入：arr = [0,1,2,1], k = 1
+     * 输出：[0]
+     *
+     * 限制：
+     * 0 <= k <= arr.length <= 10000
+     * 0 <= arr[i] <= 10000
+     */
+    String getLeastNumbers();
+
+    /**
+     * 如何得到一个数据流中的中位数？如果从数据流中读出奇数个数值，那么中位数就是所有数值排序之后位于中间的数值。如果从数据流中读出偶数个数值，那么中位数就是所有数值排序之后中间两个数的平均值。
+     *
+     * 例如，
+     * [2,3,4] 的中位数是 3
+     * [2,3] 的中位数是 (2 + 3) / 2 = 2.5
+     * 设计一个支持以下两种操作的数据结构：
+     * void addNum(int num) - 从数据流中添加一个整数到数据结构中。
+     * double findMedian() - 返回目前所有元素的中位数。
+     *
+     * 示例 1：
+     * 输入：
+     * ["MedianFinder","addNum","addNum","findMedian","addNum","findMedian"]
+     * [[],[1],[2],[],[3],[]]
+     * 输出：[null,null,null,1.50000,null,2.00000]
+     *
+     * 示例 2：
+     * 输入：
+     * ["MedianFinder","addNum","findMedian","addNum","findMedian"]
+     * [[],[2],[],[3],[]]
+     * 输出：[null,null,2.00000,null,2.50000]
+     */
+    String medianFinder();
 }
