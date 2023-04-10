@@ -442,8 +442,8 @@ public class OfferSubjectServiceImpl implements OfferSubjectService {
     List<String> ans = new ArrayList<>();
     public List<String> printNumbers(int n) {
         StringBuilder sb = new StringBuilder();
-        for(int i = 1;i <= n; ++i){//总位数
-            for(char j = '1'; j <='9'; ++j){
+        for(int i = 1; i <= n; ++i){//总位数
+            for(char j = '1'; j <= '9'; ++j){
                 sb.append(j);
                 dfs(i, 1, sb);
                 sb.deleteCharAt(sb.length()-1);
@@ -1356,6 +1356,44 @@ public class OfferSubjectServiceImpl implements OfferSubjectService {
             }
             return (double)(left.peek() + right.peek()) / 2;
         }
+    }
+
+    @Override
+    public String maxSubArray(){
+        int maxSum = maxSubArray(new int[]{-2,1,-3,4,-1,2,1,-5,4});
+        System.out.println("maxSubArray计算结果为:" + maxSum);
+        return "success";
+    }
+
+    public int maxSubArray(int[] nums) {
+        int sum = 0;
+        int max = Integer.MIN_VALUE;
+        for (int num : nums) {
+            sum = sum <= 0 ? num : sum + num;
+            max = sum > max ? sum : max;
+        }
+        return max;
+    }
+
+    @Override
+    public String countDigitOne(){
+        System.out.println("countDigitOne计算结果为:" + countDigitOne(121));
+        return "success";
+    }
+
+    public int countDigitOne(int n) {
+        int count = 0;
+        long a, b;
+        for(long i = 1; i <= n; i *= 10){
+            //当前位 + 高位组成的数
+            a = n / i;
+            //低位数字
+            b = n % i;
+            //a等于0或1时，高位不需加一；大于1时，需要加一
+            //当前位上出现1的数量 + 当前位上为1时,出现1的次数
+            count += (a + 8) / 10 * i + (a % 10 == 1 ? b + 1 : 0);
+        }
+        return count;
     }
 }
 

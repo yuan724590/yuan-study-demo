@@ -334,4 +334,20 @@ public class OfferSubjectController {
     public String medianFinder() {
         return subjectService.medianFinder();
     }
+
+    /**
+     * 42. 连续子数组的最大和
+     */
+    @GetMapping(value = "/max/sub/array")
+    public String maxSubArray() {
+        return subjectService.maxSubArray();
+    }
+
+    /**
+     * 43. 1～n 整数中 1 出现的次数
+     */
+    @GetMapping(value = "/count/digit/one")
+    public String countDigitOne() {
+        return subjectService.countDigitOne();
+    }
 }
