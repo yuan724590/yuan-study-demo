@@ -81,22 +81,19 @@ public interface OfferSubjectService {
     /**
      * 用两个栈实现一个队列。队列的声明如下，请实现它的两个函数 appendTail 和 deleteHead ，分别完成在队列尾部插入整数和在队列头部删除整数的功能。(若队列中没有元素，deleteHead 操作返回 -1 )
      *
-     *  
-     *
      * 示例 1：
-     *
      * 输入：
      * ["CQueue","appendTail","deleteHead","deleteHead","deleteHead"]
      * [[],[3],[],[],[]]
      * 输出：[null,null,3,-1,-1]
-     * 示例 2：
      *
+     * 示例 2：
      * 输入：
      * ["CQueue","deleteHead","appendTail","appendTail","deleteHead","deleteHead"]
      * [[],[],[5],[2],[],[]]
      * 输出：[null,-1,null,null,5,2]
-     * 提示：
      *
+     * 提示：
      * 1 <= values <= 10000
      * 最多会对 appendTail、deleteHead 进行 10000 次调用
      */
@@ -874,4 +871,42 @@ public interface OfferSubjectService {
      * 1 <= n < 2^31
      */
     String countDigitOne();
+
+    /**
+     * 数字以0123456789101112131415…的格式序列化到一个字符序列中。在这个序列中，第5位（从下标0开始计数）是5，第13位是1，第19位是4，等等。
+     *
+     * 请写一个函数，求任意第n位对应的数字。
+     *
+     * 示例 1：
+     * 输入：n = 3
+     * 输出：3
+     *
+     * 示例 2：
+     * 输入：n = 11
+     * 输出：0
+     *  
+     * 限制：
+     * 0 <= n < 2^31
+     */
+    String findNthDigit();
+
+    /**
+     * 输入一个非负整数数组，把数组里所有数字拼接起来排成一个数，打印能拼接出的所有数字中最小的一个。
+     *
+     * 示例 1:
+     * 输入: [10,2]
+     * 输出: "102"
+     *
+     * 示例 2:
+     * 输入: [3,30,34,5,9]
+     * 输出: "3033459"
+     *
+     * 提示:
+     * 0 < nums.length <= 100
+     *
+     * 说明:
+     * 输出结果可能非常大，所以你需要返回一个字符串而不是整数
+     * 拼接起来的数字可能会有前导 0，最后结果不需要去掉前导 0
+     */
+    String minNumber();
 }

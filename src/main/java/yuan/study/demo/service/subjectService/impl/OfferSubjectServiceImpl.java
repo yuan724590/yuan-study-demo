@@ -1395,6 +1395,46 @@ public class OfferSubjectServiceImpl implements OfferSubjectService {
         }
         return count;
     }
+
+    @Override
+    public String findNthDigit(){
+        System.out.println("findNthDigit计算结果为:" + findNthDigit(10));
+        return "success";
+    }
+
+    public int findNthDigit(int n) {
+        // n所在数字的位数
+        int digit = 1;
+        // 数字范围开始的第一个数
+        long start = 1;
+        // 占多少位
+        long count = 9;
+        while(n > count){
+            n -= count;
+            digit++;
+            start *= 10;
+            count = digit * start * 9;
+        }
+        long num = start + (n - 1) / digit;
+        return Long.toString(num).charAt((n - 1) % digit) - '0';
+    }
+
+    @Override
+    public String minNumber(){
+        System.out.println("minNumber计算结果为:" + minNumber(new int[]{121, 12}));
+        return "success";
+    }
+
+    public String minNumber(int[] nums) {
+        List<String> list = new ArrayList<>();
+        for (int num : nums) {
+            list.add(String.valueOf(num));
+        }
+        list.sort((o1, o2) -> (o1 + o2).compareTo(o2 + o1));
+        return String.join("", list);
+        //虽然更简洁, 但性能上相对较差
+//        IntStream.of(nums).mapToObj(String::valueOf).sorted(((o1, o2) -> (o1 + o2).compareTo(o2 + o1))).collect(Collectors.joining());
+    }
 }
 
 

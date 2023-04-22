@@ -350,4 +350,20 @@ public class OfferSubjectController {
     public String countDigitOne() {
         return subjectService.countDigitOne();
     }
+
+    /**
+     * 44. 数字序列中某一位的数字
+     */
+    @GetMapping(value = "/find/nth/digit")
+    public String findNthDigit() {
+        return subjectService.findNthDigit();
+    }
+
+    /**
+     * 45. 把数组排成最小的数
+     */
+    @GetMapping(value = "/min/number")
+    public String minNumber() {
+        return subjectService.minNumber();
+    }
 }
