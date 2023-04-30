@@ -1523,6 +1523,26 @@ public class OfferSubjectServiceImpl implements OfferSubjectService {
         }
         return dp[n - 1];
     }
+
+    @Override
+    public String firstUniqChar(){
+        System.out.println("firstUniqChar计算结果为:" + firstUniqChar("abaccdeff"));
+        return "success";
+    }
+
+    public char firstUniqChar(String s) {
+        if (s.equals(""))
+            return ' ';
+        int[] target = new int[26];
+        for (int i = 0; i < s.length(); i++) {
+            target[s.charAt(i) - 'a']++;
+        }
+        for (int i = 0; i < s.length(); i++) {
+            if (target[s.charAt(i) - 'a'] == 1)
+                return s.charAt(i);
+        }
+        return ' ';
+    }
 }
 
 

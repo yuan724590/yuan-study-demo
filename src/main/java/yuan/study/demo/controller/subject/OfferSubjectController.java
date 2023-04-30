@@ -398,4 +398,12 @@ public class OfferSubjectController {
     public String nthUglyNumber() {
         return subjectService.nthUglyNumber();
     }
+
+    /**
+     * 50. 第一个只出现一次的字符
+     */
+    @GetMapping(value = "/first/uniq/char")
+    public String firstUniqChar() {
+        return subjectService.firstUniqChar();
+    }
 }
