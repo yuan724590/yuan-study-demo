@@ -366,4 +366,36 @@ public class OfferSubjectController {
     public String minNumber() {
         return subjectService.minNumber();
     }
+
+    /**
+     * 46. 把数字翻译成字符串
+     */
+    @GetMapping(value = "/translate/num")
+    public String translateNum() {
+        return subjectService.translateNum();
+    }
+
+    /**
+     * 47. 礼物的最大价值
+     */
+    @GetMapping(value = "/max/value")
+    public String maxValue() {
+        return subjectService.maxValue();
+    }
+
+    /**
+     * 48. 最长不含重复字符的子字符串
+     */
+    @GetMapping(value = "/length/of/longest/substring")
+    public String lengthOfLongestSubstring() {
+        return subjectService.lengthOfLongestSubstring();
+    }
+
+    /**
+     * 49. 丑数
+     */
+    @GetMapping(value = "/nth/ugly/number")
+    public String nthUglyNumber() {
+        return subjectService.nthUglyNumber();
+    }
 }

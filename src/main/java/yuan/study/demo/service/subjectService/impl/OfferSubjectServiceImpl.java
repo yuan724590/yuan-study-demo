@@ -1435,6 +1435,94 @@ public class OfferSubjectServiceImpl implements OfferSubjectService {
         //虽然更简洁, 但性能上相对较差
 //        IntStream.of(nums).mapToObj(String::valueOf).sorted(((o1, o2) -> (o1 + o2).compareTo(o2 + o1))).collect(Collectors.joining());
     }
+
+    @Override
+    public String translateNum(){
+        System.out.println("translateNum计算结果为:" + translateNum(12258));
+        return "success";
+    }
+
+    public int translateNum(int num) {
+        String str = String.valueOf(num);
+        int[] dp = new int[str.length() + 1];
+        dp[0] = dp[1] = 1;
+        for (int i = 2; i <= str.length(); i++) {
+            String tmpStr = str.substring(i - 2, i);
+            if (tmpStr.compareTo("10") >= 0 && tmpStr.compareTo("25") <= 0) {
+                dp[i] = dp[i - 1] + dp[i - 2];
+            } else {
+                dp[i] = dp[i - 1];
+            }
+        }
+        return dp[dp.length - 1];
+    }
+
+    @Override
+    public String maxValue(){
+        System.out.println("maxValue计算结果为:" + maxValue(new int[][]{{1,3,1}, {1,5,1}, {4,2,1}}));
+        return "success";
+    }
+
+    public int maxValue(int[][] grid) {
+        int m = grid.length, n = grid[0].length;
+        int[] dp = new int[n + 1];
+        for (int i = 1; i <= m; i++) {
+            for (int j = 1; j <= n; j++) {
+                //当前最大路径和 = 从左 / 从上过来的路径和中最大值 + 当前值
+                dp[j] = Math.max(dp[j], dp[j - 1]) + grid[i - 1][j - 1];
+            }
+        }
+        return dp[n];
+    }
+
+    @Override
+    public String lengthOfLongestSubstring(){
+        System.out.println("lengthOfLongestSubstring计算结果为:" + lengthOfLongestSubstring("abcabcbbz"));
+        return "success";
+    }
+
+    public int lengthOfLongestSubstring(String s) {
+        Deque<Character> deque = new ArrayDeque<>();
+        int max = 0;
+        for (int i = 0; i < s.length(); i++) {
+            if (!deque.contains(s.charAt(i))) {
+                deque.addLast(s.charAt(i));
+            } else {
+                max = Math.max(max, deque.size());
+                while(deque.peekFirst() != s.charAt(i)) {
+                    deque.removeFirst();
+                }
+                deque.removeFirst();
+                deque.addLast(s.charAt(i));
+            }
+        }
+        return Math.max(max, deque.size());
+    }
+
+    @Override
+    public String nthUglyNumber(){
+        System.out.println("nthUglyNumber计算结果为:" + nthUglyNumber(100));
+        return "success";
+    }
+
+    public int nthUglyNumber(int n) {
+        if (n <= 0)
+            return -1;
+        int[] dp = new int[n];
+        dp[0] = 1;
+        int id2 = 0, id3 = 0, id5 = 0;
+        for (int i = 1; i < n; i++) {
+            dp[i] = Math.min(dp[id2] * 2, Math.min(dp[id3] * 3, dp[id5] * 5));
+            // 这里不用else if的原因是有可能id2(3) * 2 == id3(2) * 3 这种情况两个指针都要后移
+            if (dp[id2] * 2 == dp[i])
+                id2 += 1;
+            if (dp[id3] * 3 == dp[i])
+                id3 += 1;
+            if (dp[id5] * 5 == dp[i])
+                id5 += 1;
+        }
+        return dp[n - 1];
+    }
 }
 
 
