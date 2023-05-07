@@ -1543,6 +1543,59 @@ public class OfferSubjectServiceImpl implements OfferSubjectService {
         }
         return ' ';
     }
+
+    @Override
+    public String reversePairs(){
+        System.out.println("reversePairs计算结果为:" + reversePairs(new int[]{7,5,6,4}));
+        return "success";
+    }
+
+    private int cnt = 0;
+    private int[] temp;
+
+    public int reversePairs(int[] nums) {
+        int n = nums.length;
+        temp = new int[n];
+        mergeSort(nums, 0, n - 1);
+        return cnt;
+    }
+
+    private void mergeSort(int[] arr, int left, int right) {
+        if (left >= right) {
+            return;
+        }
+        int mid = (right - left) / 2 + left;
+        mergeSort(arr, left, mid);
+        mergeSort(arr, mid + 1, right);
+        merge(arr, left, mid, right);
+    }
+
+    private void merge(int[] arr, int left, int mid, int right) {
+        // 复制一下，准备归并
+        for (int i = left; i <= right; i++) {
+            temp[i] = arr[i];
+        }
+        // 修改原数组，归并 temp
+        int i = left, j = mid + 1, k = left;
+        while (i <= mid && j <= right) {
+            if (temp[i] > temp[j]) {
+                arr[k] = temp[j++];
+                // mid 前有多少个 temp[j] 比当前 temp[i] 小
+                cnt += mid - i + 1;
+            } else {
+                arr[k] = temp[i++];
+            }
+            k++;
+        }
+
+        while (i <= mid) {
+            arr[k++] = temp[i++];
+        }
+
+        while (j <= right) {
+            arr[k++] = temp[j++];
+        }
+    }
 }
 
 

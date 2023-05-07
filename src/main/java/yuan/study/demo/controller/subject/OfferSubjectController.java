@@ -406,4 +406,12 @@ public class OfferSubjectController {
     public String firstUniqChar() {
         return subjectService.firstUniqChar();
     }
+
+    /**
+     * 51. 数组中的逆序对
+     */
+    @GetMapping(value = "/reversePairs")
+    public String reversePairs() {
+        return subjectService.reversePairs();
+    }
 }
