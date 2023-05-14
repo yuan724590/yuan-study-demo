@@ -414,4 +414,20 @@ public class OfferSubjectController {
     public String reversePairs() {
         return subjectService.reversePairs();
     }
+
+    /**
+     * 52. 两个链表的第一个公共节点
+     */
+    @GetMapping(value = "/get/intersection/node")
+    public String getIntersectionNode() {
+        return subjectService.getIntersectionNode();
+    }
+
+    /**
+     * 53 - I. 在排序数组中查找数字 I
+     */
+    @GetMapping(value = "/search/1")
+    public String search() {
+        return subjectService.search();
+    }
 }

@@ -1596,6 +1596,52 @@ public class OfferSubjectServiceImpl implements OfferSubjectService {
             arr[k++] = temp[j++];
         }
     }
+
+    @Override
+    public String getIntersectionNode(){
+        ListNode listNode5 = new ListNode(4, null);
+        ListNode listNode4 = new ListNode(2, listNode5);
+        ListNode listNode3 = new ListNode(1, listNode4);
+        ListNode listNode2 = new ListNode(9, listNode3);
+        ListNode listNode1 = new ListNode(0, listNode2);
+
+        ListNode listNode11 = new ListNode(3, listNode4);
+        System.out.println("getIntersectionNode计算结果为:" + getIntersectionNode(listNode1, listNode11));
+        return "success";
+    }
+
+    ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+        if(headA == null || headB == null) return null;
+        ListNode n1 = headA;
+        ListNode n2 = headB;
+
+        while(n1 != n2){
+            n1 = n1 == null ? headB : n1.next;
+            n2 = n2 == null ? headA : n2.next;
+        }
+        return n1;
+    }
+
+    @Override
+    public String search(){
+        System.out.println("getIntersectionNode计算结果为:" + search(new int[]{5,7,7,8,8,10}, 8));
+        return "success";
+    }
+
+    public int search(int[] nums, int target) {
+        int left = 0,right = nums.length - 1;
+        int count = 0;
+        while(left < right){
+            int mid = (left + right) / 2;
+            if(nums[mid] >= target)
+                right = mid;
+            if(nums[mid] < target)
+                left = mid + 1;
+        }
+        while(left < nums.length && nums[left++] == target)
+            count++;
+        return count;
+    }
 }
 
 
