@@ -1642,6 +1642,64 @@ public class OfferSubjectServiceImpl implements OfferSubjectService {
             count++;
         return count;
     }
+
+    @Override
+    public String missingNumber(){
+        System.out.println("missingNumber计算结果为:" + missingNumber(new int[]{0,1,2,3,4,5,6,7,9}));
+        return "success";
+    }
+
+    public int missingNumber(int[] nums) {
+        int len = nums.length;
+        return recur(nums,0,len - 1);
+    }
+
+    private int recur(int[] nums, int first, int last){
+        if(first>last){
+            return first;
+        }
+        int mid = (first + last) / 2;
+        if(nums[mid] == mid)
+            return recur(nums, mid + 1, last);
+        else
+            return recur(nums, first, mid - 1);
+    }
+
+    @Override
+    public String kthLargest(){
+        TreeNode treeNode = new TreeNode(3);
+//        treeNode.left = new TreeNode(1);
+        treeNode.right = new TreeNode(4);
+//        treeNode.left.right = new TreeNode(2);
+        System.out.println("kthLargest计算结果为:" + kthLargest(treeNode, 2));
+        return "success";
+    }
+
+    public int kthLargest(TreeNode root, int k) {
+        kthLargestK = k;
+        dfs1(root);
+        return kthLargest;
+    }
+
+    private int kthLargest;
+    private int kthLargestK;
+
+    private void dfs1(TreeNode root) {
+        if(root.right != null){
+            dfs1(root.right);
+        }
+
+        if(kthLargest == 0 && kthLargestK <= 1){
+            kthLargest = root.val;
+            return;
+        }else{
+            kthLargestK--;
+        }
+
+        if(root.left != null){
+            dfs1(root.left);
+        }
+    }
 }
 
 

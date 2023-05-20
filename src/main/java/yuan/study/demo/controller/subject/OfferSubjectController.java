@@ -430,4 +430,20 @@ public class OfferSubjectController {
     public String search() {
         return subjectService.search();
     }
+
+    /**
+     * 53 - II. 0～n-1中缺失的数字
+     */
+    @GetMapping(value = "/missing/number")
+    public String missingNumber() {
+        return subjectService.missingNumber();
+    }
+
+    /**
+     * 54. 二叉搜索树的第k大节点
+     */
+    @GetMapping(value = "/kth/largest")
+    public String kthLargest() {
+        return subjectService.kthLargest();
+    }
 }
