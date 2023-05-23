@@ -124,4 +124,9 @@ public interface DemoService {
      * 读写excel
      */
     String readAndWriteExcel();
+
+    /**
+     * 使用springCache
+     */
+    String springCache();
 }

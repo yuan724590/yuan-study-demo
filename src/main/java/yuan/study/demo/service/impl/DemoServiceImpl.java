@@ -1,6 +1,10 @@
 package yuan.study.demo.service.impl;
 
-
+import org.springframework.aop.framework.AopContext;
+import org.springframework.cache.Cache;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.google.common.base.Charsets;
@@ -20,6 +24,8 @@ import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.common.xcontent.XContentType;
 import org.redisson.Redisson;
 import org.redisson.api.*;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.concurrent.ConcurrentMapCache;
 import org.springframework.core.BridgeMethodResolver;
 import org.springframework.data.geo.Distance;
 import org.springframework.data.geo.GeoResults;
@@ -27,12 +33,14 @@ import org.springframework.data.geo.Metrics;
 import org.springframework.data.redis.connection.RedisGeoCommands;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 import sun.misc.BASE64Encoder;
 import yuan.study.demo.entity.*;
 import yuan.study.demo.service.DemoService;
 import yuan.study.demo.utils.CopierUtil;
 import org.springframework.data.geo.Point;
 import javax.annotation.Resource;
+import javax.cache.annotation.CacheRemove;
 import java.io.*;
 import java.lang.reflect.*;
 import java.math.BigDecimal;
@@ -1610,5 +1618,70 @@ public class DemoServiceImpl implements DemoService {
             e.printStackTrace();
         }
         return "success";
+    }
+
+    @Override
+    public String springCache(){
+        String id = "testSpringCache";
+        //使用xml方式
+        System.out.println(((DemoServiceImpl)AopContext.currentProxy()).save(id));
+        System.out.println(((DemoServiceImpl)AopContext.currentProxy()).save(id + "1"));
+
+        System.out.println(((DemoServiceImpl)AopContext.currentProxy()).cacheable(id));
+
+        ((DemoServiceImpl)AopContext.currentProxy()).delete(id);
+
+        System.out.println(((DemoServiceImpl)AopContext.currentProxy()).cacheable(id));
+
+        //使用EhcacheConfiguration方式
+        System.out.println(((DemoServiceImpl)AopContext.currentProxy()).ehCacheable(id));
+        System.out.println(((DemoServiceImpl)AopContext.currentProxy()).ehCacheable(id + "2"));
+        for(int i = 0; i < 4; i++){
+            System.out.println(((DemoServiceImpl)AopContext.currentProxy()).ehCacheable(id + i));
+        }
+        return System.currentTimeMillis() + "success";
+    }
+
+    @Cacheable(value = "myCache" , key = "#idStr")
+    public String ehCacheable(String idStr){
+        try {
+            Thread.sleep(10);
+            System.out.println("ehCacheable 睡眠10ms");
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return idStr + "_cacheable";
+    }
+
+    /**
+     * 此id请求过则不再请执行方法, 而是直接使用缓存进行返回
+     */
+    @Cacheable(value = "idCache" , key = "#idStr")
+    public String cacheable(String idStr){
+        try {
+            Thread.sleep(1000);
+            System.out.println("睡眠1秒");
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return idStr + "_cacheable";
+    }
+
+    /**
+     * 保存返回值数据
+     */
+    @CachePut(value = "idCache",key = "#idStr")
+    public String save(String idStr){
+        return idStr + "_cacheable";
+    }
+
+    /**
+     * CacheEvict：清理指定缓存
+     * value：缓存的名称，每个缓存名称下面可以有多个key
+     * key：缓存的key
+     */
+    @CacheEvict(value = "idCache",key = "#idStr")
+    public void delete(String idStr){
+
     }
 }

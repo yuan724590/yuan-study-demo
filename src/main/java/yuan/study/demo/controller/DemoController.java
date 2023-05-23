@@ -214,4 +214,12 @@ public class DemoController {
     public String readAndWriteExcel(){
         return demoService.readAndWriteExcel();
     }
+
+    /**
+     * 使用springCache
+     */
+    @GetMapping(value = "/spring/cache")
+    public String springCache(){
+        return demoService.springCache();
+    }
 }
