@@ -446,4 +446,20 @@ public class OfferSubjectController {
     public String kthLargest() {
         return subjectService.kthLargest();
     }
+
+    /**
+     * 55 - I. 二叉树的深度
+     */
+    @GetMapping(value = "/max/depth")
+    public String maxDepth() {
+        return subjectService.maxDepth();
+    }
+
+    /**
+     * 55 - II. 平衡二叉树
+     */
+    @GetMapping(value = "/is/balanced")
+    public String isBalanced() {
+        return subjectService.isBalanced();
+    }
 }

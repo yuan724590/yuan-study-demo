@@ -1700,6 +1700,82 @@ public class OfferSubjectServiceImpl implements OfferSubjectService {
             dfs1(root.left);
         }
     }
+
+    @Override
+    public String maxDepth(){
+        TreeNode treeNode = new TreeNode(3);
+        treeNode.left = new TreeNode(1);
+        treeNode.right = new TreeNode(4);
+        treeNode.left.right = new TreeNode(2);
+        System.out.println("maxDepth计算结果为:" + maxDepth(treeNode));
+        return "success";
+    }
+
+    public int maxDepth(TreeNode root) {
+        return root == null ? 0 : Math.max(maxDepth(root.left), maxDepth(root.right)) + 1;
+    }
+
+//    private int maxDepth = 0;
+//
+//    public int maxDepth(TreeNode root) {
+//        if(root == null){
+//            return maxDepth;
+//        }
+//        maxDepth1(root, 0);
+//        return maxDepth;
+//    }
+//
+//    public void maxDepth1(TreeNode root, int maxDepth) {
+//        maxDepth++;
+//        if(root.left != null){
+//            maxDepth1(root.left, maxDepth);
+//        }
+//        if(root.right != null){
+//            maxDepth1(root.right, maxDepth);
+//        }
+//        if(root.left == null && root.right == null && this.maxDepth < maxDepth){
+//            this.maxDepth = maxDepth;
+//        }
+//    }
+
+    @Override
+    public String isBalanced(){
+        TreeNode treeNode = new TreeNode(1);
+        treeNode.left = new TreeNode(2);
+        treeNode.right = new TreeNode(2);
+        treeNode.left.left = new TreeNode(3);
+        treeNode.left.right = new TreeNode(3);
+        treeNode.right.left = new TreeNode(3);
+        treeNode.right.right = new TreeNode(3);
+        treeNode.left.left.left = new TreeNode(4);
+        treeNode.left.left.right = new TreeNode(4);
+        treeNode.left.right.left = new TreeNode(4);
+        treeNode.left.right.right = new TreeNode(4);
+        treeNode.right.right.left = new TreeNode(4);
+        treeNode.left.left.left.left = new TreeNode(5);
+        treeNode.left.left.left.right = new TreeNode(5);
+        System.out.println("isBalanced计算结果为:" + isBalanced(treeNode));
+        return "success";
+    }
+
+    private boolean res = true;
+
+    public boolean isBalanced(TreeNode root) {
+        high(root);
+        return res;
+    }
+
+    public int high(TreeNode node) {
+        if (node != null) {
+            int leftHigh = high(node.left) + 1;
+            int rightHigh = high(node.right) + 1;
+            if (Math.abs(leftHigh - rightHigh) > 1) {
+                res = false;
+            }
+            return Math.max(leftHigh, rightHigh);
+        }
+        return 0;
+    }
 }
 
 
