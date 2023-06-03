@@ -1,6 +1,7 @@
 package yuan.study.demo.service.subjectService.impl;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
@@ -1775,6 +1776,86 @@ public class OfferSubjectServiceImpl implements OfferSubjectService {
             return Math.max(leftHigh, rightHigh);
         }
         return 0;
+    }
+
+    @Override
+    public String singleNumbers(){
+        System.out.println("singleNumbers计算结果为:" + JSONObject.toJSONString(singleNumbers(new int[]{4,2,4,6})));
+        return "success";
+    }
+
+    public int[] singleNumbers(int[] nums) {
+        // 用于记录 A B 的异或结果
+        int x = 0;
+
+        // 得到A^B的结果
+        // 对于任何数x，都有x^x=0，x^0=x
+        for (int val : nums) {
+            x ^= val;
+        }
+
+        // x & (-x)本身的作用是得到最低位的1，
+        int flag = x & (-x);
+
+        // 而我们所需要的做到的是：利用这个1来进行分组，也就是做到将A和B区分开
+        // 前面已经知道，x是我们需要的结果数A和B相异或的结果，也就是说，x的二进制串上的任何一个1，都能成为区分A和B的条件
+        // 因此我们只需要得到x上的任意一个1，就可以做到将A和B区分开来
+
+        // 用于记录A或B其中一者
+        int res = 0;
+
+        // 分组操作
+        for (int val : nums) {
+            // 根据二进制位上的那个“1”进行分组
+            // 需要注意的是，分组的结果必然是相同的数在相同的组，且还有一个结果数
+            // 因此每组的数再与res=0一路异或下去，最终会得到那个结果数A或B
+            // 且由于异或运算具有自反性，因此只需得到其中一个数即可
+            if ((flag & val) != 0) {
+                res ^= val;
+            }
+        }
+        // 利用先前的x进行异或运算得到另一个，即利用自反性
+        return new int[] {res, x ^ res};
+    }
+
+    @Override
+    public String singleNumber(){
+        System.out.println("singleNumbers计算结果为:" + JSONObject.toJSONString(singleNumber(new int[]{4,2,4,6})));
+        return "success";
+    }
+
+    public int singleNumber(int[] nums) {
+        // 可以设计一种逻辑，使数字出现 3 次时，该逻辑的结果为 0（即只有 0，1，2 三种状态）
+        // 其实就是一个 三进制
+        // 一位二进制数只能存储 0 和 1 两种状态，所以我们需要用到两位二进制
+        // 设两位二进制数的高位为 A，低位为 B。C 是输入变量
+        // 表示的三种情况为 ： 0次：00(A=0,B=0), 1次：01(A=0,B=1), 2次：10(A=1,B=0)
+        // 注：11(A=1,B=1) 为无效输入
+
+        // 画出关于 A 的卡诺图（AB为11的结果是不重要的，用 x 表示）：
+        //  AB\C |  0  |  1
+        //  =================
+        //    00 |  0  |  0
+        //    01 |  0  |  1        ====> 得到 A = BC + AC'
+        //    11 |  x  |  x
+        //    10 |  1  |  0
+
+        //  画出关于 B 的卡诺图
+        //  AB\C |  0  |  1
+        //  =================
+        //    00 |  0  |  1
+        //    01 |  1  |  0        ====> 得到 B = BC' + A'B'C
+        //    11 |  x  |  x
+        //    10 |  0  |  0
+
+        // 很明显啊，我们需要的就是只出现一次的情况 01（A=0，B=1），即 B 的结果
+        int A = 0, B = 0;
+        for (int C : nums) {
+            int tmp = A;
+            A = (B & C) | (A & ~C);
+            B = (B & ~C) | (~tmp & ~B & C);
+        }
+        return B;
     }
 }
 

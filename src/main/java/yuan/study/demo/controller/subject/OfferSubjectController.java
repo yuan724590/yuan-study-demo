@@ -462,4 +462,21 @@ public class OfferSubjectController {
     public String isBalanced() {
         return subjectService.isBalanced();
     }
+
+    /**
+     * 56 - I. 数组中数字出现的次数
+     */
+    @GetMapping(value = "/single/numbers")
+    public String singleNumbers() {
+        return subjectService.singleNumbers();
+    }
+
+    /**
+     * 56 - II. 数组中数字出现的次数 II
+     */
+
+    @GetMapping(value = "/single/number")
+    public String singleNumber() {
+        return subjectService.singleNumber();
+    }
 }
