@@ -479,4 +479,20 @@ public class OfferSubjectController {
     public String singleNumber() {
         return subjectService.singleNumber();
     }
+
+    /**
+     * 57. 和为s的两个数字
+     */
+    @GetMapping(value = "/two/sum")
+    public String twoSum() {
+        return subjectService.twoSum();
+    }
+
+    /**
+     * 57 - II. 和为s的连续正数序列
+     */
+    @GetMapping(value = "/find/continuous/sequence")
+    public String findContinuousSequence() {
+        return subjectService.findContinuousSequence();
+    }
 }

@@ -1857,6 +1857,62 @@ public class OfferSubjectServiceImpl implements OfferSubjectService {
         }
         return B;
     }
+
+    @Override
+    public String twoSum(){
+        System.out.println("twoSum计算结果为:" + JSONObject.toJSONString(twoSum(new int[]{2,7,11,15}, 9)));
+        return "success";
+    }
+
+    public int[] twoSum(int[] nums, int target) {
+        if(nums == null || nums.length <= 1){
+            return null;
+        }
+        int start = 0, end = nums.length - 1;
+        while (start < end){
+            if(nums[start] + nums[end] < target){
+                start++;
+            }else if(nums[start] + nums[end] > target){
+                end--;
+            }else{
+                return new int[]{nums[start], nums[end]};
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public String findContinuousSequence(){
+        System.out.println("findContinuousSequence计算结果为:" + JSONObject.toJSONString(findContinuousSequence(15)));
+        return "success";
+    }
+
+    public int[][] findContinuousSequence(int target) {
+        List<int[]> list = new ArrayList<>();
+
+        //要有一个区间的概念，这里的区间是(1, 2, 3, ..., target - 1)
+        //套滑动窗口模板，l是窗口左边界，r是窗口右边界，窗口中的值一定是连续值。
+        //当窗口中数字和小于target时，r右移; 大于target时，l右移; 等于target时就获得了一个解
+        for (int l = 1, r = 1, sum = 0; r < target; r++) {
+            sum += r;
+            while (sum > target) {
+                sum -= l++;
+            }
+            if (sum == target) {
+                int[] temp = new int[r - l + 1];
+                for (int i = 0; i < temp.length; i++) {
+                    temp[i] = l + i;
+                }
+                list.add(temp);
+            }
+        }
+
+        int[][] res = new int[list.size()][];
+        for (int i = 0; i < res.length; i++) {
+            res[i] = list.get(i);
+        }
+        return res;
+    }
 }
 
 
