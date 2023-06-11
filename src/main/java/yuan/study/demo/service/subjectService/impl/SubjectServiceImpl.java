@@ -1334,6 +1334,24 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String trap(){
+        System.out.println(JSON.toJSONString(trap(new int[]{0,1,0,2,1,0,1,3,2,1,2,1})));
+        return "success";
+    }
+
+    public int trap(int[] height) {
+        int left = 0, right = height.length - 1;
+        int maxL = height[left], maxR = height[right];
+        int res = 0;
+        while (left < right) {
+            maxL = Math.max(maxL, height[left]);
+            maxR = Math.max(maxR, height[right]);
+            res += maxR > maxL ? maxL - height[left++] : maxR - height[right--];
+        }
+        return res;
+    }
+
+    @Override
     public String hasCycle(){
         ListNode node1 = new ListNode(-4, null);
         ListNode node2 = new ListNode(0, node1);

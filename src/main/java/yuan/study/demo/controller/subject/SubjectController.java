@@ -277,11 +277,19 @@ public class SubjectController {
     }
 
     /**
-     * 在排序数组中查找元素的第一个和最后一个位置
+     * 34. 在排序数组中查找元素的第一个和最后一个位置
      */
     @GetMapping(value = "/searchRange")
     public void searchRange(){
         subjectService.searchRange();
+    }
+
+    /**
+     * 42. 接雨水
+     */
+    @GetMapping(value = "/trap")
+    public String maxSubArray() {
+        return subjectService.trap();
     }
 
     /**
