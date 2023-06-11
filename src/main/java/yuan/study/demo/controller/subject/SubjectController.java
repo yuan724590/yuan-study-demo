@@ -205,7 +205,7 @@ public class SubjectController {
     }
 
     /**
-     * K 个一组翻转链表
+     * 25. K 个一组翻转链表
      */
     @GetMapping(value = "/reverse/k/group")
     public void reverseKGroup(){
@@ -282,5 +282,21 @@ public class SubjectController {
     @GetMapping(value = "/searchRange")
     public void searchRange(){
         subjectService.searchRange();
+    }
+
+    /**
+     * 141. 环形链表
+     */
+    @GetMapping(value = "/has/cycle")
+    public void hasCycle(){
+        subjectService.hasCycle();
+    }
+
+    /**
+     * 142. 环形链表 II
+     */
+    @GetMapping(value = "/detect/cycle")
+    public void detectCycle(){
+        subjectService.detectCycle();
     }
 }

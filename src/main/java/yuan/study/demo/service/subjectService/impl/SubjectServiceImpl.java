@@ -704,7 +704,6 @@ public class SubjectServiceImpl implements SubjectService {
         System.out.println(isValid("[(])]"));
     }
 
-
     public boolean isValid(String s) {
         Stack<Character> stack = new Stack<>();
         for(char c : s.toCharArray()){
@@ -1332,5 +1331,72 @@ public class SubjectServiceImpl implements SubjectService {
             }
         }
         return res;
+    }
+
+    @Override
+    public String hasCycle(){
+        ListNode node1 = new ListNode(-4, null);
+        ListNode node2 = new ListNode(0, node1);
+        ListNode node3 = new ListNode(2, node2);
+        ListNode node4 = new ListNode(3, node3);
+        node1.next = node3;
+        System.out.println(JSON.toJSONString(hasCycle(node4)));
+        return "success";
+    }
+
+    public boolean hasCycle(ListNode head) {
+        ListNode fast = head;
+        ListNode slow = head;
+        // 空链表、单节点链表一定不会有环
+        while (fast != null && fast.next != null) {
+            // 快指针，一次移动两步
+            fast = fast.next.next;
+            // 慢指针，一次移动一步
+            slow = slow.next;
+            // 快慢指针相遇，表明有环
+            if (fast == slow) {
+                return true;
+            }
+        }
+        // 正常走到链表末尾，表明没有环
+        return false;
+    }
+
+    @Override
+    public String detectCycle(){
+        ListNode node1 = new ListNode(-4, null);
+        ListNode node2 = new ListNode(0, node1);
+        ListNode node3 = new ListNode(2, node2);
+        ListNode node4 = new ListNode(3, node3);
+        ListNode node5 = new ListNode(4, node4);
+        node1.next = node3;
+        System.out.println(JSON.toJSONString(detectCycle(node5)));
+        return "success";
+    }
+
+    public ListNode detectCycle(ListNode head) {
+        // 步骤一：使用快慢指针判断链表是否有环
+        ListNode node1 = head, node2 = head;
+        boolean hasCycle = false;
+        while (node2 != null && node2.next != null && node2.next.next != null) {
+            node1 = node1.next;
+            node2 = node2.next.next;
+            if (node1 == node2) {
+                hasCycle = true;
+                break;
+            }
+        }
+
+        // 步骤二：若有环，找到入环开始的节点
+        if (hasCycle) {
+            ListNode listNode = head;
+            while (node1 != listNode) {
+                node1 = node1.next;
+                listNode = listNode.next;
+            }
+            return listNode;
+        } else{
+            return null;
+        }
     }
 }
