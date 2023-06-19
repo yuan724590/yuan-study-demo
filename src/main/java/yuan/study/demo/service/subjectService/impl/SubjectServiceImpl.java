@@ -1,6 +1,8 @@
 package yuan.study.demo.service.subjectService.impl;
 
 import com.alibaba.fastjson.JSON;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import yuan.study.demo.entity.ListNode;
@@ -1351,6 +1353,108 @@ public class SubjectServiceImpl implements SubjectService {
         return res;
     }
 
+    @AllArgsConstructor
+    @Data
+    class TreeNode {
+        int val;
+
+        TreeNode left;
+
+        TreeNode right;
+
+        TreeNode(int x) {
+            val = x;
+        }
+    }
+
+    @Override
+    public String isValidBST(){
+        TreeNode treeNode = new TreeNode(5);
+        treeNode.left = new TreeNode(1);
+        treeNode.right = new TreeNode(4);
+        treeNode.right.left = new TreeNode(3);
+        treeNode.right.right = new TreeNode(6);
+        System.out.println(JSON.toJSONString(isValidBST(treeNode)));
+        return "success";
+    }
+
+    public boolean isValidBST(TreeNode root) {
+        ArrayDeque<TreeNode> stack = new ArrayDeque<>();
+        TreeNode pre = null;
+
+        while(root != null || !stack.isEmpty()){
+            while(root != null){
+                stack.push(root);
+                root = root.left;
+            }
+            root = stack.pop();
+            if(pre != null && pre.val >= root.val) {
+                return false;
+            }
+            pre = root;
+            root = root.right;
+        }
+        return true;
+    }
+
+    @Override
+    public String maxProfit(){
+        System.out.println(JSON.toJSONString(maxProfit(new int[]{7,1,5,3,6,4})));
+        return "success";
+    }
+
+    public int maxProfit(int[] prices) {
+        int min = prices[0], result = 0;
+        for(int i = 1; i < prices.length; i++){
+            min = Math.min(min, prices[i]);
+            result = Math.max(prices[i] - min, result);
+        }
+        return result;
+    }
+
+    @Override
+    public String maxProfit2(){
+        System.out.println(JSON.toJSONString(maxProfit2(new int[]{7,1,5,3,6,4})));
+        return "success";
+    }
+
+    public int maxProfit2(int[] prices) {
+        int sum = 0;
+        for(int i = 0; i < prices.length - 1; i++){
+            if(prices[i + 1] > prices[i]){
+                sum += prices[i + 1] - prices[i];
+            }
+        }
+        return sum;
+    }
+
+    @Override
+    public String maxProfit3(){
+        System.out.println(JSON.toJSONString(maxProfit3(new int[]{1,2,4,2,5,7,2,4,9,0})));
+        return "success";
+    }
+
+    public int maxProfit3(int[] prices) {
+        /**
+         * 对于任意一天考虑四个变量:
+         * fstBuy: 在该天第一次买入股票可获得的最大收益
+         * fstSell: 在该天第一次卖出股票可获得的最大收益
+         * secBuy: 在该天第二次买入股票可获得的最大收益
+         * secSell: 在该天第二次卖出股票可获得的最大收益
+         * 分别对四个变量进行相应的更新, 最后secSell就是最大
+         * 收益值(secSell >= fstSell)
+         */
+        int fstBuy = Integer.MIN_VALUE, fstSell = 0;
+        int secBuy = Integer.MIN_VALUE, secSell = 0;
+        for(int price : prices) {
+            fstBuy = Math.max(fstBuy, -price);
+            fstSell = Math.max(fstSell, fstBuy + price);
+            secBuy = Math.max(secBuy, fstSell - price);
+            secSell = Math.max(secSell, secBuy + price);
+        }
+        return secSell;
+    }
+
     @Override
     public String hasCycle(){
         ListNode node1 = new ListNode(-4, null);
@@ -1392,6 +1496,17 @@ public class SubjectServiceImpl implements SubjectService {
         return "success";
     }
 
+    /**
+     * 假设非环形部分为x, 环长度为y, 快慢指针在y的第b个元素重叠, 此时慢指针走过a1圈, 快指针走过a2圈
+     * 故有以下等式
+     * x + a1 * y + b = n
+     * x + a2 * y + b = 2n
+     *
+     * 如果把等式1 * 2 - 等式2即获得以下结果
+     * x + (2a1 - a2) * y + b = 0  =>  x + b = (a2 - 2a1) * y
+     * 即b位置, 走过x个元素后, 为y的整数圈
+     * 故在有环情况下, 从b出发和从开始出发 经过x个元素后到达y的第一个元素并产生交集
+     */
     public ListNode detectCycle(ListNode head) {
         // 步骤一：使用快慢指针判断链表是否有环
         ListNode node1 = head, node2 = head;
@@ -1415,6 +1530,272 @@ public class SubjectServiceImpl implements SubjectService {
             return listNode;
         } else{
             return null;
+        }
+    }
+
+    @Override
+    public String myStack(){
+        MyStack myStack = new MyStack();
+        myStack.push(1);
+        myStack.push(2);
+        System.out.println("top: " +  myStack.top());
+        System.out.println("pop: " +  myStack.pop());
+        System.out.println("empty: " +  myStack.empty());
+        return "success";
+    }
+
+    class MyStack {
+
+        //输入队列
+        private Queue<Integer> queue1;
+
+        //输出队列
+        private Queue<Integer> queue2;
+
+        public MyStack() {
+            queue1 = new LinkedList<>();
+            queue2 = new LinkedList<>();
+        }
+
+        public void push(int x) {
+            queue1.offer(x);
+            // 将queue2队列中元素全部转给queue1队列
+            while(!queue2.isEmpty()){
+                queue1.offer(queue2.poll());
+            }
+            // 交换queue1和queue2,使得queue1队列没有在push()的时候始终为空队列
+            Queue<Integer> temp = queue1;
+            queue1 = queue2;
+            queue2 = temp;
+        }
+
+        public int pop() {
+            return queue2.poll();
+        }
+
+        public int top() {
+            return queue2.peek();
+        }
+
+        public boolean empty() {
+            return queue2.isEmpty();
+        }
+    }
+
+    @Override
+    public String myQueue(){
+        MyQueue myQueue = new MyQueue();
+        myQueue.push(1);
+        myQueue.push(2);
+        System.out.println("peek: " +  myQueue.peek());
+        System.out.println("pop: " +  myQueue.pop());
+        System.out.println("empty: " +  myQueue.empty());
+        return "success";
+    }
+
+    class MyQueue {
+
+        //输入栈
+        private Stack<Integer> stack1;
+
+        //输出栈
+        private Stack<Integer> stack2;
+
+        public MyQueue() {
+            stack1 = new Stack<>();
+            stack2 = new Stack<>();
+        }
+
+        public void push(int x) {
+            stack1.push(x);
+        }
+
+        public int pop() {
+            if(stack2.isEmpty()){
+                while(!stack1.isEmpty()){
+                    stack2.push(stack1.pop());
+                }
+            }
+            return stack2.pop();
+        }
+
+        public int peek() {
+            if(stack2.isEmpty()){
+                while(!stack1.isEmpty()){
+                    stack2.push(stack1.pop());
+                }
+            }
+            return stack2.peek();
+        }
+
+        public boolean empty() {
+            return stack2.isEmpty() && stack1.isEmpty();
+        }
+    }
+
+    @Override
+    public String lowestCommonAncestor(){
+        TreeNode treeNode = new TreeNode(5);
+        treeNode.left = new TreeNode(2);
+        treeNode.left.left = new TreeNode(0);
+        treeNode.left.right = new TreeNode(4);
+        treeNode.left.right.left = new TreeNode(3);
+        treeNode.left.right.right = new TreeNode(5);
+        treeNode.right = new TreeNode(8);
+        treeNode.right.left = new TreeNode(7);
+        treeNode.right.right = new TreeNode(9);
+        System.out.println(JSON.toJSONString(lowestCommonAncestor(treeNode, treeNode.left, treeNode.right)));
+        return "success";
+    }
+
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+
+        if(root.val > p.val && root.val > q.val) {
+            return lowestCommonAncestor(root.left, p, q);
+        }
+
+        if(root.val < p.val && root.val < q.val) {
+            return lowestCommonAncestor(root.right, p, q);
+        }
+
+        return root;
+    }
+
+    @Override
+    public String lowestCommonAncestor2(){
+        TreeNode treeNode = new TreeNode(3);
+        treeNode.left = new TreeNode(5);
+        treeNode.left.left = new TreeNode(6);
+        treeNode.left.right = new TreeNode(2);
+        treeNode.left.right.left = new TreeNode(7);
+        treeNode.left.right.right = new TreeNode(4);
+        treeNode.right = new TreeNode(1);
+        treeNode.right.left = new TreeNode(0);
+        treeNode.right.right = new TreeNode(8);
+        System.out.println(JSON.toJSONString(lowestCommonAncestor2(treeNode, treeNode.left, treeNode.right.right)));
+        return "success";
+    }
+
+    public TreeNode lowestCommonAncestor2(TreeNode root, TreeNode p, TreeNode q) {
+        if (root == null) {
+            return null;
+        }
+        if (root == p || root == q) {
+            return root;
+        }
+        TreeNode left = lowestCommonAncestor2(root.left, p, q);
+        TreeNode right = lowestCommonAncestor2(root.right, p, q);
+        if (left != null && right != null) {
+            return root;
+        } else if (left != null) {
+            return left;
+        } else if (right != null) {
+            return right;
+        }
+        return null;
+    }
+
+    @Override
+    public String maxSlidingWindow(){
+        System.out.println(JSON.toJSONString(maxSlidingWindow(new int[]{1,3,-1,-3,5,3,6,7}, 3)));
+        return "success";
+    }
+
+    public int[] maxSlidingWindow(int[] nums, int k) {
+        // 采用单向队列的方式，让队列中始终保持top处的值是最大的
+        Deque<Integer> deque = new ArrayDeque<>();
+
+        int[] res = new int[nums.length - k + 1];
+        int index = 0;
+
+        for (int i = 0; i < k; i++) {
+            while (!deque.isEmpty() && nums[i] > deque.peekLast()) {
+                deque.removeLast();
+            }
+            deque.offer(nums[i]);
+        }
+        //把第一个窗口中的最大值存进去，下标递增
+        res[index++] = deque.peek();
+
+
+        // 接下来开始循环后面的数：策略就是进一个出一个
+        for (int i = 0; i < nums.length - k; i++) {
+            // 先弹出数据，如果要删的数，不是头部的数据，那就不执行。首先要保证我的头部是存在的，也就是队列不为空
+            if (!deque.isEmpty() && deque.peek() == nums[i]) {
+                deque.pop();
+            }
+
+            // 接下来加入数据，加入的数一个一个的和队列里面的数比大小，小的数弹出去，从后往头部比较
+            while(!deque.isEmpty() && nums[i + k] > deque.peekLast()) {
+                deque.removeLast();
+            }
+
+            // 把队列中比要添加的数都要小的数都去掉之后，将新的数添加进来
+            deque.offer(nums[i + k]);
+
+            // 存了一个数，也弹出了一个数，等于移动了一个窗长，这个时候，可以取窗长下的最大值，也就是头部的值
+            res[index++] = deque.peek();
+        }
+        return res;
+    }
+
+    @Override
+    public String isAnagram(){
+        System.out.println(JSON.toJSONString(isAnagram("rat", "car")));
+        return "success";
+    }
+
+    public boolean isAnagram(String s, String t) {
+        if(s.length() != t.length()){
+            return false;
+        }
+        int[] sArr = new int[26];
+        for(int i = 0; i < s.length(); i++){
+            sArr[s.charAt(i) - 'a']++;
+        }
+        for(int i = 0; i < t.length(); i++){
+            sArr[t.charAt(i) - 'a']--;
+        }
+        for(int arr : sArr){
+            if(arr != 0){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    @Override
+    public String kthLargest(){
+        KthLargest kthLargest = new KthLargest(3, new int[]{4, 5, 8, 2});
+        System.out.println("add: " + kthLargest.add(3));
+        System.out.println("add: " + kthLargest.add(5));
+        System.out.println("add: " + kthLargest.add(10));
+        System.out.println("add: " + kthLargest.add(9));
+        System.out.println("add: " + kthLargest.add(4));
+        return "success";
+    }
+
+    class KthLargest {
+        PriorityQueue<Integer> priorityQueue;
+
+        int k;
+
+        public KthLargest(int k, int[] nums) {
+            this.k = k;
+            priorityQueue = new PriorityQueue<>(k);
+            for(int i: nums) {
+                add(i);
+            }
+        }
+
+        public int add(int val) {
+            if(priorityQueue.size() < k) {
+                priorityQueue.offer(val);
+            } else if(priorityQueue.peek() < val) {
+                priorityQueue.poll();
+                priorityQueue.offer(val);
+            }
+            return priorityQueue.peek();
         }
     }
 }

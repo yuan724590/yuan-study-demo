@@ -21,6 +21,11 @@ public class SubjectController {
     }
 
     /**
+     * 1. 两数之和
+     * 同yuan.study.demo.service.subjectService.OfferSubjectService#twoSum() 故跳过
+     */
+
+    /**
      * 相加两个数
      */
     @GetMapping(value = "/addTwoNumbers")
@@ -125,7 +130,7 @@ public class SubjectController {
     }
 
     /**
-     * 三数之和
+     * 15.三数之和
      */
     @GetMapping(value = "/three/sum")
     public void threeSum(){
@@ -293,6 +298,43 @@ public class SubjectController {
     }
 
     /**
+     * 50. Pow(x, n)
+     * 同yuan.study.demo.controller.subject.OfferSubjectController#myPow() 故跳过
+     */
+
+    /**
+     * 98. 验证二叉搜索树
+     */
+    @GetMapping(value = "/is/valid/bst")
+    public String isValidBST() {
+        return subjectService.isValidBST();
+    }
+
+    /**
+     * 121. 买卖股票的最佳时机
+     */
+    @GetMapping(value = "/max/profit")
+    public String maxProfit() {
+        return subjectService.maxProfit();
+    }
+
+    /**
+     * 122. 买卖股票的最佳时机 II
+     */
+    @GetMapping(value = "/max/profit2")
+    public String maxProfit2() {
+        return subjectService.maxProfit2();
+    }
+
+    /**
+     * 123. 买卖股票的最佳时机 III
+     */
+    @GetMapping(value = "/max/profit3")
+    public String maxProfit3() {
+        return subjectService.maxProfit3();
+    }
+
+    /**
      * 141. 环形链表
      */
     @GetMapping(value = "/has/cycle")
@@ -306,5 +348,66 @@ public class SubjectController {
     @GetMapping(value = "/detect/cycle")
     public void detectCycle(){
         subjectService.detectCycle();
+    }
+
+    /**
+     * 169. 多数元素
+     * 同yuan.study.demo.controller.subject.OfferSubjectController#majorityElement() 故跳过
+     */
+
+    /**
+     * 225. 用队列实现栈
+     */
+    @GetMapping(value = "/my/stack")
+    public void myStack(){
+        subjectService.myStack();
+    }
+
+    /**
+     * 232. 用栈实现队列
+     */
+    @GetMapping(value = "/my/queue")
+    public void myQueue(){
+        subjectService.myQueue();
+    }
+
+    /**
+     * 235. 二叉搜索树的最近公共祖先
+     */
+    @GetMapping(value = "/lowest/common/ancestor")
+    public void lowestCommonAncestor(){
+        subjectService.lowestCommonAncestor();
+    }
+
+    /**
+     * 236. 二叉树的最近公共祖先
+     */
+    @GetMapping(value = "/lowest/common/ancestor2")
+    public void lowestCommonAncestor2(){
+        subjectService.lowestCommonAncestor2();
+    }
+
+    /**
+     * 239. 滑动窗口最大值
+     */
+    @GetMapping(value = "/max/sliding/window")
+    public void maxSlidingWindow(){
+        subjectService.maxSlidingWindow();
+    }
+
+    /**
+     * 242. 有效的字母异位词
+     */
+    @GetMapping(value = "/is/anagram")
+    public void isAnagram(){
+        subjectService.isAnagram();
+    }
+
+    /**
+     * 703. 数据流中的第 K 大元素
+     */
+    @GetMapping(value = "/k/th/largest")
+    public String kthLargest() {
+        return subjectService.kthLargest();
     }
 }
