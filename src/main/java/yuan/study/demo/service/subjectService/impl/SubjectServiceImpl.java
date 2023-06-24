@@ -1353,6 +1353,100 @@ public class SubjectServiceImpl implements SubjectService {
         return res;
     }
 
+    @Override
+    public String solveNQueens(){
+        System.out.println(JSON.toJSONString(solveNQueens(6)));
+        return "success";
+    }
+
+    private List<List<String>> solveNQueenList = new ArrayList<>();
+
+    // boolean数组中的每个元素代表一条直(斜)线
+    private boolean[] usedCol, usedDiag45, usedDiag135;
+
+    public List<List<String>> solveNQueens(int n) {
+        // 列方向的直线条数为 n
+        usedCol = new boolean[n];
+        // 45°方向的斜线条数为 2 * n - 1
+        usedDiag45 = new boolean[2 * n - 1];
+        // 135°方向的斜线条数为 2 * n - 1
+        usedDiag135 = new boolean[2 * n - 1];
+        //用于收集结果, 元素的index表示棋盘的row，元素的value代表棋盘的column
+        int[] board = new int[n];
+        backTracking(board, n, 0);
+        return solveNQueenList;
+    }
+
+    private void backTracking(int[] board, int n, int row) {
+        if (row == n) {
+            //收集结果
+            List<String> temp = new ArrayList<>();
+            for (int i : board) {
+                char[] str = new char[n];
+                Arrays.fill(str, '.');
+                str[i] = 'Q';
+                temp.add(new String(str));
+            }
+            solveNQueenList.add(temp);
+            return;
+        }
+
+        for (int col = 0; col < n; col++) {
+            if (usedCol[col] | usedDiag45[row + col] | usedDiag135[row - col + n - 1]) {
+                continue;
+            }
+            board[row] = col;
+            // 标记该列出现过
+            usedCol[col] = true;
+            // 同一45°斜线上元素的row + col为定值, 且各不相同
+            usedDiag45[row + col] = true;
+            // 同一135°斜线上元素row - col为定值, 且各不相同
+            // row - col 值有正有负, 加 n - 1 是为了对齐零点
+            usedDiag135[row - col + n - 1] = true;
+            // 递归
+            backTracking(board, n, row + 1);
+            usedCol[col] = false;
+            usedDiag45[row + col] = false;
+            usedDiag135[row - col + n - 1] = false;
+        }
+    }
+
+    @Override
+    public String totalNQueens(){
+        System.out.println(JSON.toJSONString(totalNQueens(4)));
+        return "success";
+    }
+
+    private int totalNQueensCount = 0;
+
+    public int totalNQueens(int n) {
+        if (n < 1) {
+            return 0;
+        }
+        dfs( 0, 0, 0, 0, n);
+        return totalNQueensCount;
+    }
+
+    private void dfs(int row, int col, int pie, int na, int n) {
+        if (row >= n) {
+            totalNQueensCount++;
+            return;
+        }
+        // 获取当前空位 标识为1  &  去掉所有高位
+        int bit = (~(col | pie | na)) & ((1 << n) - 1);
+        //遍历所有空位
+        while (bit > 0){
+            //获取最后的空位 1(用二进制表示实际上此行皇后的位点)
+            int p = bit & -bit;
+            //col | p 表示 p 位被占用(用二进制表示所有行皇后列的位点)
+            //(pie | p ) << 1 ,表示pie往斜左方移一位 被占用
+            //(na | p) >> 1,表示na往斜右方移一位 被占用
+            dfs(row + 1, col | p, (pie | p ) << 1, (na | p) >> 1, n);
+            // 打掉最后的1
+            bit &= (bit - 1);
+        }
+    }
+
     @AllArgsConstructor
     @Data
     class TreeNode {
@@ -1395,6 +1489,33 @@ public class SubjectServiceImpl implements SubjectService {
             root = root.right;
         }
         return true;
+    }
+
+    @Override
+    public String minDepth(){
+        TreeNode treeNode = new TreeNode(2);
+        treeNode.right = new TreeNode(3);
+        treeNode.right.left = new TreeNode(4);
+        treeNode.right.right = new TreeNode(4);
+        treeNode.right.right.right = new TreeNode(5);
+        treeNode.right.right.right.right = new TreeNode(6);
+        System.out.println(JSON.toJSONString(minDepth(treeNode)));
+        return "success";
+    }
+
+    public int minDepth(TreeNode root) {
+        if(root == null) {
+            return 0;
+        }
+        if(root.left != null && root.right == null) {
+            return minDepth(root.left) + 1;
+        }else if(root.left == null && root.right != null) {
+            return minDepth(root.right) + 1;
+        }else if(root.left != null) {
+            return Math.min(minDepth(root.left), minDepth(root.right)) + 1;
+        }else {
+            return 1;
+        }
     }
 
     @Override
@@ -1762,6 +1883,38 @@ public class SubjectServiceImpl implements SubjectService {
             }
         }
         return true;
+    }
+
+    @Override
+    public String maxCoins(){
+        System.out.println(JSON.toJSONString(maxCoins(new int[]{3,1,5,8,6})));
+        return "success";
+    }
+
+    public int maxCoins(int[] nums) {
+        int[] arr = new int[nums.length + 2];
+        arr[0] = 1;
+        arr[arr.length - 1] = 1;
+        for(int i = 1; i < arr.length - 1; i++){
+            arr[i] = nums[i - 1];
+        }
+        int[][] map = new int[arr.length][arr.length];
+        for(int i = 1; i < map.length - 1; i++){
+            map[i][i] = arr[i - 1] * arr[i] * arr[i + 1];
+        }
+        for(int start = map.length - 2; start > 0; start--){
+            for(int end = start + 1; end < map.length - 1; end++){
+                int ans = 0;
+                int p;
+                for(int i = start; i <= end; i++){
+                    //最后打爆i位置，则打爆i位置加上start到i - 1位置的得分 加上i + 1到end的得分就是得分
+                    p = arr[start - 1] * arr[i] * arr[end + 1] + map[start][i - 1] + map[i + 1][end];
+                    ans = Math.max(ans, p);
+                }
+                map[start][end] = ans;
+            }
+        }
+        return map[1][map.length - 2];
     }
 
     @Override

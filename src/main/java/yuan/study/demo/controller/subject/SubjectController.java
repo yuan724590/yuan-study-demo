@@ -303,11 +303,45 @@ public class SubjectController {
      */
 
     /**
+     * 51. N 皇后
+     */
+    @GetMapping(value = "/solve/n/queens")
+    public String solveNQueens() {
+        return subjectService.solveNQueens();
+    }
+
+    /**
+     * 52. N 皇后 II
+     */
+    @GetMapping(value = "/total/n/queens")
+    public String totalNQueens() {
+        return subjectService.totalNQueens();
+    }
+
+    /**
      * 98. 验证二叉搜索树
      */
     @GetMapping(value = "/is/valid/bst")
     public String isValidBST() {
         return subjectService.isValidBST();
+    }
+
+    /**
+     * 102. 二叉树的层序遍历
+     * 同yuan.study.demo.service.subjectService.OfferSubjectService#levelOrder() 故跳过
+     */
+
+    /**
+     * 104. 二叉树的最大深度
+     * 同yuan.study.demo.controller.subject.OfferSubjectController#maxDepth() 故跳过
+     */
+
+    /**
+     * 111. 二叉树的最小深度
+     */
+    @GetMapping(value = "/min/depth")
+    public String minDepth() {
+        return subjectService.minDepth();
     }
 
     /**
@@ -401,6 +435,14 @@ public class SubjectController {
     @GetMapping(value = "/is/anagram")
     public void isAnagram(){
         subjectService.isAnagram();
+    }
+
+    /**
+     * 312. 戳气球
+     */
+    @GetMapping(value = "/max/coins")
+    public void maxCoins(){
+        subjectService.maxCoins();
     }
 
     /**
