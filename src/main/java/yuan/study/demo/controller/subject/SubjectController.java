@@ -290,6 +290,22 @@ public class SubjectController {
     }
 
     /**
+     * 36. 有效的数独
+     */
+    @GetMapping(value = "/isValidSudoku")
+    public void isValidSudoku(){
+        subjectService.isValidSudoku();
+    }
+
+    /**
+     * 37. 解数独
+     */
+    @GetMapping(value = "/solveSudoku")
+    public void solveSudoku(){
+        subjectService.solveSudoku();
+    }
+
+    /**
      * 42. 接雨水
      */
     @GetMapping(value = "/trap")
