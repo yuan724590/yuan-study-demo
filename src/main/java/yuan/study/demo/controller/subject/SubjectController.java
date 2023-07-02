@@ -335,6 +335,22 @@ public class SubjectController {
     }
 
     /**
+     * 69. x 的平方根
+     */
+    @GetMapping(value = "/mySqrt")
+    public String mySqrt() {
+        return subjectService.mySqrt();
+    }
+
+    /**
+     * 79. 单词搜索
+     */
+    @GetMapping(value = "/exist79")
+    public String exist() {
+        return subjectService.exist();
+    }
+
+    /**
      * 98. 验证二叉搜索树
      */
     @GetMapping(value = "/is/valid/bst")
@@ -404,6 +420,22 @@ public class SubjectController {
      * 169. 多数元素
      * 同yuan.study.demo.controller.subject.OfferSubjectController#majorityElement() 故跳过
      */
+
+    /**
+     * 208. 实现 Trie (前缀树)
+     */
+    @GetMapping(value = "/trie")
+    public void trie(){
+        subjectService.trie();
+    }
+
+    /**
+     * 212. 单词搜索 II
+     */
+    @GetMapping(value = "/findWords")
+    public void findWords(){
+        subjectService.findWords();
+    }
 
     /**
      * 225. 用队列实现栈

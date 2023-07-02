@@ -1419,6 +1419,53 @@ public interface SubjectService {
     String totalNQueens();
 
     /**
+     * 给你一个非负整数 x ，计算并返回 x 的 算术平方根 。
+     *
+     * 由于返回类型是整数，结果只保留 整数部分 ，小数部分将被 舍去 。
+     *
+     * 注意：不允许使用任何内置指数函数和算符，例如 pow(x, 0.5) 或者 x ** 0.5 。
+     *
+     * 示例 1：
+     * 输入：x = 4
+     * 输出：2
+     *
+     * 示例 2：
+     * 输入：x = 8
+     * 输出：2
+     * 解释：8 的算术平方根是 2.82842..., 由于返回类型是整数，小数部分将被舍去。
+     *
+     * 提示：
+     * 0 <= x <= 231 - 1
+     */
+    String mySqrt();
+
+    /**
+     * 给定一个 m x n 二维字符网格 board 和一个字符串单词 word 。如果 word 存在于网格中，返回 true ；否则，返回 false 。
+     *
+     * 单词必须按照字母顺序，通过相邻的单元格内的字母构成，其中“相邻”单元格是那些水平相邻或垂直相邻的单元格。同一个单元格内的字母不允许被重复使用。
+     *
+     * 示例 1：
+     * 输入：board = [["A","B","C","E"],["S","F","C","S"],["A","D","E","E"]], word = "ABCCED"
+     * 输出：true
+     *
+     * 示例 2：
+     * 输入：board = [["A","B","C","E"],["S","F","C","S"],["A","D","E","E"]], word = "SEE"
+     * 输出：true
+     *
+     * 示例 3：
+     * 输入：board = [["A","B","C","E"],["S","F","C","S"],["A","D","E","E"]], word = "ABCB"
+     * 输出：false
+     *
+     * 提示：
+     * m == board.length
+     * n = board[i].length
+     * 1 <= m, n <= 6
+     * 1 <= word.length <= 15
+     * board 和 word 仅由大小写英文字母组成
+     */
+    String exist();
+
+    /**
      * 给你一个二叉树的根节点 root ，判断其是否是一个有效的二叉搜索树。
      *
      * 有效 二叉搜索树定义如下：
@@ -1609,6 +1656,65 @@ public interface SubjectService {
      * pos 的值为 -1 或者链表中的一个有效索引
      */
     String detectCycle();
+
+    /**
+     * Trie（发音类似 "try"）或者说 前缀树 是一种树形数据结构，用于高效地存储和检索字符串数据集中的键。这一数据结构有相当多的应用情景，例如自动补完和拼写检查。
+     *
+     * 请你实现 Trie 类：
+     *
+     * Trie() 初始化前缀树对象。
+     * void insert(String word) 向前缀树中插入字符串 word 。
+     * boolean search(String word) 如果字符串 word 在前缀树中，返回 true（即，在检索之前已经插入）；否则，返回 false 。
+     * boolean startsWith(String prefix) 如果之前已经插入的字符串 word 的前缀之一为 prefix ，返回 true ；否则，返回 false 。
+     *  
+     * 示例：
+     *
+     * 输入
+     * ["Trie", "insert", "search", "search", "startsWith", "insert", "search"]
+     * [[], ["apple"], ["apple"], ["app"], ["app"], ["app"], ["app"]]
+     * 输出
+     * [null, null, true, false, true, null, true]
+     *
+     * 解释
+     * Trie trie = new Trie();
+     * trie.insert("apple");
+     * trie.search("apple");   // 返回 True
+     * trie.search("app");     // 返回 False
+     * trie.startsWith("app"); // 返回 True
+     * trie.insert("app");
+     * trie.search("app");     // 返回 True
+     *
+     * 提示：
+     * 1 <= word.length, prefix.length <= 2000
+     * word 和 prefix 仅由小写英文字母组成
+     * insert、search 和 startsWith 调用次数 总计 不超过 3 * 104 次
+     */
+    String trie();
+
+    /**
+     * 给定一个 m x n 二维字符网格 board 和一个单词（字符串）列表 words， 返回所有二维网格上的单词 。
+     *
+     * 单词必须按照字母顺序，通过 相邻的单元格 内的字母构成，其中“相邻”单元格是那些水平相邻或垂直相邻的单元格。同一个单元格内的字母在一个单词中不允许被重复使用。
+     *
+     * 示例 1：
+     * 输入：board = [["o","a","a","n"],["e","t","a","e"],["i","h","k","r"],["i","f","l","v"]], words = ["oath","pea","eat","rain"]
+     * 输出：["eat","oath"]
+     *
+     * 示例 2：
+     * 输入：board = [["a","b"],["c","d"]], words = ["abcb"]
+     * 输出：[]
+     *
+     * 提示：
+     * m == board.length
+     * n == board[i].length
+     * 1 <= m, n <= 12
+     * board[i][j] 是一个小写英文字母
+     * 1 <= words.length <= 3 * 104
+     * 1 <= words[i].length <= 10
+     * words[i] 由小写英文字母组成
+     * words 中的所有字符串互不相同
+     */
+    String findWords();
 
     /**
      * 请你仅使用两个队列实现一个后入先出（LIFO）的栈，并支持普通栈的全部四种操作（push、top、pop 和 empty）。

@@ -1545,6 +1545,28 @@ public class SubjectServiceImpl implements SubjectService {
         }
     }
 
+    @Override
+    public String mySqrt(){
+        System.out.println(JSON.toJSONString(mySqrt(183692038)));
+        return "success";
+    }
+
+    public int mySqrt(int x) {
+        if(x == 1){
+            return 1;
+        }
+        int min = 0, max = x;
+        while(max - min > 1) {
+            int mid = (max + min) / 2;
+            if(x / mid < mid){
+                max = mid;
+            } else{
+                min = mid;
+            }
+        }
+        return min;
+    }
+
     @AllArgsConstructor
     @Data
     class TreeNode {
@@ -1556,6 +1578,44 @@ public class SubjectServiceImpl implements SubjectService {
 
         TreeNode(int x) {
             val = x;
+        }
+    }
+
+    @Override
+    public String exist(){
+        System.out.println(JSON.toJSONString(exist(new char[][]{{'A','B','C','E'},{'S','F','C','S'},{'A','D','E','E'}}, "ABCB")));
+        return "success";
+    }
+
+    public boolean exist(char[][] board, String word) {
+        char firstChar = word.charAt(0);
+        boolean[][] arr = new boolean[board.length][board[0].length];
+        for(int i = 0; i < board.length; i++){
+            for(int j = 0; j < board[0].length; j++){
+                if(board[i][j] == firstChar){
+                    if(exist(board, word, i, j, 0, arr)){
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    private boolean exist(char[][] board, String word, int i, int j, int index, boolean[][] arr) {
+        if(index == word.length()){
+            return true;
+        }
+        if(i < 0 || i >= board.length || j < 0 || j >= board[0].length || word.charAt(index) != board[i][j] || arr[i][j]){
+            return false;
+        }
+        arr[i][j] = true;
+        if(exist(board, word, i + 1, j, index + 1, arr) || exist(board, word, i - 1, j, index + 1, arr)
+                || exist(board, word, i, j + 1, index + 1, arr) || exist(board, word, i, j - 1, index + 1, arr)){
+            return true;
+        }else{
+            arr[i][j] = false;
+            return false;
         }
     }
 
@@ -1749,6 +1809,190 @@ public class SubjectServiceImpl implements SubjectService {
             return listNode;
         } else{
             return null;
+        }
+    }
+
+    @Override
+    public String trie(){
+        Trie trie = new Trie();
+        trie.insert("apple");
+        System.out.println(JSON.toJSONString(trie.search("apple")));
+        System.out.println(JSON.toJSONString(trie.search("app")));
+        System.out.println(JSON.toJSONString(trie.startsWith("app")));
+        trie.insert("app");
+        System.out.println(JSON.toJSONString(trie.search("app")));
+        return "success";
+    }
+
+    class Trie {
+
+        private class TrieNode {
+            // 每个节点最多有26个不同的小写字母
+            private boolean isEnd;
+            private TrieNode[] next;
+
+            public TrieNode() {
+                isEnd = false;
+                next = new TrieNode[26];
+            }
+        }
+
+        private TrieNode root;
+
+        public Trie() {
+            root = new TrieNode();
+        }
+
+        public void insert(String word) {
+            TrieNode cur = root;
+            for (int i = 0, len = word.length(), ch; i < len; i++) {
+                ch = word.charAt(i) - 'a';
+                if (cur.next[ch] == null)
+                    cur.next[ch] = new TrieNode();
+                cur = cur.next[ch];
+            }
+            // 加上一个标记，表示为一个单词
+            cur.isEnd = true;
+        }
+
+        public boolean search(String word) {
+            TrieNode cur = root;
+            for (int i = 0, len = word.length(), ch; i < len; i++) {
+                ch = word.charAt(i) - 'a';
+                if (cur.next[ch] == null)
+                    return false;
+                cur = cur.next[ch];
+            }
+            return cur.isEnd;
+        }
+
+        public boolean startsWith(String prefix) {
+            TrieNode cur = root;
+            for (int i = 0, len = prefix.length(), ch; i < len; i++) {
+                ch = prefix.charAt(i) - 'a';
+                if (cur.next[ch] == null)
+                    // 若还没遍历完给定的前缀子串，则直接返回false
+                    return false;
+                cur = cur.next[ch];
+            }
+            return true;
+        }
+    }
+
+    @Override
+    public String findWords(){
+        System.out.println(JSON.toJSONString(findWords(new char[][]{{'o','a','b','n'},{'o','t','a','e'},{'a','h','k','r'},{'a','f','l','v'}}, new String[]{"oa","oaa"})));
+        return "success";
+    }
+
+    static int[][] directs = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
+
+    public List<String> findWords(char[][] board, String[] words) {
+        //深搜board所有长度为3的子串，构成词典，把包含非法子串的word排除，压缩字典树。
+        findWordsThree findWordsThree = new findWordsThree(board);
+        findWordsTrie findWordsTrie = new findWordsTrie();
+        for (String word : words) {
+            if (findWordsThree.check(word)) findWordsTrie.insert(word);
+        }
+
+        List<String> ans = new ArrayList<>();
+        for (int i = 0; i < board.length; ++i) {
+            for (int j = 0; j < board[0].length; ++j) {
+                dfs(board, findWordsTrie, i, j, ans);
+            }
+        }
+        return ans;
+    }
+
+    private void dfs(char[][] board, findWordsTrie now, int i, int j, List<String> ans) {
+        if (i < 0 || j < 0 || i > board.length - 1 || j > board[0].length - 1) {
+            return;
+        }
+        if (!now.children.containsKey(board[i][j])) {
+            return;
+        }
+
+        char ch = board[i][j];
+        findWordsTrie nxt = now.children.get(ch);
+        if (nxt.word.length() > 0) {
+            ans.add(nxt.word);
+            nxt.word = "";
+        }
+
+        if (!nxt.children.isEmpty()) {
+            board[i][j] = '#';
+            for (int[] direct : directs) {
+                dfs(board, nxt, i + direct[0], j + direct[1], ans);
+            }
+            board[i][j] = ch;
+        }
+
+        if (nxt.children.isEmpty()) {
+            now.children.remove(ch);
+        }
+    }
+
+    class findWordsTrie {
+        String word;
+        Map<Character, findWordsTrie> children;
+
+        public findWordsTrie() {
+            this.word = "";
+            this.children = new HashMap<>();
+        }
+
+        public void insert(String word) {
+            findWordsTrie cur = this;
+            for (int i = 0; i < word.length(); ++i) {
+                char c = word.charAt(i);
+                if (!cur.children.containsKey(c)) {
+                    cur.children.put(c, new findWordsTrie());
+                }
+                cur = cur.children.get(c);
+            }
+            cur.word = word;
+        }
+    }
+
+    class findWordsThree {
+        int[][] directs = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
+        Set<String> dict;
+
+        public findWordsThree(char[][] board) {
+            dict = new HashSet<>();
+            char[] choose = new char[3];//长度定为3，时空开销适中。
+            for (int i = 0; i < board.length; i++) {
+                for (int j = 0; j < board[0].length; j++) {
+                    dfs(board, i, j, 0, choose);
+                }
+            }
+        }
+
+        void dfs(char[][] board, int i, int j, int now, char[] choose) {
+            if (i < 0 || j < 0 || i > board.length - 1 || j > board[0].length - 1) return;
+            if (board[i][j] == '#') return;
+            char ch = board[i][j];
+            choose[now] = ch;
+            if (now == choose.length - 1) {
+                dict.add(String.valueOf(choose));
+            } else {
+                board[i][j] = '#';
+                for (int[] direct : directs) {
+                    dfs(board, i + direct[0], j + direct[1], now + 1, choose);
+                }
+                board[i][j] = ch;
+            }
+        }
+
+        //随便选几段检查即可，降低开销。
+        int[] checkPoint = {10, 3, 8, 5};
+
+        public boolean check(String word) {
+            int n = word.length();
+            for (int p : checkPoint) {
+                if (n >= p && !dict.contains(word.substring(p - 3, p))) return false;
+            }
+            return true;
         }
     }
 
