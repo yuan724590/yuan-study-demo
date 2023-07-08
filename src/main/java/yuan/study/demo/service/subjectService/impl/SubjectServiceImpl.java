@@ -1582,6 +1582,26 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String climbStairs(){
+        System.out.println(JSON.toJSONString(climbStairs(3)));
+        return "success";
+    }
+
+    public int climbStairs(int n) {
+        if(n <= 2) {
+            return n;
+        }
+        int a = 1, b = 2, sum;
+
+        for(int i = 3; i <= n; i++){
+            sum = a + b;
+            a = b;
+            b = sum;
+        }
+        return b;
+    }
+
+    @Override
     public String exist(){
         System.out.println(JSON.toJSONString(exist(new char[][]{{'A','B','C','E'},{'S','F','C','S'},{'A','D','E','E'}}, "ABCB")));
         return "success";
@@ -2046,6 +2066,19 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String isPowerOfTwo(){
+        System.out.println(JSON.toJSONString(isPowerOfTwo(56)));
+        return "success";
+    }
+
+    public boolean isPowerOfTwo(int n) {
+        if (n < 1){
+            return false;
+        }
+        return (n & n-1) == 0;
+    }
+
+    @Override
     public String myQueue(){
         MyQueue myQueue = new MyQueue();
         myQueue.push(1);
@@ -2257,6 +2290,23 @@ public class SubjectServiceImpl implements SubjectService {
             }
         }
         return map[1][map.length - 2];
+    }
+
+    @Override
+    public String countBits(){
+        System.out.println(JSON.toJSONString(countBits(5)));
+        return "success";
+    }
+
+    public int[] countBits(int num) {
+        int dp[] = new int[num + 1];
+        for (int i = 0; i <= num / 2; i++) {
+            dp[i * 2] = dp[i];
+            if(i * 2 + 1 <= num){
+                dp[i * 2 + 1] = dp[i] + 1;
+            }
+        }
+        return dp;
     }
 
     @Override

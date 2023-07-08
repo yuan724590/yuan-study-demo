@@ -343,6 +343,14 @@ public class SubjectController {
     }
 
     /**
+     * 70. 爬楼梯
+     */
+    @GetMapping(value = "/climbStairs")
+    public String climbStairs() {
+        return subjectService.climbStairs();
+    }
+
+    /**
      * 79. 单词搜索
      */
     @GetMapping(value = "/exist79")
@@ -422,6 +430,11 @@ public class SubjectController {
      */
 
     /**
+     * 191. 位1的个数
+     * 同yuan.study.demo.controller.subject.OfferSubjectController#hammingWeight() 故跳过
+     */
+
+    /**
      * 208. 实现 Trie (前缀树)
      */
     @GetMapping(value = "/trie")
@@ -443,6 +456,14 @@ public class SubjectController {
     @GetMapping(value = "/my/stack")
     public void myStack(){
         subjectService.myStack();
+    }
+
+    /**
+     * 231. 2 的幂
+     */
+    @GetMapping(value = "/isPowerOfTwo")
+    public void isPowerOfTwo(){
+        subjectService.isPowerOfTwo();
     }
 
     /**
@@ -491,6 +512,14 @@ public class SubjectController {
     @GetMapping(value = "/max/coins")
     public void maxCoins(){
         subjectService.maxCoins();
+    }
+
+    /**
+     * 338. 比特位计数
+     */
+    @GetMapping(value = "/countBits")
+    public void countBits(){
+        subjectService.countBits();
     }
 
     /**
