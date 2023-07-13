@@ -1,6 +1,7 @@
 package yuan.study.demo.service.subjectService.impl;
 
 import com.alibaba.fastjson.JSON;
+import com.google.common.collect.Lists;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
@@ -1697,6 +1698,34 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String minimumTotal(){
+        List<List<Integer>> triangle = new ArrayList<>();
+        triangle.add(Lists.newArrayList(2));
+        triangle.add(Lists.newArrayList(3,4));
+        triangle.add(Lists.newArrayList(6,5,7));
+        triangle.add(Lists.newArrayList(4,1,8,3));
+        System.out.println(JSON.toJSONString(minimumTotal(triangle)));
+        return "success";
+    }
+
+    public int minimumTotal(List<List<Integer>> triangle) {
+        if (triangle == null || triangle.size() == 0){
+            return 0;
+        }
+        // 只需要记录每一层的最小值即可
+        int[] dp = new int[triangle.size()+1];
+
+        for (int i = triangle.size() - 1; i >= 0; i--) {
+            List<Integer> curTr = triangle.get(i);
+            for (int j = 0; j < curTr.size(); j++) {
+                //这里的dp[j] 使用的时候默认是上一层的，赋值之后变成当前层
+                dp[j] = Math.min(dp[j], dp[j+1]) + curTr.get(j);
+            }
+        }
+        return dp[0];
+    }
+
+    @Override
     public String maxProfit(){
         System.out.println(JSON.toJSONString(maxProfit(new int[]{7,1,5,3,6,4})));
         return "success";
@@ -1830,6 +1859,27 @@ public class SubjectServiceImpl implements SubjectService {
         } else{
             return null;
         }
+    }
+
+    @Override
+    public String maxProduct(){
+        System.out.println(JSON.toJSONString(maxProduct(new int[]{2,3,-2,4})));
+        return "success";
+    }
+
+    public int maxProduct(int[] nums) {
+        int max = Integer.MIN_VALUE, imax = 1, imin = 1;
+        for(int i = 0; i < nums.length; i++){
+            if(nums[i] < 0){
+                int tmp = imax;
+                imax = imin;
+                imin = tmp;
+            }
+            imax = Math.max(imax * nums[i], nums[i]);
+            imin = Math.min(imin * nums[i], nums[i]);
+            max = Math.max(max, imax);
+        }
+        return max;
     }
 
     @Override

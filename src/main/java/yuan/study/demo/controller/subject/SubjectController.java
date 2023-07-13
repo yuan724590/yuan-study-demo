@@ -385,6 +385,14 @@ public class SubjectController {
     }
 
     /**
+     * 120. 三角形最小路径和
+     */
+    @GetMapping(value = "/minimumTotal")
+    public String minimumTotal() {
+        return subjectService.minimumTotal();
+    }
+
+    /**
      * 121. 买卖股票的最佳时机
      */
     @GetMapping(value = "/max/profit")
@@ -422,6 +430,14 @@ public class SubjectController {
     @GetMapping(value = "/detect/cycle")
     public void detectCycle(){
         subjectService.detectCycle();
+    }
+
+    /**
+     * 152. 乘积最大子数组
+     */
+    @GetMapping(value = "/maxProduct")
+    public void maxProduct(){
+        subjectService.maxProduct();
     }
 
     /**
