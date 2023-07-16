@@ -446,6 +446,14 @@ public class SubjectController {
      */
 
     /**
+     * 188. 买卖股票的最佳时机 IV
+     */
+    @GetMapping(value = "/max/profit4")
+    public void maxProfit4(){
+        subjectService.maxProfit4();
+    }
+
+    /**
      * 191. 位1的个数
      * 同yuan.study.demo.controller.subject.OfferSubjectController#hammingWeight() 故跳过
      */
@@ -523,6 +531,14 @@ public class SubjectController {
     }
 
     /**
+     * 309. 最佳买卖股票时机含冷冻期
+     */
+    @GetMapping(value = "/max/profit5")
+    public void maxProfit5(){
+        subjectService.maxProfit5();
+    }
+
+    /**
      * 312. 戳气球
      */
     @GetMapping(value = "/max/coins")
@@ -544,5 +560,13 @@ public class SubjectController {
     @GetMapping(value = "/k/th/largest")
     public String kthLargest() {
         return subjectService.kthLargest();
+    }
+
+    /**
+     * 714. 买卖股票的最佳时机含手续费
+     */
+    @GetMapping(value = "/max/profit6")
+    public String maxProfit6() {
+        return subjectService.maxProfit6();
     }
 }

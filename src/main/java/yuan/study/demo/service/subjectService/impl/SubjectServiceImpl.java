@@ -1762,16 +1762,16 @@ public class SubjectServiceImpl implements SubjectService {
         return "success";
     }
 
+    /**
+     * 对于任意一天考虑四个变量:
+     * fstBuy: 在该天第一次买入股票可获得的最大收益
+     * fstSell: 在该天第一次卖出股票可获得的最大收益
+     * secBuy: 在该天第二次买入股票可获得的最大收益
+     * secSell: 在该天第二次卖出股票可获得的最大收益
+     * 分别对四个变量进行相应的更新, 最后secSell就是最大
+     * 收益值(secSell >= fstSell)
+     */
     public int maxProfit3(int[] prices) {
-        /**
-         * 对于任意一天考虑四个变量:
-         * fstBuy: 在该天第一次买入股票可获得的最大收益
-         * fstSell: 在该天第一次卖出股票可获得的最大收益
-         * secBuy: 在该天第二次买入股票可获得的最大收益
-         * secSell: 在该天第二次卖出股票可获得的最大收益
-         * 分别对四个变量进行相应的更新, 最后secSell就是最大
-         * 收益值(secSell >= fstSell)
-         */
         int fstBuy = Integer.MIN_VALUE, fstSell = 0;
         int secBuy = Integer.MIN_VALUE, secSell = 0;
         for(int price : prices) {
@@ -1880,6 +1880,30 @@ public class SubjectServiceImpl implements SubjectService {
             max = Math.max(max, imax);
         }
         return max;
+    }
+
+    @Override
+    public String maxProfit4(){
+        System.out.println(JSON.toJSONString(maxProfit4(2, new int[]{3,2,6,5,0,3})));
+        return "success";
+    }
+
+    public int maxProfit4(int k, int[] prices) {
+        //buy[i]表示买入i次股票后的利润
+        int[] buy = new int[k + 1];
+        //sell[i]表示完成i笔交易后的利润
+        int[] sell = new int[k + 1];
+        Arrays.fill(buy, -prices[0]);
+        for(int i = 1; i < prices.length; i++){
+            //最多支持k次交易
+            for(int j = 1; j <= k; j++){
+                //买入j次后的最大利润为:Math.max(当前利润, 上一笔交易的利润 - 当天的股票价格)
+                buy[j] = Math.max(buy[j], sell[j - 1] - prices[i]);
+                //完成j次交易后的最大利润为：Math.max(当前利润, 当前利润 + 本次交易后所得的利润)
+                sell[j] = Math.max(sell[j], buy[j] + prices[i]);
+            }
+        }
+        return sell[k];
     }
 
     @Override
@@ -2311,6 +2335,53 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String maxProfit5(){
+        System.out.println(JSON.toJSONString(maxProfit5(new int[]{1,7,2,4})));
+        return "success";
+    }
+
+    public int maxProfit5(int[] prices) {
+        if(prices == null || prices.length == 0){
+            return 0;
+        }
+        //状态转移图：
+        //       持股               不持股
+        //     ↙-----、   卖出    ↙-----、
+        //    持股-----↑--------→不持股---↑
+        //      |
+        //      |卖
+        //      |出
+        //      ↓
+        //    冷冻期(期间什么都不能干，冷冻期结束后转为不持股状态)
+        //
+        int[][] dp = new int[prices.length][3];
+        //dp[i][x]第i天进入(处于)x状态（0.不持股，1.持股，2.冷冻期）
+        //不持股
+        dp[0][0] = 0;
+        //持股
+        dp[0][1] = -prices[0];
+        //冷冻期
+        dp[0][2] = 0;
+        for(int i = 1; i < prices.length; i++){
+            //第i天不持股可以从两种状态转移而来，
+            //1.第i-1天不持股，今天仍不买股票，保持不持股状态。
+            //2.冷冻期结束了，但是今天不买股票。
+            dp[i][0] = Math.max(dp[i - 1][0], dp[i - 1][2]);
+
+            //第i天持股可从两种状态转移而来
+            //1.第i-1天不持股(包含昨天是冷冻期，冷冻期结束后转为不持股状态和昨天本身就不持股这两种情况)，今天买股票
+            //2.第i-1天持股，今天不卖出，保持持股状态。
+            dp[i][1] = Math.max(dp[i - 1][0] - prices[i], dp[i - 1][1]);
+
+            //只有第i - 1天卖出了股票，第i天才处于冷冻期。
+            dp[i][2] = dp[i - 1][1] + prices[i];
+        }
+
+        //只有最后一天不持股（不持股状态）或者前一天已经卖掉了（今天为冷冻期）这两种情况手里是拿着钱的，最大值在二者中产生。
+        return Math.max(dp[prices.length - 1][0], dp[prices.length - 1][2]);
+    }
+
+    @Override
     public String maxCoins(){
         System.out.println(JSON.toJSONString(maxCoins(new int[]{3,1,5,8,6})));
         return "success";
@@ -2392,5 +2463,23 @@ public class SubjectServiceImpl implements SubjectService {
             }
             return priorityQueue.peek();
         }
+    }
+
+    @Override
+    public String maxProfit6(){
+        System.out.println(JSON.toJSONString(maxProfit6(new int[]{2,1,4,4,2,3,2,5,1,2}, 1)));
+        return "success";
+    }
+
+    public int maxProfit6(int[] prices, int fee) {
+        int[] buyArr = new int[prices.length];
+        buyArr[0] = -prices[0];
+        int[] saleArr = new int[prices.length];
+        saleArr[0] = 0;
+        for(int i = 1; i < prices.length; i++){
+            buyArr[i] = Math.max(buyArr[i - 1], saleArr[i - 1] - prices[i]);
+            saleArr[i] = Math.max(saleArr[i - 1], buyArr[i - 1] + prices[i] - fee);
+        }
+        return saleArr[prices.length - 1];
     }
 }
