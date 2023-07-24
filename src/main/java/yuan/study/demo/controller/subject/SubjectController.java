@@ -6,6 +6,10 @@ import yuan.study.demo.service.subjectService.SubjectService;
 
 import javax.annotation.Resource;
 
+/**
+ * Leetcode 默认类型的题
+ * https://leetcode.cn/problemset/all/?page=1
+ */
 @RestController
 public class SubjectController {
 
@@ -309,8 +313,24 @@ public class SubjectController {
      * 42. 接雨水
      */
     @GetMapping(value = "/trap")
-    public String maxSubArray() {
+    public String trap() {
         return subjectService.trap();
+    }
+
+    /**
+     * 44. 通配符匹配
+     */
+    @GetMapping(value = "/isMatch")
+    public String isMatch() {
+        return subjectService.isMatch();
+    }
+
+    /**
+     * 49. 字母异位词分组
+     */
+    @GetMapping(value = "/groupAnagrams")
+    public String groupAnagrams() {
+        return subjectService.groupAnagrams();
     }
 
     /**
@@ -335,6 +355,16 @@ public class SubjectController {
     }
 
     /**
+     * 53. 最大子数组和
+     * 同yuan.study.demo.controller.subject.OfferSubjectController#maxSubArray()故跳过
+     */
+
+    /**
+     * 54. 螺旋矩阵
+     * 同yuan.study.demo.service.subjectService.OfferSubjectService#spiralOrder()故跳过
+     */
+
+    /**
      * 69. x 的平方根
      */
     @GetMapping(value = "/mySqrt")
@@ -351,11 +381,27 @@ public class SubjectController {
     }
 
     /**
+     * 72. 编辑距离
+     */
+    @GetMapping(value = "/minDistance")
+    public String minDistance() {
+        return subjectService.minDistance();
+    }
+
+    /**
      * 79. 单词搜索
      */
     @GetMapping(value = "/exist79")
     public String exist() {
         return subjectService.exist();
+    }
+
+    /**
+     * 85. 最大矩形
+     */
+    @GetMapping(value = "/maximalRectangle")
+    public String maximalRectangle() {
+        return subjectService.maximalRectangle();
     }
 
     /**
@@ -417,6 +463,14 @@ public class SubjectController {
     }
 
     /**
+     * 124. 二叉树中的最大路径和
+     */
+    @GetMapping(value = "/maxPathSum")
+    public String maxPathSum() {
+        return subjectService.maxPathSum();
+    }
+
+    /**
      * 141. 环形链表
      */
     @GetMapping(value = "/has/cycle")
@@ -430,6 +484,14 @@ public class SubjectController {
     @GetMapping(value = "/detect/cycle")
     public void detectCycle(){
         subjectService.detectCycle();
+    }
+
+    /**
+     * 146. LRU 缓存
+     */
+    @GetMapping(value = "/lruCache")
+    public void lruCache(){
+        subjectService.lruCache();
     }
 
     /**
@@ -459,6 +521,14 @@ public class SubjectController {
      */
 
     /**
+     * 200. 岛屿数量
+     */
+    @GetMapping(value = "/numIslands")
+    public void numIslands(){
+        subjectService.numIslands();
+    }
+
+    /**
      * 208. 实现 Trie (前缀树)
      */
     @GetMapping(value = "/trie")
@@ -473,6 +543,11 @@ public class SubjectController {
     public void findWords(){
         subjectService.findWords();
     }
+
+    /**
+     * 215. 数组中的第K个最大元素
+     * 同yuan.study.demo.controller.subject.SubjectController#kthLargest() 故跳过
+     */
 
     /**
      * 225. 用队列实现栈
@@ -531,6 +606,14 @@ public class SubjectController {
     }
 
     /**
+     * 300. 最长递增子序列
+     */
+    @GetMapping(value = "/lengthOfLIS")
+    public void lengthOfLIS(){
+        subjectService.lengthOfLIS();
+    }
+
+    /**
      * 309. 最佳买卖股票时机含冷冻期
      */
     @GetMapping(value = "/max/profit5")
@@ -547,11 +630,27 @@ public class SubjectController {
     }
 
     /**
+     * 322. 零钱兑换
+     */
+    @GetMapping(value = "/coinChange")
+    public void coinChange(){
+        subjectService.coinChange();
+    }
+
+    /**
      * 338. 比特位计数
      */
     @GetMapping(value = "/countBits")
     public void countBits(){
         subjectService.countBits();
+    }
+
+    /**
+     * 407. 接雨水 II
+     */
+    @GetMapping(value = "/trapRainWater")
+    public String trapRainWater() {
+        return subjectService.trapRainWater();
     }
 
     /**
@@ -568,5 +667,53 @@ public class SubjectController {
     @GetMapping(value = "/max/profit6")
     public String maxProfit6() {
         return subjectService.maxProfit6();
+    }
+
+    /**
+     * 845. 数组中的最长山脉
+     */
+    @GetMapping(value = "/longestMountain")
+    public String longestMountain() {
+        return subjectService.longestMountain();
+    }
+
+    /**
+     * 852. 山脉数组的峰顶索引
+     */
+    @GetMapping(value = "/peakIndexInMountainArray")
+    public String peakIndexInMountainArray() {
+        return subjectService.peakIndexInMountainArray();
+    }
+
+    /**
+     * 906. 超级回文数
+     */
+    @GetMapping(value = "/superpalindromesInRange")
+    public String superpalindromesInRange() {
+        return subjectService.superpalindromesInRange();
+    }
+
+    /**
+     * 941. 有效的山脉数组
+     */
+    @GetMapping(value = "/validMountainArray")
+    public String validMountainArray() {
+        return subjectService.validMountainArray();
+    }
+
+    /**
+     * 1095. 山脉数组中查找目标值
+     */
+    @GetMapping(value = "/findInMountainArray")
+    public String findInMountainArray() {
+        return subjectService.findInMountainArray();
+    }
+
+    /**
+     * 1143. 最长公共子序列
+     */
+    @GetMapping(value = "/longestCommonSubsequence")
+    public String longestCommonSubsequence() {
+        return subjectService.longestCommonSubsequence();
     }
 }

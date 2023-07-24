@@ -1453,6 +1453,93 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String isMatch(){
+        System.out.println(JSON.toJSONString(isMatch2("babecce", "*a*e")));
+        return "success";
+    }
+
+    public boolean isMatch2(String s, String p) {
+        boolean[][] value = new boolean[p.length() + 1][s.length() + 1];
+        value[0][0] = true;
+        for(int i = 1; i <= s.length(); i++){
+            value[0][i] = false;
+        }
+        for(int i = 1; i <= p.length(); i++){
+            if(p.charAt(i - 1) == '*'){
+                value[i][0] = value[i - 1][0];
+                for(int j = 1; j <= s.length(); j++){
+                    //表示为空时状态 || 之前内容成立状态的延续
+                    value[i][j] = value[i][j - 1] || value[i - 1][j];
+                }
+            }else if(p.charAt(i - 1) == '?'){
+                value[i][0] = false;
+                for(int j = 1; j <= s.length(); j++){
+                    //之前数据的表示状态
+                    value[i][j] = value[i - 1][j - 1];
+                }
+            }else {
+                value[i][0] = false;
+                for(int j = 1; j <= s.length(); j++){
+                    //两个值相同 && 之前数据的表示状态
+                    value[i][j] = s.charAt(j - 1) == p.charAt(i - 1) && value[i - 1][j - 1];
+                }
+            }
+        }
+        return value[p.length()][s.length()];
+    }
+
+//    public boolean isMatch2(String s, String p) {
+//        if(s == null || p == null) {
+//            return false;
+//        }
+//        int m = s.length();
+//        int n = p.length();
+//        int i = 0;
+//        int j = 0;
+//        int starIdx = -1;
+//        int match = 0;
+//        while(i < m) {
+//            if(j < n && p.charAt(j) != '*' && isEqual(s.charAt(i), p.charAt(j))) {
+//                i++;
+//                j++;
+//            } else if(j < n && p.charAt(j) == '*') {
+//                starIdx = j;
+//                match = i;
+//                j++;
+//            } else if(starIdx != -1) {
+//                j = starIdx + 1;
+//                i = ++match;
+//            } else {
+//                return false;
+//            }
+//        }
+//        while(j < n && p.charAt(j) == '*') {
+//            j++;
+//        }
+//        return j == n;
+//    }
+//
+//    public boolean isEqual(char c1, char c2) {
+//        return c1 == c2 || c2 == '?';
+//    }
+
+    @Override
+    public String groupAnagrams(){
+        System.out.println(JSON.toJSONString(groupAnagrams(new String[]{"eat", "tea", "tan", "ate", "nat", "bat"})));
+        return "success";
+    }
+
+    public List<List<String>> groupAnagrams(String[] strs) {
+        Map<String, List<String>> map = new HashMap<>();
+        for(String s : strs){
+            char[] ch = s.toCharArray();
+            Arrays.sort(ch);
+            map.computeIfAbsent(String.valueOf(ch), value -> new ArrayList<>()).add(s);
+        }
+        return new ArrayList(map.values());
+    }
+
+    @Override
     public String solveNQueens(){
         System.out.println(JSON.toJSONString(solveNQueens(6)));
         return "success";
@@ -1603,6 +1690,36 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String minDistance(){
+        System.out.println(JSON.toJSONString(minDistance("horse", "ros")));
+        return "success";
+    }
+
+    public int minDistance(String word1, String word2) {
+        int m = word1.length();
+        int n = word2.length();
+        int[][] dp = new int[m + 1][n + 1];
+        for (int i = 1; i <= m; i++) {
+            dp[i][0] =  i;
+        }
+        for (int j = 1; j <= n; j++) {
+            dp[0][j] = j;
+        }
+        for (int i = 1; i <= m; i++) {
+            for (int j = 1; j <= n; j++) {
+                if (word1.charAt(i - 1) == word2.charAt(j - 1)) {
+                    //元素相同, 什么都不用改动
+                    dp[i][j] = dp[i - 1][j - 1];
+                } else {
+                    //
+                    dp[i][j] = Math.min(Math.min(dp[i - 1][j - 1], dp[i][j - 1]), dp[i - 1][j]) + 1;
+                }
+            }
+        }
+        return dp[m][n];
+    }
+
+    @Override
     public String exist(){
         System.out.println(JSON.toJSONString(exist(new char[][]{{'A','B','C','E'},{'S','F','C','S'},{'A','D','E','E'}}, "ABCB")));
         return "success";
@@ -1638,6 +1755,33 @@ public class SubjectServiceImpl implements SubjectService {
             arr[i][j] = false;
             return false;
         }
+    }
+
+    @Override
+    public String maximalRectangle(){
+        System.out.println(JSON.toJSONString(maximalRectangle(new char[][]{{'1','1','1','1','1','1','1','1'},{'1','1','1','1','1','1','1','0'},{'1','1','1','1','1','1','1','0'},{'1','1','1','1','1','0','0','0'},{'0','1','1','1','1','0','0','0'}})));
+        return "success";
+    }
+
+    public int maximalRectangle(char[][] matrix) {
+        int m = matrix.length, n = matrix[0].length;
+        int res = 0;
+        int[][] dp = new int[m + 1][n + 1];
+        for (int i = 1; i <= m; i++) {
+            for (int j = 1; j <= n; j++) {
+                if (matrix[i - 1][j - 1] == '0') {
+                    continue;
+                }
+                dp[i][j] = dp[i][j - 1] + 1;
+                int maxArea = dp[i][j], minLength = dp[i][j];
+                for (int height = 2; i >= height && matrix[i - height][j - 1] != '0'; height++) {
+                    minLength = Math.min(minLength, dp[i - height + 1][j]);
+                    maxArea = Math.max(maxArea, height * minLength);
+                }
+                res = Math.max(res, maxArea);
+            }
+        }
+        return res;
     }
 
     @Override
@@ -1784,6 +1928,39 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String maxPathSum(){
+        TreeNode treeNode = new TreeNode(1);
+        treeNode.left = new TreeNode(2);
+        treeNode.right = new TreeNode(3);
+        System.out.println(JSON.toJSONString(maxPathSum(treeNode)));
+        return "success";
+    }
+
+    private int maxPathSumRet = Integer.MIN_VALUE;
+
+    public int maxPathSum(TreeNode root) {
+        getMax(root);
+        return maxPathSumRet;
+    }
+
+    /**
+     * 对于任意一个节点, 如果最大和路径包含该节点, 那么只可能是两种情况:
+     * 1. 其左右子树中所构成的和路径值较大的那个加上该节点的值后向父节点回溯构成最大路径
+     * 2. 左右子树都在最大路径中, 加上该节点的值构成了最终的最大路径
+     */
+    private int getMax(TreeNode r) {
+        if(r == null) {
+            return 0;
+        }
+        // 如果子树路径和为负则应当置0表示最大路径不包含子树
+        int left = Math.max(0, getMax(r.left));
+        int right = Math.max(0, getMax(r.right));
+        // 判断在该节点包含左右子树的路径和是否大于当前最大路径和
+        maxPathSumRet = Math.max(maxPathSumRet, r.val + left + right);
+        return Math.max(left, right) + r.val;
+    }
+
+    @Override
     public String hasCycle(){
         ListNode node1 = new ListNode(-4, null);
         ListNode node2 = new ListNode(0, node1);
@@ -1862,6 +2039,141 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String lruCache(){
+        LRUCache lRUCache = new LRUCache(2);
+        lRUCache.put(1, 1); // 缓存是 {1=1}
+        lRUCache.put(2, 2); // 缓存是 {1=1, 2=2}
+        lRUCache.get(1);    // 返回 1
+        lRUCache.put(3, 3); // 该操作会使得关键字 2 作废，缓存是 {1=1, 3=3}
+        lRUCache.get(2);    // 返回 -1 (未找到)
+        lRUCache.put(4, 4); // 该操作会使得关键字 1 作废，缓存是 {4=4, 3=3}
+        lRUCache.get(1);    // 返回 -1 (未找到)
+        lRUCache.get(3);    // 返回 3
+        lRUCache.get(4);    // 返回 4
+        System.out.println(JSON.toJSONString(maxProduct()));
+        return "success";
+    }
+
+    class LRUCache {
+
+        private LinkedHashMap<Integer, Integer> map;
+
+        public LRUCache(int capacity) {
+            map = new LinkedHashMap<Integer, Integer>(capacity, 0.75f, true) {
+                @Override
+                protected boolean removeEldestEntry(Map.Entry eldest) {
+                    return map.size() > capacity;
+                }
+            };
+        }
+
+        public int get(int key) {
+            return map.getOrDefault(key, -1);
+        }
+
+        public void put(int key, int value) {
+            map.put(key, value);
+        }
+    }
+
+//    class LRUCache1 {
+//
+//        // 双向链表（方便当前节点前一个节点指向后一个节点）
+//        static class Node{
+//            int key;
+//            int val;
+//            Node pre;
+//            Node next;
+//
+//            public Node(){
+//                this.key = -1;
+//                this.val = -1;
+//            }
+//
+//            public Node(int key, int val){
+//                this.key = key;
+//                this.val = val;
+//            }
+//        }
+//
+//        // 链表最大容量
+//        int capacity;
+//        // 链表当前容量
+//        int size;
+//
+//        // 维护虚拟头尾指针方便头插和删尾
+//        Node dummyHead;
+//        Node dummyTail;
+//
+//        Map<Integer, Node> cache = new HashMap<>();
+//
+//        public LRUCache1(int capacity) {
+//            this.capacity = capacity;
+//            size = 0;
+//            dummyHead = new Node();
+//            dummyTail = new Node();
+//            dummyHead.next = dummyTail;
+//            dummyTail.pre = dummyHead;
+//        }
+//
+//        public int get(int key) {
+//            if(!cache.containsKey(key)){
+//                return -1;
+//            }
+//
+//            Node node = cache.get(key);
+//            unLink(node);
+//            addHead(node);
+//            return node.val;
+//        }
+//
+//        // 移除链表节点（未移除缓存）
+//        public void unLink(Node node){
+//            node.pre.next = node.next;
+//            node.next.pre = node.pre;
+//            size--;
+//        }
+//
+//        // 添加节点到头部
+//        public void addHead(Node node){
+//            // 放置到链表头部
+//            node.next = dummyHead.next;
+//            dummyHead.next.pre = node;
+//            dummyHead.next = node;
+//            node.pre = dummyHead;
+//            size++;
+//            cache.put(node.key, node);
+//        }
+//
+//        // 移除链表尾部节点
+//        public void removeTail(){
+//            Node tail = dummyTail.pre;
+//            unLink(tail);
+//            cache.remove(tail.key);
+//        }
+//
+//        public void put(int key, int value) {
+//            Node cur = new Node(key, value);
+//            if(cache.containsKey(key)){
+//                Node node = cache.get(key);
+//                // 移除原本节点
+//                unLink(node);
+//                // 将新节点放到链表头部
+//                addHead(cur);
+//            }else{
+//                if(size == capacity){
+//                    // 添加头部并删除尾巴
+//                    addHead(cur);
+//                    removeTail();
+//                }else{
+//                    // 添加在头部
+//                    addHead(cur);
+//                }
+//            }
+//        }
+//    }
+
+    @Override
     public String maxProduct(){
         System.out.println(JSON.toJSONString(maxProduct(new int[]{2,3,-2,4})));
         return "success";
@@ -1904,6 +2216,36 @@ public class SubjectServiceImpl implements SubjectService {
             }
         }
         return sell[k];
+    }
+
+    @Override
+    public String numIslands(){
+        System.out.println(JSON.toJSONString(numIslands(new char[][]{{'1','1','1','1','0'},{'1','1','0','1','0'},{'1','1','0','0','0'},{'0','0','0','0','0'}})));
+        return "success";
+    }
+
+    public int numIslands(char[][] grid) {
+        int islandNum = 0;
+        for(int i = 0; i < grid.length; i++){
+            for(int j = 0; j < grid[0].length; j++){
+                if(grid[i][j] == '1'){
+                    infect(grid, i, j);
+                    islandNum++;
+                }
+            }
+        }
+        return islandNum;
+    }
+
+    public void infect(char[][] grid, int i, int j){
+        if(i < 0 || i >= grid.length || j < 0 || j >= grid[0].length || grid[i][j] != '1'){
+            return;
+        }
+        grid[i][j] = '2';
+        infect(grid, i + 1, j);
+        infect(grid, i - 1, j);
+        infect(grid, i, j + 1);
+        infect(grid, i, j - 1);
     }
 
     @Override
@@ -2335,6 +2677,39 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String lengthOfLIS(){
+        System.out.println(JSON.toJSONString(lengthOfLIS(new int[]{10,9,2,5,3,7,101,18})));
+        return "success";
+    }
+
+    /**
+     * dp[i]: 所有长度为i+1的递增子序列中, 最小的那个序列尾数.
+     * 由定义知dp数组必然是一个递增数组, 可以用 maxL 来表示最长递增子序列的长度.
+     * 对数组进行迭代, 依次判断每个数num将其插入dp数组相应的位置:
+     * 1. num > dp[maxL], 表示num比所有已知递增序列的尾数都大, 将num添加入dp数组尾部, 并将最长递增序列长度maxL加1
+     * 2. dp[i-1] < num <= dp[i], 只更新相应的dp[i]
+     */
+    public int lengthOfLIS(int[] nums) {
+        int maxL = 0;
+        int[] dp = new int[nums.length];
+        for(int num : nums) {
+            // 二分法查找, 也可以调用库函数如binary_search
+            int low = 0, hight = maxL;
+            while(low < hight) {
+                int mid = low + (hight - low) / 2;
+                if(dp[mid] < num)
+                    low = mid + 1;
+                else
+                    hight = mid;
+            }
+            dp[low] = num;
+            if(low == maxL)
+                maxL++;
+        }
+        return maxL;
+    }
+
+    @Override
     public String maxProfit5(){
         System.out.println(JSON.toJSONString(maxProfit5(new int[]{1,7,2,4})));
         return "success";
@@ -2414,6 +2789,32 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String coinChange(){
+        System.out.println(JSON.toJSONString(coinChange(new int[]{186,419,83,408}, 6249)));
+        return "success";
+    }
+
+    public int coinChange(int[] coins, int amount) {
+        int max = Integer.MAX_VALUE;
+        int[] dp = new int[amount + 1];
+        //初始化dp数组为最大值
+        Arrays.fill(dp, max);
+        //当金额为0时需要的硬币数目为0
+        dp[0] = 0;
+        for (int i = 0; i < coins.length; i++) {
+            //正序遍历：完全背包每个硬币可以选择多次
+            for (int j = coins[i]; j <= amount; j++) {
+                //只有dp[j-coins[i]]不是初始最大值时，该位才有选择的必要
+                if (dp[j - coins[i]] != max) {
+                    //选择硬币数目最小的情况
+                    dp[j] = Math.min(dp[j], dp[j - coins[i]] + 1);
+                }
+            }
+        }
+        return dp[amount] == max ? -1 : dp[amount];
+    }
+
+    @Override
     public String countBits(){
         System.out.println(JSON.toJSONString(countBits(5)));
         return "success";
@@ -2428,6 +2829,50 @@ public class SubjectServiceImpl implements SubjectService {
             }
         }
         return dp;
+    }
+
+    @Override
+    public String trapRainWater(){
+//        System.out.println(JSON.toJSONString(trapRainWater(new int[][]{{1,4,3,1,3,2},{3,2,1,3,2,4},{2,3,3,2,3,1}})));
+//        System.out.println(JSON.toJSONString(trapRainWater(new int[][]{{3,3,3,3,3},{3,2,2,2,3},{3,2,1,2,3},{3,2,2,2,3},{3,3,3,3,3}})));
+        System.out.println(JSON.toJSONString(trapRainWater(new int[][]{{12,13,1,12},{13,4,13,12},{13,8,10,12},{12,13,12,12},{13,13,13,13}})));
+        return "success";
+    }
+
+    public int trapRainWater(int[][] heightMap) {
+        if (heightMap.length <= 2 || heightMap[0].length <= 2) {
+            return 0;
+        }
+        int m = heightMap.length;
+        int n = heightMap[0].length;
+        boolean[][] visit = new boolean[m][n];
+        PriorityQueue<int[]> pq = new PriorityQueue<>(Comparator.comparingInt(o -> o[1]));
+
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                if (i == 0 || i == m - 1 || j == 0 || j == n - 1) {
+                    pq.offer(new int[]{i * n + j, heightMap[i][j]});
+                    visit[i][j] = true;
+                }
+            }
+        }
+        int res = 0;
+        int[] dirs = {-1, 0, 1, 0, -1};
+        while (!pq.isEmpty()) {
+            int[] curr = pq.poll();
+            for (int k = 0; k < 4; ++k) {
+                int nx = curr[0] / n + dirs[k];
+                int ny = curr[0] % n + dirs[k + 1];
+                if (nx >= 0 && nx < m && ny >= 0 && ny < n && !visit[nx][ny]) {
+                    if (curr[1] > heightMap[nx][ny]) {
+                        res += curr[1] - heightMap[nx][ny];
+                    }
+                    pq.offer(new int[]{nx * n + ny, Math.max(heightMap[nx][ny], curr[1])});
+                    visit[nx][ny] = true;
+                }
+            }
+        }
+        return res;
     }
 
     @Override
@@ -2481,5 +2926,234 @@ public class SubjectServiceImpl implements SubjectService {
             saleArr[i] = Math.max(saleArr[i - 1], buyArr[i - 1] + prices[i] - fee);
         }
         return saleArr[prices.length - 1];
+    }
+
+    @Override
+    public String longestMountain(){
+        System.out.println(JSON.toJSONString(longestMountain(new int[]{0,1,0,1})));
+        return "success";
+    }
+
+    public int longestMountain(int[] arr) {
+        int mountLen = 0;
+        for (int i = 1; i < arr.length - 1; i++) {
+            if (arr[i] > arr[i - 1] && arr[i] > arr[i + 1]) {
+                int p = i - 1, q = i + 1;
+                while (p > -1 && arr[p] < arr[p + 1]) {
+                    p--;
+                }
+                while (q < arr.length && arr[q] < arr[q - 1]) {
+                    q++;
+                }
+                mountLen = Math.max(mountLen, q - p - 1);
+            }
+        }
+        return mountLen;
+    }
+
+    @Override
+    public String peakIndexInMountainArray(){
+        System.out.println(JSON.toJSONString(peakIndexInMountainArray(new int[]{0,1,0})));
+        return "success";
+    }
+
+    public int peakIndexInMountainArray(int[] arr) {
+        int left = 1;
+        int right = arr.length - 1;
+        int mid = 0;
+        while(left < right){
+            mid = left + (right - left) / 2;
+            //左右都小于mid，说明mid是山峰。
+            if(arr[mid - 1] < arr[mid] && arr[mid] > arr[mid + 1]) {
+                break;
+            }
+            //右边比左边高，说明山峰在右侧
+            if(arr[mid + 1] > arr[mid]) {
+                left = mid;
+            } else if(arr[mid + 1] < arr[mid]) {
+                //右边比左边低，山峰在左侧
+                right = mid;
+            }
+        }
+        return mid;
+    }
+
+    @Override
+    public String superpalindromesInRange(){
+        System.out.println(JSON.toJSONString(superpalindromesInRange("38455498359", "999999999999999999")));
+        return "success";
+    }
+
+    public int superpalindromesInRange(String L, String R) {
+        long lNum = (long)Math.sqrt(Long.parseLong(L));
+        long rNum = (long)Math.sqrt(Long.parseLong(R));
+        int count = 0;
+        if(lNum <= 3 && rNum >= 3){
+            count++;
+        }
+        long i = 0;
+        while (true){
+            i++;
+            //由于这个数要求平方后是回文，这要求这个数不能在相乘时候有进制的情况，所以，这里面的位数不可能大于3，所以这是一个3进制的数
+            long temp = changeRadix(i, 10, 3);
+            if(temp > rNum)
+                break;
+            if(temp >= lNum){
+                if(isPalindrome(temp) && isPalindrome(temp * temp)){
+                    count++;
+                }
+            }
+        }
+        return count;
+    }
+
+    private long changeRadix(long in, int source, int to){
+        long re = 0L;
+        long t = 1;
+        do {
+            re += (in % to) * t;
+            t *= source;
+            in /= to;
+        } while (in > 0);
+        return re;
+    }
+
+    private boolean isPalindrome(long l){
+        long temp = 0;
+        long temp2 = l;
+        while (temp2 > 0){
+            temp += temp2 % 10;
+            temp2 /= 10;
+            if(temp2 > 0)
+                temp *= 10;
+        }
+        return temp == l;
+    }
+
+    @Override
+    public String validMountainArray(){
+        System.out.println(JSON.toJSONString(validMountainArray(new int[]{0,3,2,1})));
+        return "success";
+    }
+
+    public boolean validMountainArray(int[] arr) {
+        if(arr.length < 3){
+            return false;
+        }
+        int left = 0, right = arr.length - 1;
+        while (left < arr.length - 2 && arr[left] < arr[left + 1]) {
+            left++;
+        }
+        while (right > 1 && arr[right] < arr[right - 1]) {
+            right--;
+        }
+        return left == right;
+    }
+
+    @Override
+    public String findInMountainArray(){
+        MountainArray mountainArr = new MountainArray() {
+
+            int[] arr = new int[]{1,5,1};
+
+            @Override
+            public int get(int index) {
+                return arr[index];
+            }
+
+            @Override
+            public int length() {
+                return arr.length;
+            }
+        };
+        System.out.println(JSON.toJSONString(findInMountainArray(5, mountainArr)));
+        return "success";
+    }
+
+    interface MountainArray {
+        public int get(int index);
+        public int length();
+    }
+
+    public int findInMountainArray(int target, MountainArray mountainArray) {
+        int peek = peakIndexInMountainArray(mountainArray);
+        int ans = binSearch1(mountainArray, 0, peek, target);
+        return ans >= 0 ? ans : binSearch2(mountainArray, peek, mountainArray.length(), target);
+    }
+
+    /**
+     * 左边升序区间查找
+     */
+    private int binSearch1(MountainArray mountainArray, int l, int rr, int t) {
+        int r = rr;
+        while(l < r) {
+            int m = (l + r) >>> 1;
+            if(mountainArray.get(m) < t){
+                l = m + 1;
+            } else{
+                r = m;
+            }
+        }
+        return l < rr && mountainArray.get(l) == t ? l : -1;
+    }
+
+    /**
+     * 右边降序区间查找
+     */
+    private int binSearch2(MountainArray mountainArray, int l, int rr, int t) {
+        int r = rr;
+        while(l < r) {
+            int m = (l + r) >>> 1;
+            if(mountainArray.get(m) > t){
+                l = m + 1;
+            } else{
+                r = m;
+            }
+        }
+        return l < rr && mountainArray.get(l) == t ? l : -1;
+    }
+
+    private int peakIndexInMountainArray(MountainArray mountainArr) {
+        int left = 1;
+        int right = mountainArr.length() - 1;
+        int mid = 0;
+        while(left < right){
+            mid = left + (right - left) / 2;
+            //左右都小于mid，说明mid是山峰。
+            if(mountainArr.get(mid - 1) < mountainArr.get(mid) && mountainArr.get(mid) > mountainArr.get(mid + 1)) {
+                break;
+            }
+            //右边比左边高，说明山峰在右侧
+            if(mountainArr.get(mid + 1) > mountainArr.get(mid)) {
+                left = mid;
+            } else if(mountainArr.get(mid + 1) < mountainArr.get(mid)) {
+                //右边比左边低，山峰在左侧
+                right = mid;
+            }
+        }
+        return mid;
+    }
+
+    @Override
+    public String longestCommonSubsequence(){
+        System.out.println(JSON.toJSONString(longestCommonSubsequence("bsbininm", "jmjkbkjkv")));
+        return "success";
+    }
+
+    public int longestCommonSubsequence(String text1, String text2) {
+        int m = text1.length(), n = text2.length();
+        int[][] dp = new int[m + 1][n + 1];
+        for(int i = 1; i <= m; i++){
+            for(int j = 1; j <= n; j++){
+                if(text1.charAt(i - 1) == text2.charAt(j - 1)){
+                    //该字符可以加入LCS
+                    dp[i][j] = 1 + dp[i - 1][j - 1];
+                } else{
+                    //该位置的字符不相等，至少有一个不能加入LCS，先选择当前局部最优解，即选择前面的较大值
+                    dp[i][j] = Math.max(dp[i - 1][j], dp[i][j - 1]);
+                }
+            }
+        }
+        return dp[m][n];
     }
 }
