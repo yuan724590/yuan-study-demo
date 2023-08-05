@@ -495,4 +495,20 @@ public class OfferSubjectController {
     public String findContinuousSequence() {
         return subjectService.findContinuousSequence();
     }
+
+    /**
+     * 58 - I. 翻转单词顺序
+     */
+    @GetMapping(value = "/reverseWords")
+    public String reverseWords() {
+        return subjectService.reverseWords();
+    }
+
+    /**
+     * 58 - II. 左旋转字符串
+     */
+    @GetMapping(value = "/reverseLeftWords")
+    public String reverseLeftWords() {
+        return subjectService.reverseLeftWords();
+    }
 }

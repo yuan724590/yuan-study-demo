@@ -273,6 +273,59 @@ public class OfferSubjectServiceImpl implements OfferSubjectService {
         return result;
     }
 
+//    /**
+//     * 时间复杂度为O(log n)的方式计算斐波那契数列
+//     */
+//    public int f3(int n) {
+//        if (n < 0) {
+//            return 0;
+//        }
+//        if (n == 0 || n == 1) {
+//            return 1;
+//        }
+//        int[][] base = {{1,1},{1,0}};
+//        int[][] res = matrixPower(base, n - 1);
+//        return res[0][0] + res[1][0];
+//    }
+//
+//    /**
+//     * 通过快速幂实现计算矩阵m的p次方
+//     */
+//    public int[][] matrixPower(int[][] m, int p) {
+//        int[][] res = new int[m.length][m[0].length];
+//        //先把res设为单位矩阵(对角线为1) 相当于整数中的1
+//        for (int i = 0; i < res.length; i++) {
+//            res[i][i] = 1;
+//        }
+//        //m赋值给tmp
+//        int[][] tmp = m;
+//        // p >>= 1 代表p右移一位赋值给p 右移一位相当于除以2  左移一位相当于乘以2
+//        for (; p != 0; p >>= 1) {
+//            //判断如果p是奇数
+//            if ((p & 1) == 1) {
+//                //p是奇数的时候, 调用矩阵相乘的函数
+//                res = muliMatrix(res, tmp);
+//            }
+//            tmp = muliMatrix(tmp, tmp);
+//        }
+//        return res;
+//    }
+//
+//    /**
+//     * 两个矩阵相乘
+//     */
+//    public int[][] muliMatrix(int[][] m1, int[][] m2){
+//        int[][] res = new int[m1.length][m2[0].length];
+//        for(int i = 0; i < m1.length; i++){
+//            for(int j = 0; j < m2[0].length; j++){
+//                for(int k = 0; k < m2.length; k++){
+//                    res[i][j] += m1[i][k] * m2[k][j];
+//                }
+//            }
+//        }
+//        return res;
+//    }
+
     @Override
     public String numWays(){
         System.out.println("计算结果为:" + numWays(4));
@@ -1912,6 +1965,39 @@ public class OfferSubjectServiceImpl implements OfferSubjectService {
             res[i] = list.get(i);
         }
         return res;
+    }
+
+    @Override
+    public String reverseWords(){
+        System.out.println("reverseWords计算结果为:" + JSONObject.toJSONString(reverseWords("the sky is blue")));
+        return "success";
+    }
+
+    public String reverseWords(String s) {
+        s = s.trim();
+        int i = s.length() - 1, j = i;
+        StringBuilder stringBuilder = new StringBuilder();
+        while( i >= 0){
+            while(i >= 0 && s.charAt(i) != ' '){
+                i--;
+            }
+            stringBuilder.append(s,i+1,j+1).append(" ");
+            while(i >= 0 && s.charAt(i) == ' '){
+                i--;
+            }
+            j = i;
+        }
+        return stringBuilder.toString().trim();
+    }
+
+    @Override
+    public String reverseLeftWords() {
+        System.out.println("reverseWords计算结果为:" + JSONObject.toJSONString(reverseLeftWords("abcdefg", 2)));
+        return "success";
+    }
+
+    public String reverseLeftWords(String s, int n) {
+        return s.substring(n) + s.substring(0, n);
     }
 }
 
