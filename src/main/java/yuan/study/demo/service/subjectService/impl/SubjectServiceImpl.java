@@ -2249,6 +2249,55 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String canFinish(){
+        System.out.println(JSON.toJSONString(canFinish(5, new int[][]{{1,0},{1,2},{0,1}})));
+        return "success";
+    }
+
+    private List<List<Integer>> canFinishList = new ArrayList<>();
+    private int canFinishVisit[];
+    private boolean canFinishIsValid = true;
+    public boolean canFinish(int numCourses, int[][] prerequisites) {
+        canFinishVisit = new int[numCourses];
+        for (int i = 0; i < numCourses; i++){
+            canFinishList.add(new ArrayList<>());
+        }
+        for (int arr[] : prerequisites){
+            //学arr[0]之前要先学arr[1],所以arr[1]指向arr[0],
+            //所以在arr[1]的ArrayList中存储它指向哪个科目
+            canFinishList.get(arr[1]).add(arr[0]);
+        }
+        for (int i = 0; i < numCourses; i++){
+            if (canFinishVisit[i] == 0){
+                //如果是未搜索的科目，则深搜
+                canFinishDfs(i);
+            }
+        }
+        return canFinishIsValid;
+    }
+
+    private void canFinishDfs(int v){
+        //标记该科目为搜索中
+        canFinishVisit[v] = 1;
+        for (int w : canFinishList.get(v)){
+            //遍历该科目指向的学科
+            if (canFinishVisit[w] == 0){
+                //如果指向的某一学科未搜索过，则深搜
+                canFinishDfs(w);
+                if (!canFinishIsValid){
+                    return;
+                }
+            } else if (canFinishVisit[w] == 1){
+                //如果指向的某一学科在搜索中，则有环，标记isValid
+                canFinishIsValid = false;
+                return;
+            }
+        }
+        //因为该科目已经完成深搜，所以标记它的状态为搜索过
+        canFinishVisit[v] = 2;
+    }
+
+    @Override
     public String trie(){
         Trie trie = new Trie();
         trie.insert("apple");
@@ -2313,6 +2362,70 @@ public class SubjectServiceImpl implements SubjectService {
             }
             return true;
         }
+    }
+
+    @Override
+    public String findOrder(){
+        System.out.println(JSON.toJSONString(findOrder(4, new int[][]{{1,0},{2,0},{3,1},{3,2}})));
+        return "success";
+    }
+
+    private List<List<Integer>> findOrderEdges;
+    // 标记每个节点的状态：0=未搜索，1=搜索中，2=已完成
+    private int[] findOrderVisited;
+    // 用数组来模拟栈，下标 n-1 为栈底，0 为栈顶
+    private int[] findOrderResult;
+    // 判断有向图中是否有环
+    private boolean findOrderValid = true;
+    // 栈下标
+    private int findOrderIndex;
+
+    public int[] findOrder(int numCourses, int[][] prerequisites) {
+        findOrderEdges = new ArrayList<>();
+        for (int i = 0; i < numCourses; ++i) {
+            findOrderEdges.add(new ArrayList<>());
+        }
+        findOrderVisited = new int[numCourses];
+        findOrderResult = new int[numCourses];
+        findOrderIndex = numCourses - 1;
+        for (int[] info : prerequisites) {
+            findOrderEdges.get(info[1]).add(info[0]);
+        }
+        // 每次挑选一个「未搜索」的节点，开始进行深度优先搜索
+        for (int i = 0; i < numCourses && findOrderValid; ++i) {
+            if (findOrderVisited[i] == 0) {
+                dfs(i);
+            }
+        }
+        if (!findOrderValid) {
+            return new int[0];
+        }
+        // 如果没有环，那么就有拓扑排序
+        return findOrderResult;
+    }
+
+    private void dfs(int u) {
+        // 将节点标记为「搜索中」
+        findOrderVisited[u] = 1;
+        // 搜索其相邻节点
+        // 只要发现有环，立刻停止搜索
+        for (int v: findOrderEdges.get(u)) {
+            // 如果「未搜索」那么搜索相邻节点
+            if (findOrderVisited[v] == 0) {
+                dfs(v);
+                if (!findOrderValid) {
+                    return;
+                }
+            } else if (findOrderVisited[v] == 1) {
+                // 如果「搜索中」说明找到了环
+                findOrderValid = false;
+                return;
+            }
+        }
+        // 将节点标记为「已完成」
+        findOrderVisited[u] = 2;
+        // 将节点入栈
+        findOrderResult[findOrderIndex--] = u;
     }
 
     @Override

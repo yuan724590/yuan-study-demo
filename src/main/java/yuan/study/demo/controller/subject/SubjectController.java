@@ -529,11 +529,27 @@ public class SubjectController {
     }
 
     /**
+     * 207. 课程表
+     */
+    @GetMapping(value = "/canFinish")
+    public void canFinish(){
+        subjectService.canFinish();
+    }
+
+    /**
      * 208. 实现 Trie (前缀树)
      */
     @GetMapping(value = "/trie")
     public void trie(){
         subjectService.trie();
+    }
+
+    /**
+     * 210. 课程表 II
+     */
+    @GetMapping(value = "/findOrder")
+    public void findOrder(){
+        subjectService.findOrder();
     }
 
     /**

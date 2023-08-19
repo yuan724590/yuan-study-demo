@@ -191,6 +191,23 @@ public interface OfferSubjectService {
     String exist();
 
     /**
+     * 地上有一个m行n列的方格，从坐标 [0,0] 到坐标 [m-1,n-1] 。一个机器人从坐标 [0, 0] 的格子开始移动，它每次可以向左、右、上、下移动一格（不能移动到方格外），也不能进入行坐标和列坐标的数位之和大于k的格子。例如，当k为18时，机器人能够进入方格 [35, 37] ，因为3+5+3+7=18。但它不能进入方格 [35, 38]，因为3+5+3+8=19。请问该机器人能够到达多少个格子？
+     *
+     * 示例 1：
+     * 输入：m = 2, n = 3, k = 1
+     * 输出：3
+     *
+     * 示例 2：
+     * 输入：m = 3, n = 1, k = 0
+     * 输出：1
+     *
+     * 提示：
+     * 1 <= n,m <= 100
+     * 0 <= k <= 20
+     */
+    String movingCount();
+
+    /**
      * 给你一根长度为 n 的绳子，请把绳子剪成整数长度的 m 段（m、n都是整数，n>1并且m>1），每段绳子的长度记为 k[0],k[1]...k[m-1] 。请问 k[0]*k[1]*...*k[m-1] 可能的最大乘积是多少？例如，当绳子的长度是8时，我们把它剪成长度分别为2、3、3的三段，此时得到的最大乘积是18。
      *
      * 示例 1：
@@ -1248,4 +1265,27 @@ public interface OfferSubjectService {
      * 1 <= k < s.length <= 10000
      */
     String reverseLeftWords();
+
+    /**
+     * 请定义一个队列并实现函数 max_value 得到队列里的最大值，要求函数max_value、push_back 和 pop_front 的均摊时间复杂度都是O(1)。
+     *
+     * 若队列为空，pop_front 和 max_value 需要返回 -1
+     *
+     * 示例 1：
+     * 输入:
+     * ["MaxQueue","push_back","push_back","max_value","pop_front","max_value"]
+     * [[],[1],[2],[],[],[]]
+     * 输出: [null,null,null,2,1,2]
+     *
+     * 示例 2：
+     * 输入:
+     * ["MaxQueue","pop_front","max_value"]
+     * [[],[],[]]
+     * 输出: [null,-1,-1]
+     *
+     * 限制：
+     * 1 <= push_back,pop_front,max_value的总操作数 <= 10000
+     * 1 <= value <= 10^5
+     */
+    String maxQueue();
 }

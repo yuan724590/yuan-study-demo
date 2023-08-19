@@ -96,6 +96,14 @@ public class OfferSubjectController {
     }
 
     /**
+     * 13. 机器人的运动范围
+     */
+    @GetMapping(value = "/movingCount")
+    public String movingCount() {
+        return subjectService.movingCount();
+    }
+
+    /**
      * 14- I. 剪绳子
      */
     @GetMapping(value = "/cutting/rope")
@@ -510,5 +518,18 @@ public class OfferSubjectController {
     @GetMapping(value = "/reverseLeftWords")
     public String reverseLeftWords() {
         return subjectService.reverseLeftWords();
+    }
+
+    /**
+     * 59 - I. 滑动窗口的最大值
+     * 同yuan.study.demo.controller.subject.SubjectController#maxSlidingWindow(), 故跳过
+     */
+
+    /**
+     * 59 - II. 队列的最大值
+     */
+    @GetMapping(value = "/maxQueue")
+    public String maxQueue() {
+        return subjectService.maxQueue();
     }
 }

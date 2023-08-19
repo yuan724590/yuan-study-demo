@@ -407,6 +407,25 @@ public class OfferSubjectServiceImpl implements OfferSubjectService {
     }
 
     @Override
+    public String movingCount(){
+        System.out.println("计算结果为:" + movingCount(11,8,16));
+        return "success";
+    }
+
+    public int movingCount(int m, int n, int k) {
+        boolean[][] visited = new boolean[m][n];
+        return dfs(0, 0, m, n, k, visited);
+    }
+
+    private int dfs(int i, int j, int m, int n, int k, boolean visited[][]) {
+        if (i < 0 || i >= m || j < 0 || j >= n || (i / 10 + i % 10 + j / 10 + j % 10) > k || visited[i][j]) {
+            return 0;
+        }
+        visited[i][j] = true;
+        return dfs(i + 1, j, m, n, k, visited) + dfs(i - 1, j, m, n, k, visited) + dfs(i, j + 1, m, n, k, visited) + dfs(i, j - 1, m, n, k, visited) + 1;
+    }
+
+    @Override
     public String cuttingRope(){
         System.out.println("计算结果为:" + cuttingRope(8));
         return "success";
@@ -788,15 +807,16 @@ public class OfferSubjectServiceImpl implements OfferSubjectService {
         return "success";
     }
 
-    private void mirrorTree(TreeNode root){
+    public TreeNode mirrorTree(TreeNode root){
         if(root == null){
-            return;
+            return null;
         }
         TreeNode right = root.right;
         root.right = root.left;
         root.left = right;
         mirrorTree(root.left);
         mirrorTree(root.right);
+        return root;
     }
 
     @Override
@@ -1998,6 +2018,80 @@ public class OfferSubjectServiceImpl implements OfferSubjectService {
 
     public String reverseLeftWords(String s, int n) {
         return s.substring(n) + s.substring(0, n);
+    }
+
+    @Override
+    public String maxQueue(){
+        MaxQueue maxQueue = new MaxQueue();
+        maxQueue.push_back(1);
+        maxQueue.push_back(2);
+        System.out.println(maxQueue.max_value());
+        System.out.println(maxQueue.pop_front());
+        return "success";
+    }
+
+    static class MaxQueue {
+        static class Node{
+            int value;
+            Node next = null;
+
+            Node(int value){
+                this.value = value;
+            }
+        }
+
+        int max; // 当前队列中的最大值
+        int maxCount; // 应对 max 有多个的情况
+        Node head = null, tail = null; // 头尾节点
+
+        public MaxQueue() {
+        }
+
+        public int max_value() {
+            if(head == null) return -1;
+            return max;
+        }
+
+        public void push_back(int value) {
+            // 入队时统计最大值和最大值出现的次数
+            if(value > max){
+                max = value;
+                maxCount = 1;
+            }else if(value == max){
+                maxCount++;
+            }
+            // 入队
+            if(head == null) head = tail = new Node(value);
+            else tail = tail.next = new Node(value);
+        }
+
+        public int pop_front() {
+            if(head == null) return -1;
+            // 出队
+            int value = head.value;
+            head = head.next;
+
+            if(value == max && --maxCount == 0){
+                // 全部 max 值已出队，需要重新计算 max 和 maxCount
+                // 重新计算 max 和 maxCount 的时间复杂度是 O(n)
+                // 但是队列中的数据都是随机的，则可认为当前出队元素是最大值的概率为 1/n
+                // 则 均摊时间 = O(1) * (n-1)/n + O(n) * 1/n
+                //            = O(1) * (n-1)/n + n*O(1) * 1/n
+                //            = (2*n-1)/n * O(1)
+                //            = (2 - 1/n) * O(1)
+                // (2 - 1/n) < 2, 故均摊时间复杂度为 O(1)
+
+                max = -1;
+                for (Node node = head; node != null; node = node.next) {
+                    if(node.value > max){
+                        max = node.value;
+                        maxCount = 1;
+                    }
+                    else if(node.value == max) maxCount++;
+                }
+            }
+            return value;
+        }
     }
 }
 
