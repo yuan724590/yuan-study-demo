@@ -532,4 +532,20 @@ public class OfferSubjectController {
     public String maxQueue() {
         return subjectService.maxQueue();
     }
+
+    /**
+     * 60. n个骰子的点数
+     */
+    @GetMapping(value = "/dicesProbability")
+    public String dicesProbability() {
+        return subjectService.dicesProbability();
+    }
+
+    /**
+     * 61. 扑克牌中的顺子
+     */
+    @GetMapping(value = "/isStraight")
+    public String isStraight() {
+        return subjectService.isStraight();
+    }
 }

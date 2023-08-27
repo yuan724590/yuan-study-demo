@@ -2093,6 +2093,46 @@ public class OfferSubjectServiceImpl implements OfferSubjectService {
             return value;
         }
     }
+
+    @Override
+    public String dicesProbability(){
+        System.out.println("dicesProbability计算结果为:" + JSONObject.toJSONString(dicesProbability(3)));
+        return "success";
+    }
+
+    public double[] dicesProbability(int n) {
+        double[] dp = new double[6];
+        Arrays.fill(dp, 1.0 / 6.0);
+        for (int i = 2; i <= n; i++) {
+            double[] tmp = new double[5 * i + 1];
+            for (int j = 0; j < dp.length; j++) {
+                for (int k = 0; k < 6; k++) {
+                    tmp[j + k] += dp[j] / 6.0;
+                }
+            }
+            dp = tmp;
+        }
+        return dp;
+    }
+
+    @Override
+    public String isStraight(){
+        System.out.println("isStraight计算结果为:" + JSONObject.toJSONString(isStraight(new int[]{0,0,1,2,5})));
+        return "success";
+    }
+
+    public boolean isStraight(int[] nums) {
+        int joker = 0;
+        Arrays.sort(nums);
+        for(int i = 0; i < 4; i++) {
+            if(nums[i] == 0) {
+                joker++;
+            } else if(nums[i] == nums[i + 1]) {
+                return false;
+            }
+        }
+        return nums[4] - nums[joker] < 5;
+    }
 }
 
 
