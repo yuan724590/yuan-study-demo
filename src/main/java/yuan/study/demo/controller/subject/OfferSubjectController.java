@@ -548,4 +548,25 @@ public class OfferSubjectController {
     public String isStraight() {
         return subjectService.isStraight();
     }
+
+    /**
+     * 62. 圆圈中最后剩下的数字
+     */
+    @GetMapping(value = "/lastRemaining")
+    public String lastRemaining() {
+        return subjectService.lastRemaining();
+    }
+
+    /**
+     * 63. 股票的最大利润
+     * 同yuan.study.demo.controller.subject.SubjectController#maxProfit(), 故跳过
+     */
+
+    /**
+     * 64. 求1+2+…+n
+     */
+    @GetMapping(value = "/sumNums")
+    public String sumNums() {
+        return subjectService.sumNums();
+    }
 }

@@ -2133,6 +2133,59 @@ public class OfferSubjectServiceImpl implements OfferSubjectService {
         }
         return nums[4] - nums[joker] < 5;
     }
+
+    @Override
+    public String lastRemaining(){
+        System.out.println("lastRemaining计算结果为:" + JSONObject.toJSONString(lastRemaining(5,3)));
+        return "success";
+    }
+
+    /**
+     * 第一次，【0, 1, 2, 3, 4】，本轮要踢出2                                  看3
+     * 第二次，【3, 4, 0, 1】，本轮要踢出0                                     看1
+     * 第三次，【1, 3, 4】，本轮要踢出4                                        看1
+     * 第四次，【1, 3】 本轮要踢出1                                            看3
+     * 第五次，【3】
+     * 最后返回3
+     *
+     * 从结果0号位置，反推最开始在哪
+     * 从第二次，向上看第一次
+     * 会发现，原来3在0的位置
+     * 现在，3在(0 + 3) % 5
+     *                 => +3 回到上次的位置
+     *                 => %5 防止数组溢出，并且数组本来就是循环数组
+     *
+     * 故: f(n) = ( f(n - 1) + m ) % n
+     */
+    public int lastRemaining(int n, int m) {
+        int ans = 0;
+        // 最后一轮剩下2个人，所以从2开始反推
+        for (int i = 2; i <= n; i++) {
+            ans = (ans + m) % i;
+        }
+        return ans;
+    }
+
+    @Override
+    public String sumNums(){
+        System.out.println("sumNums计算结果为:" + JSONObject.toJSONString(sumNums(9)));
+        return "success";
+    }
+
+    private int sumNums = 0;
+
+    public int sumNums(int n) {
+        sumNum(n);
+        return sumNums;
+    }
+
+    private int sumNum(int n) {
+        if(n <= 0){
+            return n;
+        }
+        sumNums += n;
+        return sumNum(n - 1);
+    }
 }
 
 
