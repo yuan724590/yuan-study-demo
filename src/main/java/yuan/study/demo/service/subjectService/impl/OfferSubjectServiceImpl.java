@@ -573,36 +573,317 @@ public class OfferSubjectServiceImpl implements OfferSubjectService {
     }
 
     public boolean isMatch(String s, String p) {
-        if (p.equals(".*")) {
-            return true;
+
+        Match first = getMatch(p);
+        Match match  =first;
+        while (match != null){
+            match.s = s;
+            match = match.next;
         }
+        return first.match();
+    }
 
-        // 用dp[i][j]表示p的前i个字符和s的前j个字符的匹配情况
-        int sLen = s.length(), pLen = p.length();
-        boolean[][] dp = new boolean[pLen + 1][sLen + 1];
-
-        // 初始化, 空串可以和空串匹配
-        dp[0][0] = true;
-        // p为空，s非空时，p和s不匹配，所以dp[0][j]都等于false
-
-        for (int i = 1; i <= pLen; ++i) {
-            char pChar = p.charAt(i - 1);
-            for (int j = 0; j <= sLen; ++j) {
-                if (j == 0) {
-                    if (pChar == '*' && i > 1) {
-                        dp[i][j] = dp[i - 2][j];
+    public Match getMatch(String p){
+        Match first = null;
+        Match match = null;
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < p.length(); i++) {
+            char c = p.charAt(i);
+            if(c <='z' && c >='a'){
+                sb.append(c);
+                continue;
+            }
+            if(c == '.'){
+                if(sb.length() >0){
+                    StringMatch stringMatch = new StringMatch();
+                    stringMatch.p = sb.toString();
+                    if(match == null){
+                        match = stringMatch;
+                        first = match;
+                    }else{
+                        match.next = stringMatch;
+                        match = match.next;
                     }
-                } else if (s.charAt(j - 1) == pChar || pChar == '.') {
-                    dp[i][j] = dp[i - 1][j - 1];
-                } else if (pChar == '*' && i > 1) {
-                    dp[i][j] = dp[i - 2][j];
-                    if (s.charAt(j - 1) == p.charAt(i - 2) || p.charAt(i - 2) == '.') {
-                        dp[i][j] = dp[i][j] || dp[i][j - 1];
+                    sb.delete(0,sb.length());
+
+                }
+                int nums = 1;
+                boolean ended =true;
+                while (++i < p.length()){
+                    if(p.charAt(i) == '.'){
+                        nums++;
+                        continue;
+                    }else if(p.charAt(i) == '*'){
+                        if(nums >1){
+                            PointMatch pointMatch = new PointMatch();
+                            pointMatch.nums = nums-1;
+                            if(match == null){
+                                match = pointMatch;
+                                first = match;
+                            }else{
+                                match.next = pointMatch;
+                                match = match.next;
+                            }
+                        }
+                        PointXing pointXing = new PointXing();
+                        if(match == null){
+                            match = pointXing;
+                            first = match;
+                        }else{
+                            match.next = pointXing;
+                            match = match.next;
+                        }
+                    }else{
+                        PointMatch pointMatch = new PointMatch();
+                        pointMatch.nums = nums;
+                        if(match == null){
+                            match = pointMatch;
+                            first = match;
+                        }else{
+                            match.next = pointMatch;
+                            match = match.next;
+                        }
+                        i--;
                     }
+                    ended = false;
+                    break;
+                }
+                if(ended){
+                    PointMatch pointMatch = new PointMatch();
+                    pointMatch.nums = nums;
+                    if(match == null){
+                        match = pointMatch;
+                        first = match;
+                    }else{
+                        match.next = pointMatch;
+                        match = match.next;
+                    }
+                    break;
+                }
+            }else{
+                //c == '*'
+                if(sb.length() == 0){
+                    continue;
+                }
+                char c1 = sb.charAt(sb.length() - 1);
+                sb.deleteCharAt(sb.length() - 1);
+                if(sb.length() >0){
+                    StringMatch stringMatch = new StringMatch();
+                    stringMatch.p = sb.toString();
+                    if(match == null){
+                        match = stringMatch;
+                        first = match;
+                    }else{
+                        match.next = stringMatch;
+                        match = match.next;
+                    }
+                    sb.delete(0,sb.length());
+                }
+                CharXingMatch charXingMatch = new CharXingMatch();
+                charXingMatch.c = c1;
+                if(match == null){
+                    match = charXingMatch;
+                    first = match;
+                }else{
+                    match.next = charXingMatch;
+                    match = match.next;
                 }
             }
         }
-        return dp[pLen][sLen];
+        if(sb.length() >0){
+            StringMatch stringMatch = new StringMatch();
+
+            stringMatch.p = sb.toString();
+            if(match == null){
+                match = stringMatch;
+                first = match;
+            }else{
+                match.next = stringMatch;
+                match = match.next;
+            }
+        }
+        return first;
+    }
+
+    class Match{
+        int start;
+        int end;
+        String s;
+        boolean isMatch;
+        Match next;
+
+        //匹配
+        public boolean match(){
+            if(null == next){
+                return matchEnd();
+            }
+            return matchNormal();
+        }
+
+        protected boolean matchNormal() {
+            for (int i = start; i <= end ; i++) {
+                tryMatch(i);
+                if(isMatch){
+                    if(next.match()){
+                        return true;
+                    }
+                }
+            }
+            return false;
+
+        }
+
+        protected boolean matchEnd(){
+            return true;
+        }
+        protected boolean tryMatch(int index){
+            return true;
+        }
+        //返回是否match
+        public boolean isMatch(){
+            return isMatch;
+        }
+    }
+
+    class StringMatch extends Match{
+        String p;
+
+        @Override
+        public String toString() {
+            return p+"start = "+start+" end="+end;
+        }
+
+        @Override
+        protected boolean matchEnd() {
+            isMatch = false;
+            if(p.length() < s.length()-end  || p.length() >s.length()-start){
+                return false;
+            }
+            for (int i = 1; i <= p.length(); i++) {
+                if(p.charAt(p.length()-i) != s.charAt(s.length()-i)){
+                    return false;
+                }
+            }
+            isMatch = true;
+            return true;
+        }
+
+        @Override
+        protected boolean tryMatch(int index) {
+            isMatch = false;
+            if(p.length() > s.length()-index){
+                return false;
+            }
+            for (int i = 0; i < p.length(); i++) {
+                if(p.charAt(i) != s.charAt(i+index)){
+                    return false;
+                }
+            }
+            next.start = p.length()+index;
+            next.end = p.length()+index;
+            isMatch = true;
+            return true;
+        }
+    }
+
+    class PointMatch extends Match{
+        int nums;
+
+        @Override
+        public String toString() {
+            return "pointMatch,nums = "+nums+" start = "+start+" end="+end;
+        }
+
+        @Override
+        protected boolean matchEnd() {
+            isMatch = false;
+            if(nums+end >=s.length() && nums+start <= s.length()){
+                isMatch = true;
+            }
+
+            return isMatch;
+        }
+        @Override
+        protected boolean tryMatch(int index) {
+            isMatch = false;
+            if(nums > s.length()-index){
+                return false;
+            }
+
+            next.start = nums+index;
+            next.end = nums+index;
+            isMatch = true;
+            return true;
+        }
+
+    }
+
+    class CharXingMatch extends Match{
+        char c;
+        int skip;
+
+        @Override
+        public String toString() {
+            return "CharXingMatch,c="+c+" start = "+start+" end="+end;
+        }
+
+        protected boolean matchNormal() {
+            for (int i = start; i <= end ; i=i+skip) {
+                tryMatch(i);
+                if(isMatch){
+                    if(next.match()){
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        @Override
+        protected boolean matchEnd() {
+            isMatch = false;
+
+            for (int i = end; i < s.length(); i++) {
+                if(c != s.charAt(i)){
+                    return false;
+                }
+            }
+            isMatch = true;
+            return true;
+        }
+        @Override
+        protected boolean tryMatch(int index) {
+            next.start = index;
+            while (index <s.length() && c == s.charAt(index)){
+                index++;
+            }
+            next.end = index;
+            skip = next.end - next.start+1;
+            isMatch = true;
+            return true;
+        }
+
+    }
+
+    class PointXing extends Match{
+
+        @Override
+        public String toString() {
+            return "PointXing"+" start = "+start+" end="+end;
+        }
+
+        protected boolean matchNormal() {
+            next.start = start;
+            next.end = Math.max(s.length(),start);
+            return next.match();
+
+        }
+
+        @Override
+        protected boolean matchEnd() {
+            isMatch = true;
+            return true;
+        }
     }
 
     @Override

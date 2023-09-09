@@ -53,9 +53,11 @@ public class SubjectServiceImpl implements SubjectService {
         }
         System.out.print("]");
     }
-    private ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+
+    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
         return addListNode(l1, l2, 0);
     }
+
     private ListNode addListNode(ListNode l1, ListNode l2, int carry) {
         if(l1 == null && l2 == null){
             return carry > 0 ? new ListNode(carry, null) : null;
@@ -72,6 +74,7 @@ public class SubjectServiceImpl implements SubjectService {
     public void longestSubstringWithoutRepeatedCharacters(){
         lengthOfLongestSubstring("dvdf");
     }
+
     /**
      * 滑动窗口的解析思路
      */
@@ -92,162 +95,87 @@ public class SubjectServiceImpl implements SubjectService {
     @Override
     public void queryPositiveArrayMedian(){
         System.out.println(findMedianSortedArrays(new int[]{1,2}, new int[]{3,4}));
-        System.out.println(findMedianSortedArrays1(new int[]{1,2}, new int[]{3,4}));
     }
-    private double findMedianSortedArrays(int[] nums1, int[] nums2) {
-        int[]nums3 = new int[nums1.length + nums2.length];
-        System.arraycopy(nums1, 0, nums3, 0, nums1.length);
-        System.arraycopy(nums2, 0, nums3, nums1.length, nums2.length);
-        Arrays.sort(nums3);
-        return nums3.length % 2 == 0 ? (double)(nums3[nums3.length / 2 - 1] + nums3[nums3.length / 2]) / 2 : nums3[nums3.length / 2];
-    }
-    /**
-     * 高级算法
-     */
-    private double findMedianSortedArrays1(int[] nums1, int[] nums2) {
+
+    public double findMedianSortedArrays(int[] nums1, int[] nums2) {
+        int[] nums;
         int m = nums1.length;
         int n = nums2.length;
-        if (m > n) {
-            //保证nums1是较长的数组
-            int[] temp = nums1; nums1 = nums2; nums2 = temp;
-            int tmp = m; m = n; n = tmp;
-        }
-        int min = 0, max = m, halfLen = (m + n + 1) / 2;
-        int i, j, maxLeft, minRight;
-        while (min <= max) {
-            i = (min + max) / 2;
-            j = halfLen - i;
-            if (i < max && nums2[j - 1] > nums1[i]){
-                min = i + 1; // i is too small
-            } else if (i > min && nums1[i - 1] > nums2[j]) {
-                max = i - 1; // i is too big
-            } else { // i is perfect
-                if (i == 0) {
-                    // nums1最小的比nums2最大的值还大
-                    maxLeft = nums2[j - 1];
-                } else if (j == 0) {
-                    // nums1最大的比nums2最小的值还小
-                    maxLeft = nums1[i - 1];
-                } else {
-                    maxLeft = Math.max(nums1[i - 1], nums2[j - 1]);
-                }
-                if ( (m + n) % 2 == 1 ) {
-                    return maxLeft;
-                }
-                if (i == m) {
-                    minRight = nums2[j];
-                } else if (j == n) {
-                    minRight = nums1[i];
-                } else {
-                    minRight = Math.min(nums2[j], nums1[i]);
-                }
-                return (maxLeft + minRight) / 2.0;
+        nums = new int[m + n];
+        if (m == 0) {
+            if (n % 2 == 0) {
+                return (nums2[n / 2 - 1] + nums2[n / 2]) / 2.0;
+            } else {
+
+                return nums2[n / 2];
             }
         }
-        return 0.0;
+        if (n == 0) {
+            if (m % 2 == 0) {
+                return (nums1[m / 2 - 1] + nums1[m / 2]) / 2.0;
+            } else {
+                return nums1[m / 2];
+            }
+        }
+
+        int count = 0;
+        int i = 0, j = 0;
+        while (count != (m + n)) {
+            if (i == m) {
+                while (j != n) {
+                    nums[count++] = nums2[j++];
+                }
+                break;
+            }
+            if (j == n) {
+                while (i != m) {
+                    nums[count++] = nums1[i++];
+                }
+                break;
+            }
+
+            if (nums1[i] < nums2[j]) {
+                nums[count++] = nums1[i++];
+            } else {
+                nums[count++] = nums2[j++];
+            }
+        }
+
+        if (count % 2 == 0) {
+            return (nums[count / 2 - 1] + nums[count / 2]) / 2.0;
+        } else {
+            return nums[count / 2];
+        }
     }
 
     @Override
     public void getTheLongestPalindromeString(){
         System.out.println(longestPalindrome("addc"));
-        System.out.println(longestPalindrome1("babad"));
     }
 
-    private String longestPalindrome(String s) {
-        int left = 0, right = 0, left1, right1;
-        String str = addBoundaries(s, '#');
-        for(int i = 0; i < str.length(); i++){
-            left1 = i % 2 == 1 ? i - 1 : i;
-            right1 = i % 2 == 1 ? i + 1 : i;
-            while(left1 - 1 >= 0 && right1 + 1 < str.length() && str.charAt(left1 - 1) == str.charAt(right1 + 1)){
-                left1--;
-                right1++;
-            }
-            if(right1 != i && right1 - left1 > right - left){
-                left = left1;
-                right = right1;
-            }
+    public String longestPalindrome(String s) {
+        if (s == null || s.length() < 1) {
+            return "";
         }
-        return right - left == 0 ? s.substring(0, 1) : s.substring(left / 2, right / 2);
-    }
-
-    /**
-     * 创建预处理字符串
-     * @param s      原始字符串
-     * @param divide 分隔字符
-     * @return 使用分隔字符处理以后得到的字符串
-     */
-    private String addBoundaries(String s, char divide) {
-        //可以在此判断下是否包含divide, 包含则放弃
-        StringBuilder stringBuilder = new StringBuilder();
+        int start = 0, end = 0;
         for (int i = 0; i < s.length(); i++) {
-            stringBuilder.append(divide);
-            stringBuilder.append(s.charAt(i));
+            int len1 = expandAroundCenter(s, i, i);
+            int len2 = expandAroundCenter(s, i, i + 1);
+            int len = Math.max(len1, len2);
+            if (len > end - start) {
+                start = i - (len - 1) / 2;
+                end = i + len / 2;
+            }
         }
-        stringBuilder.append(divide);
-        return stringBuilder.toString();
+        return s.substring(start, end + 1);
     }
 
-    /**
-     * Manacher算法实现
-     */
-    public String longestPalindrome1(String s) {
-        // 特判
-        if (s.length() < 2) {
-            return s;
+    public int expandAroundCenter(String s, int left, int right) {
+        while (left >= 0 && right < s.length() && s.charAt(left) == s.charAt(right)) {
+            --left;
+            ++right;
         }
-
-        // 得到预处理字符串
-        String str = addBoundaries(s, '#');
-        // 新字符串的长度
-        int sLen = 2 * s.length() + 1;
-
-        // 数组 p 记录了扫描过的回文子串的信息
-        int[] p = new int[str.length()];
-
-        // 双指针，它们是一一对应的，须同时更新
-        int maxRight = 0;
-        int center = 0;
-
-        // 当前遍历的中心最大扩散步数，其值等于原始字符串的最长回文子串的长度
-        int maxLen = 1;
-        // 原始字符串的最长回文子串的起始位置，与 maxLen 必须同时更新
-        int start = 0;
-
-        for (int i = 0; i < str.length(); i++) {
-            if (i < maxRight) {
-                int mirror = 2 * center - i;
-                // 这一行代码是 Manacher 算法的关键所在，要结合图形来理解
-                // 由回文串的定义可知，一个回文串反过来还是一个回文串，所以以i为中心的回文串的长度至少和以mirror为中心的回文串一样
-                p[i] = Math.min(maxRight - i, p[mirror]);
-            }
-
-            // 下一次尝试扩散的左右起点，能扩散的步数直接加到 p[i] 中
-            int left = i - (1 + p[i]);
-            int right = i + (1 + p[i]);
-
-            // left >= 0 && right < sLen 保证不越界
-            // str.charAt(left) == str.charAt(right) 表示可以扩散 1 次
-            while (left >= 0 && right < sLen && str.charAt(left) == str.charAt(right)) {
-                p[i]++;
-                left--;
-                right++;
-
-            }
-            // 根据 maxRight 的定义，它是遍历过的 i 的 i + p[i] 的最大者
-            // 如果 maxRight 的值越大，进入上面 i < maxRight 的判断的可能性就越大，这样就可以重复利用之前判断过的回文信息了
-            if (i + p[i] > maxRight) {
-                // maxRight 和 center 需要同时更新
-                maxRight = i + p[i];
-                center = i;
-            }
-            if (p[i] > maxLen) {
-                // 记录最长回文子串的长度和相应它在原始字符串中的起点
-                maxLen = p[i];
-                start = (i - maxLen) / 2;
-            }
-        }
-        return s.substring(start, start + maxLen);
+        return right - left - 1;
     }
 
     @Override
@@ -292,52 +220,54 @@ public class SubjectServiceImpl implements SubjectService {
         System.out.println(myAtoi("words and 987"));
     }
 
-    public int myAtoi(String s) {
-        char[] charArr = new char[s.length()];
-        int j = 0;
-        char a;
-        for(int i = 0; i < s.length(); i++){
-            a = s.charAt(i);
-            if((a >= '0' && a <= '9') || a == '-'){
-                charArr[j++] = a;
+    public int myAtoi(String str) {
+        str = str.trim();
+        if (str.length() == 0) return 0;
+        if (!Character.isDigit(str.charAt(0))
+                && str.charAt(0) != '-' && str.charAt(0) != '+')
+            return 0;
+        long ans = 0L;
+        boolean neg = str.charAt(0) == '-';
+        int i = !Character.isDigit(str.charAt(0)) ? 1 : 0;
+        while (i < str.length() && Character.isDigit(str.charAt(i))) {
+            ans = ans * 10 + (str.charAt(i++) - '0');
+            if (!neg && ans > Integer.MAX_VALUE) {
+                ans = Integer.MAX_VALUE;
+                break;
+            }
+            if (neg && ans > 1L + Integer.MAX_VALUE) {
+                ans = 1L + Integer.MAX_VALUE;
+                break;
             }
         }
-        return Integer.valueOf(String.valueOf(Arrays.copyOf(charArr, j)));
+        return neg ? (int) -ans : (int) ans;
     }
 
     @Override
     public void palindromeNumber(){
         System.out.println(isPalindrome(12322));
-        System.out.println(isPalindrome1(12322));
     }
 
-    /**
-     * 将数字反序排序, 如果是回文一定和原值相同
-     */
-    public boolean isPalindrome1(int x) {
-        if(x < 0)
-            return false;
-        int y = 0;
-        int quo = x;
-        while(quo != 0){
-            y = y * 10 + quo % 10;
-            quo = quo / 10;
-        }
-        return y == x;
-    }
-
-    /**
-     * 头尾对比
-     */
     public boolean isPalindrome(int x) {
-        String xStr = String.valueOf(x);
-        int mid = (xStr.length() + 1) / 2;
-        for(int i = 0; i < mid; i++){
-            if(xStr.charAt(i) != xStr.charAt(xStr.length() - i - 1)){
-                return false;
-            }
+        // 特殊情况：
+        // 如上所述，当 x < 0 时，x 不是回文数。
+        // 同样地，如果数字的最后一位是 0，为了使该数字为回文，
+        // 则其第一位数字也应该是 0
+        // 只有 0 满足这一属性
+        if (x < 0 || (x % 10 == 0 && x != 0)) {
+            return false;
         }
-        return true;
+
+        int revertedNumber = 0;
+        while (x > revertedNumber) {
+            revertedNumber = revertedNumber * 10 + x % 10;
+            x /= 10;
+        }
+
+        // 当数字长度为奇数时，我们可以通过 revertedNumber/10 去除处于中位的数字。
+        // 例如，当输入为 12321 时，在 while 循环的末尾我们可以得到 x = 12，revertedNumber = 123，
+        // 由于处于中位的数字不影响回文（它总是与自己相等），所以我们可以简单地将其去除。
+        return x == revertedNumber || x == revertedNumber / 10;
     }
 
     @Override
@@ -384,25 +314,21 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     public int maxArea(int[] height) {
-        if (height == null || height.length < 1) {
-            return 0;
-        }
-        int maxValue = 0;
-        int left = 0, right = height.length - 1, area;
-        // 当两个指针没有重合时
-        while (left < right) {
-            area = (height[left] < height[right] ? height[left] : height[right]) * (right - left);
-            if(maxValue < area){
-                maxValue = area;
+        int l = 0, r = height.length - 1;
+        int maxArea = 0;
+        while (l < r) {
+            int area = (r - l) * Math.min(height[l], height[r]);
+            int minH = Math.min(height[l], height[r]);
+            maxArea = Math.max(maxArea, area);
+            // 快速跳过这步可太妙了
+            while (height[l] <= minH && l < r) {
+                l++;
             }
-            // 那个值小就挪动那个指针
-            if (height[left] <= height[right]) {
-                left++;
-            } else {
-                right--;
+            while (height[r] <= minH && l < r) {
+                r--;
             }
         }
-        return maxValue;
+        return maxArea;
     }
 
     @Override
@@ -410,18 +336,23 @@ public class SubjectServiceImpl implements SubjectService {
         System.out.println(intToRoman(1998));
     }
 
-    public String intToRoman(int num) {
-        int values[] = {1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1};
-        String reps[] = {"M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I"};
+    int[] values = {1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1};
+    String[] symbols = {"M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I"};
 
-        StringBuilder res = new StringBuilder();
-        for(int i = 0; i < 13; i++){
-            while(num >= values[i]){
-                num -= values[i];
-                res.append(reps[i]);
+    public String intToRoman(int num) {
+        StringBuffer roman = new StringBuffer();
+        for (int i = 0; i < values.length; ++i) {
+            int value = values[i];
+            String symbol = symbols[i];
+            while (num >= value) {
+                num -= value;
+                roman.append(symbol);
+            }
+            if (num == 0) {
+                break;
             }
         }
-        return res.toString();
+        return roman.toString();
     }
 
     @Override
@@ -430,25 +361,32 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     public int romanToInt(String s) {
-        char reps[] = {'M', 'D', 'C', 'L', 'X', 'V', 'I'};
-        int values[] = {1000, 500, 100,  50, 10,   5,   1};
-        int value = 0;
-        for(int i = 0; i < s.length(); i++){
-           for(int j = 0; j < reps.length; j++){
-               if(s.charAt(i) == reps[j]){
-                   if((i + 1 < s.length() && j >= 1 && s.charAt(i + 1) == reps[j - 1])
-                           || (i + 1 < s.length() && j >= 2 && s.charAt(i + 1) == reps[j - 2])){
-                       //如果下一个值 > 当前值 || 下两个的值 > 当前值
-                       value = value - values[j];
-                       break;
-                   }else{
-                       value = value + values[j];
-                       break;
-                   }
-               }
-           }
+        int sum = 0;
+        int preNum = getValue(s.charAt(0));
+        for(int i = 1;i < s.length(); i ++) {
+            int num = getValue(s.charAt(i));
+            if(preNum < num) {
+                sum -= preNum;
+            } else {
+                sum += preNum;
+            }
+            preNum = num;
         }
-        return value;
+        sum += preNum;
+        return sum;
+    }
+
+    private int getValue(char ch) {
+        switch(ch) {
+            case 'I': return 1;
+            case 'V': return 5;
+            case 'X': return 10;
+            case 'L': return 50;
+            case 'C': return 100;
+            case 'D': return 500;
+            case 'M': return 1000;
+            default: return 0;
+        }
     }
 
     @Override
@@ -457,21 +395,37 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     public String longestCommonPrefix(String[] strs) {
-        if(strs.length == 0){
+        if (strs == null || strs.length == 0) {
             return "";
         }
-        //公共前缀比所有字符串都短，随便选一个先
-        String s = strs[0];
-        for (String string : strs) {
-            while(!string.startsWith(s)){
-                if(s.length() == 0){
-                    return "";
-                }
-                //公共前缀不匹配就让它变短！
-                s = s.substring(0, s.length()-1);
+        int minLength = Integer.MAX_VALUE;
+        for (String str : strs) {
+            minLength = Math.min(minLength, str.length());
+        }
+        int low = 0, high = minLength;
+        while (low < high) {
+            int mid = (high - low + 1) / 2 + low;
+            if (isCommonPrefix(strs, mid)) {
+                low = mid;
+            } else {
+                high = mid - 1;
             }
         }
-        return s;
+        return strs[0].substring(0, low);
+    }
+
+    public boolean isCommonPrefix(String[] strs, int length) {
+        String str0 = strs[0].substring(0, length);
+        int count = strs.length;
+        for (int i = 1; i < count; i++) {
+            String str = strs[i];
+            for (int j = 0; j < length; j++) {
+                if (str0.charAt(j) != str.charAt(j)) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     @Override
@@ -554,39 +508,32 @@ public class SubjectServiceImpl implements SubjectService {
         System.out.println(letterCombinations("259"));
     }
 
-    //设置全局列表存储最后的结果
-    private List<String> list = new ArrayList<>();
+    // 数字到号码的映射
+    private String[] map = {"abc","def","ghi","jkl","mno","pqrs","tuv","wxyz"};
 
-    //每次迭代获取一个字符串，所以会设计大量的字符串拼接，所以这里选择更为高效的 StringBuild
-    private StringBuilder temp = new StringBuilder();
+    // 路径
+    private StringBuilder sb = new StringBuilder();
+
+    // 结果集
+    private List<String> res = new ArrayList<>();
 
     public List<String> letterCombinations(String digits) {
-        if (digits == null || digits.length() == 0) {
-            return Collections.emptyList();
-        }
-        //初始对应所有的数字，为了直接对应2-9，新增了两个无效的字符串""
-        String[] numString = {"", "", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
-        //迭代处理
-        backTracking(digits, numString, 0);
-        return list;
-
+        if(digits == null || digits.length() == 0) return res;
+        backtrack(digits,0);
+        return res;
     }
 
-    //比如digits如果为"23",num 为0，则str表示2对应的 abc
-    public void backTracking(String digits, String[] numString, int num) {
-        //遍历全部一次记录一次得到的字符串
-        if (num == digits.length()) {
-            list.add(temp.toString());
+    // 回溯函数
+    private void backtrack(String digits,int index) {
+        if(sb.length() == digits.length()) {
+            res.add(sb.toString());
             return;
         }
-        //str 表示当前num对应的字符串
-        String str = numString[digits.charAt(num) - '0'];
-        for (int i = 0; i < str.length(); i++) {
-            temp.append(str.charAt(i));
-            //递归
-            backTracking(digits, numString, num + 1);
-            //剔除末尾的继续尝试
-            temp.deleteCharAt(temp.length() - 1);
+        String val = map[digits.charAt(index)-'2'];
+        for(char ch:val.toCharArray()) {
+            sb.append(ch);
+            backtrack(digits,index+1);
+            sb.deleteCharAt(sb.length()-1);
         }
     }
 
@@ -595,67 +542,61 @@ public class SubjectServiceImpl implements SubjectService {
         fourSum(new int[]{1,0,-1,0,-2,2}, 0);
     }
 
-    public static List<List<Integer>> fourSum(int[] nums, int target) {
-        List<List<Integer>> ans = new LinkedList<>();
-        if(nums == null || nums.length < 4) {
-            return ans;
+    public List<List<Integer>> fourSum(int[] nums, int target) {
+        List<List<Integer>> quadruplets = new ArrayList<List<Integer>>();
+        if (nums == null || nums.length < 4) {
+            return quadruplets;
         }
-
         Arrays.sort(nums);
-        int frontPtr, postPtr;
-        List<Integer> subList = new LinkedList<>();
-        for(int i = 0; i < nums.length; i++) {
-            if(i > 0 && nums[i] == nums[i - 1]) {
+        int length = nums.length;
+        for (int i = 0; i < length - 3; i++) {
+            if (i > 0 && nums[i] == nums[i - 1]) {
                 continue;
             }
-            for(int j = i + 1; j < nums.length; j++) {
-                if(j > i + 1 && nums[j] == nums[j - 1]) {
+            if ((long) nums[i] + nums[i + 1] + nums[i + 2] + nums[i + 3] > target) {
+                break;
+            }
+            if ((long) nums[i] + nums[length - 3] + nums[length - 2] + nums[length - 1] < target) {
+                continue;
+            }
+            for (int j = i + 1; j < length - 2; j++) {
+                if (j > i + 1 && nums[j] == nums[j - 1]) {
                     continue;
                 }
-                frontPtr = j + 1;
-                postPtr = nums.length - 1;
-                long tempTarget = (long)target - nums[i] - nums[j];
-                while(frontPtr < postPtr) {
-                    if((long)nums[frontPtr] + nums[postPtr] == tempTarget) {
-                        subList.add(nums[i]);
-                        subList.add(nums[j]);
-                        subList.add(nums[frontPtr]);
-                        subList.add(nums[postPtr]);
-                        ans.add(subList);
-                        subList.clear();
-                        while(frontPtr < postPtr && (nums[frontPtr] == nums[frontPtr + 1])) {
-                            frontPtr++;
+                if ((long) nums[i] + nums[j] + nums[j + 1] + nums[j + 2] > target) {
+                    break;
+                }
+                if ((long) nums[i] + nums[j] + nums[length - 2] + nums[length - 1] < target) {
+                    continue;
+                }
+                int left = j + 1, right = length - 1;
+                while (left < right) {
+                    long sum = (long) nums[i] + nums[j] + nums[left] + nums[right];
+                    if (sum == target) {
+                        quadruplets.add(Arrays.asList(nums[i], nums[j], nums[left], nums[right]));
+                        while (left < right && nums[left] == nums[left + 1]) {
+                            left++;
                         }
-                        while(frontPtr < postPtr && (nums[postPtr] == nums[postPtr - 1])) {
-                            postPtr--;
+                        left++;
+                        while (left < right && nums[right] == nums[right - 1]) {
+                            right--;
                         }
-                        frontPtr++;
-                        postPtr--;
-                    } else if((long)nums[frontPtr] + nums[postPtr] < tempTarget) {
-                        frontPtr++;
+                        right--;
+                    } else if (sum < target) {
+                        left++;
                     } else {
-                        postPtr--;
+                        right--;
                     }
                 }
             }
         }
-        return ans;
+        return quadruplets;
     }
 
     @Override
     public void removeNthFromEnd(){
         ListNode head = getListNode();
-        ListNode headCopy = head;
-        head = removeNthFromEnd1(head, 2);
-        for(;;){
-            System.out.println(head.val + ",");
-            head = head.next;
-            if(head == null){
-                break;
-            }
-        }
-
-        head = removeNthFromEnd2(headCopy, 2);
+        head = removeNthFromEnd(head, 2);
         for(;;){
             System.out.println(head.val + ",");
             head = head.next;
@@ -665,41 +606,19 @@ public class SubjectServiceImpl implements SubjectService {
         }
     }
 
-    int i = 0;
-
-    public ListNode removeNthFromEnd1(ListNode head, int n) {
-        if(head.next != null){
-            removeNthFromEnd1(head.next, n);
-            i ++;
-        }
-        if(i == n){
-            head.next = head.next.next;
-        }
-        return head;
-    }
-
-    public ListNode removeNthFromEnd2(ListNode head, int n) {
-        ListNode head1 = head, head2 = head;
-        int i = 0;
-        do {
-            head = head.next;
-            i++;
-        } while (head != null);
-        if(i == 1){
-            return null;
-        }
-        n = n >= i ? n - i : n;
-        if(n == 0){
-            return head2.next;
-        }
-        for(int j = 0; j < i; j++){
-            if(j + n + 1 == i){
-                head1.next = head1.next.next;
-                return head2;
+    public ListNode removeNthFromEnd(ListNode head, int n) {
+        ListNode current = head;
+        ListNode preNode = new ListNode(0, head);
+        int count = 1;
+        while (current.next != null) {
+            count++;
+            if (count > n) {
+                preNode = preNode.next;
             }
-            head1 = head1.next;
+            current = current.next;
         }
-        return head2;
+        preNode.next = preNode.next.next;
+        return count == n ? head.next : head;
     }
 
     @Override
@@ -757,37 +676,22 @@ public class SubjectServiceImpl implements SubjectService {
         }
     }
 
-    public ListNode mergeTwoLists(ListNode list1, ListNode list2) {
-        ListNode head = new ListNode(-1);
-        ListNode headNode = head;
-        while(list1 != null || list2 != null) {
-
-            if (list1 == null) {
-                while(list2 != null) {
-                    head.next = list2;
-                    list2 = list2.next;
-                    head = head.next;
-                }
-                return headNode.next;
-            } else if (list2 == null) {
-                while(list1 != null) {
-                    head.next = list1;
-                    list1 = list1.next;
-                    head = head.next;
-                }
-                return headNode.next;
-            }
-            if (list1.val > list2.val) {
-                head.next = list2;
-                list2 = list2.next;
-                head = head.next;
-            } else {
-                head.next = list1;
-                list1 = list1.next;
-                head = head.next;
-            }
+    public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
+        if (l1 == null) {
+            return l2;
         }
-        return headNode.next;
+        else if (l2 == null) {
+            return l1;
+        }
+        else if (l1.val < l2.val) {
+            l1.next = mergeTwoLists(l1.next, l2);
+            return l1;
+        }
+        else {
+            l2.next = mergeTwoLists(l1, l2.next);
+            return l2;
+        }
+
     }
 
     @Override
@@ -795,27 +699,26 @@ public class SubjectServiceImpl implements SubjectService {
         System.out.println(generateParenthesis(3));
     }
 
-    private List<String> parenthesisList = new ArrayList<>();
-
     public List<String> generateParenthesis(int n) {
-        backtracking(n, n, new StringBuffer());
-        return parenthesisList;
+        List<String> ans = new ArrayList<String>();
+        backtrack(ans, new StringBuilder(), 0, 0, n);
+        return ans;
     }
 
-    private void backtracking(int left, int right, StringBuffer path) {
-        if (left == 0 && right == 0) {
-            parenthesisList.add(path.toString());
+    public void backtrack(List<String> ans, StringBuilder cur, int open, int close, int max) {
+        if (cur.length() == max * 2) {
+            ans.add(cur.toString());
             return;
         }
-        if (left > 0) {
-            path.append("(");
-            backtracking(left - 1, right, path);
-            path.deleteCharAt(path.length() - 1);
+        if (open < max) {
+            cur.append('(');
+            backtrack(ans, cur, open + 1, close, max);
+            cur.deleteCharAt(cur.length() - 1);
         }
-        if (left < right) {
-            path.append(")");
-            backtracking(left, right - 1, path);
-            path.deleteCharAt(path.length() - 1);
+        if (close < open) {
+            cur.append(')');
+            backtrack(ans, cur, open, close + 1, max);
+            cur.deleteCharAt(cur.length() - 1);
         }
     }
 
@@ -846,88 +749,46 @@ public class SubjectServiceImpl implements SubjectService {
         head2.val = 5;
         head1.next = head2;
         ListNode headCopy1 = head;
-        //使用归并排序进行合并
         ListNode listNode = mergeKLists(new ListNode[]{headCopy, headCopy1});
         while(listNode != null){
             System.out.println(listNode.val);
             listNode = listNode.next;
         }
-        //使用优先队列进行合并
-        listNode = mergeKLists1(new ListNode[]{headCopy, headCopy1});
-        while(listNode != null){
-            System.out.println(listNode.val);
-            listNode = listNode.next;
+    }
+
+    class Status implements Comparable<Status> {
+        int val;
+        ListNode ptr;
+
+        Status(int val, ListNode ptr) {
+            this.val = val;
+            this.ptr = ptr;
+        }
+
+        public int compareTo(Status status2) {
+            return this.val - status2.val;
         }
     }
+
+    PriorityQueue<Status> queue = new PriorityQueue<>();
 
     public ListNode mergeKLists(ListNode[] lists) {
-        if (lists.length == 0) return null;
-        return mergeTowLists(lists, 0, lists.length - 1);
-    }
-
-    private ListNode mergeTowLists(ListNode[] lists, int start, int end) {
-        if (start == end) {
-            return lists[start];
-        }
-        int middle = start + (end - start) / 2;
-        ListNode left = mergeTowLists(lists, start, middle);
-        ListNode right = mergeTowLists(lists, middle + 1, end);
-        return merge(left, right);
-    }
-
-    private ListNode merge(ListNode left, ListNode right) {
-        ListNode dummyHead = new ListNode(0);
-        ListNode pre = dummyHead;
-        while (left != null && right != null) {
-            if (left.val <= right.val) {
-                pre.next = new ListNode(left.val);
-                left = left.next;
-            } else {
-                pre.next = new ListNode(right.val);
-                right = right.next;
-            }
-            pre = pre.next;
-        }
-        while (left != null) {
-            pre.next = new ListNode(left.val);
-            left = left.next;
-            pre = pre.next;
-        }
-        while (right != null) {
-            pre.next = new ListNode(right.val);
-            right = right.next;
-            pre = pre.next;
-        }
-        return dummyHead.next;
-    }
-
-    /**
-     * 使用优先队列进行合并
-     */
-    public ListNode mergeKLists1(ListNode[] lists) {
-        if (lists.length == 0) {
-            return null;
-        }
-        ListNode dummyHead = new ListNode(0);
-        ListNode curr = dummyHead;
-        PriorityQueue<ListNode> pq = new PriorityQueue<>(Comparator.comparingInt(o -> o.val));
-
-        for (ListNode list : lists) {
-            if (list == null) {
-                continue;
-            }
-            pq.add(list);
-        }
-
-        while (!pq.isEmpty()) {
-            ListNode nextNode = pq.poll();
-            curr.next = nextNode;
-            curr = curr.next;
-            if (nextNode.next != null) {
-                pq.add(nextNode.next);
+        for (ListNode node: lists) {
+            if (node != null) {
+                queue.offer(new Status(node.val, node));
             }
         }
-        return dummyHead.next;
+        ListNode head = new ListNode(0);
+        ListNode tail = head;
+        while (!queue.isEmpty()) {
+            Status f = queue.poll();
+            tail.next = f.ptr;
+            tail = tail.next;
+            if (f.ptr.next != null) {
+                queue.offer(new Status(f.ptr.next.val, f.ptr.next));
+            }
+        }
+        return head.next;
     }
 
     @Override
@@ -1097,85 +958,58 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     public List<Integer> findSubstring(String s, String[] words) {
-        //返回答案列表
-        List<Integer> list = new ArrayList<>();
-        //记录words字符串数组中每个单词出现的次数
-        Map<String, Integer> map = new HashMap<>();
-        int n = s.length();
-        int m = words.length;
-        //题目条件每个单词等长
-        int oneNum = words[0].length();
-        //所有单词的总长度
-        int allNum = m * oneNum;
-        //特殊条件判断
-        if (allNum > n) {
-            return list;
-        }
-        //记录频次
-        for (String word : words) {
-            map.put(word, map.getOrDefault(word, 0) + 1);
-        }
-        //每次移动的步长为单个单词的长度
-        //假设单词长度为3，那么我们只要把开头定为索引的0,1,2即可覆盖所有情况
-        //因为以3开头是由0开头移动一个步长而来，所有只用记录前面的情况
-        for (int i = 0; i < oneNum; i++) {
-            //左窗口边界
-            int left = i;
-            //右窗口边界
-            int right = i;
-            //记录匹配的单词数
-            int cnt = 0;
-            //临时记录子串
-            Map<String, Integer> tempMap = new HashMap<>();
-            while (right + oneNum <= n) {
-                //先截取一个单词长度的子串
-                String w = s.substring(right, right + oneNum);
-                //右窗口移动
-                right += oneNum;
-                //如果原本记录频次的哈希表中没有这个子串
-                if (!map.containsKey(w)) {
-                    //左窗口移动
-                    left = right;
-                    //匹配的单词数清零
-                    cnt = 0;
-                    //临时记录子串的哈希表清空
-                    tempMap.clear();
-                } else {
-                    //如果原本记录频次的哈希表中有这个子串(单词)
-                    //临时记录子串的哈希表也记录该单词的个数
-                    tempMap.put(w, tempMap.getOrDefault(w, 0) + 1);
-                    //匹配的单词数加一
-                    cnt++;
-                    //当临时哈希表中的该单词数量多余原本的哈希表的该单词数量
-                    while (tempMap.getOrDefault(w, 0) > map.getOrDefault(w, 0)) {
-                        //从左边开始截取子串
-                        String head = s.substring(left, left + oneNum);
-                        //对应临时哈希表中的单词数减一
-                        tempMap.put(head, tempMap.getOrDefault(head, 0) - 1);
-                        //匹配的单词数减一
-                        cnt--;
-                        //左窗口移动
-                        left += oneNum;
+        List<Integer> res = new ArrayList<>();
+        // 所有单词的个数
+        int num = words.length;
+        // 每个单词的长度（是相同的）
+        int wordLen = words[0].length();
+        // 字符串长度
+        int stringLen = s.length();
+
+        for (int i = 0; i < wordLen; i++) {
+            // 遍历的长度超过了整个字符串的长度，退出循环
+            if (i + num * wordLen > stringLen) {
+                break;
+            }
+            // differ表示窗口中的单词频次和words中的单词频次之差
+            Map<String, Integer> differ = new HashMap<>();
+            // 初始化窗口，窗口长度为num * wordLen,依次计算窗口里每个切分的单词的频次
+            for (int j = 0; j < num; j++) {
+                String word = s.substring(i + j * wordLen, i + (j + 1) * wordLen);
+                differ.put(word, differ.getOrDefault(word, 0) + 1);
+            }
+            // 遍历words中的word，对窗口里每个单词计算差值
+            for (String word : words) {
+                differ.put(word, differ.getOrDefault(word, 0) - 1);
+                // 差值为0时，移除掉这个word
+                if (differ.get(word) == 0) {
+                    differ.remove(word);
+                }
+            }
+            // 开始滑动窗口
+            for (int start = i; start < stringLen - num * wordLen + 1; start += wordLen) {
+                if (start != i) {
+                    // 右边的单词滑进来
+                    String word = s.substring(start + (num - 1) * wordLen, start + num * wordLen);
+                    differ.put(word, differ.getOrDefault(word, 0) + 1);
+                    if (differ.get(word) == 0) {
+                        differ.remove(word);
                     }
-                    //如果匹配的单词数等于字符串列表中的单词数
-                    if (cnt == m) {
-                        //说明找到一种符合题意的情况，加入起始位置，即左窗口
-                        list.add(left);
-                        //那么我们开始下次匹配的情况
-                        //需先将左边的从第一个单词先舍弃
-                        //因为题目中words中的单词是可以随意组合，没有顺序，但只能用一次
-                        String head = s.substring(left, left + oneNum);
-                        //对应临时哈希表中该单词的的次数减一
-                        tempMap.put(head, tempMap.get(head) - 1);
-                        //匹配的单词数减一
-                        cnt--;
-                        //左窗口移动
-                        left += oneNum;
+                    // 左边的单词滑出去
+                    word = s.substring(start - wordLen, start);
+                    differ.put(word, differ.getOrDefault(word, 0) - 1);
+                    if (differ.get(word) == 0) {
+                        differ.remove(word);
                     }
+                    word = s.substring(start - wordLen, start);
+                }
+                // 窗口匹配的单词数等于words中对应的单词数
+                if (differ.isEmpty()) {
+                    res.add(start);
                 }
             }
         }
-        return list;
+        return res;
     }
 
     @Override
@@ -1187,30 +1021,33 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     public void nextPermutation(int[] nums) {
-        boolean flag = true;
-        int aid = -1;
-        for (int i = nums.length - 1; i > 0; i--) {
-            if (nums[i] > nums[i - 1]) {
-                aid = i - 1;
-                flag = false;
-                break;
+        int i = nums.length - 2;
+        while (i >= 0 && nums[i] >= nums[i + 1]) {
+            i--;
+        }
+        if (i >= 0) {
+            int j = nums.length - 1;
+            while (j >= 0 && nums[i] >= nums[j]) {
+                j--;
             }
+            swap(nums, i, j);
         }
-        if (flag) {
-            //flag为true的话，说明数组是降序排列，直接反转数组即可
-            reverse(nums, 0, nums.length - 1);
-            return;
+        reverse(nums, i + 1);
+    }
+
+    public void swap(int[] nums, int i, int j) {
+        int temp = nums[i];
+        nums[i] = nums[j];
+        nums[j] = temp;
+    }
+
+    public void reverse(int[] nums, int start) {
+        int left = start, right = nums.length - 1;
+        while (left < right) {
+            swap(nums, left, right);
+            left++;
+            right--;
         }
-        for (int i = nums.length - 1; i > aid; i--) {
-            if (nums[i] > nums[aid]) {
-                //将遍历过的部分那个比i-1大的最小值和i-1位置交换
-                int temp = nums[i];
-                nums[i] = nums[aid];
-                nums[aid] = temp;
-                break;
-            }
-        }
-        reverse(nums, aid + 1, nums.length - 1);//将位置aid+1到最后进行一个倒序即可
     }
 
     /**
@@ -1233,25 +1070,33 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     public int longestValidParentheses(String s) {
-        char[] chars = s.toCharArray();
-        return Math.max(calc(chars, 0, 1, chars.length, '('), calc(chars, chars.length -1, -1, -1, ')'));
-    }
-
-    private static int calc(char[] chars , int i,  int flag, int end, char cTem){
-        int max = 0, sum = 0, currLen = 0, validLen = 0;
-        for (;i != end; i += flag) {
-            sum += (chars[i] == cTem ? 1 : -1);
-            currLen ++;
-            if(sum < 0){
-                max = max > validLen ? max : validLen;
-                sum = 0;
-                currLen = 0;
-                validLen = 0;
-            }else if(sum == 0){
-                validLen = currLen;
+        int left = 0, right = 0, maxlength = 0;
+        for (int i = 0; i < s.length(); i++) {
+            if (s.charAt(i) == '(') {
+                left++;
+            } else {
+                right++;
+            }
+            if (left == right) {
+                maxlength = Math.max(maxlength, 2 * right);
+            } else if (right > left) {
+                left = right = 0;
             }
         }
-        return max > validLen ? max : validLen;
+        left = right = 0;
+        for (int i = s.length() - 1; i >= 0; i--) {
+            if (s.charAt(i) == '(') {
+                left++;
+            } else {
+                right++;
+            }
+            if (left == right) {
+                maxlength = Math.max(maxlength, 2 * left);
+            } else if (left > right) {
+                left = right = 0;
+            }
+        }
+        return maxlength;
     }
 
     @Override
@@ -1260,43 +1105,32 @@ public class SubjectServiceImpl implements SubjectService {
         return "success";
     }
 
-    /**
-     * 最坏的情况还是O(n)故不行
-     */
-    public int search1(int[] nums, int target) {
-        if(target >= nums[0]){
-            for(int i = 0; i < nums.length; i++){
-                if(target == nums[i]){
-                    return i;
-                }
-            }
-        }else{
-            for(int i = nums.length - 1; i >= 0; i--){
-                if(target == nums[i]){
-                    return i;
-                }
-            }
-        }
-        return -1;
-    }
-
     public int search(int[] nums, int target) {
-        int len = nums.length, left = 0, right = len - 1, mid;
-        while(left <= right){
-            mid = (left + right) / 2;
-            if(nums[mid] == target){
+        int n = nums.length;
+        if (n == 0) {
+            return -1;
+        }
+        if (n == 1) {
+            return nums[0] == target ? 0 : -1;
+        }
+        int l = 0, r = n - 1;
+        while (l <= r) {
+            int mid = (l + r) / 2;
+            if (nums[mid] == target) {
                 return mid;
-            } else if(nums[mid] < nums[right]){
-                if(nums[mid] < target && target <= nums[right])
-                    left = mid + 1;
-                else
-                    right = mid - 1;
             }
-            else{
-                if(nums[left] <= target && target < nums[mid])
-                    right = mid - 1;
-                else
-                    left = mid + 1;
+            if (nums[0] <= nums[mid]) {
+                if (nums[0] <= target && target < nums[mid]) {
+                    r = mid - 1;
+                } else {
+                    l = mid + 1;
+                }
+            } else {
+                if (nums[mid] < target && target <= nums[n - 1]) {
+                    l = mid + 1;
+                } else {
+                    r = mid - 1;
+                }
             }
         }
         return -1;
@@ -1309,31 +1143,58 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     public int[] searchRange(int[] nums, int target) {
-        int[] res = new int[] {-1, -1};
-        res[0] = binarySearch(nums, target, true);
-        res[1] = binarySearch(nums, target, false);
+        int res[] = new int[] {-1, -1};
+        if (nums.length == 0) {
+            return res;
+        }
+
+        int low = 0;
+        int high = nums.length - 1;
+        int mid = (low + high) / 2;
+        while (low <= high) {
+            if (nums[mid] > target) {
+                high = mid - 1;
+            } else if (nums[mid] < target) {
+                low = mid + 1;
+            } else {
+                // 找第一个目标值
+                int i = mid;
+                while (i > -1 && nums[i] == target) {
+                    i--;
+                }
+                res[0] = ++i;
+                // 找最后一个目标值
+                i = mid;
+                while (i < nums.length && nums[i] == target) {
+                    i++;
+                }
+                res[1] = --i;
+                return res;
+            }
+            mid = (low + high) / 2;
+        }
+
         return res;
     }
 
-    public int binarySearch(int[] nums, int target, boolean leftOrRight) {
-        int res = -1;
-        int left = 0, right = nums.length - 1, mid;
-        while(left <= right) {
-            mid = left + (right - left) / 2;
-            if(target < nums[mid])
+    @Override
+    public String searchInsert(){
+        System.out.println(JSON.toJSONString(searchInsert(new int[]{1,3,5,6}, 2)));
+        return "success";
+    }
+
+    public int searchInsert(int[] nums, int target) {
+        int n = nums.length;
+        int left = 0, right = n - 1;
+        while (left <= right) {
+            int mid = (right + left) >> 1;
+            if (target <= nums[mid]) {
                 right = mid - 1;
-            else if(target > nums[mid])
+            } else {
                 left = mid + 1;
-            else {
-                res = mid;
-                //处理target == nums[mid]
-                if(leftOrRight)
-                    right = mid - 1;
-                else
-                    left = mid + 1;
             }
         }
-        return res;
+        return left;
     }
 
     @Override

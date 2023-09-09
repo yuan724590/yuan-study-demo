@@ -30,7 +30,7 @@ public class SubjectController {
      */
 
     /**
-     * 相加两个数
+     * 2. 相加两个数
      */
     @GetMapping(value = "/addTwoNumbers")
     public void addTwoNumbers() {
@@ -38,7 +38,7 @@ public class SubjectController {
     }
 
     /**
-     * 无重复字符的最长子串
+     * 3. 无重复字符的最长子串
      */
     @GetMapping(value = "/longestSubstringWithoutRepeatedCharacters")
     public void longestSubstringWithoutRepeatedCharacters() {
@@ -46,7 +46,7 @@ public class SubjectController {
     }
 
     /**
-     * 寻找两个正序数组的中位数
+     * 4. 寻找两个正序数组的中位数
      */
     @GetMapping(value = "/query/positiveArray/median")
     public void queryPositiveArrayMedian() {
@@ -54,7 +54,7 @@ public class SubjectController {
     }
 
     /**
-     * 寻找两个正序数组的中位数
+     * 5. 最长回文子串
      */
     @GetMapping(value = "/get/longest/palindromeString")
     public void getTheLongestPalindromeString() {
@@ -62,7 +62,7 @@ public class SubjectController {
     }
 
     /**
-     * Z字形变换
+     * 6. Z字形变换
      */
     @GetMapping(value = "/zigzag/transformation")
     public void zigzagTransformation() {
@@ -70,7 +70,7 @@ public class SubjectController {
     }
 
     /**
-     * 整数反转
+     * 7. 整数反转
      */
     @GetMapping(value = "/integer/inversion")
     public void integerInversion() {
@@ -78,7 +78,7 @@ public class SubjectController {
     }
 
     /**
-     * 字符串转换整数
+     * 8. 字符串转换整数 (atoi)
      */
     @GetMapping(value = "/convert/string/number")
     public void convertStringNumber() {
@@ -86,7 +86,7 @@ public class SubjectController {
     }
 
     /**
-     * 回文数
+     * 9. 回文数
      */
     @GetMapping(value = "/palindrome/number")
     public void palindromeNumber() {
@@ -95,6 +95,7 @@ public class SubjectController {
 
     /**
      * 10 - 正则表达式匹配
+     * 同yuan.study.demo.controller.subject.OfferSubjectController#isMatch() 故跳过
      */
     @GetMapping(value = "/regular/expression/matching")
     public void regularExpressionMatching(){
@@ -102,7 +103,7 @@ public class SubjectController {
     }
 
     /**
-     * 盛最多水的容器
+     * 11. 盛最多水的容器
      */
     @GetMapping(value = "/hold/most/water")
     public void holdMostWater(){
@@ -110,7 +111,7 @@ public class SubjectController {
     }
 
     /**
-     * 整数转罗马数字
+     * 12. 整数转罗马数字
      */
     @GetMapping(value = "/int/to/roman")
     public void IntToRoman(){
@@ -118,7 +119,7 @@ public class SubjectController {
     }
 
     /**
-     * 罗马数字转整数
+     * 13. 罗马数字转整数
      */
     @GetMapping(value = "/roman/to/int")
     public void romanToInt(){
@@ -126,7 +127,7 @@ public class SubjectController {
     }
 
     /**
-     * 最长公共前缀
+     * 14. 最长公共前缀
      */
     @GetMapping(value = "/longest/common/prefix")
     public void longestCommonPrefix(){
@@ -142,7 +143,7 @@ public class SubjectController {
     }
 
     /**
-     * 最接近的三数之和
+     * 16. 最接近的三数之和
      */
     @GetMapping(value = "/three/sum/closet")
     public void threeSumClosest(){
@@ -150,7 +151,7 @@ public class SubjectController {
     }
 
     /**
-     * 电话号码的字母组合
+     * 17. 电话号码的字母组合
      */
     @GetMapping(value = "/letter/combinations")
     public void letterCombinations(){
@@ -158,7 +159,7 @@ public class SubjectController {
     }
 
     /**
-     * 四数之和
+     * 18. 四数之和
      */
     @GetMapping(value = "/four/sum")
     public void fourSum(){
@@ -166,7 +167,7 @@ public class SubjectController {
     }
 
     /**
-     * 删除链表的倒数第 N 个结点
+     * 19. 删除链表的倒数第 N 个结点
      */
     @GetMapping(value = "/remove/nth/from/end")
     public void removeNthFromEnd(){
@@ -174,7 +175,7 @@ public class SubjectController {
     }
 
     /**
-     * 20 - 有效的括号
+     * 20. 有效的括号
      */
     @GetMapping(value = "/is/valid/brackets")
     public void isValidBrackets(){
@@ -182,7 +183,7 @@ public class SubjectController {
     }
 
     /**
-     * 合并两个有序链表
+     * 21. 合并两个有序链表
      */
     @GetMapping(value = "/merge/two/lists")
     public void mergeTwoLists(){
@@ -190,7 +191,7 @@ public class SubjectController {
     }
 
     /**
-     * 括号生成
+     * 22. 括号生成
      */
     @GetMapping(value = "/generate/parenthesis")
     public void generateParenthesis(){
@@ -198,7 +199,7 @@ public class SubjectController {
     }
 
     /**
-     * 合并k个有序链表
+     * 23. 合并k个有序链表
      */
     @GetMapping(value = "/merge/k/lists")
     public void mergeKLists(){
@@ -206,7 +207,7 @@ public class SubjectController {
     }
 
     /**
-     * 两两交换链表中的节点
+     * 24. 两两交换链表中的节点
      */
     @GetMapping(value = "/swap/pairs")
     public void swapPairs(){
@@ -222,7 +223,7 @@ public class SubjectController {
     }
 
     /**
-     * 删除有序数组中的重复项
+     * 26. 删除有序数组中的重复项
      */
     @GetMapping(value = "/remove/duplicates")
     public void removeDuplicates(){
@@ -230,7 +231,7 @@ public class SubjectController {
     }
 
     /**
-     * 移除元素
+     * 27. 移除元素
      */
     @GetMapping(value = "/remove/element")
     public void removeElement(){
@@ -238,7 +239,7 @@ public class SubjectController {
     }
 
     /**
-     * 找出字符串中第一个匹配项的下标
+     * 28. 找出字符串中第一个匹配项的下标
      */
     @GetMapping(value = "/find/str/index")
     public void findStrIndex(){
@@ -246,7 +247,7 @@ public class SubjectController {
     }
 
     /**
-     * 两数相除
+     * 29. 两数相除
      */
     @GetMapping(value = "/divide")
     public void divide(){
@@ -254,7 +255,7 @@ public class SubjectController {
     }
 
     /**
-     * 30 - 串联所有单词的子串
+     * 30. 串联所有单词的子串
      */
     @GetMapping(value = "/findSubstring")
     public void findSubstring(){
@@ -262,7 +263,7 @@ public class SubjectController {
     }
 
     /**
-     * 下一个排列
+     * 31. 下一个排列
      */
     @GetMapping(value = "/nextPermutation")
     public void nextPermutation(){
@@ -270,7 +271,7 @@ public class SubjectController {
     }
 
     /**
-     * 最长有效括号
+     * 32. 最长有效括号
      */
     @GetMapping(value = "/longestValidParentheses")
     public void longestValidParentheses(){
@@ -278,7 +279,7 @@ public class SubjectController {
     }
 
     /**
-     * 搜索旋转排序数组
+     * 33. 搜索旋转排序数组
      */
     @GetMapping(value = "/search")
     public void search(){
@@ -291,6 +292,14 @@ public class SubjectController {
     @GetMapping(value = "/searchRange")
     public void searchRange(){
         subjectService.searchRange();
+    }
+
+    /**
+     * 35. 搜索插入位置
+     */
+    @GetMapping(value = "/searchInsert")
+    public void searchInsert(){
+        subjectService.searchInsert();
     }
 
     /**
