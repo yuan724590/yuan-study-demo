@@ -1296,6 +1296,132 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String countAndSay(){
+        System.out.println(JSON.toJSONString(countAndSay(4)));
+        return "success";
+    }
+
+    public  String countAndSay(int n) {
+        if(n == 1){
+            return "1";
+        }
+        String num = countAndSay(n - 1);
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < num.length(); i++) {
+            int count = 1;
+            while (i < num.length() - 1 && num.charAt(i) == num.charAt(i + 1)){
+                count++;
+                i++;
+            }
+            sb.append(count);
+            sb.append(num.charAt(i));
+        }
+        return sb.toString();
+    }
+
+    @Override
+    public String combinationSum(){
+        System.out.println(JSON.toJSONString(combinationSum(new int[]{2,3,6,7}, 7)));
+        return "success";
+    }
+
+    public List<List<Integer>> combinationSum(int[] candidates, int target) {
+        List<List<Integer>> ans = new ArrayList<>();
+        List<Integer> temp = new ArrayList<>();
+        int sum = 0;
+        int startIndex = 0;
+        backtracking(ans, temp, candidates, target, sum, startIndex);
+        return ans;
+    }
+
+    private void backtracking(List<List<Integer>> ans, List<Integer> temp, int[] candidates, int target, int sum, int startIndex){
+        if(sum > target)
+            return;
+        else if(sum == target){
+            ans.add(new ArrayList<>(temp));
+        }
+        for(int i = startIndex; i < candidates.length; i++){
+            temp.add(candidates[i]);
+            sum += candidates[i];
+            backtracking(ans, temp, candidates, target, sum, i);
+            sum -= candidates[i];
+            temp.remove(temp.size() - 1);
+        }
+    }
+
+    @Override
+    public String combinationSum2(){
+        System.out.println(JSON.toJSONString(combinationSum2(new int[]{2,5,2,1,2}, 5)));
+        return "success";
+    }
+
+    List<int[]> freq = new ArrayList<>();
+    List<List<Integer>> ans = new ArrayList<>();
+    List<Integer> sequence = new ArrayList<>();
+
+    public List<List<Integer>> combinationSum2(int[] candidates, int target) {
+        Arrays.sort(candidates);
+        for (int num : candidates) {
+            int size = freq.size();
+            if (freq.isEmpty() || num != freq.get(size - 1)[0]) {
+                freq.add(new int[]{num, 1});
+            } else {
+                ++freq.get(size - 1)[1];
+            }
+        }
+        dfs(0, target);
+        return ans;
+    }
+
+    private void dfs(int pos, int rest) {
+        if (rest == 0) {
+            ans.add(new ArrayList<>(sequence));
+            return;
+        }
+        if (pos == freq.size() || rest < freq.get(pos)[0]) {
+            return;
+        }
+
+        dfs(pos + 1, rest);
+
+        int most = Math.min(rest / freq.get(pos)[0], freq.get(pos)[1]);
+        for (int i = 1; i <= most; ++i) {
+            sequence.add(freq.get(pos)[0]);
+            dfs(pos + 1, rest - i * freq.get(pos)[0]);
+        }
+        for (int i = 1; i <= most; ++i) {
+            sequence.remove(sequence.size() - 1);
+        }
+    }
+
+    @Override
+    public String firstMissingPositive(){
+        System.out.println(JSON.toJSONString(firstMissingPositive(new int[]{3,4,-1,1})));
+        return "success";
+    }
+
+    public int firstMissingPositive(int[] nums) {
+        int n = nums.length;
+        for (int i = 0; i < n; ++i) {
+            if (nums[i] <= 0) {
+                nums[i] = n + 1;
+            }
+        }
+        for (int i = 0; i < n; ++i) {
+            int num = Math.abs(nums[i]);
+            if (num <= n) {
+                nums[num - 1] = -Math.abs(nums[num - 1]);
+            }
+        }
+        for (int i = 0; i < n; ++i) {
+            if (nums[i] > 0) {
+                return i + 1;
+            }
+        }
+        return n + 1;
+    }
+
+    @Override
     public String trap(){
         System.out.println(JSON.toJSONString(trap(new int[]{0,1,0,2,1,0,1,3,2,1,2,1})));
         return "success";
@@ -1311,6 +1437,38 @@ public class SubjectServiceImpl implements SubjectService {
             res += maxR > maxL ? maxL - height[left++] : maxR - height[right--];
         }
         return res;
+    }
+
+    @Override
+    public String multiply(){
+        System.out.println(JSON.toJSONString(multiply("123", "456")));
+        return "success";
+    }
+
+    public String multiply(String num1, String num2) {
+        if (num1.equals("0") || num2.equals("0")) {
+            return "0";
+        }
+        int m = num1.length(), n = num2.length();
+        int[] ansArr = new int[m + n];
+        for (int i = m - 1; i >= 0; i--) {
+            int x = num1.charAt(i) - '0';
+            for (int j = n - 1; j >= 0; j--) {
+                int y = num2.charAt(j) - '0';
+                ansArr[i + j + 1] += x * y;
+            }
+        }
+        for (int i = m + n - 1; i > 0; i--) {
+            ansArr[i - 1] += ansArr[i] / 10;
+            ansArr[i] %= 10;
+        }
+        int index = ansArr[0] == 0 ? 1 : 0;
+        StringBuffer ans = new StringBuffer();
+        while (index < m + n) {
+            ans.append(ansArr[index]);
+            index++;
+        }
+        return ans.toString();
     }
 
     @Override
@@ -1349,40 +1507,81 @@ public class SubjectServiceImpl implements SubjectService {
         return value[p.length()][s.length()];
     }
 
-//    public boolean isMatch2(String s, String p) {
-//        if(s == null || p == null) {
-//            return false;
-//        }
-//        int m = s.length();
-//        int n = p.length();
-//        int i = 0;
-//        int j = 0;
-//        int starIdx = -1;
-//        int match = 0;
-//        while(i < m) {
-//            if(j < n && p.charAt(j) != '*' && isEqual(s.charAt(i), p.charAt(j))) {
-//                i++;
-//                j++;
-//            } else if(j < n && p.charAt(j) == '*') {
-//                starIdx = j;
-//                match = i;
-//                j++;
-//            } else if(starIdx != -1) {
-//                j = starIdx + 1;
-//                i = ++match;
-//            } else {
-//                return false;
-//            }
-//        }
-//        while(j < n && p.charAt(j) == '*') {
-//            j++;
-//        }
-//        return j == n;
-//    }
-//
-//    public boolean isEqual(char c1, char c2) {
-//        return c1 == c2 || c2 == '?';
-//    }
+    @Override
+    public String jump(){
+        System.out.println(JSON.toJSONString(jump(new int[]{2,3,1,1,4})));
+        return "success";
+    }
+
+    public int jump(int[] nums) {
+        int length = nums.length;
+        int end = 0, maxPosition = 0, steps = 0;
+        for (int i = 0; i < length - 1; i++) {
+            maxPosition = Math.max(maxPosition, i + nums[i]);
+            if (i == end) {
+                end = maxPosition;
+                steps++;
+            }
+        }
+        return steps;
+    }
+
+    @Override
+    public String permute(){
+        System.out.println(JSON.toJSONString(permute(new int[]{1,2,3})));
+        return "success";
+    }
+
+    List<List<Integer>> permuteList = new ArrayList<>();
+
+    public List<List<Integer>> permute(int[] nums) {
+        List<Integer> list = new ArrayList<>();
+        dfs(list,nums);
+        return permuteList;
+    }
+
+    private void dfs(List<Integer> list,int[] nums){
+        if(list.size() == nums.length){
+            permuteList.add(new ArrayList<>(list));
+            return;
+        }
+        for (int num : nums) {
+            if (!list.contains(num)) {
+                list.add(num);
+                dfs(list, nums);
+                list.remove(list.size() - 1);
+            }
+        }
+    }
+
+    @Override
+    public String rotate(){
+        int[][] arr = new int[][]{{1,2,3},{4,5,6},{7,8,9}};
+        rotate(arr);
+        return "success";
+    }
+
+    public void rotate(int[][] matrix) {
+        int n = matrix.length;
+        // 上下翻转
+        for (int i = 0; i < n / 2; i++) {
+            for (int j = 0; j < n; j++) {
+                swap(matrix, i, j, n - i - 1, j);
+            }
+        }
+        // 对角线翻转
+        for (int i = 0; i < n - 1; i++) {
+            for (int j = i + 1; j < n; j++) {
+                swap(matrix, i, j, j, i);
+            }
+        }
+    }
+
+    private void swap(int[][] matrix, int i1, int j1, int i2, int j2) {
+        int tmp = matrix[i1][j1];
+        matrix[i1][j1] = matrix[i2][j2];
+        matrix[i2][j2] = tmp;
+    }
 
     @Override
     public String groupAnagrams(){

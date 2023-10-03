@@ -319,6 +319,38 @@ public class SubjectController {
     }
 
     /**
+     * 38. 外观数列
+     */
+    @GetMapping(value = "/countAndSay")
+    public void countAndSay(){
+        subjectService.countAndSay();
+    }
+
+    /**
+     * 39. 组合总和
+     */
+    @GetMapping(value = "/combinationSum")
+    public void combinationSum(){
+        subjectService.combinationSum();
+    }
+
+    /**
+     * 40. 组合总和 II
+     */
+    @GetMapping(value = "/combinationSum2")
+    public void combinationSum2(){
+        subjectService.combinationSum2();
+    }
+
+    /**
+     * 41. 缺失的第一个正数
+     */
+    @GetMapping(value = "/firstMissingPositive")
+    public void firstMissingPositive(){
+        subjectService.firstMissingPositive();
+    }
+
+    /**
      * 42. 接雨水
      */
     @GetMapping(value = "/trap")
@@ -327,11 +359,51 @@ public class SubjectController {
     }
 
     /**
+     * 43. 字符串相乘
+     */
+    @GetMapping(value = "/multiply")
+    public String multiply() {
+        return subjectService.multiply();
+    }
+
+    /**
      * 44. 通配符匹配
      */
     @GetMapping(value = "/isMatch")
     public String isMatch() {
         return subjectService.isMatch();
+    }
+
+    /**
+     * 45. 跳跃游戏 II
+     */
+    @GetMapping(value = "/jump")
+    public String jump() {
+        return subjectService.jump();
+    }
+
+    /**
+     * 46. 全排列
+     */
+    @GetMapping(value = "/permute")
+    public String permute() {
+        return subjectService.permute();
+    }
+
+//    /**
+//     * 47. 全排列 II
+//     */
+//    @GetMapping(value = "/permuteUnique")
+//    public String permuteUnique() {
+//        return subjectService.permuteUnique();
+//    }
+
+    /**
+     * 48. 旋转图像
+     */
+    @GetMapping(value = "/rotate")
+    public String rotate() {
+        return subjectService.rotate();
     }
 
     /**
