@@ -10,6 +10,7 @@ import yuan.study.demo.entity.ListNode;
 import yuan.study.demo.service.subjectService.SubjectService;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 
 @Slf4j
@@ -1691,6 +1692,50 @@ public class SubjectServiceImpl implements SubjectService {
             // 打掉最后的1
             bit &= (bit - 1);
         }
+    }
+
+    @Override
+    public String canJump(){
+        System.out.println(JSON.toJSONString(canJump(new int[]{3,2,1,0,4})));
+        return "success";
+    }
+
+    public boolean canJump(int[] nums) {
+        int residue = 0, length = nums.length;
+        for(int i = 0; i < length; i++){
+            residue = Math.max(nums[i], residue);
+            residue--;
+            if(residue == -1 && i != length - 1){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    @Override
+    public String merge(){
+        System.out.println(JSON.toJSONString(merge(new int[][]{{1,3},{2,6},{8,10},{15,18}})));
+        return "success";
+    }
+
+    public int[][] merge(int[][] intervals) {
+        Arrays.sort(intervals, Comparator.comparingInt(interval -> interval[0]));
+        List<int[]> list = new ArrayList<>();
+        int[] let = intervals[0];
+        for (int i = 1; i < intervals.length; i++) {
+            if (intervals[i][0] <= let[1]) {
+                let[1] = Math.max(let[1], intervals[i][1]);
+            } else {
+                list.add(let);
+                let = intervals[i];
+            }
+        }
+        list.add(let);
+        int[][] arr = new int[list.size()][];
+        for (int i = 0; i < arr.length; i++) {
+            arr[i] = list.get(i);
+        }
+        return arr;
     }
 
     @Override

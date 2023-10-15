@@ -446,6 +446,22 @@ public class SubjectController {
      */
 
     /**
+     * 55. 跳跃游戏
+     */
+    @GetMapping(value = "/canJump")
+    public String canJump() {
+        return subjectService.canJump();
+    }
+
+    /**
+     * 56. 合并区间
+     */
+    @GetMapping(value = "/merge")
+    public String merge() {
+        return subjectService.merge();
+    }
+
+    /**
      * 69. x 的平方根
      */
     @GetMapping(value = "/mySqrt")
