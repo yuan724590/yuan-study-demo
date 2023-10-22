@@ -10,7 +10,6 @@ import yuan.study.demo.entity.ListNode;
 import yuan.study.demo.service.subjectService.SubjectService;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 
 @Slf4j
@@ -1556,6 +1555,44 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String permuteUnique(){
+        System.out.println(JSON.toJSONString(permuteUnique(new int[]{1,2,3})));
+        return "success";
+    }
+
+    private List<List<Integer>> permuteUniqueResultListList = new ArrayList<>();
+    private LinkedList<Integer> permuteUniqueList = new LinkedList<>();
+    private boolean[] permuteUniqueUsedArr;
+    public List<List<Integer>> permuteUnique(int[] nums) {
+        permuteUniqueUsedArr = new boolean[nums.length];
+        Arrays.sort(nums);
+        backtracking(nums);
+        return permuteUniqueResultListList;
+    }
+
+    private void backtracking(int[] nums) {
+        if (permuteUniqueList.size() == nums.length) {
+            permuteUniqueResultListList.add(new ArrayList<>(permuteUniqueList));
+        }
+        for (int i = 0; i < nums.length; ++i) {
+            // used[i - 1] == true，说明同⼀树⽀nums[i - 1]使⽤过
+            // used[i - 1] == false，说明同⼀树层nums[i - 1]使⽤过
+            // 如果同⼀树层nums[i - 1]使⽤过则直接跳过
+            if (i > 0 && nums[i] == nums[i - 1] && !permuteUniqueUsedArr[i - 1]) {
+                continue;
+            }
+            if (permuteUniqueUsedArr[i]) {
+                continue;
+            }
+            permuteUniqueUsedArr[i] = true;
+            permuteUniqueList.add(nums[i]);
+            backtracking(nums);
+            permuteUniqueList.removeLast();
+            permuteUniqueUsedArr[i] = false;
+        }
+    }
+
+    @Override
     public String rotate(){
         int[][] arr = new int[][]{{1,2,3},{4,5,6},{7,8,9}};
         rotate(arr);
@@ -1736,6 +1773,44 @@ public class SubjectServiceImpl implements SubjectService {
             arr[i] = list.get(i);
         }
         return arr;
+    }
+
+    @Override
+    public String insert(){
+        System.out.println(JSON.toJSONString(insert(new int[][]{{1,2},{3,5},{6,9}}, new int[]{-2,1})));
+        return "success";
+    }
+
+    public int[][] insert(int[][] intervals, int[] newInterval) {
+        int left = newInterval[0];
+        int right = newInterval[1];
+        boolean placed = false;
+        List<int[]> ansList = new ArrayList<>();
+        for (int[] interval : intervals) {
+            if (interval[0] > right) {
+                // 在插入区间的右侧且无交集
+                if (!placed) {
+                    ansList.add(new int[]{left, right});
+                    placed = true;
+                }
+                ansList.add(interval);
+            } else if (interval[1] < left) {
+                // 在插入区间的左侧且无交集
+                ansList.add(interval);
+            } else {
+                // 与插入区间有交集，计算它们的并集
+                left = Math.min(left, interval[0]);
+                right = Math.max(right, interval[1]);
+            }
+        }
+        if (!placed) {
+            ansList.add(new int[]{left, right});
+        }
+        int[][] ans = new int[ansList.size()][2];
+        for (int i = 0; i < ansList.size(); ++i) {
+            ans[i] = ansList.get(i);
+        }
+        return ans;
     }
 
     @Override

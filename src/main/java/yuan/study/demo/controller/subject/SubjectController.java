@@ -390,13 +390,13 @@ public class SubjectController {
         return subjectService.permute();
     }
 
-//    /**
-//     * 47. 全排列 II
-//     */
-//    @GetMapping(value = "/permuteUnique")
-//    public String permuteUnique() {
-//        return subjectService.permuteUnique();
-//    }
+    /**
+     * 47. 全排列 II
+     */
+    @GetMapping(value = "/permuteUnique")
+    public String permuteUnique() {
+        return subjectService.permuteUnique();
+    }
 
     /**
      * 48. 旋转图像
@@ -460,6 +460,25 @@ public class SubjectController {
     public String merge() {
         return subjectService.merge();
     }
+
+    /**
+     * 57. 插入区间
+     */
+    @GetMapping(value = "/insert")
+    public String insert() {
+        return subjectService.insert();
+    }
+
+
+
+
+
+
+
+
+
+
+
 
     /**
      * 69. x 的平方根
