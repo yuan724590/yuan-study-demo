@@ -1814,6 +1814,112 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String lengthOfLastWord(){
+        System.out.println(JSON.toJSONString(lengthOfLastWord("   fly me   to   the moon  ")));
+        return "success";
+    }
+
+    public int lengthOfLastWord(String s) {
+        int i = s.length() - 1;
+        for(; i >= 0; i--){
+            if(s.charAt(i) != ' '){
+                break;
+            }
+        }
+        int length = 0;
+        for(; i >= 0; i--){
+            if(s.charAt(i) != ' '){
+                length++;
+            }else{
+                break;
+            }
+        }
+        return length;
+    }
+
+    @Override
+    public String generateMatrix(){
+        System.out.println(JSON.toJSONString(generateMatrix(5)));
+        return "success";
+    }
+
+    public int[][] generateMatrix(int n) {
+        int l = 0, r = n - 1, t = 0, b = n - 1;
+        int[][] mat = new int[n][n];
+        int num = 1, tar = n * n;
+        while(num <= tar){
+            // left to right.
+            for(int i = l; i <= r; i++) {
+                mat[t][i] = num++;
+            }
+            t++;
+            // top to bottom.
+            for(int i = t; i <= b; i++) {
+                mat[i][r] = num++;
+            }
+            r--;
+            // right to left.
+            for(int i = r; i >= l; i--) {
+                mat[b][i] = num++;
+            }
+            b--;
+            // bottom to top.
+            for(int i = b; i >= t; i--) {
+                mat[i][l] = num++;
+            }
+            l++;
+        }
+        return mat;
+    }
+
+    @Override
+    public String getPermutation(){
+        System.out.println(JSON.toJSONString(getPermutation(4, 9)));
+        return "success";
+    }
+
+    /**
+     * 首先确定排列中的首个元素
+     *      以1开头的有(n - 1)! 个
+     *      以2开头的有(n - 1)! 个
+     *      以n开头的有(n - 1)! 个
+     *      因此:
+     *          如果 k <= (n - 1)!, 那么首个元素是1
+     *          如果 (n - 1)! < k <= 2 * (n - 1)!, 那么首个元素是2
+     *          如果 (n - 1) * (n - 1)! < k <= n * (n - 1)!, 那么首个元素是n
+     *          那么第k个排列的首个元素 k = (k - 1) / (n - 1)! + 1
+     * 其次确认第二个元素
+     *      计算第二个元素的排列k' = (k - 1) % ((n - 1)!) + 1
+     */
+    public String getPermutation(int n, int k) {
+        int[] factorial = new int[n];
+        factorial[0] = 1;
+        for (int i = 1; i < n; i++) {
+            factorial[i] = factorial[i - 1] * i;
+        }
+
+        --k;
+        StringBuilder ans = new StringBuilder();
+        //用来记录数字使用的状态, 为1即未使用, 为0即已使用
+        int[] valid = new int[n + 1];
+        Arrays.fill(valid, 1);
+        for (int i = 1; i <= n; i++) {
+            //valid数组中, 第order个未使用的数字  即为剩余排序的首数字
+            int order = k / factorial[n - i] + 1;
+            for (int j = 1; j <= n; j++) {
+                order -= valid[j];
+                if (order == 0) {
+                    ans.append(j);
+                    valid[j] = 0;
+                    break;
+                }
+            }
+            k %= factorial[n - i];
+        }
+        return ans.toString();
+    }
+
+    @Override
     public String mySqrt(){
         System.out.println(JSON.toJSONString(mySqrt(183692038)));
         return "success";

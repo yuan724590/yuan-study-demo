@@ -469,6 +469,29 @@ public class SubjectController {
         return subjectService.insert();
     }
 
+    /**
+     * 58. 最后一个单词的长度
+     */
+    @GetMapping(value = "/lengthOfLastWord")
+    public String lengthOfLastWord() {
+        return subjectService.lengthOfLastWord();
+    }
+
+    /**
+     * 59. 螺旋矩阵 II
+     */
+    @GetMapping(value = "/generateMatrix")
+    public String generateMatrix() {
+        return subjectService.generateMatrix();
+    }
+
+    /**
+     * 60. 排列序列
+     */
+    @GetMapping(value = "/getPermutation")
+    public String getPermutation() {
+        return subjectService.getPermutation();
+    }
 
 
 
