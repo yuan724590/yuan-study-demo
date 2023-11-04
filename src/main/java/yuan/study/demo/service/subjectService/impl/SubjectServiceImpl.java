@@ -1920,6 +1920,91 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String rotateRight(){
+        ListNode node1 = new ListNode(5, null);
+        ListNode node2 = new ListNode(4, node1);
+        ListNode node3 = new ListNode(3, node2);
+        ListNode node4 = new ListNode(2, node3);
+        ListNode node5 = new ListNode(1, node4);
+        ListNode listNode = rotateRight(node5, 2);
+        System.out.print("[");
+        for(;;){
+            System.out.print(listNode.val);
+            if(listNode.next == null){
+                break;
+            }
+            listNode = listNode.next;
+            System.out.print(",");
+        }
+        System.out.print("]");
+        return "success";
+    }
+
+    public ListNode rotateRight(ListNode head, int k) {
+        if (k == 0 || head == null || head.next == null) {
+            return head;
+        }
+        ListNode pre = head;
+        int length = 1;
+        while(pre.next != null){
+            pre = pre.next;
+            length++;
+        }
+        int diff = length - k % length;
+        if(diff == length){
+            return head;
+        }
+        pre = head;
+        for(int i = 1; i < diff; i++){
+            pre = pre.next;
+        }
+        ListNode tail = pre.next;
+        pre.next = null;
+        pre = tail;
+        while(pre.next != null){
+            pre = pre.next;
+        }
+        pre.next = head;
+        return tail;
+    }
+
+    @Override
+    public String uniquePaths(){
+        System.out.println(JSON.toJSONString(uniquePaths(7, 6)));
+        return "success";
+    }
+
+    /**
+     * 从左上角到右下角的过程中，我们需要移动 m + n − 2 次
+     *      有 m − 1 次向下移动
+     *      有 n − 1 次向右移动
+     * 因此路径的总数，就等于从 m + n − 2 次移动中选择 m − 1 次向下移动的方案数
+     * 即组合数：(m + n - 2)! / ((m - 1)! * (n - 1)!)
+     */
+    public int uniquePaths(int m, int n) {
+        long ans = 1;
+        for (int x = n, y = 1; y < m; ++x, ++y) {
+            ans = ans * x / y;
+        }
+        return (int) ans;
+    }
+
+//    /**
+//     * 常规-动态规划
+//     * f(i,j) = f(i−1, j) + f(i, j−1)
+//     */
+//    public int uniquePaths(int m, int n) {
+//        int[] arr = new int[m + 1];
+//        arr[1] = 1;
+//        for(; n > 0; n--){
+//            for(int i = 1; i <= m; i++){
+//                arr[i] = arr[i - 1] + arr[i];
+//            }
+//        }
+//        return arr[m];
+//    }
+
+    @Override
     public String mySqrt(){
         System.out.println(JSON.toJSONString(mySqrt(183692038)));
         return "success";

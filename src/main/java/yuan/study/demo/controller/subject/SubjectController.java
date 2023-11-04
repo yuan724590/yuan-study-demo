@@ -493,6 +493,22 @@ public class SubjectController {
         return subjectService.getPermutation();
     }
 
+    /**
+     * 61. 旋转链表
+     */
+    @GetMapping(value = "/rotateRight")
+    public String rotateRight() {
+        return subjectService.rotateRight();
+    }
+
+    /**
+     * 62. 不同路径
+     */
+    @GetMapping(value = "/uniquePaths")
+    public String uniquePaths() {
+        return subjectService.uniquePaths();
+    }
+
 
 
 
