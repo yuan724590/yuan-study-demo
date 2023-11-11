@@ -509,6 +509,22 @@ public class SubjectController {
         return subjectService.uniquePaths();
     }
 
+    /**
+     * 63. 不同路径 II
+     */
+    @GetMapping(value = "/uniquePathsWithObstacles")
+    public String uniquePathsWithObstacles() {
+        return subjectService.uniquePathsWithObstacles();
+    }
+
+    /**
+     * 64. 最小路径和
+     */
+    @GetMapping(value = "/minPathSum")
+    public String minPathSum() {
+        return subjectService.minPathSum();
+    }
+
 
 
 

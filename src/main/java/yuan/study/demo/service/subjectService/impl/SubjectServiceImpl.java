@@ -2005,6 +2005,53 @@ public class SubjectServiceImpl implements SubjectService {
 //    }
 
     @Override
+    public String uniquePathsWithObstacles(){
+        System.out.println(JSON.toJSONString(uniquePathsWithObstacles(new int[][]{{0,0,0},{0,1,0},{0,0,0}})));
+        return "success";
+    }
+
+    public int uniquePathsWithObstacles(int[][] obstacleGrid) {
+        int n = obstacleGrid.length, m = obstacleGrid[0].length;
+        int[] arr = new int[m];
+
+        arr[0] = obstacleGrid[0][0] == 0 ? 1 : 0;
+        for (int i = 0; i < n; ++i) {
+            for (int j = 0; j < m; ++j) {
+                if (obstacleGrid[i][j] == 1) {
+                    arr[j] = 0;
+                    continue;
+                }
+                if (j > 0 && obstacleGrid[i][j - 1] == 0) {
+                    arr[j] += arr[j - 1];
+                }
+            }
+        }
+        return arr[m - 1];
+    }
+
+    @Override
+    public String minPathSum(){
+        System.out.println(JSON.toJSONString(minPathSum(new int[][]{{1,3,1},{1,5,1},{4,2,1}})));
+        return "success";
+    }
+
+    public int minPathSum(int[][] grid) {
+        int x = grid[0].length, y = grid.length;
+        int[] arr = new int[x + 1];
+        arr[0] = Integer.MAX_VALUE;
+        arr[1] = grid[0][0];
+        for(int i = 1; i < x; i++){
+            arr[i + 1] = arr[i] + grid[0][i];
+        }
+        for(int j = 1; j < y; j++){
+            for(int i = 0; i < x; i++){
+               arr[i + 1] = Math.min(arr[i], arr[i + 1]) + grid[j][i];
+            }
+        }
+        return arr[x];
+    }
+
+    @Override
     public String mySqrt(){
         System.out.println(JSON.toJSONString(mySqrt(183692038)));
         return "success";
