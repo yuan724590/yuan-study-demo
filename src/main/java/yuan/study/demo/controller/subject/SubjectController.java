@@ -546,13 +546,13 @@ public class SubjectController {
         return subjectService.addBinary();
     }
 
-
-
-
-
-
-
-
+    /**
+     * 68. 文本左右对齐
+     */
+    @GetMapping(value = "/fullJustify")
+    public String fullJustify() {
+        return subjectService.fullJustify();
+    }
 
     /**
      * 69. x 的平方根
@@ -568,6 +568,14 @@ public class SubjectController {
     @GetMapping(value = "/climbStairs")
     public String climbStairs() {
         return subjectService.climbStairs();
+    }
+
+    /**
+     * 71. 简化路径
+     */
+    @GetMapping(value = "/simplifyPath")
+    public String simplifyPath() {
+        return subjectService.simplifyPath();
     }
 
     /**
