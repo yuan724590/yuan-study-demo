@@ -525,7 +525,26 @@ public class SubjectController {
         return subjectService.minPathSum();
     }
 
+    /**
+     * 65. 有效数字
+     * 同yuan.study.demo.service.subjectService.OfferSubjectService#isNumber()
+     */
 
+    /**
+     * 66. 加一
+     */
+    @GetMapping(value = "/plusOne")
+    public String plusOne() {
+        return subjectService.plusOne();
+    }
+
+    /**
+     * 67. 二进制求和
+     */
+    @GetMapping(value = "/addBinary")
+    public String addBinary() {
+        return subjectService.addBinary();
+    }
 
 
 

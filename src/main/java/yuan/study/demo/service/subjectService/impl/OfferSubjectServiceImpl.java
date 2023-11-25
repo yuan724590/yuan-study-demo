@@ -898,33 +898,30 @@ public class OfferSubjectServiceImpl implements OfferSubjectService {
      * ‘+’‘-’出现正确情况：只能在开头和e后一位
      */
     public boolean isNumber(String s) {
-        if (s == null || s.length() == 0) return false;
-        //去掉首位空格
-        s = s.trim();
-        boolean numFlag = false;
-        boolean dotFlag = false;
-        boolean eFlag = false;
-        for (int i = 0; i < s.length(); i++) {
-
-            if (s.charAt(i) >= '0' && s.charAt(i) <= '9') {
-                //判定为数字，则标记numFlag
-                numFlag = true;
-            } else if (s.charAt(i) == '.' && !dotFlag && !eFlag) {
-                //判定为.  需要没出现过.并且没出现过e
-                dotFlag = true;
-            } else if ((s.charAt(i) == 'e' || s.charAt(i) == 'E') && !eFlag && numFlag) {
-                //判定为e，需要没出现过e，并且出过数字了
-                eFlag = true;
-                //为了避免123e这种请求，出现e之后就标志为false
-                numFlag = false;
-            } else if ((s.charAt(i) == '+' || s.charAt(i) == '-') && (i == 0 || s.charAt(i - 1) == 'e' || s.charAt(i - 1) == 'E')) {
-                //判定为+-符号，只能出现在第一位或者紧接e后面
-            } else {
-                //其他情况，都是非法的
+        boolean isNum = false, isDecimal = false, isE = false,isSign = false;
+        int len = s.length() - 1;
+        for (int i = 0; i <= len; i++) {
+            char tmp = s.charAt(i);
+            if (0 <= tmp - '0' && tmp - '0' <= 9) {
+                isNum = true;
+            } else if (tmp == '.'){
+                if (isDecimal || (!isNum && i == len) || isE)
+                    return false;
+                isDecimal = true;
+            } else if (tmp == 'e' || tmp == 'E') {
+                if (isE || !isNum || i == len)
+                    return false;
+                isE = true;
+            } else if (tmp == '-' || tmp == '+' ) {
+                if ((i > 0 && s.charAt(i - 1) != 'e' && s.charAt(i - 1) != 'E') || i == len)
+                    return false;
+                isSign = true;
+            }
+            else {
                 return false;
             }
         }
-        return numFlag;
+        return true;
     }
 
     @Override
