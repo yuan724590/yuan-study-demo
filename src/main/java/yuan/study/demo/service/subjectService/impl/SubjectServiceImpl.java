@@ -2340,6 +2340,27 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String removeDuplicates80(){
+        int[] arr = new int[]{1,2,2};
+        System.out.println(removeDuplicates80(arr));
+        System.out.println(JSON.toJSONString(arr));
+        return "success";
+    }
+
+    public int removeDuplicates80(int[] nums) {
+        if(nums.length <= 2){
+            return nums.length;
+        }
+        int count = 2;
+        for(int i = 2 ; i < nums.length ; i++) {
+            if(nums[i] != nums[count - 2]) {
+                nums[count++] = nums[i];
+            }
+        }
+        return count;
+    }
+
+    @Override
     public String maximalRectangle(){
         System.out.println(JSON.toJSONString(maximalRectangle(new char[][]{{'1','1','1','1','1','1','1','1'},{'1','1','1','1','1','1','1','0'},{'1','1','1','1','1','1','1','0'},{'1','1','1','1','1','0','0','0'},{'0','1','1','1','1','0','0','0'}})));
         return "success";
@@ -2364,6 +2385,32 @@ public class SubjectServiceImpl implements SubjectService {
             }
         }
         return res;
+    }
+
+    @Override
+    public String merge88(){
+        int[] num1 = new int[]{1,2,3,0,0,0};
+        merge(num1, 3, new int[]{2,5,6}, 3);
+        System.out.println(JSON.toJSONString(num1));
+        return "success";
+    }
+
+    public void merge(int[] nums1, int m, int[] nums2, int n) {
+        int i = m - 1, j = n - 1, l = nums1.length - 1;
+        for(; l >= 0 && i >= 0 && j >= 0; l--){
+            if(nums1[i] >= nums2[j]){
+                nums1[l] = nums1[i];
+                i--;
+            }else{
+                nums1[l] = nums2[j];
+                j--;
+            }
+        }
+        while(j >= 0){
+            nums1[l] = nums2[j];
+            l--;
+            j--;
+        }
     }
 
     @Override
@@ -2801,6 +2848,23 @@ public class SubjectServiceImpl implements SubjectService {
             }
         }
         return sell[k];
+    }
+
+    @Override
+    public String rotate189(){
+        int[] arr = new int[]{-1,-100,3,99};
+        rotate189(arr, 2);
+        System.out.println(JSON.toJSONString(arr));
+        return "success";
+    }
+
+    public void rotate189(int[] nums, int k) {
+        int n = nums.length;
+        k %= n;
+        int[] arr = new int[n << 1];
+        System.arraycopy(nums, 0, arr, 0, n);
+        System.arraycopy(nums, 0, arr, n, n);
+        System.arraycopy(arr, n - k, nums, 0, n);
     }
 
     @Override
@@ -3372,6 +3436,31 @@ public class SubjectServiceImpl implements SubjectService {
             }
         }
         return true;
+    }
+
+    @Override
+    public String hIndex(){
+        System.out.println(JSON.toJSONString(hIndex(new int[]{3,0,6,1,5})));
+        return "success";
+    }
+
+    public int hIndex(int[] citations) {
+        int n = citations.length, total = 0;
+        int[] counter = new int[n + 1];
+        for (int citation : citations) {
+            if (citation >= n) {
+                counter[n]++;
+            } else {
+                counter[citation]++;
+            }
+        }
+        for (int i = n; i >= 0; i--) {
+            total += counter[i];
+            if (total >= i) {
+                return i;
+            }
+        }
+        return 0;
     }
 
     @Override

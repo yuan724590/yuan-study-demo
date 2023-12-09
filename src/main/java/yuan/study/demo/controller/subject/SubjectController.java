@@ -595,11 +595,27 @@ public class SubjectController {
     }
 
     /**
+     * 80. 删除有序数组中的重复项 II
+     */
+    @GetMapping(value = "/removeDuplicates80")
+    public String removeDuplicates80() {
+        return subjectService.removeDuplicates80();
+    }
+
+    /**
      * 85. 最大矩形
      */
     @GetMapping(value = "/maximalRectangle")
     public String maximalRectangle() {
         return subjectService.maximalRectangle();
+    }
+
+    /**
+     * 88. 合并两个有序数组
+     */
+    @GetMapping(value = "/merge88")
+    public String merge88() {
+        return subjectService.merge88();
     }
 
     /**
@@ -714,6 +730,14 @@ public class SubjectController {
     }
 
     /**
+     * 189. 轮转数组
+     */
+    @GetMapping(value = "/rotate189")
+    public void rotate189(){
+        subjectService.rotate189();
+    }
+
+    /**
      * 191. 位1的个数
      * 同yuan.study.demo.controller.subject.OfferSubjectController#hammingWeight() 故跳过
      */
@@ -817,6 +841,14 @@ public class SubjectController {
     @GetMapping(value = "/is/anagram")
     public void isAnagram(){
         subjectService.isAnagram();
+    }
+
+    /**
+     * 274. H 指数
+     */
+    @GetMapping(value = "/hIndex")
+    public void hIndex(){
+        subjectService.hIndex();
     }
 
     /**
