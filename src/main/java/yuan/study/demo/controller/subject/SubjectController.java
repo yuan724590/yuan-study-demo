@@ -743,6 +743,13 @@ public class SubjectController {
      */
 
     /**
+     * 197. 上升的温度
+     * Weather -> id, recordDate, temperature
+     * 找出与昨天的日期相比温度更高的所有日期的 id
+     * select w2.id from Weather w1, Weather w2 where w2.Temperature > w1.Temperature and datediff(w2.recordDate, w1.recordDate) = 1
+     */
+
+    /**
      * 200. 岛屿数量
      */
     @GetMapping(value = "/numIslands")
@@ -900,6 +907,28 @@ public class SubjectController {
     }
 
     /**
+     * 570. 至少有5名直接下属的经理
+     * Employee -> id, name, department, managerId
+     * select name from Employee where id in ( select managerId from Employee group by managerId having count(id)>=5 )
+     */
+
+    /**
+     * 577. 员工奖金
+     * select a.name,b.bonus from Employee a left join Bonus b on a.empId = b.empId where b.bonus < 1000 or b.bonus is null
+     */
+
+    /**
+     * 584. 寻找用户推荐人
+     * 方案一: SELECT name FROM customer WHERE referee_id <> 2 OR referee_id IS NULL;
+     * 方案二: SELECT name FROM customer WHERE NOT referee_id <=> 2;
+     */
+
+    /**
+     * 595. 大的国家
+     * SELECT name, population, area FROM World WHERE area >= 3000000 OR population >= 25000000
+     */
+
+    /**
      * 703. 数据流中的第 K 大元素
      */
     @GetMapping(value = "/k/th/largest")
@@ -948,6 +977,11 @@ public class SubjectController {
     }
 
     /**
+     * 1068. 产品销售分析 I
+     * select b.product_name,a.year,a.price from Sales a left join Product b on a.product_id = b.product_id
+     */
+
+    /**
      * 1095. 山脉数组中查找目标值
      */
     @GetMapping(value = "/findInMountainArray")
@@ -962,4 +996,61 @@ public class SubjectController {
     public String longestCommonSubsequence() {
         return subjectService.longestCommonSubsequence();
     }
+
+    /**
+     * 1148. 文章浏览 I
+     * Views -> article_id, author_id, viewer_id, view_date
+     * 查询出所有浏览过自己文章的作者
+     * SELECT DISTINCT author_id AS id FROM Views WHERE author_id = viewer_id ORDER BY id
+     */
+
+    /**
+     * 1280. 学生们参加各科测试的次数
+     * Students -> student_id, student_name
+     * Subjects -> subject_name
+     * Examinations -> student_id, subject_name
+     * 查询出每个学生参加每一门科目测试的次数，结果按 student_id 和 subject_name 排序
+     * select a.student_id,a.student_name,b.subject_name,ifnull(d.attended_exams, 0) as attended_exams from Students a cross join subjects b left join (select c.student_id, c.subject_name, count(*) as attended_exams from Examinations c group by c.student_id,c.subject_name) as d on a.student_id = d.student_id and b.subject_name = d.subject_name order by a.student_id,b.subject_name;
+     */
+
+    /**
+     * 1378. 使用唯一标识码替换员工ID
+     * select b.unique_id,a.name from Employees a left join EmployeeUNI b on a.id = b.id
+     */
+
+    /**
+     * 1581. 进店却未进行过交易的顾客
+     * Visits -> visit_id, customer_id
+     * Transactions -> transaction_id, visit_id, amount
+     * visit_id为唯一id, 同个顾客来一次给一个id
+     * 查找光顾了购物中心但没有进行交易顾客的 ID ，以及他们只光顾不交易的次数
+     * SELECT customer_id,count(visit_id) as count_no_trans FROM Visits WHERE visit_id not in (SELECT DISTINCT visit_id FROM Transactions) GROUP BY customer_id
+     */
+
+    /**
+     * 1661. 每台机器的进程平均运行时间
+     * Activity -> machine_id,process_id,activity_type,timestamp
+     * 计算每台机器各自完成一个进程任务的平均耗时 (完成一个进程任务的时间指进程的'end' 时间戳 减去 'start' 时间戳)
+     * select a.machine_id, round(avg(b.timestamp-a.timestamp), 3) as processing_time from Activity a join activity b on a.machine_id = b.machine_id and a.process_id = b.process_id and a.activity_type = 'start' and b.activity_type = 'end' group by a.machine_id
+     */
+
+    /**
+     * 1683. 无效的推文
+     * Tweets -> tweet_id, content
+     * 查询所有无效推文的编号ID。当推文内容中的字符数大于 15 时，该推文是无效的
+     * select tweet_id from Tweets where length(content) > 15
+     */
+
+    /**
+     * 1757. 可回收且低脂的产品
+     * select product_id  from Products  where low_fats = "Y" and recyclable  = 'Y'
+     */
+
+    /**
+     * 1934. 确认率
+     * Signups -> user_id, time_stamp
+     * Confirmations -> user_id, time_stamp, action
+     * 查找每个用户的 确认率, 用户的确认率是 'confirmed' 消息的数量除以请求的确认消息的总数。没有请求任何确认消息的用户的确认率为 0
+     * select s.user_id as 'user_id', round((sum(if (c.action = 'confirmed', 1, 0))) / count(*), 2) as confirmation_rate from Signups s left join Confirmations c on s.user_id = c.user_id group by s.user_id
+     */
 }
