@@ -929,6 +929,11 @@ public class SubjectController {
      */
 
     /**
+     * 620. 有趣的电影
+     * select * from cinema where id & 1 and description <> 'boring' order by rating DESC;
+     */
+
+    /**
      * 703. 数据流中的第 K 大元素
      */
     @GetMapping(value = "/k/th/largest")
@@ -982,6 +987,14 @@ public class SubjectController {
      */
 
     /**
+     * 1075. 项目员工 I
+     * project -> project_id, employee_id
+     * employee -> employee_id, name, experience_years
+     * 查询每一个项目中员工的 平均 工作年限，精确到小数点后两位
+     * select a.project_id, round(avg(b.experience_years), 2) as average_years from project a left join Employee b on a.employee_id = b.employee_id group by a.project_id
+     */
+
+    /**
      * 1095. 山脉数组中查找目标值
      */
     @GetMapping(value = "/findInMountainArray")
@@ -1005,6 +1018,23 @@ public class SubjectController {
      */
 
     /**
+     * 1211. 查询结果的质量和占比
+     * Queries -> query_name, result, position, rating
+     * quality：每个query_name的result 与position比率的平均值
+     * poor_query_percentage：rating < 3 的查询结果占全部查询结果的百分比
+     * 查询每个query_name的quality和poor_query_percentage分值
+     * select a.query_name, round(avg(a.rating / a.position), 2) as quality, ifnull(round(b.count / count(a.rating) * 100, 2), 0) as poor_query_percentage from Queries a left join (select d.query_name, count(d.rating) as count from Queries d where d.rating < 3 group by d.query_name) b on a.query_name = b.query_name group by a.query_name having a.query_name is not null
+     */
+
+    /**
+     * 1251. 平均售价
+     * Prices -> product_id, start_date, end_date, price
+     * UnistsSold -> product_id, purchase_date, units
+     * 查找每种产品的平均售价
+     * select a.product_id, ifnull(round((sum(b.units * a.price) / sum(b.units)), 2), 0) as average_price from prices a left join unitssold b on a.product_id = b.product_id and b.purchase_date >= a.start_date and b.purchase_date <= end_date group by a.product_id
+     */
+
+    /**
      * 1280. 学生们参加各科测试的次数
      * Students -> student_id, student_name
      * Subjects -> subject_name
@@ -1025,6 +1055,14 @@ public class SubjectController {
      * visit_id为唯一id, 同个顾客来一次给一个id
      * 查找光顾了购物中心但没有进行交易顾客的 ID ，以及他们只光顾不交易的次数
      * SELECT customer_id,count(visit_id) as count_no_trans FROM Visits WHERE visit_id not in (SELECT DISTINCT visit_id FROM Transactions) GROUP BY customer_id
+     */
+
+    /**
+     * 1633. 各赛事的用户注册率
+     * Users -> user_id, user_name
+     * Register -> contest_id, user_id
+     * 查询各赛事的用户注册百分率
+     * select b.contest_id,round(count(b.user_id) * 100 / u.count, 2) as percentage  from register b cross join (select count(*) as count from users a) u group by b.contest_id order by percentage desc,b.contest_id
      */
 
     /**
