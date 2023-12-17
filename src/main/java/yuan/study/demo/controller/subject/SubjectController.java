@@ -907,6 +907,13 @@ public class SubjectController {
     }
 
     /**
+     * 550. 游戏玩法分析 IV
+     * Activity -> player_id, device_id, event_date, games_played
+     * 查询首次登录的第二天登录的玩家比率
+     * select IFNULL(round(count(distinct(b.player_id)) / count(distinct(Activity.player_id)), 2), 0) as fraction from (select Activity.player_id as player_id from (select player_id, DATE_ADD(MIN(event_date), INTERVAL 1 DAY) as second_date from Activity group by player_id) as a, Activity where Activity.event_date = a.second_date and Activity.player_id = a.player_id) as b, Activity
+     */
+
+    /**
      * 570. 至少有5名直接下属的经理
      * Employee -> id, name, department, managerId
      * select name from Employee where id in ( select managerId from Employee group by managerId having count(id)>=5 )
@@ -926,6 +933,18 @@ public class SubjectController {
     /**
      * 595. 大的国家
      * SELECT name, population, area FROM World WHERE area >= 3000000 OR population >= 25000000
+     */
+
+    /**
+     * 596. 超过5名学生的课
+     * select class from courses group by class having count(student) >= 5
+     */
+
+    /**
+     * 619. 只出现一次的最大数字
+     * MyNumbers -> num
+     * 查询最大的 单一数字 。如果不存在则返回 null 。(单一数字: 在 MyNumbers 表中只出现一次的数字)
+     * SELECT IF(COUNT(num)=1, num, NULL) AS num FROM MyNumbers GROUP BY num ORDER BY COUNT(num), num DESC LIMIT 1
      */
 
     /**
@@ -982,6 +1001,11 @@ public class SubjectController {
     }
 
     /**
+     * 1045. 买下所有产品的客户
+     * select b.customer_id from (select c.customer_id as customer_id,a.count as count,count(distinct c.product_key) as customer_id_count from customer c, (select count(product_key) as count from product) a group by c.customer_id) as b where b.count = b.customer_id_count
+     */
+
+    /**
      * 1068. 产品销售分析 I
      * select b.product_name,a.year,a.price from Sales a left join Product b on a.product_id = b.product_id
      */
@@ -995,12 +1019,25 @@ public class SubjectController {
      */
 
     /**
+     * 1084. 销售分析III
+     * Product -> product_id, product_name
+     * sales -> product_id, sale_date
+     * 查询仅在2019-01-01至2019-03-31之间出售的商品。
+     * select a.product_id,a.product_name from product a left join sales b on a.product_id = b. product_id group by b.product_id having min(b.sale_date) >= '2019-01-01' AND max(b.sale_date) <= '2019-03-31'
+     */
+
+    /**
      * 1095. 山脉数组中查找目标值
      */
     @GetMapping(value = "/findInMountainArray")
     public String findInMountainArray() {
         return subjectService.findInMountainArray();
     }
+
+    /**
+     * 1141. 查询近30天活跃用户数
+     * select activity_date as day, count(distinct user_id) as active_users from Activity where activity_date >= '2019-06-28' and activity_date <= '2019-07-27' group by activity_date
+     */
 
     /**
      * 1143. 最长公共子序列
@@ -1015,6 +1052,21 @@ public class SubjectController {
      * Views -> article_id, author_id, viewer_id, view_date
      * 查询出所有浏览过自己文章的作者
      * SELECT DISTINCT author_id AS id FROM Views WHERE author_id = viewer_id ORDER BY id
+     */
+
+    /**
+     * 1174. 即时食物配送 II
+     * Delivery -> delivery_id, customer_id, order_date, customer_pref_delivery_date
+     * 查询即时订单在所有用户的首次订单中的比例。
+     * 如果顾客期望的配送日期和下单日期相同，则该订单称为 「即时订单」，否则称为「计划订单」
+     * select round(avg(order_date=customer_pref_delivery_date)*100, 2) immediate_percentage from Delivery join (select customer_id, min(order_date) order_date from Delivery group by customer_id) t using(customer_id, order_date)
+     */
+
+    /**
+     * 1193. 每月交易 I
+     * Transactions -> id, country, state, amount, trans_date
+     * 查找每个月和每个国家/地区的事务数及其总金额、已批准的事务数及其总金额。
+     * select date_format(trans_date,'%Y-%m') as month,country,count(state) as trans_count,sum(if(state = 'approved', 1, 0)) as approved_count,sum(amount) as trans_total_amount, sum(if(state = 'approved', amount, 0)) as approved_total_amount  from transactions group by month,country
      */
 
     /**
@@ -1080,6 +1132,11 @@ public class SubjectController {
      */
 
     /**
+     * 1729. 求关注者的数量
+     * select user_id, count(follower_id) as followers_count  from followers group by user_id order by user_id
+     */
+
+    /**
      * 1757. 可回收且低脂的产品
      * select product_id  from Products  where low_fats = "Y" and recyclable  = 'Y'
      */
@@ -1090,5 +1147,12 @@ public class SubjectController {
      * Confirmations -> user_id, time_stamp, action
      * 查找每个用户的 确认率, 用户的确认率是 'confirmed' 消息的数量除以请求的确认消息的总数。没有请求任何确认消息的用户的确认率为 0
      * select s.user_id as 'user_id', round((sum(if (c.action = 'confirmed', 1, 0))) / count(*), 2) as confirmation_rate from Signups s left join Confirmations c on s.user_id = c.user_id group by s.user_id
+     */
+
+    /**
+     * 2356. 每位教师所教授的科目种类的数量
+     * Teacher -> teacher_id, subject_id, dept_id
+     * 查询每位老师在大学里教授的科目种类的数量
+     * SELECT teacher_id, COUNT(DISTINCT subject_id) AS cnt FROM Teacher GROUP BY teacher_id
      */
 }
