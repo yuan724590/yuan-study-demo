@@ -941,6 +941,14 @@ public class SubjectController {
      */
 
     /**
+     * 610. 判断三角形
+     * Triangle -> x, y, z
+     * 判断x,y,z是否可以组成三角形
+     * select x,y,z,if(x + y > z and x + z > y and y + z > x, 'Yes', 'No') as triangle  from Triangle
+     * SELECT x, y, z, IF(x + y + z > 2 * GREATEST(x, y, z) , 'Yes', 'No') AS triangle FROM Triangle
+     */
+
+    /**
      * 619. 只出现一次的最大数字
      * MyNumbers -> num
      * 查询最大的 单一数字 。如果不存在则返回 null 。(单一数字: 在 MyNumbers 表中只出现一次的数字)
@@ -1137,8 +1145,24 @@ public class SubjectController {
      */
 
     /**
+     * 1731. 每位经理的下属员工数量
+     * Employees -> employee_id, name, reports_to, age
+     * 查询所有经理的ID、名称、直接向该经理汇报的员工人数，以及这些员工的平均年龄，其中该平均年龄需要四舍五入到最接近的整数
+     * select b.employee_id, b.name, count(a.reports_to) reports_count, round(avg(a.age),0) average_age from Employees a,Employees b where a.reports_to = b.employee_id group by a.reports_to having reports_count > 0 order by employee_id
+     */
+
+    /**
      * 1757. 可回收且低脂的产品
      * select product_id  from Products  where low_fats = "Y" and recyclable  = 'Y'
+     */
+
+    /**
+     * 1789. 员工的直属部门
+     * Employee -> employee_id, department_id, primary_flag
+     * 查出员工所属的直属部门 (直属部门: primary_flag = 'Y' / 仅一条为'N'的数据)
+     * select employee_id,department_id from Employee where primary_flag = 'Y' union select employee_id,department_id from Employee group by employee_id having count(employee_id) = 1
+     * select employee_id, IF(COUNT(*) = 1, department_id, SUM(IF(primary_flag = "Y",department_id,null))) department_id FROM Employee group by 1
+     * SELECT employee_id,department_id FROM (SELECT  *,COUNT(*) OVER(PARTITION BY employee_id) cnt FROM Employee)t WHERE cnt = 1 OR primary_flag = 'Y'
      */
 
     /**
