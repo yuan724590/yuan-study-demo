@@ -1083,7 +1083,7 @@ public class SubjectController {
      * quality：每个query_name的result 与position比率的平均值
      * poor_query_percentage：rating < 3 的查询结果占全部查询结果的百分比
      * 查询每个query_name的quality和poor_query_percentage分值
-     * select a.query_name, round(avg(a.rating / a.position), 2) as quality, ifnull(round(b.count / count(a.rating) * 100, 2), 0) as poor_query_percentage from Queries a left join (select d.query_name, count(d.rating) as count from Queries d where d.rating < 3 group by d.query_name) b on a.query_name = b.query_name group by a.query_name having a.query_name is not null
+     * select query_name,round(avg(rating / position), 2) as quality,round(avg(rating < 3) * 100, 2) as poor_query_percentage from queries group by query_name having query_name is not null
      */
 
     /**
