@@ -722,6 +722,13 @@ public class SubjectController {
      */
 
     /**
+     * 180. 连续出现的数字
+     * Logs -> id, num
+     * 查询所有至少连续出现三次的数字
+     * select distinct a.num as ConsecutiveNums  from logs a, logs b, logs c where a.id = b.id + 1 and a.id = c.id + 2 and a.num = b.num and a.num = c.num
+     */
+
+    /**
      * 188. 买卖股票的最佳时机 IV
      */
     @GetMapping(value = "/max/profit4")
@@ -1063,6 +1070,13 @@ public class SubjectController {
      */
 
     /**
+     * 1164. 指定日期的产品价格
+     * Products -> product_id, new_price, change_date
+     * 查询2019-08-16全部产品的价格, 产品价格未改动则默认是10
+     * select distinct b.product_id,if(b.dates is null, 10, b.new_price) as price from (select *, rank() over(PARTITION BY a.product_id order by dates desc) as ranking from (select *,if(change_date > '2019-08-16', null, change_date) as dates from products) a) b where b.ranking = 1
+     */
+
+    /**
      * 1174. 即时食物配送 II
      * Delivery -> delivery_id, customer_id, order_date, customer_pref_delivery_date
      * 查询即时订单在所有用户的首次订单中的比例。
@@ -1078,12 +1092,20 @@ public class SubjectController {
      */
 
     /**
+     * 1204. 最后一个能进入巴士的人
+     * Queue -> person_id, person_name, weight, turn
+     * 查询未超重情况下(weight的和在1000kg以下) 最后一个 上巴士且不超过重量限制的乘客person_name
+     * select a.person_name from (select person_name, @total := @total + weight as weight from queue, (select @total := 0) total order by turn) a where a.weight <= 1000 order by a.weight desc limit 1
+     */
+
+    /**
      * 1211. 查询结果的质量和占比
      * Queries -> query_name, result, position, rating
      * quality：每个query_name的result 与position比率的平均值
      * poor_query_percentage：rating < 3 的查询结果占全部查询结果的百分比
      * 查询每个query_name的quality和poor_query_percentage分值
      * select query_name,round(avg(rating / position), 2) as quality,round(avg(rating < 3) * 100, 2) as poor_query_percentage from queries group by query_name having query_name is not null
+     * select a.query_name, round(avg(a.rating / a.position), 2) as quality, ifnull(round(b.count / count(a.rating) * 100, 2), 0) as poor_query_percentage from Queries a left join (select d.query_name, count(d.rating) as count from Queries d where d.rating < 3 group by d.query_name) b on a.query_name = b.query_name group by a.query_name having a.query_name is not null
      */
 
     /**
@@ -1166,11 +1188,23 @@ public class SubjectController {
      */
 
     /**
+     * 1907. 按分类统计薪水
+     * accounts -> account_id, income
+     * 查询每种类型账户的数据(Low Salary -> (负无穷, 20000); Average Salary -> [20000, 50000]; High Salary -> (50000, 正无穷)
+     * select 'Low Salary' AS category,count(*) as accounts_count  from accounts where income < 20000 union select 'Average Salary' AS category,count(*) as accounts_count  from accounts where income >= 20000 and income <= 50000 union select 'High Salary' AS category,count(*) as accounts_count  from accounts where income > 50000
+     */
+
+    /**
      * 1934. 确认率
      * Signups -> user_id, time_stamp
      * Confirmations -> user_id, time_stamp, action
      * 查找每个用户的 确认率, 用户的确认率是 'confirmed' 消息的数量除以请求的确认消息的总数。没有请求任何确认消息的用户的确认率为 0
      * select s.user_id as 'user_id', round((sum(if (c.action = 'confirmed', 1, 0))) / count(*), 2) as confirmation_rate from Signups s left join Confirmations c on s.user_id = c.user_id group by s.user_id
+     */
+
+    /**
+     * 1978. 上级经理已离职的公司员工
+     * select a.employee_id from employees a left join employees b on a.manager_id = b.employee_id where a.salary < 30000 and a.manager_id is not null and b.name is null order by a.employee_id
      */
 
     /**
