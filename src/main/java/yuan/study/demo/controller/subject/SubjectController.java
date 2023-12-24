@@ -722,10 +722,23 @@ public class SubjectController {
      */
 
     /**
+     * 176. 第二高的薪水
+     * SELECT (SELECT DISTINCT Salary FROM Employee ORDER BY Salary DESC LIMIT 1 OFFSET 1) AS SecondHighestSalary
+     */
+
+    /**
      * 180. 连续出现的数字
      * Logs -> id, num
      * 查询所有至少连续出现三次的数字
      * select distinct a.num as ConsecutiveNums  from logs a, logs b, logs c where a.id = b.id + 1 and a.id = c.id + 2 and a.num = b.num and a.num = c.num
+     */
+
+    /**
+     * 185. 部门工资前三高的所有员工
+     * Employee -> id, name, salary, departmentId; Department -> id, name
+     * 查询部门工资前三高的所有员工, 工资重复不影响排名
+     * select c.name as Department, a.name as Employee,a.salary from employee a left join department c on a.departmentId = c.id where (select count(distinct(b.salary)) from employee b where a.departmentId = b.departmentId and a.salary < b.salary) < 3
+     * select Department, Employee, salary from (select b.name as Department, a.name as Employee, a.salary as Salary, dense_rank() over(partition by departmentId order by salary desc) as ranks from Employee a left join Department b on a.departmentId = b.id) c where ranks <= 3
      */
 
     /**
@@ -747,6 +760,13 @@ public class SubjectController {
     /**
      * 191. 位1的个数
      * 同yuan.study.demo.controller.subject.OfferSubjectController#hammingWeight() 故跳过
+     */
+
+    /**
+     * 196. 删除重复的电子邮箱
+     * Person -> id, email
+     * 删除重复的电子邮箱,需要保留id较小的重复数据
+     * DELETE p1 FROM Person p1, Person p2 WHERE p1.Email = p2.Email AND p1.Id > p2.Id
      */
 
     /**
@@ -938,6 +958,13 @@ public class SubjectController {
      */
 
     /**
+     * 585. 2016年的投资
+     * Insurance -> pid, tiv_2015, tiv_2016, lat, lon
+     * 查询 2015年的投保额至少跟一个其他投保人在 2015 年的投保额相同 && lat, lon不能跟其他任何一个投保人完全相同的tiv_2016之和
+     * select round(sum(a.tiv_2016) , 2) as tiv_2016 from Insurance a join (select * from Insurance group by tiv_2015 having count(*) > 1) b on a.tiv_2015 = b.tiv_2015 join (select * from Insurance group by lat,lon having count(*) = 1) c on a.lat = c.lat and a.lon = c.lon
+     */
+
+    /**
      * 595. 大的国家
      * SELECT name, population, area FROM World WHERE area >= 3000000 OR population >= 25000000
      */
@@ -945,6 +972,13 @@ public class SubjectController {
     /**
      * 596. 超过5名学生的课
      * select class from courses group by class having count(student) >= 5
+     */
+
+    /**
+     * 602. 好友申请 II ：谁有最多的好友
+     * RequestAccepted -> requester_id, accepter_id, accept_date
+     * 查询拥有最多的好友的人和他拥有的好友数
+     * select id, count(*) as num from ((select requester_id as id from RequestAccepted) union all (select accepter_id as id from RequestAccepted)) a group by id order by num desc limit 1
      */
 
     /**
@@ -965,6 +999,11 @@ public class SubjectController {
     /**
      * 620. 有趣的电影
      * select * from cinema where id & 1 and description <> 'boring' order by rating DESC;
+     */
+
+    /**
+     * 626. 换座位
+     * SELECT s1.id, COALESCE(s2.student, s1.student) AS student FROM seat s1 LEFT JOIN seat s2 ON ((s1.id + 1) ^ 1) - 1 = s2.id ORDER BY s1.id;
      */
 
     /**
@@ -1126,8 +1165,44 @@ public class SubjectController {
      */
 
     /**
+     * 1321. 餐馆营业额变化增长
+     * Customer -> customer_id, name, visited_on, amount
+     * 查询每天的7天内消费总额的平均值
+     * SELECT DISTINCT visited_on, sum_amount AS amount, ROUND(sum_amount/7, 2) AS average_amount FROM (SELECT visited_on, SUM(amount) OVER ( ORDER BY visited_on RANGE interval 6 day preceding  ) AS sum_amount FROM Customer) t WHERE DATEDIFF(visited_on, (SELECT MIN(visited_on) FROM Customer)) >= 6
+     */
+
+    /**
+     * 1327. 列出指定时间段内所有的下单产品
+     * select b.product_name, sum(a.unit) as unit from orders a left join Products b on a.product_id = b.product_id where a.order_date >= '2020-02-01' and a.order_date <= '2020-02-29' group by a.product_id having unit >= 100
+     */
+
+    /**
+     * 1341. 电影评分
+     * (select name as results from (select a.user_id,b.name as name,count(*) as count from MovieRating a left join users b on a.user_id = b.user_id group by a.user_id) c order by count desc, name asc limit 1) union all (SELECT title FROM Movies m left JOIN MovieRating mr ON m.movie_id = mr.movie_id AND created_at BETWEEN '2020-02-01' AND '2020-02-29' GROUP BY m.movie_id ORDER BY AVG(rating) DESC, title asc LIMIT 1)
+     */
+
+    /**
      * 1378. 使用唯一标识码替换员工ID
      * select b.unique_id,a.name from Employees a left join EmployeeUNI b on a.id = b.id
+     */
+
+    /**
+     * 1484. 按日期分组销售产品
+     * Activities -> sell_date, product
+     * 查询每个日期、销售的不同产品的数量及其名称(逗号隔开)
+     * select sell_date, count(distinct product) as num_sold, group_concat(distinct product order by product separator ',') as products from Activities group by sell_date order by sell_date
+     */
+
+    /**
+     * 1517. 查找拥有有效邮箱的用户
+     * select user_id,name,mail from Users where mail regexp '^[a-zA-Z][a-zA-Z0-9\\_\\.\\-]*@leetcode\\.com$'
+     */
+
+    /**
+     * 1527. 患某种疾病的患者
+     * Patients -> patient_id, patient_name, conditions
+     * 病例conditions是以空格隔开, 查询包含有DIAB1开头病的患者信息
+     * SELECT patient_id, patient_name, conditions FROM Patients WHERE conditions REGEXP '\\bDIAB1'
      */
 
     /**
@@ -1152,6 +1227,13 @@ public class SubjectController {
      * Activity -> machine_id,process_id,activity_type,timestamp
      * 计算每台机器各自完成一个进程任务的平均耗时 (完成一个进程任务的时间指进程的'end' 时间戳 减去 'start' 时间戳)
      * select a.machine_id, round(avg(b.timestamp-a.timestamp), 3) as processing_time from Activity a join activity b on a.machine_id = b.machine_id and a.process_id = b.process_id and a.activity_type = 'start' and b.activity_type = 'end' group by a.machine_id
+     */
+
+    /**
+     * 1667. 修复表中的名字
+     * Users -> user_id, name
+     * 将表中的name字段, 首字母大写, 其余字母小写 然后返回
+     * select user_id, concat(upper(substring(name, 1, 1)), lower(substring(name, 2))) as name from users order by user_id
      */
 
     /**
