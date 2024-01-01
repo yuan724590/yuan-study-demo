@@ -2272,6 +2272,142 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String setZeroes(){
+        int[][] matrix = new int[][]{{0,1,2,0},{3,4,5,2},{1,3,1,5}};
+        setZeroes(matrix);
+        System.out.println(JSON.toJSONString(matrix));
+        return "success";
+    }
+
+    public void setZeroes(int[][] matrix) {
+        int[] rowArr = new int[matrix.length];
+        int[] colArr = new int[matrix[0].length];
+        for(int i = 0; i < matrix.length; i++){
+            for(int j = 0; j < matrix[0].length; j++){
+                if(matrix[i][j] == 0){
+                    rowArr[i] = 1;
+                    colArr[j] = 1;
+                }
+            }
+        }
+        for(int i = 0; i < matrix.length; i++){
+            for(int j = 0; j < matrix[0].length; j++){
+                if(colArr[j] == 1 || rowArr[i] == 1){
+                    matrix[i][j] = 0;
+                }
+            }
+        }
+    }
+
+    @Override
+    public String sortColors(){
+        int[] arr = new int[]{2,2,1};
+        sortColors(arr);
+        System.out.println(JSON.toJSONString(arr));
+        return "success";
+    }
+
+    public void sortColors(int[] nums) {
+        int n = nums.length;
+        int ptr = 0;
+        for (int i = 0; i < n; ++i) {
+            if (nums[i] == 0) {
+                int temp = nums[i];
+                nums[i] = nums[ptr];
+                nums[ptr] = temp;
+                ++ptr;
+            }
+        }
+        for (int i = ptr; i < n; ++i) {
+            if (nums[i] == 1) {
+                int temp = nums[i];
+                nums[i] = nums[ptr];
+                nums[ptr] = temp;
+                ++ptr;
+            }
+        }
+    }
+
+    @Override
+    public String minWindow(){
+        System.out.println(JSON.toJSONString(minWindow("ADOBECODEBANC", "ABC")));
+        return "success";
+    }
+
+    public String minWindow(String s, String t) {
+        int[] arr = new int[128];
+        int length = t.length(), cnt = 0;
+        for (int i = 0; i < length; i++) {
+            if (arr[t.charAt(i)]++ == 0) {
+                cnt++;
+            }
+        }
+        int n = s.length(), count = 0;
+        int left = 0, right = 0;
+        int rLeft = 0, rRight = Integer.MAX_VALUE;
+        int[] window = new int[128];
+        while (right < n) {
+            int index = s.charAt(right);
+            right++;
+            window[index]++;
+            if (window[index] == arr[index]) {
+                count++;
+            }
+            while (count == cnt) {
+                if (right - left < rRight - rLeft) {
+                    rLeft = left;
+                    rRight = right;
+                }
+                int li = s.charAt(left);
+                left++;
+                window[li]--;
+                if (window[li] < arr[li]) {
+                    count--;
+                }
+            }
+        }
+        return rRight - rLeft == Integer.MAX_VALUE ? "" : s.substring(rLeft, rRight);
+    }
+
+    @Override
+    public String combine(){
+        System.out.println(JSON.toJSONString(combine(1,1)));
+        return "success";
+    }
+
+    public List<List<Integer>> combine(int n, int k) {
+        List<List<Integer>> res = new ArrayList<>();
+        if (k <= 0 || n < k) {
+            return res;
+        }
+
+        // 为了防止底层动态数组扩容，初始化的时候传入最大长度
+        Deque<Integer> path = new ArrayDeque<>(k);
+        dfs(1, n, k, path, res);
+        return res;
+    }
+
+    private void dfs(int begin, int n, int k, Deque<Integer> path, List<List<Integer>> res) {
+        if (k == 0) {
+            res.add(new ArrayList<>(path));
+            return;
+        }
+
+        // 基础版本的递归终止条件：if (begin == n + 1) {
+        if (begin > n - k + 1) {
+            return;
+        }
+        // 不选当前考虑的数 begin，直接递归到下一层
+        dfs(begin + 1, n, k, path, res);
+
+        // 不选当前考虑的数 begin，递归到下一层的时候 k - 1，这里 k 表示还需要选多少个数
+        path.addLast(begin);
+        dfs(begin + 1, n, k - 1, path, res);
+        // 深度优先遍历有回头的过程，因此需要撤销选择
+        path.removeLast();
+    }
+
+    @Override
     public String minDistance(){
         System.out.println(JSON.toJSONString(minDistance("horse", "ros")));
         return "success";

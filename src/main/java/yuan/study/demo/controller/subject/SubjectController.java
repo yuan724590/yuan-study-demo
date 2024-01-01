@@ -587,6 +587,43 @@ public class SubjectController {
     }
 
     /**
+     * 73. 矩阵置零
+     */
+    @GetMapping(value = "/setZeroes")
+    public String setZeroes() {
+        return subjectService.setZeroes();
+    }
+
+    /**
+     * 74. 搜索二维矩阵
+     * 同yuan.study.demo.controller.subject.OfferSubjectController#findNumberIn2DArray()
+     */
+
+    /**
+     * 75. 颜色分类
+     */
+    @GetMapping(value = "/sortColors")
+    public String sortColors() {
+        return subjectService.sortColors();
+    }
+
+    /**
+     * 76. 最小覆盖子串
+     */
+    @GetMapping(value = "/minWindow")
+    public String minWindow() {
+        return subjectService.minWindow();
+    }
+
+    /**
+     * 77. 组合
+     */
+    @GetMapping(value = "/combine")
+    public String combine() {
+        return subjectService.combine();
+    }
+
+    /**
      * 79. 单词搜索
      */
     @GetMapping(value = "/exist79")
