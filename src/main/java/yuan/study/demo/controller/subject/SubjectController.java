@@ -624,6 +624,14 @@ public class SubjectController {
     }
 
     /**
+     * 78. 子集
+     */
+    @GetMapping(value = "/subsets")
+    public String subsets() {
+        return subjectService.subsets();
+    }
+
+    /**
      * 79. 单词搜索
      */
     @GetMapping(value = "/exist79")
@@ -637,6 +645,14 @@ public class SubjectController {
     @GetMapping(value = "/removeDuplicates80")
     public String removeDuplicates80() {
         return subjectService.removeDuplicates80();
+    }
+
+    /**
+     * 81. 搜索旋转排序数组 II
+     */
+    @GetMapping(value = "/search81")
+    public String search81() {
+        return subjectService.search81();
     }
 
     /**

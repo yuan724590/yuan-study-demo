@@ -2408,6 +2408,28 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String subsets(){
+        int[] nums = new int[]{1,2,3};
+        System.out.println(JSON.toJSONString(subsets(nums)));
+        return "success";
+    }
+
+    public List<List<Integer>> subsets(int[] nums) {
+        List<List<Integer>> res = new ArrayList<>();
+        res.add(new ArrayList<>(0));
+        for (int num : nums) {
+            int size = res.size();
+            //当前元素的所有可能是 前面每种可能 + 当前元素
+            for (int j = 0; j < size; j++) {
+                List<Integer> list = new ArrayList<>(res.get(j));
+                list.add(num);
+                res.add(list);
+            }
+        }
+        return res;
+    }
+
+    @Override
     public String minDistance(){
         System.out.println(JSON.toJSONString(minDistance("horse", "ros")));
         return "success";
@@ -2494,6 +2516,42 @@ public class SubjectServiceImpl implements SubjectService {
             }
         }
         return count;
+    }
+
+    @Override
+    public String search81(){
+        System.out.println(JSON.toJSONString(search81(new int[]{1,0,1,1,1}, 6)));
+        return "success";
+    }
+
+    public boolean search81(int[] nums, int target) {
+        if (nums.length == 0) {
+            return false;
+        }
+        int left = 0, right = nums.length - 1;
+        while (left <= right) {
+            int mid = (left + right) / 2;
+            if(nums[mid] == target){
+                return true;
+            }
+            if(nums[left] == nums[mid] && nums[mid] == nums[right]){
+                left++;
+                right--;
+            }else if(nums[left] <= nums[mid]){
+                if(nums[left] <= target && target < nums[mid]){
+                    right = mid - 1;
+                }else{
+                    left = mid + 1;
+                }
+            }else{
+                if(nums[mid] < target && target <= nums[right]){
+                    left = mid + 1;
+                }else{
+                    right = mid - 1;
+                }
+            }
+        }
+        return false;
     }
 
     @Override
