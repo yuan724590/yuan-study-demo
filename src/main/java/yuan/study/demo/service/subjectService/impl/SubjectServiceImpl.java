@@ -2555,6 +2555,66 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String deleteDuplicates(){
+        ListNode node1 = new ListNode(1, null);
+        ListNode node2 = new ListNode(2, node1);
+        ListNode node3 = new ListNode(3, node2);
+        ListNode node4 = new ListNode(3, node3);
+        ListNode node5 = new ListNode(4, node4);
+        ListNode node6 = new ListNode(4, node5);
+        ListNode node7 = new ListNode(5, node6);
+        System.out.println(JSON.toJSONString(deleteDuplicates(node7)));
+        return "success";
+    }
+
+    public ListNode deleteDuplicates(ListNode head) {
+        if (head == null) {
+            return null;
+        }
+        ListNode listNode = new ListNode(0, head);
+        head = listNode;
+        while (listNode.next != null && listNode.next.next != null){
+            if (listNode.next.val == listNode.next.next.val) {
+                int val = listNode.next.val;
+                while (listNode.next != null && listNode.next.val == val) {
+                    listNode.next = listNode.next.next;
+                }
+            } else {
+                listNode = listNode.next;
+            }
+        }
+        return head.next;
+    }
+
+    @Override
+    public String deleteDuplicates83(){
+        ListNode node1 = new ListNode(1, null);
+        ListNode node2 = new ListNode(2, node1);
+        ListNode node3 = new ListNode(3, node2);
+        ListNode node4 = new ListNode(3, node3);
+        ListNode node5 = new ListNode(4, node4);
+        ListNode node6 = new ListNode(4, node5);
+        ListNode node7 = new ListNode(5, node6);
+        System.out.println(JSON.toJSONString(deleteDuplicates83(node7)));
+        return "success";
+    }
+
+    public ListNode deleteDuplicates83(ListNode head) {
+        if (head == null) {
+            return null;
+        }
+        ListNode listNode = head;
+        while (head != null && head.next != null){
+            if(head.val == head.next.val){
+                head.next = head.next.next;
+            }else{
+                head = head.next;
+            }
+        }
+        return listNode;
+    }
+
+    @Override
     public String maximalRectangle(){
         System.out.println(JSON.toJSONString(maximalRectangle(new char[][]{{'1','1','1','1','1','1','1','1'},{'1','1','1','1','1','1','1','0'},{'1','1','1','1','1','1','1','0'},{'1','1','1','1','1','0','0','0'},{'0','1','1','1','1','0','0','0'}})));
         return "success";

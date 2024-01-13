@@ -656,6 +656,22 @@ public class SubjectController {
     }
 
     /**
+     * 82. 删除排序链表中的重复元素 II
+     */
+    @GetMapping(value = "/deleteDuplicates")
+    public String deleteDuplicates() {
+        return subjectService.deleteDuplicates();
+    }
+
+    /**
+     * 83. 删除排序链表中的重复元素
+     */
+    @GetMapping(value = "/deleteDuplicates83")
+    public String deleteDuplicates83() {
+        return subjectService.deleteDuplicates83();
+    }
+
+    /**
      * 85. 最大矩形
      */
     @GetMapping(value = "/maximalRectangle")
