@@ -2615,6 +2615,45 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String largestRectangleArea(){
+        System.out.println(JSON.toJSONString(largestRectangleArea(new int[]{2,1,5,6,2,3})));
+        return "success";
+    }
+
+    /**
+     * 算法核心: 找到左右两侧 最近 && 比自己小的数
+     * 最大面积 = 左右两侧数的最小值 * 两数之间的列差
+     */
+    public int largestRectangleArea(int[] heights) {
+        int n = heights.length;
+        //对应索引下, 左侧比当前值小的索引
+        int[] left = new int[n];
+        //对应索引下, 右侧比当前值小的索引
+        int[] right = new int[n];
+        //如果数字全部一样会直接跳过去, 所以先填充最大值
+        Arrays.fill(right, n);
+
+        Deque<Integer> deque = new ArrayDeque<>();
+        for (int i = 0; i < n; i++) {
+            //deque不为空 && 当前值 <= 上个小数字
+            while (!deque.isEmpty() && heights[i] <= heights[deque.peek()]) {
+                //计算出右侧 最近 && 比自己小的位置
+                right[deque.peek()] = i;
+                deque.pop();
+            }
+            //计算出左侧 最近 && 比自己小的位置
+            left[i] = deque.isEmpty() ? -1 : deque.peek();
+            deque.push(i);
+        }
+
+        int ans = 0;
+        for (int i = 0; i < n; i++) {
+            ans = Math.max(ans, (right[i] - left[i] - 1) * heights[i]);
+        }
+        return ans;
+    }
+
+    @Override
     public String maximalRectangle(){
         System.out.println(JSON.toJSONString(maximalRectangle(new char[][]{{'1','1','1','1','1','1','1','1'},{'1','1','1','1','1','1','1','0'},{'1','1','1','1','1','1','1','0'},{'1','1','1','1','1','0','0','0'},{'0','1','1','1','1','0','0','0'}})));
         return "success";
@@ -2639,6 +2678,38 @@ public class SubjectServiceImpl implements SubjectService {
             }
         }
         return res;
+    }
+
+    @Override
+    public String partition(){
+        ListNode node2 = new ListNode(2, null);
+        ListNode node3 = new ListNode(5, node2);
+        ListNode node4 = new ListNode(2, node3);
+        ListNode node5 = new ListNode(3, node4);
+        ListNode node6 = new ListNode(4, node5);
+        ListNode node7 = new ListNode(1, node6);
+        System.out.println(JSON.toJSONString(partition(node7, 2)));
+        return "success";
+    }
+
+    public ListNode partition(ListNode head, int x) {
+        ListNode beforeListNode = new ListNode(0, null);
+        ListNode before = beforeListNode;
+        ListNode afterListNode = new ListNode(0, null);
+        ListNode after = afterListNode;
+        while(head != null){
+            if(head.val < x){
+                beforeListNode.next = head;
+                beforeListNode = beforeListNode.next;
+            }else{
+                afterListNode.next = head;
+                afterListNode = afterListNode.next;
+            }
+            head = head.next;
+        }
+        afterListNode.next = null;
+        beforeListNode.next = after.next;
+        return before.next;
     }
 
     @Override

@@ -672,11 +672,27 @@ public class SubjectController {
     }
 
     /**
+     * 84. 柱状图中最大的矩形
+     */
+    @GetMapping(value = "/largestRectangleArea")
+    public String largestRectangleArea() {
+        return subjectService.largestRectangleArea();
+    }
+
+    /**
      * 85. 最大矩形
      */
     @GetMapping(value = "/maximalRectangle")
     public String maximalRectangle() {
         return subjectService.maximalRectangle();
+    }
+
+    /**
+     * 86. 分隔链表
+     */
+    @GetMapping(value = "/partition")
+    public String partition() {
+        return subjectService.partition();
     }
 
     /**
