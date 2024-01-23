@@ -1,0 +1,150 @@
+# type conversion
+
+.toByte : convert to byte`
+	java.lang.String         →  Byte.parseByte($expr$)
+	java.lang.Number         →  $expr$.byteValue()
+	NUMBER                   →  ((byte) ($expr$))
+
+.toShort : convert to short
+	java.lang.String         →  Short.parseShort($expr$)
+	java.lang.Number         →  $expr$.shortValue()
+	NUMBER                   →  ((short) ($expr$))
+
+.toInteger : convert to integer
+	java.lang.String         →  Integer.valueOf($expr$)
+	java.lang.Number         →  Integer.valueOf($expr$)
+	NUMBER                   →  Integer.valueOf($expr$)
+
+.toInt : convert to int
+	java.lang.String         →  Integer.parseInt($expr$)
+	java.lang.Number         →  $expr$.intValue()
+	NUMBER                   →  ((int) ($expr$))
+
+.toChar : convert to char
+	java.lang.String         →  $expr$.charAt(0)
+	NUMBER                   →  ((char) ($expr$))
+
+.toDouble : convert to double
+	java.lang.String         →  Double.parseDouble($expr$)
+	java.lang.Number         →  $expr$.doubleValue()
+	NUMBER                   →  ((double) ($expr$))
+
+.toFloat : convert to float
+	java.lang.String         →  Float.parseFloat($expr$)
+	java.lang.Number         →  $expr$.floatValue()
+	NUMBER                   →  ((float) ($expr$))
+
+.toLong : convert to long
+	java.lang.String         →  Long.parseLong($expr$)
+	java.lang.Number         →  $expr$.longValue()
+	NUMBER                   →  ((long) ($expr$))
+
+.toBigDecimal : convert to BigDecimal
+	java.lang.String         →  new BigDecimal($expr$)
+	java.lang.Number         →  new BigDecimal($expr$)
+	NUMBER                   →  new BigDecimal($expr$)
+
+.toBoolean : convert to boolean
+	java.lang.String         →  Boolean.parseBoolean($expr$)
+
+
+# list
+
+.toList : convert to List
+	ARRAY                    →  Arrays.asList($expr$)
+	java.util.Collection     →  new ArrayList<>($expr$)
+	java.lang.Iterable       →  StreamSupport.stream($expr$.spliterator(), false).collect(Collectors.toList())
+	java.util.Enumeration    →  Collections.list($expr$)
+	java.util.Map            →  new ArrayList<>($expr$.entrySet())
+	java.util.Optional       →  $expr$.map(e -> Collections.singletonList(e)).orElse(java.util.Collections.emptyList())
+	java.util.stream.Stream  →  $expr$.collect(Collectors.toList())
+	NON_VOID                 →  Collections.singletonList($expr$) [USE_STATIC_IMPORTS]
+
+
+# map
+
+.toMap : Convert to map and remove duplicates
+	ARRAY                    →  Arrays.stream($expr$).collect(Collectors.toMap($keyType:regularExpression(concat(guessElementType(expr), ""), ".*/.", "")$$key$, $keyType$$value$, (o1,o2)->o1));
+	java.util.Collection     →  $expr$.stream().collect(Collectors.toMap($keyType:regularExpression(concat(guessElementType(expr), ""), ".*/.", "")$$key$, $keyType$$value$, (o1,o2)->o1));
+	java.lang.Iterable       →  StreamSupport.stream($expr$.spliterator(), false).collect(Collectors.toMap(e -> $key$, e -> $value$, (o1,o2)->o1));
+	java.util.stream.Stream  →  $expr$.collect(Collectors.toMap($keyType:regularExpression(concat(guessElementType(expr), ""), ".*/.", "")$$key$, $keyType$$value$, (o1,o2)->o1));
+	java.util.Map            →  $expr$.entrySet().stream().collect(Collectors.toMap($keyType:regularExpression(concat(guessElementType(expr), ""), ".*/.", "")$$key$, $keyType$$value$, (o1,o2)->o1));
+
+.entrySet : The entry loop of a map
+	java.util.Map  →  for($entry:regularExpression(concat(typeOfVariable(expr), ""), "Map", "Map.Entry")$ entry : $expr$.entrySet()){\
+		$END$\
+	}
+
+.map : map entries
+	java.util.List           →  $expr$.stream().map($type:regularExpression(concat(guessElementType(expr), ""), ".*/.", "")$$method$).collect(Collectors.toList())
+	java.util.Set            →  $expr$.stream().map($fVar:asuggestShortVariableName()$ -> $f$).collect(Collectors.toSet())
+	java.util.Map            →  $expr$.entrySet().stream().collect(Collectors.toMap(e -> $key$, e -> $value$))
+
+.mapAfter : map entries after
+	java.util.List           →  List<$type:guessElementType(expr)$> $END$List = $expr$;
+	java.util.Set            →  "暂未实现"
+	java.util.Map            →  "暂未实现"
+
+.groupBy : group by attribute
+	ARRAY                    →  Arrays.stream($expr$).collect(Collectors.groupingBy($attributeVar:suggestShortVariableName()$ -> $attribute$));
+	java.util.Collection     →  $expr$.stream().collect(Collectors.groupingBy($attributeVar:suggestShortVariableName()$ -> $attribute$));
+	java.lang.Iterable       →  StreamSupport.stream($expr$.spliterator(), false).collect(Collectors.groupingBy($attributeVar:suggestShortVariableName()$ -> $attribute$));
+	java.util.stream.Stream  →  $expr$.collect(Collectors.groupingBy($attributeVar:suggestShortVariableName()$ -> $attribute$));
+
+
+# check and compare
+
+.isEmpty : isEmpty
+	ARRAY                [org.apache.commons.lang3.ArrayUtils]              → ArrayUtils.isEmpty($expr$)
+	java.lang.String     [org.apache.commons.lang3.StringUtils]             → StringUtils.isEmpty($expr$)
+	java.util.Collection [org.apache.commons.collections4.CollectionUtils]  → CollectionUtils.isEmpty($expr$)
+	java.util.Collection [org.apache.commons.collections.CollectionUtils]   → CollectionUtils.isEmpty($expr$)
+	java.util.Map        [org.apache.commons.collections4.MapUtils]         → MapUtils.isEmpty($expr$)
+	java.util.Map        [org.apache.commons.collections.MapUtils]         → MapUtils.isEmpty($expr$)
+
+.isNotEmpty : isNotEmpty
+	java.lang.String     [org.apache.commons.lang3.StringUtils]             → StringUtils.isNotEmpty($expr$)
+	ARRAY                [org.apache.commons.lang3.ArrayUtils]              → ArrayUtils.isNotEmpty($expr$)
+	java.util.Collection [org.apache.commons.collections4.CollectionUtils]  → CollectionUtils.isNotEmpty($expr$)
+	java.util.Collection [org.apache.commons.collections.CollectionUtils]   → CollectionUtils.isNotEmpty($expr$)
+	java.util.Map        [org.apache.commons.collections4.MapUtils]         → MapUtils.isNotEmpty($expr$)
+	java.util.Map        [org.apache.commons.collections.MapUtils]          → MapUtils.isNotEmpty($expr$)
+
+.ifEmpty : ifEmpty
+	ARRAY                [org.apache.commons.lang3.ArrayUtils]              → if(ArrayUtils.isEmpty($expr$)){\
+                                                                                $END$\
+                                                                              }
+	java.lang.String     [org.apache.commons.lang3.StringUtils]             → if(StringUtils.isEmpty($expr$)){\
+                                                                                $END$\
+                                                                              }
+	java.util.Collection [org.apache.commons.collections4.CollectionUtils]  → if(CollectionUtils.isEmpty($expr$)){\
+                                                                                $END$\
+                                                                              }
+	java.util.Collection [org.apache.commons.collections.CollectionUtils]   → if(CollectionUtils.isEmpty($expr$)){\
+                                                                                $END$\
+                                                                              }
+	java.util.Map        [org.apache.commons.collections4.MapUtils]         → if(MapUtils.isEmpty($expr$)){\
+                                                                                $END$\
+                                                                              }
+	java.util.Map        [org.apache.commons.collections.MapUtils]          → if(MapUtils.isEmpty($expr$)){\
+                                                                                $END$\
+                                                                              }
+.ifNotEmpty : ifNotEmpty
+	ARRAY                [org.apache.commons.lang3.ArrayUtils]              → if(ArrayUtils.isNotEmpty($expr$)){\
+                                                                                $END$\
+                                                                              }
+	java.lang.String     [org.apache.commons.lang3.StringUtils]             → if(StringUtils.isNotEmpty($expr$)){\
+                                                                                $END$\
+                                                                              }
+	java.util.Collection [org.apache.commons.collections4.CollectionUtils]  → if(CollectionUtils.isNotEmpty($expr$)){\
+                                                                                $END$\
+                                                                              }
+	java.util.Collection [org.apache.commons.collections.CollectionUtils]  → if(CollectionUtils.isNotEmpty($expr$)){\
+                                                                                $END$\
+                                                                              }
+	java.util.Map        [org.apache.commons.collections4.MapUtils]         → if(MapUtils.isNotEmpty($expr$)){\
+                                                                                $END$\
+                                                                              }
+	java.util.Map        [org.apache.commons.collections.MapUtils]         → if(MapUtils.isNotEmpty($expr$)){\
+                                                                                $END$\
+                                                                              }
