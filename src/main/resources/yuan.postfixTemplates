@@ -63,33 +63,33 @@
 
 # map
 
-.toMap : Convert to map and remove duplicates
-	ARRAY                    →  Arrays.stream($expr$).collect(Collectors.toMap($keyType:regularExpression(concat(guessElementType(expr), ""), ".*/.", "")$$key$, $keyType$$value$, (o1,o2)->o1));
-	java.util.Collection     →  $expr$.stream().collect(Collectors.toMap($keyType:regularExpression(concat(guessElementType(expr), ""), ".*/.", "")$$key$, $keyType$$value$, (o1,o2)->o1));
-	java.lang.Iterable       →  StreamSupport.stream($expr$.spliterator(), false).collect(Collectors.toMap(e -> $key$, e -> $value$, (o1,o2)->o1));
-	java.util.stream.Stream  →  $expr$.collect(Collectors.toMap($keyType:regularExpression(concat(guessElementType(expr), ""), ".*/.", "")$$key$, $keyType$$value$, (o1,o2)->o1));
-	java.util.Map            →  $expr$.entrySet().stream().collect(Collectors.toMap($keyType:regularExpression(concat(guessElementType(expr), ""), ".*/.", "")$$key$, $keyType$$value$, (o1,o2)->o1));
-
-.entrySet : The entry loop of a map
-	java.util.Map  →  for($entry:regularExpression(concat(typeOfVariable(expr), ""), "Map", "Map.Entry")$ entry : $expr$.entrySet()){\
-		$END$\
-	}
-
 .map : map entries
 	java.util.List           →  $expr$.stream().map($type:regularExpression(concat(guessElementType(expr), ""), ".*/.", "")$$method$).collect(Collectors.toList())
 	java.util.Set            →  $expr$.stream().map($fVar:asuggestShortVariableName()$ -> $f$).collect(Collectors.toSet())
 	java.util.Map            →  $expr$.entrySet().stream().collect(Collectors.toMap(e -> $key$, e -> $value$))
 
-.mapAfter : map entries after
+.mapNext : the next step of the map
 	java.util.List           →  List<$type:guessElementType(expr)$> $END$List = $expr$;
 	java.util.Set            →  "暂未实现"
 	java.util.Map            →  "暂未实现"
 
+.toMap : Convert to map and remove duplicates
+	ARRAY                    →  Arrays.stream($expr$).collect(Collectors.toMap($keyType:regularExpression(concat(guessElementType(expr), ""), ".*/.", "")$$key$, $keyType$$value$, (o1,o2)->o1))
+	java.util.Collection     →  $expr$.stream().collect(Collectors.toMap($keyType:regularExpression(concat(guessElementType(expr), ""), ".*/.", "")$$key$, $keyType$$value$, (o1,o2)->o1))
+	java.lang.Iterable       →  StreamSupport.stream($expr$.spliterator(), false).collect(Collectors.toMap(e -> $key$, e -> $value$, (o1,o2)->o1))
+	java.util.stream.Stream  →  $expr$.collect(Collectors.toMap($keyType:regularExpression(concat(guessElementType(expr), ""), ".*/.", "")$$key$, $keyType$$value$, (o1,o2)->o1))
+	java.util.Map            →  $expr$.entrySet().stream().collect(Collectors.toMap($keyType:regularExpression(concat(guessElementType(expr), ""), ".*/.", "")$$key$, $keyType$$value$, (o1,o2)->o1))
+
+.entrySet : the entry loop of a map
+	java.util.Map  →  for($entry:regularExpression(concat(typeOfVariable(expr), ""), "Map", "Map.Entry")$ entry : $expr$.entrySet()){\
+		$END$\
+	}
+
 .groupBy : group by attribute
-	ARRAY                    →  Arrays.stream($expr$).collect(Collectors.groupingBy($attributeVar:suggestShortVariableName()$ -> $attribute$));
-	java.util.Collection     →  $expr$.stream().collect(Collectors.groupingBy($attributeVar:suggestShortVariableName()$ -> $attribute$));
-	java.lang.Iterable       →  StreamSupport.stream($expr$.spliterator(), false).collect(Collectors.groupingBy($attributeVar:suggestShortVariableName()$ -> $attribute$));
-	java.util.stream.Stream  →  $expr$.collect(Collectors.groupingBy($attributeVar:suggestShortVariableName()$ -> $attribute$));
+	ARRAY                    →  Arrays.stream($expr$).collect(Collectors.groupingBy($keyType:regularExpression(concat(guessElementType(expr), ""), ".*/.", "")$$key$));
+	java.util.Collection     →  $expr$.stream().collect(Collectors.groupingBy($keyType:regularExpression(concat(guessElementType(expr), ""), ".*/.", "")$$key$));
+	java.lang.Iterable       →  StreamSupport.stream($expr$.spliterator(), false).collect(Collectors.groupingBy($keyType:regularExpression(concat(guessElementType(expr), ""), ".*/.", "")$$key$));
+	java.util.stream.Stream  →  $expr$.collect(Collectors.groupingBy($keyType:regularExpression(concat(guessElementType(expr), ""), ".*/.", "")$$key$));
 
 
 # check and compare
