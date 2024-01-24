@@ -60,6 +60,9 @@
 	java.util.stream.Stream  →  $expr$.collect(Collectors.toList())
 	NON_VOID                 →  Collections.singletonList($expr$) [USE_STATIC_IMPORTS]
 
+.list : convert to ArrayList
+	ANY                      →  List<$expr$> $END$List = new ArrayList<>();
+
 
 # map
 
@@ -70,8 +73,8 @@
 
 .mapNext : the next step of the map
 	java.util.List           →  List<$type:guessElementType(expr)$> $END$List = $expr$;
-	java.util.Set            →  "暂未实现"
-	java.util.Map            →  "暂未实现"
+	java.util.Set            →  Set<$type:guessElementType(expr)$> $END$Set = $expr$;
+	java.util.Map            →  Map<$key$, $value$> $map$Map = $expr$;
 
 .toMap : Convert to map and remove duplicates
 	ARRAY                    →  Arrays.stream($expr$).collect(Collectors.toMap($keyType:regularExpression(concat(guessElementType(expr), ""), ".*/.", "")$$key$, $keyType$$value$, (o1,o2)->o1))
@@ -80,6 +83,9 @@
 	java.util.stream.Stream  →  $expr$.collect(Collectors.toMap($keyType:regularExpression(concat(guessElementType(expr), ""), ".*/.", "")$$key$, $keyType$$value$, (o1,o2)->o1))
 	java.util.Map            →  $expr$.entrySet().stream().collect(Collectors.toMap($keyType:regularExpression(concat(guessElementType(expr), ""), ".*/.", "")$$key$, $keyType$$value$, (o1,o2)->o1))
 
+.toMapNext : the next step of the toMap
+	java.util.Map            →  Map<$key$, $value$> $map$Map = $expr$;
+
 .entrySet : the entry loop of a map
 	java.util.Map  →  for($entry:regularExpression(concat(typeOfVariable(expr), ""), "Map", "Map.Entry")$ entry : $expr$.entrySet()){\
 		$END$\
@@ -87,7 +93,7 @@
 
 .groupBy : group by attribute
 	ARRAY                    →  Arrays.stream($expr$).collect(Collectors.groupingBy($keyType:regularExpression(concat(guessElementType(expr), ""), ".*/.", "")$$key$));
-	java.util.Collection     →  $expr$.stream().collect(Collectors.groupingBy($keyType:regularExpression(concat(guessElementType(expr), ""), ".*/.", "")$$key$));
+	java.util.Collection     →  Map<$key$, List<$types::regularExpression(concat(guessElementType(expr), ""), ".*/.", "")$>> $map$ListMap = $expr$.stream().collect(Collectors.groupingBy($keyType:regularExpression(concat(guessElementType(expr), ""), ".*/.", "")$$method$));
 	java.lang.Iterable       →  StreamSupport.stream($expr$.spliterator(), false).collect(Collectors.groupingBy($keyType:regularExpression(concat(guessElementType(expr), ""), ".*/.", "")$$key$));
 	java.util.stream.Stream  →  $expr$.collect(Collectors.groupingBy($keyType:regularExpression(concat(guessElementType(expr), ""), ".*/.", "")$$key$));
 
