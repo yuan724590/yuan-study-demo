@@ -63,6 +63,11 @@
 .list : convert to ArrayList
 	ANY                      →  List<$expr$> $END$List = new ArrayList<>();
 
+.for : convert to ArrayList
+	java.lang.String         →  for(int $index:"i"$ = 0; $index$ < $expr$.length(); $index$++){\
+                                    $END$\
+                                }
+
 
 # map
 
@@ -88,8 +93,13 @@
 
 .entrySet : the entry loop of a map
 	java.util.Map  →  for($entry:regularExpression(concat(typeOfVariable(expr), ""), "Map", "Map.Entry")$ entry : $expr$.entrySet()){\
-		$END$\
-	}
+                            $END$\
+                        }
+
+.keySet : the key loop of a map
+	com.alibaba.fastjson.JSONObject →  for(String key : $expr$.keySet()){\
+                                            $END$\
+                                        }
 
 .groupBy : group by attribute
 	ARRAY                    →  Arrays.stream($expr$).collect(Collectors.groupingBy($keyType:regularExpression(concat(guessElementType(expr), ""), ".*/.", "")$$key$));
@@ -154,3 +164,8 @@
 	java.util.Map        [org.apache.commons.collections.MapUtils]         → if(MapUtils.isNotEmpty($expr$)){\
                                                                                 $END$\
                                                                               }
+
+# object
+
+.newvar : new object
+	ANY                      →  $expr$ $END$ = new $expr$();
