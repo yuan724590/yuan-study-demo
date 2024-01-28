@@ -696,11 +696,27 @@ public class SubjectController {
     }
 
     /**
+     * 87. 扰乱字符串
+     */
+    @GetMapping(value = "/isScramble")
+    public String isScramble() {
+        return subjectService.isScramble();
+    }
+
+    /**
      * 88. 合并两个有序数组
      */
     @GetMapping(value = "/merge88")
     public String merge88() {
         return subjectService.merge88();
+    }
+
+    /**
+     * 89. 格雷编码
+     */
+    @GetMapping(value = "/grayCode")
+    public String grayCode() {
+        return subjectService.grayCode();
     }
 
     /**
