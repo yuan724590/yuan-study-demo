@@ -2713,6 +2713,95 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String isScramble(){
+        System.out.println(isScramble("great", "rgeat"));
+        return "success";
+    }
+
+    /**
+     * s1 = a1 + a2, s2 = b1 +　b2
+     * 那么 有两种情况, 任满足其一即正确
+     *      a1 是由 b1 变来 && a2 是由 b2 变来
+     *      a1 是由 b2 变来 && a2 是由 b1 变来
+     * 动态规划: dp[i][j][len]
+     *      i: s1的坐标
+     *      j: s2的坐标
+     *      len: a1的长度
+     */
+    public boolean isScramble(String s1, String s2) {
+        int n = s1.length();
+        char[] char1 = s1.toCharArray();
+        char[] char2 = s2.toCharArray();
+        boolean[][][] dp = new boolean[n][n][n + 1];
+        //初始化当切割的字符串长度为1时, 是否相同
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                dp[i][j][1] = char1[i] == char2[j];
+            }
+        }
+        //a1的长度 len,最少切2故从2开始
+        for(int len = 2; len <= n; len++){
+            //a1的校验范围: [0, n - len]
+            for(int i = 0; i <= n - len; i++){
+                //与a1匹配的字符串(b1 / b2)的校验范围: [0, n - len], 因为两者长度一致
+                for(int j = 0; j <= n - len; j++){
+                    //循环遍历每个元素是否满足规则
+                    for(int k = 1; k <= len - 1; k++){
+                        if(dp[i][j][k] && dp[i + k][j + k][len - k]){
+                            //a1 是由 b1 变来 && a2 是由 b2 变来
+                            dp[i][j][len] = true;
+                            break;
+                        }else if(dp[i][j + len - k][k] && dp[i + k][j][len - k]){
+                            //a1 是由 b2 变来 && a2 是由 b1 变来
+                            dp[i][j][len] = true;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        return dp[0][0][n];
+    }
+
+    public boolean isScramble1(String s1, String s2) {
+        int n = s1.length();
+        boolean[][][] dp = new boolean[n][n][n + 1];
+        char[] chs1 = s1.toCharArray();
+        char[] chs2 = s2.toCharArray();
+        // 初始化单个字符的情况
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                dp[i][j][1] = chs1[i] == chs2[j];
+            }
+        }
+
+        // 枚举区间长度 2～n
+        for (int len = 2; len <= n; len++) {
+            // 枚举 S 中的起点位置
+            for (int i = 0; i <= n - len; i++) {
+                // 枚举 T 中的起点位置
+                for (int j = 0; j <= n - len; j++) {
+                    // 枚举划分位置
+                    for (int k = 1; k <= len - 1; k++) {
+                        // 第一种情况：S1 -> T1, S2 -> T2
+                        if (dp[i][j][k] && dp[i + k][j + k][len - k]) {
+                            dp[i][j][len] = true;
+                            break;
+                        }
+                        // 第二种情况：S1 -> T2, S2 -> T1
+                        // S1 起点 i，T2 起点 j + 前面那段长度 len-k ，S2 起点 i + 前面长度k
+                        if (dp[i][j + len - k][k] && dp[i + k][j][len - k]) {
+                            dp[i][j][len] = true;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        return dp[0][0][n];
+    }
+
+    @Override
     public String merge88(){
         int[] num1 = new int[]{1,2,3,0,0,0};
         merge(num1, 3, new int[]{2,5,6}, 3);
@@ -2736,6 +2825,27 @@ public class SubjectServiceImpl implements SubjectService {
             l--;
             j--;
         }
+    }
+
+    @Override
+    public String grayCode(){
+        System.out.println(JSON.toJSONString(grayCode(2)));
+        return "success";
+    }
+
+    /**
+     * 实现格雷码
+     * n = 1  [0, 1]
+     * n = 2  [00，01，11，10]
+     * n = 3  [000, 001, 011, 010, 110, 111, 101, 100]
+     * ....
+     */
+    public List<Integer> grayCode(int n) {
+        List<Integer> ret = new ArrayList<>();
+        for (int i = 0; i < 1 << n; i++) {
+            ret.add((i >> 1) ^ i);
+        }
+        return ret;
     }
 
     @Override
