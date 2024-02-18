@@ -2849,6 +2849,194 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String reverseBetween(){
+        ListNode node2 = new ListNode(2, null);
+        ListNode node3 = new ListNode(5, node2);
+        ListNode node4 = new ListNode(2, node3);
+        ListNode node5 = new ListNode(3, node4);
+        ListNode node6 = new ListNode(4, node5);
+        ListNode node7 = new ListNode(1, node6);
+        System.out.println(JSON.toJSONString(reverseBetween(node7, 2, 3)));
+        return "success";
+    }
+
+    public ListNode reverseBetween(ListNode head, int left, int right) {
+        // 设置 dummyNode 是这一类问题的一般做法
+        ListNode dummyNode = new ListNode(-1);
+        dummyNode.next = head;
+        ListNode pre = dummyNode;
+        for (int i = 0; i < left - 1; i++) {
+            pre = pre.next;
+        }
+        ListNode cur = pre.next;
+        ListNode next;
+        for (int i = 0; i < right - left; i++) {
+            next = cur.next;
+            cur.next = next.next;
+            next.next = pre.next;
+            pre.next = next;
+        }
+        return dummyNode.next;
+    }
+
+    @Override
+    public String restoreIpAddresses(){
+        System.out.println(JSON.toJSONString(restoreIpAddresses("25525511135")));
+        return "success";
+    }
+
+    List<String> ipList = new ArrayList<>();
+
+    public List<String> restoreIpAddresses(String s) {
+        int n = s.length();
+        restoreIpAddresses(s, 0, n, new ArrayList<>(), 0);
+        return ipList;
+    }
+
+    public void restoreIpAddresses(String s, int startIndex, int n, List<Integer> list, int loopCount) {
+        if(loopCount >= 4){
+            if(startIndex == n){
+                StringBuilder stringBuilder = new StringBuilder();
+                for (int i = 0; i < list.size(); i++) {
+                    stringBuilder.append(list.get(i)).append(".");
+                }
+                ipList.add(stringBuilder.substring(0, stringBuilder.length() - 1));
+            }
+            return;
+        }
+        for (int i = 1; i < 4 && startIndex + i <= n; i++) {
+            if(i != 1 && s.charAt(startIndex) == '0'){
+                continue;
+            }
+            int a = Integer.parseInt(s.substring(startIndex, startIndex + i));
+            if(i == 3 && a > 255){
+                continue;
+            }
+            list.add(a);
+            restoreIpAddresses(s, startIndex + i, n, list, loopCount + 1);
+            list.remove(list.size() - 1);
+        }
+    }
+
+    @Override
+    public String inorderTraversal(){
+        TreeNode treeNode = new TreeNode(5);
+        treeNode.left = new TreeNode(1);
+        treeNode.right = new TreeNode(4);
+        treeNode.right.left = new TreeNode(3);
+        treeNode.right.right = new TreeNode(6);
+        System.out.println(JSON.toJSONString(inorderTraversal(treeNode)));
+        return "success";
+    }
+
+    public List<Integer> inorderTraversal(TreeNode root) {
+        List<Integer> list = new ArrayList<>();
+        inorderTraversal(root, list);
+        return list;
+    }
+
+    public void inorderTraversal(TreeNode root, List<Integer> list) {
+        if(root == null){
+            return;
+        }
+        inorderTraversal(root.left, list);
+        list.add(root.val);
+        inorderTraversal(root.right, list);
+    }
+
+    @Override
+    public String generateTrees(){
+        System.out.println(JSON.toJSONString(generateTrees(3)));
+        return "success";
+    }
+
+    public List<TreeNode> generateTrees(int n) {
+        if (n == 0) {
+            return new LinkedList<>();
+        }
+        return generateTrees(1, n);
+    }
+
+    public List<TreeNode> generateTrees(int start, int end) {
+        List<TreeNode> allTrees = new LinkedList<>();
+        if(start > end){
+            allTrees.add(null);
+            return allTrees;
+        }
+        // 枚举可行根节点
+        for(int i = start; i <= end; i++){
+            // 获得所有可行的左子树集合
+            List<TreeNode> leftList = generateTrees(start, i - 1);
+            // 获得所有可行的右子树集合
+            List<TreeNode> rightList = generateTrees(i + 1, end);
+            // 从左子树集合中选出一棵左子树，从右子树集合中选出一棵右子树，拼接到根节点上
+            for (TreeNode left : leftList) {
+                for (TreeNode right : rightList) {
+                    TreeNode treeNode = new TreeNode(i);
+                    treeNode.left = left;
+                    treeNode.right = right;
+                    allTrees.add(treeNode);
+                }
+            }
+        }
+        return allTrees;
+    }
+
+    @Override
+    public String numTrees(){
+        System.out.println(JSON.toJSONString(numTrees(3)));
+        return "success";
+    }
+
+    /**
+     * 当节点为n时, 结果数 = 每种根节点下(左树可能的情况数 * 右树可能的情况数)之和
+     */
+    public int numTrees(int n) {
+        int[] dp = new int[n + 1];
+        dp[0] = 1;
+        dp[1] = 1;
+        //i 为 节点个数
+        for(int i = 2; i <= n; i++){
+            // j为根节点的值
+            for (int j = 1; j <= i; j++) {
+                int left = dp[j - 1];
+                int right = dp[i - j];
+                dp[i] += left * right;
+            }
+        }
+        return dp[n];
+    }
+
+    @Override
+    public String isInterleave(){
+        System.out.println(JSON.toJSONString(isInterleave("aabcc", "dbbca", "aadbbcbcac")));
+        return "success";
+    }
+
+    public boolean isInterleave(String s1, String s2, String s3) {
+        int m = s1.length(), n = s2.length();
+
+        if (m + n != s3.length()) {
+            return false;
+        }
+
+        boolean[] dp = new boolean[n + 1];
+        dp[0] = true;
+        for (int i = 0; i <= m; i++) {
+            for (int j = 0; j <= n; j++) {
+                if(i > 0){
+                    dp[j] = dp[j] && s3.charAt(i + j - 1) == s1.charAt(i - 1);
+                }
+                if(j > 0){
+                    dp[j] = dp[j] || (dp[j - 1] && s3.charAt(i + j - 1) == s2.charAt(j - 1));
+                }
+            }
+        }
+
+        return dp[n];
+    }
+
+    @Override
     public String isValidBST(){
         TreeNode treeNode = new TreeNode(5);
         treeNode.left = new TreeNode(1);

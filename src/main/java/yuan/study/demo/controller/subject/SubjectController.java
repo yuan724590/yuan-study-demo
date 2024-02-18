@@ -720,6 +720,59 @@ public class SubjectController {
     }
 
     /**
+     * 90. 子集 II
+     * 解题思路相近
+     */
+
+    /**
+     * 92. 反转链表 II
+     */
+    @GetMapping(value = "/reverseBetween")
+    public String reverseBetween() {
+        return subjectService.reverseBetween();
+    }
+
+    /**
+     * 93. 复原 IP 地址
+     */
+    @GetMapping(value = "/restoreIpAddresses")
+    public String restoreIpAddresses() {
+        return subjectService.restoreIpAddresses();
+    }
+
+    /**
+     * 94. 二叉树的中序遍历
+     */
+    @GetMapping(value = "/inorderTraversal")
+    public String inorderTraversal() {
+        return subjectService.inorderTraversal();
+    }
+
+    /**
+     * 95. 不同的二叉搜索树 II
+     */
+    @GetMapping(value = "/generateTrees")
+    public String generateTrees() {
+        return subjectService.generateTrees();
+    }
+
+    /**
+     * 96. 不同的二叉搜索树
+     */
+    @GetMapping(value = "/numTrees")
+    public String numTrees() {
+        return subjectService.numTrees();
+    }
+
+    /**
+     * 97. 交错字符串
+     */
+    @GetMapping(value = "/isInterleave")
+    public String isInterleave() {
+        return subjectService.isInterleave();
+    }
+
+    /**
      * 98. 验证二叉搜索树
      */
     @GetMapping(value = "/is/valid/bst")
