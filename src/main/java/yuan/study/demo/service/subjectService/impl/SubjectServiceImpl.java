@@ -223,10 +223,12 @@ public class SubjectServiceImpl implements SubjectService {
 
     public int myAtoi(String str) {
         str = str.trim();
-        if (str.length() == 0) return 0;
-        if (!Character.isDigit(str.charAt(0))
-                && str.charAt(0) != '-' && str.charAt(0) != '+')
+        if (str.length() == 0) {
             return 0;
+        }
+        if (!Character.isDigit(str.charAt(0)) && str.charAt(0) != '-' && str.charAt(0) != '+'){
+            return 0;
+        }
         long ans = 0L;
         boolean neg = str.charAt(0) == '-';
         int i = !Character.isDigit(str.charAt(0)) ? 1 : 0;
@@ -495,10 +497,11 @@ public class SubjectServiceImpl implements SubjectService {
                     diff = Math.abs(sum - target);
                     res = sum;
                 }
-                if(sum < target)
+                if(sum < target) {
                     j++;
-                else if(sum > target)
+                }else if(sum > target) {
                     k--;
+                }
             }
         }
         return res;
@@ -519,7 +522,9 @@ public class SubjectServiceImpl implements SubjectService {
     private List<String> res = new ArrayList<>();
 
     public List<String> letterCombinations(String digits) {
-        if(digits == null || digits.length() == 0) return res;
+        if(digits == null || digits.length() == 0) {
+            return res;
+        }
         backtrack(digits,0);
         return res;
     }
@@ -766,6 +771,7 @@ public class SubjectServiceImpl implements SubjectService {
             this.ptr = ptr;
         }
 
+        @Override
         public int compareTo(Status status2) {
             return this.val - status2.val;
         }
@@ -1336,9 +1342,9 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     private void backtracking(List<List<Integer>> ans, List<Integer> temp, int[] candidates, int target, int sum, int startIndex){
-        if(sum > target)
+        if(sum > target) {
             return;
-        else if(sum == target){
+        }else if(sum == target){
             ans.add(new ArrayList<>(temp));
         }
         for(int i = startIndex; i < candidates.length; i++){
@@ -1447,7 +1453,7 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     public String multiply(String num1, String num2) {
-        if (num1.equals("0") || num2.equals("0")) {
+        if ("0".equals(num1) || "0".equals(num2)) {
             return "0";
         }
         int m = num1.length(), n = num2.length();
@@ -3067,6 +3073,228 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String recoverTree(){
+        TreeNode treeNode = new TreeNode(1);
+        treeNode.left = new TreeNode(3);
+        treeNode.right.right = new TreeNode(2);
+        recoverTree(treeNode);
+        System.out.println(JSON.toJSONString(treeNode));
+        return "success";
+    }
+
+    public void recoverTree(TreeNode root) {
+        TreeNode x = null, y = null, pred = null, predecessor = null;
+
+        while (root != null) {
+            if (root.left != null) {
+                // predecessor 节点就是当前 root 节点向左走一步，然后一直向右走至无法走为止
+                predecessor = root.left;
+                while (predecessor.right != null && predecessor.right != root) {
+                    predecessor = predecessor.right;
+                }
+
+                // 让 predecessor 的右指针指向 root，继续遍历左子树
+                if (predecessor.right == null) {
+                    predecessor.right = root;
+                    root = root.left;
+                }
+                // 说明左子树已经访问完了，我们需要断开链接
+                else {
+                    if (pred != null && root.val < pred.val) {
+                        y = root;
+                        if (x == null) {
+                            x = pred;
+                        }
+                    }
+                    pred = root;
+
+                    predecessor.right = null;
+                    root = root.right;
+                }
+            }
+            // 如果没有左孩子，则直接访问右孩子
+            else {
+                if (pred != null && root.val < pred.val) {
+                    y = root;
+                    if (x == null) {
+                        x = pred;
+                    }
+                }
+                pred = root;
+                root = root.right;
+            }
+        }
+        swap(x, y);
+    }
+
+    public void swap(TreeNode x, TreeNode y) {
+        int tmp = x.val;
+        x.val = y.val;
+        y.val = tmp;
+    }
+
+    @Override
+    public String isSameTree(){
+        TreeNode p = new TreeNode(1, new TreeNode(2), new TreeNode(3));
+        TreeNode q = new TreeNode(1, new TreeNode(2), new TreeNode(3));
+        System.out.println(JSON.toJSONString(isSameTree(p, q)));
+        return "success";
+    }
+
+    public boolean isSameTree(TreeNode p, TreeNode q) {
+        return dfs(p, q);
+    }
+
+    public boolean dfs(TreeNode p, TreeNode q){
+        if(p == null && q == null) {
+            return true;
+        }
+        if(p == null || q == null) {
+            return false;
+        }
+        return p.val == q.val && dfs(p.left, q.left) && dfs(p.right, q.right);
+    }
+
+    @Override
+    public String zigzagLevelOrder(){
+        TreeNode treeNode = new TreeNode(3, new TreeNode(9), new TreeNode(20, new TreeNode(15), new TreeNode(7)));
+        System.out.println(JSON.toJSONString(zigzagLevelOrder(treeNode)));
+        return "success";
+    }
+
+    Map<Integer, List<Integer>> zigzagLevelOrderMap = new HashMap<>();
+
+    public List<List<Integer>> zigzagLevelOrder(TreeNode root) {
+        dfs(root, 0);
+        List<List<Integer>> listList = new ArrayList<>();
+        for (Map.Entry<Integer, List<Integer>> entry : zigzagLevelOrderMap.entrySet()) {
+            if(entry.getKey() % 2 == 0){
+                listList.add(entry.getValue());
+            }else{
+                Collections.reverse(entry.getValue());
+                listList.add(entry.getValue());
+            }
+        }
+        return listList;
+    }
+
+    public void dfs(TreeNode root, int level) {
+        if(root == null){
+            return;
+        }
+        zigzagLevelOrderMap.computeIfAbsent(level, v -> new ArrayList<>()).add(root.val);
+        dfs(root.left, level + 1);
+        dfs(root.right, level + 1);
+    }
+
+    @Override
+    public String buildTree(){
+        System.out.println(JSON.toJSONString(buildTree(new int[]{9,3,15,20,7}, new int[]{9,15,7,20,3})));
+        return "success";
+    }
+
+    public TreeNode buildTree(int[] inorder, int[] postorder) {
+        if (postorder == null || postorder.length == 0) {
+            return null;
+        }
+        TreeNode root = new TreeNode(postorder[postorder.length - 1]);
+        Deque<TreeNode> stack = new LinkedList<>();
+        stack.push(root);
+        int inorderIndex = inorder.length - 1;
+        for (int i = postorder.length - 2; i >= 0; i--) {
+            int postorderVal = postorder[i];
+            TreeNode node = stack.peek();
+            if (node.val != inorder[inorderIndex]) {
+                //两值不相等, 所以此为右节点
+                node.right = new TreeNode(postorderVal);
+                stack.push(node.right);
+            } else {
+                //两值相等, 所以此为左节点
+                while (!stack.isEmpty() && stack.peek().val == inorder[inorderIndex]) {
+                    //弹出右节点直至最后一个, 此节点为最后一个节点的左节点
+                    node = stack.pop();
+                    //更改偏移量
+                    inorderIndex--;
+                }
+                node.left = new TreeNode(postorderVal);
+                stack.push(node.left);
+            }
+        }
+        return root;
+    }
+
+    @Override
+    public String levelOrderBottom(){
+        TreeNode treeNode = new TreeNode(3, new TreeNode(9), new TreeNode(20, new TreeNode(15), new TreeNode(7)));
+        System.out.println(JSON.toJSONString(levelOrderBottom(treeNode)));
+        return "success";
+    }
+
+    Map<Integer, List<Integer>> levelOrderBottomMap = new HashMap<>();
+
+    public List<List<Integer>> levelOrderBottom(TreeNode root) {
+        dfs(root, 0);
+        List<List<Integer>> listList = new ArrayList<>();
+        for (Map.Entry<Integer, List<Integer>> entry : levelOrderBottomMap.entrySet()) {
+            listList.add(0, entry.getValue());
+        }
+        return listList;
+    }
+
+    @Override
+    public String sortedArrayToBST(){
+        System.out.println(JSON.toJSONString((new int[]{-10,-3,0,5,9})));
+        return "success";
+    }
+
+    public TreeNode sortedArrayToBST(int[] nums) {
+        return build(nums, 0, nums.length - 1);
+    }
+
+    private TreeNode build(int[] nums, int left, int right){
+        if(left > right){
+            return null;
+        }
+        int mid = (left + right) / 2;
+        TreeNode root = new TreeNode(nums[mid]);
+        root.left = build(nums, left, mid - 1);
+        root.right = build(nums, mid + 1, right);
+        return root;
+    }
+
+    @Override
+    public String sortedListToBST(){
+        ListNode listNode = new ListNode(-10, new ListNode(-3, new ListNode(0, new ListNode(5, new ListNode(9)))));
+        System.out.println(JSON.toJSONString(sortedListToBST(listNode)));
+        return "success";
+    }
+
+    /**
+     * 双指针 + 递归
+     */
+    public TreeNode sortedListToBST(ListNode head) {
+        if (head == null){
+            return null;
+        }
+        //只有一个节点, 则直接返回
+        if (head.next == null){
+            return new TreeNode(head.val);
+        }
+        //找出当前链表中间位置(偶数个节点则取中间靠后那个节点), slow节点最终的位置即为中间节点
+        ListNode slow = head;
+        ListNode fast = head;
+        ListNode slowPre = slow;
+        while (fast != null && fast.next != null){
+            slowPre = slow;
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        //断开slow前面的节点和slow的连接
+        slowPre.next = null;
+        return new TreeNode(slow.val, sortedListToBST(head), sortedListToBST(slow.next));
+    }
+
+    @Override
     public String minDepth(){
         TreeNode treeNode = new TreeNode(2);
         treeNode.right = new TreeNode(3);
@@ -3091,6 +3319,170 @@ public class SubjectServiceImpl implements SubjectService {
         }else {
             return 1;
         }
+    }
+
+    @Override
+    public String hasPathSum(){
+        TreeNode treeNode = new TreeNode(1, new TreeNode(2), new TreeNode(3));
+        System.out.println(JSON.toJSONString(hasPathSum(treeNode, 3)));
+        return "success";
+    }
+
+    public boolean hasPathSum(TreeNode root, int targetSum) {
+        if(root == null){
+            return false;
+        }
+        if(root.left == null && root.right == null){
+            return targetSum == root.val;
+        }
+        return hasPathSum(root.left, targetSum - root.val) || hasPathSum(root.right, targetSum - root.val);
+    }
+
+    @Override
+    public String flatten(){
+        TreeNode treeNode = new TreeNode(1, new TreeNode(2, new TreeNode(3), new TreeNode(4)),
+                new TreeNode(5, null, new TreeNode(6)));
+        flatten(treeNode);
+        return "success";
+    }
+
+    public void flatten(TreeNode root) {
+        if(root == null){
+            return;
+        }
+        flatten(root.left);
+        flatten(root.right);
+        if(root.left != null){
+            if(root.right != null){
+                TreeNode left = root.left;
+                while(left.right != null){
+                    left = left.right;
+                }
+                left.right = root.right;
+            }
+            root.right = root.left;
+            root.left = null;
+        }
+    }
+
+    @Override
+    public  String numDistinct(){
+        System.out.println(JSON.toJSONString(numDistinct("rabbbit","rabbit")));
+        return "success";
+    }
+
+//    /**
+//     * 递推公式
+//     *  值相同时: dp[i + 1][j + 1] = dp[i][j] + dp[i][j + 1]
+//     *      当前的情况数 = 按照当前相同元素造成的情况数 + 按照之前相同元素造成的情况数
+//     *  值不同时: dp[i + 1][j + 1] = dp[i][j + 1];
+//     *      当前的情况数 = 按照之前相同元素造成的情况数
+//     */
+//    public int numDistinct(String s, String t) {
+//        int sLength = s.length();
+//        int tLength = t.length();
+//        if(sLength < tLength){
+//            return 0;
+//        }
+//        int[][] dp = new int[sLength + 1][tLength + 1];
+//        for (int i = 0; i < s.length(); i++) {
+//            dp[i][0] = 1;
+//        }
+//        for (int i = 0; i < sLength; i++) {
+//            char sChar = s.charAt(i);
+//            for (int j = 0; j < tLength; j++) {
+//                if(sChar == t.charAt(j)){
+//                    dp[i + 1][j + 1] = dp[i][j] + dp[i][j + 1];
+//                }else{
+//                    dp[i + 1][j + 1] = dp[i][j + 1];
+//                }
+//            }
+//        }
+//        return dp[sLength][tLength];
+//    }
+
+    public int numDistinct(String s, String t) {
+        int sLength = s.length();
+        int tLength = t.length();
+        if(sLength < tLength){
+            return 0;
+        }
+        int[] dp = new int[t.length() + 1];
+        dp[0] = 1;
+        for (int i = 0; i < s.length(); i++) {
+            char sChar = s.charAt(i);
+            //逆序遍历, 因为在二维的递推公式中, 后面的值依赖之前的原始值, 正序的话之前的空位已经计算过了(非原始值)
+            for (int j = t.length() - 1; j >= 0; j--) {
+                if(sChar == t.charAt(j)){
+                    dp[j + 1] = dp[j] + dp[j + 1];
+                }
+            }
+        }
+        return dp[tLength];
+    }
+
+    @Override
+    public String connect(){
+        Node node1 = new Node(1);
+        Node node2 = new Node(2);
+        Node node3 = new Node(3);
+        Node node4 = new Node(4);
+        Node node5 = new Node(5);
+        Node node6 = new Node(6);
+        Node node7 = new Node(7);
+        node1.left = node2;
+        node1.right = node3;
+        node2.left = node4;
+        node2.right = node5;
+        node3.left = node6;
+        node3.right = node7;
+        System.out.println(JSON.toJSONString(connect(node1)));
+        return "success";
+    }
+
+    public Node connect(Node root) {
+        if (root == null) {
+            return null;
+        }
+        Node leftmost = root;
+        while (leftmost.left != null) {
+            // 遍历这一层节点组织成的链表，为下一层的节点更新 next 指针
+            Node head = leftmost;
+            while (head != null) {
+                // 情况一: 设置当前节点的左节点下个为右节点
+                head.left.next = head.right;
+                // 情况二: 设置当前节点的右节点为next的左节点
+                if (head.next != null) {
+                    head.right.next = head.next.left;
+                }
+                // 指针向后移动
+                head = head.next;
+            }
+            // 去下一层的最左的节点
+            leftmost = leftmost.left;
+        }
+        return root;
+    }
+
+    @Override
+    public String generate(){
+        System.out.println(JSON.toJSONString(generate(5)));
+        return "success";
+    }
+
+    public List<List<Integer>> generate(int numRows) {
+        List<List<Integer>> listList = new ArrayList<>(numRows);
+        for (int i = 0; i < numRows; i++) {
+            listList.add(new ArrayList<>());
+            for (int j = 0; j < i + 1; j++) {
+                if(j == 0 || j == i){
+                    listList.get(i).add(1);
+                }else{
+                    listList.get(i).add(listList.get(i - 1).get(j) + listList.get(i - 1).get(j - 1));
+                }
+            }
+        }
+        return listList;
     }
 
     @Override
@@ -3213,6 +3605,48 @@ public class SubjectServiceImpl implements SubjectService {
         // 判断在该节点包含左右子树的路径和是否大于当前最大路径和
         maxPathSumRet = Math.max(maxPathSumRet, r.val + left + right);
         return Math.max(left, right) + r.val;
+    }
+
+    @Override
+    public String partition131(){
+        System.out.println(JSON.toJSONString(partition131("aab")));
+        return "success";
+    }
+
+    boolean[][] dp131;
+    List<List<String>> listList131 = new ArrayList<>();
+    List<String> list131 = new ArrayList<>();
+    int length131;
+
+    public List<List<String>> partition131(String s) {
+        length131 = s.length();
+        dp131 = new boolean[length131][length131];
+        for (int i = 0; i < length131; i++) {
+            Arrays.fill(dp131[i], true);
+        }
+
+        for (int i = length131 - 1; i >= 0; i--) {
+            for (int j = i + 1; j < length131; ++j) {
+                dp131[i][j] = (s.charAt(i) == s.charAt(j)) && dp131[i + 1][j - 1];
+            }
+        }
+
+        dfs(s, 0);
+        return listList131;
+    }
+
+    public void dfs(String s, int i) {
+        if (i == length131) {
+            listList131.add(new ArrayList<>(list131));
+            return;
+        }
+        for (int j = i; j < length131; ++j) {
+            if (dp131[i][j]) {
+                list131.add(s.substring(i, j + 1));
+                dfs(s, j + 1);
+                list131.remove(list131.size() - 1);
+            }
+        }
     }
 
     @Override
@@ -3604,8 +4038,9 @@ public class SubjectServiceImpl implements SubjectService {
             TrieNode cur = root;
             for (int i = 0, len = word.length(), ch; i < len; i++) {
                 ch = word.charAt(i) - 'a';
-                if (cur.next[ch] == null)
+                if (cur.next[ch] == null){
                     cur.next[ch] = new TrieNode();
+                }
                 cur = cur.next[ch];
             }
             // 加上一个标记，表示为一个单词
@@ -3616,8 +4051,9 @@ public class SubjectServiceImpl implements SubjectService {
             TrieNode cur = root;
             for (int i = 0, len = word.length(), ch; i < len; i++) {
                 ch = word.charAt(i) - 'a';
-                if (cur.next[ch] == null)
+                if (cur.next[ch] == null){
                     return false;
+                }
                 cur = cur.next[ch];
             }
             return cur.isEnd;
@@ -3627,9 +4063,10 @@ public class SubjectServiceImpl implements SubjectService {
             TrieNode cur = root;
             for (int i = 0, len = prefix.length(), ch; i < len; i++) {
                 ch = prefix.charAt(i) - 'a';
-                if (cur.next[ch] == null)
+                if (cur.next[ch] == null){
                     // 若还没遍历完给定的前缀子串，则直接返回false
                     return false;
+                }
                 cur = cur.next[ch];
             }
             return true;
@@ -3713,7 +4150,9 @@ public class SubjectServiceImpl implements SubjectService {
         findWordsThree findWordsThree = new findWordsThree(board);
         findWordsTrie findWordsTrie = new findWordsTrie();
         for (String word : words) {
-            if (findWordsThree.check(word)) findWordsTrie.insert(word);
+            if (findWordsThree.check(word)) {
+                findWordsTrie.insert(word);
+            }
         }
 
         List<String> ans = new ArrayList<>();
@@ -3790,8 +4229,12 @@ public class SubjectServiceImpl implements SubjectService {
         }
 
         void dfs(char[][] board, int i, int j, int now, char[] choose) {
-            if (i < 0 || j < 0 || i > board.length - 1 || j > board[0].length - 1) return;
-            if (board[i][j] == '#') return;
+            if (i < 0 || j < 0 || i > board.length - 1 || j > board[0].length - 1) {
+                return;
+            }
+            if (board[i][j] == '#') {
+                return;
+            }
             char ch = board[i][j];
             choose[now] = ch;
             if (now == choose.length - 1) {
@@ -3811,7 +4254,9 @@ public class SubjectServiceImpl implements SubjectService {
         public boolean check(String word) {
             int n = word.length();
             for (int p : checkPoint) {
-                if (n >= p && !dict.contains(word.substring(p - 3, p))) return false;
+                if (n >= p && !dict.contains(word.substring(p - 3, p))) {
+                    return false;
+                }
             }
             return true;
         }
@@ -4107,14 +4552,16 @@ public class SubjectServiceImpl implements SubjectService {
             int low = 0, hight = maxL;
             while(low < hight) {
                 int mid = low + (hight - low) / 2;
-                if(dp[mid] < num)
+                if(dp[mid] < num) {
                     low = mid + 1;
-                else
+                }else {
                     hight = mid;
+                }
             }
             dp[low] = num;
-            if(low == maxL)
+            if(low == maxL) {
                 maxL++;
+            }
         }
         return maxL;
     }
@@ -4406,8 +4853,9 @@ public class SubjectServiceImpl implements SubjectService {
             i++;
             //由于这个数要求平方后是回文，这要求这个数不能在相乘时候有进制的情况，所以，这里面的位数不可能大于3，所以这是一个3进制的数
             long temp = changeRadix(i, 10, 3);
-            if(temp > rNum)
+            if(temp > rNum) {
                 break;
+            }
             if(temp >= lNum){
                 if(isPalindrome(temp) && isPalindrome(temp * temp)){
                     count++;
@@ -4434,8 +4882,9 @@ public class SubjectServiceImpl implements SubjectService {
         while (temp2 > 0){
             temp += temp2 % 10;
             temp2 /= 10;
-            if(temp2 > 0)
+            if(temp2 > 0) {
                 temp *= 10;
+            }
         }
         return temp == l;
     }
@@ -4566,4 +5015,24 @@ public class SubjectServiceImpl implements SubjectService {
         }
         return dp[m][n];
     }
+
+    static class Node {
+        public int val;
+        public Node left;
+        public Node right;
+        public Node next;
+
+        public Node() {}
+
+        public Node(int _val) {
+            val = _val;
+        }
+
+        public Node(int _val, Node _left, Node _right, Node _next) {
+            val = _val;
+            left = _left;
+            right = _right;
+            next = _next;
+        }
+    };
 }

@@ -725,6 +725,11 @@ public class SubjectController {
      */
 
     /**
+     * 91. 解码方法
+     * 同yuan.study.demo.controller.subject.OfferSubjectController#translateNum(), 故跳过
+     */
+
+    /**
      * 92. 反转链表 II
      */
     @GetMapping(value = "/reverseBetween")
@@ -781,13 +786,84 @@ public class SubjectController {
     }
 
     /**
+     * 99. 恢复二叉搜索树
+     */
+    @GetMapping(value = "/recoverTree")
+    public String recoverTree() {
+        return subjectService.recoverTree();
+    }
+
+    /**
+     * 100. 相同的树
+     */
+    @GetMapping(value = "/isSameTree")
+    public String isSameTree() {
+        return subjectService.isSameTree();
+    }
+
+    /**
+     * 101. 对称二叉树
+     * 同yuan.study.demo.controller.subject.OfferSubjectController#isSymmetric(), 故跳过
+     */
+
+    /**
      * 102. 二叉树的层序遍历
      * 同yuan.study.demo.service.subjectService.OfferSubjectService#levelOrder() 故跳过
      */
 
     /**
+     * 103. 二叉树的锯齿形层序遍历
+     */
+    @GetMapping(value = "/zigzagLevelOrder")
+    public String zigzagLevelOrder() {
+        return subjectService.zigzagLevelOrder();
+    }
+
+    /**
      * 104. 二叉树的最大深度
      * 同yuan.study.demo.controller.subject.OfferSubjectController#maxDepth() 故跳过
+     */
+
+    /**
+     * 105. 从前序与中序遍历序列构造二叉树
+     * 同yuan.study.demo.controller.subject.OfferSubjectController#buildTree(), 故跳过
+     */
+
+    /**
+     * 106. 从中序与后序遍历序列构造二叉树
+     */
+    @GetMapping(value = "/buildTree")
+    public String buildTree() {
+        return subjectService.buildTree();
+    }
+
+    /**
+     * 107. 二叉树的层序遍历 II
+     */
+    @GetMapping(value = "/levelOrderBottom")
+    public String levelOrderBottom() {
+        return subjectService.levelOrderBottom();
+    }
+
+    /**
+     * 108. 将有序数组转换为二叉搜索树
+     */
+    @GetMapping(value = "/sortedArrayToBST")
+    public String sortedArrayToBST() {
+        return subjectService.sortedArrayToBST();
+    }
+
+    /**
+     * 109. 有序链表转换二叉搜索树
+     */
+    @GetMapping(value = "/sortedListToBST")
+    public String sortedListToBST() {
+        return subjectService.sortedListToBST();
+    }
+
+    /**
+     * 110. 平衡二叉树
+     * 同yuan.study.demo.service.subjectService.impl.OfferSubjectServiceImpl#isBalanced(), 故跳过
      */
 
     /**
@@ -796,6 +872,51 @@ public class SubjectController {
     @GetMapping(value = "/min/depth")
     public String minDepth() {
         return subjectService.minDepth();
+    }
+
+    /**
+     * 112. 路径总和
+     */
+    @GetMapping(value = "/hasPathSum")
+    public String hasPathSum() {
+        return subjectService.hasPathSum();
+    }
+
+    /**
+     * 113. 路径总和 II
+     * 同yuan.study.demo.controller.subject.OfferSubjectController#pathSum(), 故跳过
+     */
+
+    /**
+     * 114. 二叉树展开为链表
+     */
+    @GetMapping(value = "/flatten")
+    public String flatten() {
+        return subjectService.flatten();
+    }
+
+    /**
+     * 115. 不同的子序列
+     */
+    @GetMapping(value = "/numDistinct")
+    public String numDistinct() {
+        return subjectService.numDistinct();
+    }
+
+    /**
+     * 116. 填充每个节点的下一个右侧节点指针
+     */
+    @GetMapping(value = "/connect")
+    public String connect() {
+        return subjectService.connect();
+    }
+
+    /**
+     * 118. 杨辉三角
+     */
+    @GetMapping(value = "/generate")
+    public String generate() {
+        return subjectService.generate();
     }
 
     /**
@@ -836,6 +957,14 @@ public class SubjectController {
     @GetMapping(value = "/maxPathSum")
     public String maxPathSum() {
         return subjectService.maxPathSum();
+    }
+
+    /**
+     * 131. 分割回文串
+     */
+    @GetMapping(value = "/partition131")
+    public String partition131() {
+        return subjectService.partition131();
     }
 
     /**
