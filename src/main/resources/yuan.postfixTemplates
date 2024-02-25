@@ -169,3 +169,13 @@
 
 .newvar : new object
 	ANY                      →  $expr$ $END$ = new $expr$();
+
+.ifnull : if obeject is null
+	ANY                      →  if($EXPR$ == null){\
+		$END$\
+	}
+
+.ifnotnull : if obeject is not null
+	ANY                      →  if($EXPR$ != null){\
+		$END$\
+	}
