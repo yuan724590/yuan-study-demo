@@ -968,6 +968,30 @@ public class SubjectController {
     }
 
     /**
+     * 132. 分割回文串 II
+     */
+    @GetMapping(value = "/minCut")
+    public String minCut() {
+        return subjectService.minCut();
+    }
+
+    /**
+     * 139. 单词拆分
+     */
+    @GetMapping(value = "/wordBreak")
+    public void wordBreak(){
+        subjectService.wordBreak();
+    }
+
+    /**
+     * 140. 单词拆分 II
+     */
+    @GetMapping(value = "/wordBreak140")
+    public void wordBreak140(){
+        subjectService.wordBreak140();
+    }
+
+    /**
      * 141. 环形链表
      */
     @GetMapping(value = "/has/cycle")

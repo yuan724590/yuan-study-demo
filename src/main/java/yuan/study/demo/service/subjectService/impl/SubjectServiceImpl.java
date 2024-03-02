@@ -3650,6 +3650,88 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String minCut(){
+        System.out.println(JSON.toJSONString(minCut("aab")));
+        return "success";
+    }
+
+    public int minCut(String s) {
+        int length = s.length();
+        boolean[][] dp = new boolean[length][length];
+        for (int i = 0; i < length; i++) {
+            Arrays.fill(dp[i], true);
+        }
+        for(int i = length - 1; i >= 0; i--) {
+            for (int j = i + 1; j < length; j++) {
+                dp[i][j] = s.charAt(i) == s.charAt(j) && dp[i + 1][j - 1];
+            }
+        }
+        int[] dpArr = new int[length + 1];
+        Arrays.fill(dpArr, length);
+        dpArr[0] = 0;
+        for (int i = 0; i < length; i++) {
+            for (int j = i; j < length; j++) {
+                if(dp[i][j]){
+                    dpArr[j + 1] = Math.min(dpArr[j + 1], dpArr[i] + 1);
+                }else{
+                    dpArr[j + 1] = Math.min(dpArr[j + 1], dpArr[i] + j - i + 1);
+                }
+            }
+        }
+        return dpArr[length] - 1;
+    }
+
+    @Override
+    public String wordBreak(){
+        System.out.println(JSON.toJSONString(wordBreak("catsandog", Lists.newArrayList("cats", "dog", "sand", "and", "cat"))));
+        return "success";
+    }
+
+    public boolean wordBreak(String s, List<String> wordDict) {
+        boolean[] dp = new boolean[s.length() + 1];
+        dp[0] = true;
+        for (int i = 0; i <= s.length(); i++) {
+            for (String str : wordDict) {
+                if(i - str.length() >= 0){
+                    dp[i] = dp[i] || (dp[i - str.length()] && s.startsWith(str, i - str.length()));
+                }
+            }
+        }
+        return dp[s.length()];
+    }
+
+    @Override
+    public String wordBreak140(){
+        System.out.println(JSON.toJSONString(wordBreak140("catsandog", Lists.newArrayList("cats", "dog", "sand", "and", "cat"))));
+        return "success";
+    }
+
+    List<String> wordBreakList = new ArrayList<>();
+    List<String> wordBreakAnsList = new ArrayList<>();
+    int wordBreakLength;
+
+    public List<String> wordBreak140(String s, List<String> wordDict) {
+        wordBreakLength = s.length();
+        wordBreakDfs(s, 0, wordDict);
+        return wordBreakAnsList;
+    }
+
+    private void wordBreakDfs (String s, int i, List<String> wordDict){
+        if(i == wordBreakLength){
+            wordBreakAnsList.add(String.join(" ", wordBreakList));
+            return;
+        }
+        for (String str : wordDict) {
+            int index = str.length() + i;
+            if(index <= wordBreakLength && s.substring(i, index).equals(str)){
+                wordBreakList.add(str);
+                wordBreakDfs(s, index, wordDict);
+                wordBreakList.remove(wordBreakList.size() - 1);
+            }
+        }
+    }
+
+    @Override
     public String hasCycle(){
         ListNode node1 = new ListNode(-4, null);
         ListNode node2 = new ListNode(0, node1);
