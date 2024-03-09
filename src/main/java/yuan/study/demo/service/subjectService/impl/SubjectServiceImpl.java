@@ -4007,6 +4007,21 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String rob(){
+        System.out.println(JSON.toJSONString(rob(new int[]{3, 1, 3, 1, 1, 9 })));
+        return "success";
+    }
+
+    public int rob(int[] nums) {
+        int n = nums.length;
+        int[] dp = new int[n + 2];
+        for (int i = 0; i < n; i++) {
+            dp[i + 2] = Math.max(dp[i] + nums[i], dp[i + 1]);
+        }
+        return dp[n + 1];
+    }
+
+    @Override
     public String numIslands(){
         System.out.println(JSON.toJSONString(numIslands(new char[][]{{'1','1','1','1','0'},{'1','1','0','1','0'},{'1','1','0','0','0'},{'0','0','0','0','0'}})));
         return "success";
@@ -4342,6 +4357,33 @@ public class SubjectServiceImpl implements SubjectService {
             }
             return true;
         }
+    }
+
+    @Override
+    public String rob2(){
+        System.out.println(JSON.toJSONString(rob2(new int[]{1,2,3,1 })));
+        return "success";
+    }
+
+    public int rob2(int[] nums) {
+        if(nums.length == 0) {
+            return 0;
+        }
+        if(nums.length == 1) {
+            return nums[0];
+        }
+        return Math.max(myRob(Arrays.copyOfRange(nums, 0, nums.length - 1)),
+                myRob(Arrays.copyOfRange(nums, 1, nums.length)));
+    }
+
+    private int myRob(int[] nums) {
+        int pre = 0, cur = 0, tmp;
+        for(int num : nums) {
+            tmp = cur;
+            cur = Math.max(pre + num, cur);
+            pre = tmp;
+        }
+        return cur;
     }
 
     @Override
@@ -4751,6 +4793,33 @@ public class SubjectServiceImpl implements SubjectService {
             }
         }
         return dp[amount] == max ? -1 : dp[amount];
+    }
+
+    @Override
+    public String rob3(){
+        TreeNode treeNode = new TreeNode(3);
+        treeNode.left = new TreeNode(1);
+        treeNode.left.right = new TreeNode(4);
+        treeNode.left.right.right = new TreeNode(2);
+        treeNode.left.right.right.right = new TreeNode(5);
+        System.out.println(JSON.toJSONString(rob(treeNode)));
+        return "success";
+    }
+
+    public int rob(TreeNode root) {
+        int[] rootStatus = robDfs(root);
+        return Math.max(rootStatus[0], rootStatus[1]);
+    }
+
+    public int[] robDfs(TreeNode node) {
+        if (node == null) {
+            return new int[]{0, 0};
+        }
+        int[] left = robDfs(node.left);
+        int[] right = robDfs(node.right);
+        int selected = node.val + left[1] + right[1];
+        int notSelected = Math.max(left[0], left[1]) + Math.max(right[0], right[1]);
+        return new int[]{selected, notSelected};
     }
 
     @Override

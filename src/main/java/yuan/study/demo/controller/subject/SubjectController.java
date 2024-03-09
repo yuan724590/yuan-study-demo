@@ -1084,6 +1084,14 @@ public class SubjectController {
      */
 
     /**
+     * 198. 打家劫舍
+     */
+    @GetMapping(value = "/rob")
+    public void rob(){
+        subjectService.rob();
+    }
+
+    /**
      * 200. 岛屿数量
      */
     @GetMapping(value = "/numIslands")
@@ -1121,6 +1129,14 @@ public class SubjectController {
     @GetMapping(value = "/findWords")
     public void findWords(){
         subjectService.findWords();
+    }
+
+    /**
+     * 213. 打家劫舍 II
+     */
+    @GetMapping(value = "/rob2")
+    public void rob2(){
+        subjectService.rob2();
     }
 
     /**
@@ -1222,6 +1238,14 @@ public class SubjectController {
     @GetMapping(value = "/coinChange")
     public void coinChange(){
         subjectService.coinChange();
+    }
+
+    /**
+     * 337. 打家劫舍 III
+     */
+    @GetMapping(value = "/rob3")
+    public void rob3(){
+        subjectService.rob3();
     }
 
     /**
