@@ -5,7 +5,6 @@ import com.google.common.collect.Lists;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.collections.CollectionUtils;
 import org.springframework.stereotype.Service;
 import yuan.study.demo.entity.ListNode;
 import yuan.study.demo.service.subjectService.SubjectService;
@@ -3465,6 +3464,48 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String connect117(){
+        Node node1 = new Node(1);
+        Node node2 = new Node(2);
+        Node node3 = new Node(3);
+        Node node4 = new Node(4);
+        Node node5 = new Node(5);
+        Node node7 = new Node(7);
+        node1.left = node2;
+        node1.right = node3;
+        node2.left = node4;
+        node2.right = node5;
+        node3.right = node7;
+        System.out.println(JSON.toJSONString(connect117(node1)));
+        return "success";
+    }
+
+    private final List<Node> list117 = new ArrayList<>();
+
+    public Node connect117(Node root) {
+        // 根节点的深度为 0
+        dfs117(root, 0);
+        return root;
+    }
+
+    private void dfs117(Node node, int depth) {
+        if (node == null) {
+            return;
+        }
+        // node 是这一层最左边的节点
+        if (depth == list117.size()) {
+            list117.add(node);
+        } else {
+            // list117[depth] 是 node 左边的节点
+            list117.get(depth).next = node;
+            // node 左边的节点指向 node
+            list117.set(depth, node);
+        }
+        dfs117(node.left, depth + 1);
+        dfs117(node.right, depth + 1);
+    }
+
+    @Override
     public String generate(){
         System.out.println(JSON.toJSONString(generate(5)));
         return "success";
@@ -3483,6 +3524,26 @@ public class SubjectServiceImpl implements SubjectService {
             }
         }
         return listList;
+    }
+
+    @Override
+    public String getRow(){
+        System.out.println(JSON.toJSONString(getRow(5)));
+        return "success";
+    }
+
+    public List<Integer> getRow(int rowIndex) {
+        List<Integer> list = new ArrayList<>();
+        list.add(1);
+        for (int i = 1; i <= rowIndex; i++) {
+            list.add(0);
+        }
+        for (int i = 1; i <= rowIndex; i++) {
+            for(int j = i; j > 0; j--) {
+                list.set(j, list.get(j) + list.get(j - 1));
+            }
+        }
+        return list;
     }
 
     @Override
@@ -3605,6 +3666,23 @@ public class SubjectServiceImpl implements SubjectService {
         // 判断在该节点包含左右子树的路径和是否大于当前最大路径和
         maxPathSumRet = Math.max(maxPathSumRet, r.val + left + right);
         return Math.max(left, right) + r.val;
+    }
+
+    @Override
+    public String isPalindrome(){
+        System.out.println(JSON.toJSONString(isPalindrome("A man, a plan, a canal: Panama")));
+        return "success";
+    }
+
+    public boolean isPalindrome(String s) {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            if(Character.isLetterOrDigit(c)){
+                stringBuilder.append(Character.toLowerCase(c));
+            }
+        }
+        return stringBuilder.toString().contentEquals(stringBuilder.reverse());
     }
 
     @Override

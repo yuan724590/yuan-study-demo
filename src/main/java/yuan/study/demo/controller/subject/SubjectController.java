@@ -912,11 +912,27 @@ public class SubjectController {
     }
 
     /**
+     * 117. 填充每个节点的下一个右侧节点指针 II
+     */
+    @GetMapping(value = "/connect117")
+    public String connect117() {
+        return subjectService.connect117();
+    }
+
+    /**
      * 118. 杨辉三角
      */
     @GetMapping(value = "/generate")
     public String generate() {
         return subjectService.generate();
+    }
+
+    /**
+     * 119. 杨辉三角 II
+     */
+    @GetMapping(value = "/getRow")
+    public String getRow() {
+        return subjectService.getRow();
     }
 
     /**
@@ -957,6 +973,14 @@ public class SubjectController {
     @GetMapping(value = "/maxPathSum")
     public String maxPathSum() {
         return subjectService.maxPathSum();
+    }
+
+    /**
+     * 125. 验证回文串
+     */
+    @GetMapping(value = "/isPalindrome")
+    public String isPalindrome() {
+        return subjectService.isPalindrome();
     }
 
     /**
