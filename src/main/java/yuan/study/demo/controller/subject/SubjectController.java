@@ -984,6 +984,30 @@ public class SubjectController {
     }
 
     /**
+     * 126. 单词接龙 II
+     */
+    @GetMapping(value = "/findLadders")
+    public String findLadders() {
+        return subjectService.findLadders();
+    }
+
+    /**
+     * 127. 单词接龙
+     */
+    @GetMapping(value = "/ladderLength")
+    public String ladderLength() {
+        return subjectService.ladderLength();
+    }
+
+    /**
+     * 128. 最长连续序列
+     */
+    @GetMapping(value = "/longestConsecutive")
+    public String longestConsecutive() {
+        return subjectService.longestConsecutive();
+    }
+
+    /**
      * 131. 分割回文串
      */
     @GetMapping(value = "/partition131")

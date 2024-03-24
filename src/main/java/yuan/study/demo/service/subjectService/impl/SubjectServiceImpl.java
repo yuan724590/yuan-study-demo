@@ -3686,6 +3686,207 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String findLadders(){
+        System.out.println(JSON.toJSONString(findLadders("hit", "cog", Lists.newArrayList("hot","dot","dog","lot","log","cog"))));
+        return "success";
+    }
+
+    public List<List<String>> findLadders(String beginWord, String endWord, List<String> wordList) {
+        List<List<String>> res = new ArrayList<>();
+        // 因为需要快速判断扩展出的单词是否在 wordList 里，因此需要将 wordList 存入哈希表，这里命名为「字典」
+        Set<String> dict = new HashSet<>(wordList);
+        // 特殊用例判断
+        if (!dict.contains(endWord)) {
+            return res;
+        }
+
+        dict.remove(beginWord);
+
+        // 第 1 步：广度优先搜索建图
+        // 记录扩展出的单词是在第几次扩展的时候得到的，key：单词，value：在广度优先搜索的第几层
+        Map<String, Integer> steps = new HashMap<>();
+        steps.put(beginWord, 0);
+        // 记录了单词是从哪些单词扩展而来，key：单词，value：单词列表，这些单词可以变换到 key ，它们是一对多关系
+        Map<String, List<String>> from = new HashMap<>();
+        int step = 1;
+        boolean found = false;
+        int wordLen = beginWord.length();
+
+        Queue<String> queue = new ArrayDeque<>();
+        queue.offer(beginWord);
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            for (int i = 0; i < size; i++) {
+                String currWord = queue.poll();
+                char[] charArray = currWord.toCharArray();
+                // 将每一位替换成 26 个小写英文字母
+                for (int j = 0; j < wordLen; j++) {
+                    char origin = charArray[j];
+                    for (char c = 'a'; c <= 'z'; c++) {
+                        charArray[j] = c;
+                        String nextWord = String.valueOf(charArray);
+                        if (steps.containsKey(nextWord) && step == steps.get(nextWord)) {
+                            from.get(nextWord).add(currWord);
+                        }
+                        if (!dict.contains(nextWord)) {
+                            continue;
+                        }
+                        // 如果从一个单词扩展出来的单词以前遍历过，距离一定更远，为了避免搜索到已经遍历到，且距离更远的单词，需要将它从 dict 中删除
+                        dict.remove(nextWord);
+                        // 这一层扩展出的单词进入队列
+                        queue.offer(nextWord);
+
+                        // 记录 nextWord 从 currWord 而来
+                        from.putIfAbsent(nextWord, new ArrayList<>());
+                        from.get(nextWord).add(currWord);
+                        // 记录 nextWord 的 step
+                        steps.put(nextWord, step);
+                        if (nextWord.equals(endWord)) {
+                            found = true;
+                        }
+                    }
+                    charArray[j] = origin;
+                }
+            }
+            step++;
+            if (found) {
+                break;
+            }
+        }
+
+        // 第 2 步：回溯找到所有解，从 endWord 恢复到 beginWord ，所以每次尝试操作 path 列表的头部
+        if (found) {
+            Deque<String> path = new ArrayDeque<>();
+            path.add(endWord);
+            backtrack(from, path, beginWord, endWord, res);
+        }
+        return res;
+    }
+
+    public void backtrack(Map<String, List<String>> from, Deque<String> path, String beginWord, String cur, List<List<String>> res) {
+        if (cur.equals(beginWord)) {
+            res.add(new ArrayList<>(path));
+            return;
+        }
+        for (String precursor : from.get(cur)) {
+            path.addFirst(precursor);
+            backtrack(from, path, beginWord, precursor, res);
+            path.removeFirst();
+        }
+    }
+
+    @Override
+    public String ladderLength(){
+        System.out.println(JSON.toJSONString(ladderLength("hit", "cog", Lists.newArrayList("hot","dot","dog","lot","log","cog"))));
+        return "success";
+    }
+
+    Map<String, Integer> wordId = new HashMap<>();
+    List<List<Integer>> edge = new ArrayList<>();
+    int nodeNum = 0;
+
+    public int ladderLength(String beginWord, String endWord, List<String> wordList) {
+        for (String word : wordList) {
+            addEdge(word);
+        }
+        addEdge(beginWord);
+        if (!wordId.containsKey(endWord)) {
+            return 0;
+        }
+
+        int[] disBegin = new int[nodeNum];
+        Arrays.fill(disBegin, Integer.MAX_VALUE);
+        int beginId = wordId.get(beginWord);
+        disBegin[beginId] = 0;
+        Queue<Integer> queBegin = new LinkedList<>();
+        queBegin.offer(beginId);
+
+        int[] disEnd = new int[nodeNum];
+        Arrays.fill(disEnd, Integer.MAX_VALUE);
+        int endId = wordId.get(endWord);
+        disEnd[endId] = 0;
+        Queue<Integer> queEnd = new LinkedList<>();
+        queEnd.offer(endId);
+
+        while (!queBegin.isEmpty() && !queEnd.isEmpty()) {
+            int queBeginSize = queBegin.size();
+            for (int i = 0; i < queBeginSize; i++) {
+                int nodeBegin = queBegin.poll();
+                if (disEnd[nodeBegin] != Integer.MAX_VALUE) {
+                    return (disBegin[nodeBegin] + disEnd[nodeBegin]) / 2 + 1;
+                }
+                for (int it : edge.get(nodeBegin)) {
+                    if (disBegin[it] == Integer.MAX_VALUE) {
+                        disBegin[it] = disBegin[nodeBegin] + 1;
+                        queBegin.offer(it);
+                    }
+                }
+            }
+
+            int queEndSize = queEnd.size();
+            for (int i = 0; i < queEndSize; ++i) {
+                int nodeEnd = queEnd.poll();
+                if (disBegin[nodeEnd] != Integer.MAX_VALUE) {
+                    return (disBegin[nodeEnd] + disEnd[nodeEnd]) / 2 + 1;
+                }
+                for (int it : edge.get(nodeEnd)) {
+                    if (disEnd[it] == Integer.MAX_VALUE) {
+                        disEnd[it] = disEnd[nodeEnd] + 1;
+                        queEnd.offer(it);
+                    }
+                }
+            }
+        }
+        return 0;
+    }
+
+    public void addEdge(String word) {
+        addWord(word);
+        int id1 = wordId.get(word);
+        char[] array = word.toCharArray();
+        int length = array.length;
+        for (int i = 0; i < length; i++) {
+            char tmp = array[i];
+            array[i] = '*';
+            String newWord = new String(array);
+            addWord(newWord);
+            int id2 = wordId.get(newWord);
+            edge.get(id1).add(id2);
+            edge.get(id2).add(id1);
+            array[i] = tmp;
+        }
+    }
+
+    public void addWord(String word) {
+        if (!wordId.containsKey(word)) {
+            wordId.put(word, nodeNum++);
+            edge.add(new ArrayList<>());
+        }
+    }
+
+    @Override
+    public String longestConsecutive(){
+        System.out.println(JSON.toJSONString(longestConsecutive(new int[]{0,3,7,2,5,8,4,6,0,1})));
+        return "success";
+    }
+
+    public int longestConsecutive(int[] nums) {
+        Arrays.sort(nums);
+        int length = nums.length;
+        int max = Math.min(length, 1);
+        int res = max;
+        for (int i = 1; i < length; i++) {
+            if(nums[i] == nums[i - 1] + 1){
+                max++;
+            }else if(nums[i] != nums[i - 1]){
+                res = Math.max(max, res);
+                max = 1;
+            }
+        }
+        return Math.max(max, res);
+    }
+
+    @Override
     public String partition131(){
         System.out.println(JSON.toJSONString(partition131("aab")));
         return "success";
