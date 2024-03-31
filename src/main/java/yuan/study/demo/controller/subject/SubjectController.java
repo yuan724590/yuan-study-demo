@@ -1008,6 +1008,22 @@ public class SubjectController {
     }
 
     /**
+     * 129. 求根节点到叶节点数字之和
+     */
+    @GetMapping(value = "/sumNumbers")
+    public String sumNumbers() {
+        return subjectService.sumNumbers();
+    }
+
+    /**
+     * 130. 被围绕的区域
+     */
+    @GetMapping(value = "/solve")
+    public String solve() {
+        return subjectService.solve();
+    }
+
+    /**
      * 131. 分割回文串
      */
     @GetMapping(value = "/partition131")
@@ -1257,6 +1273,14 @@ public class SubjectController {
     }
 
     /**
+     * 283. 移动零
+     */
+    @GetMapping(value = "/moveZeroes")
+    public void moveZeroes(){
+        subjectService.moveZeroes();
+    }
+
+    /**
      * 300. 最长递增子序列
      */
     @GetMapping(value = "/lengthOfLIS")
@@ -1310,6 +1334,14 @@ public class SubjectController {
     @GetMapping(value = "/trapRainWater")
     public String trapRainWater() {
         return subjectService.trapRainWater();
+    }
+
+    /**
+     * 438. 找到字符串中所有字母异位词
+     */
+    @GetMapping(value = "/findAnagrams")
+    public String findAnagrams() {
+        return subjectService.findAnagrams();
     }
 
     /**

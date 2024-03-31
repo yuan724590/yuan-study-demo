@@ -3887,9 +3887,87 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String sumNumbers(){
+        TreeNode treeNode = new TreeNode(5);
+        treeNode.left = new TreeNode(2);
+        treeNode.left.left = new TreeNode(0);
+        treeNode.left.right = new TreeNode(4);
+        treeNode.left.right.left = new TreeNode(3);
+        treeNode.left.right.right = new TreeNode(5);
+        treeNode.right = new TreeNode(8);
+        treeNode.right.left = new TreeNode(7);
+        treeNode.right.right = new TreeNode(9);
+        System.out.println(JSON.toJSONString(sumNumbers(treeNode)));
+        return "success";
+    }
+
+    int sum129 = 0;
+
+    public int sumNumbers(TreeNode root) {
+        sumNumbers(root, 0);
+        return sum129;
+    }
+
+    public void sumNumbers(TreeNode root, int value) {
+        if(root == null){
+            return;
+        }
+        if(root.left == null && root.right == null){
+            sum129 += value * 10 + root.val;
+            return;
+        }
+        sumNumbers(root.left, value * 10 + root.val);
+        sumNumbers(root.right, value * 10 + root.val);
+    }
+
+    @Override
     public String partition131(){
         System.out.println(JSON.toJSONString(partition131("aab")));
         return "success";
+    }
+
+    @Override
+    public String solve(){
+        char[][] chars = new char[][]{{'X','X','X','X'},{'X','O','O','X'},{'X','X','O','X'},{'X','O','X','X'}};
+        solve(chars);
+        System.out.println(JSON.toJSONString(chars));
+        return "success";
+    }
+
+    public void solve(char[][] board) {
+        int m = board.length, a = m - 1;
+        int n = board[0].length, b = n - 1;
+        if(m == 1 || n <= 1){
+            return;
+        }
+        for (int i = 0; i < m; i++) {
+            solve(board, i, 0);
+            solve(board, i, b);
+        }
+        for (int i = 1; i < n; i++) {
+            solve(board, 0, i);
+            solve(board, a, i);
+        }
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if(board[i][j] == 'O'){
+                    board[i][j] = 'X';
+                }else if(board[i][j] == 'A'){
+                    board[i][j] = 'O';
+                }
+            }
+        }
+    }
+
+    public void solve(char[][] board, int i, int j) {
+        if(i < 0 || i > board.length - 1 || j < 0 || j > board[0].length - 1 || board[i][j] != 'O'){
+            return;
+        }
+        board[i][j] = 'A';
+        solve(board, i - 1, j);
+        solve(board, i + 1, j);
+        solve(board, i, j - 1);
+        solve(board, i, j + 1);
     }
 
     boolean[][] dp131;
@@ -4935,6 +5013,25 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String moveZeroes(){
+        int[] arr = new int[]{0,1,0,3,12};
+        moveZeroes(arr);
+        System.out.println(JSON.toJSONString(arr));
+        return "success";
+    }
+
+    public void moveZeroes(int[] nums) {
+        int size = nums.length, startIndex = 0;
+        for (int i = 0; i < size; i++) {
+            if(nums[i] > 0){
+                int val = nums[i];
+                nums[i] = nums[startIndex];
+                nums[startIndex++] = val;
+            }
+        }
+    }
+
+    @Override
     public String lengthOfLIS(){
         System.out.println(JSON.toJSONString(lengthOfLIS(new int[]{10,9,2,5,3,7,101,18})));
         return "success";
@@ -5160,6 +5257,57 @@ public class SubjectServiceImpl implements SubjectService {
             }
         }
         return res;
+    }
+
+    @Override
+    public String findAnagrams(){
+        System.out.println(JSON.toJSONString(findAnagrams("cbaebabacd", "abc")));
+        return "success";
+    }
+
+    public List<Integer> findAnagrams(String s, String p) {
+        int pSize = p.length(), sSize = s.length();
+        if (sSize < pSize) {
+            return new ArrayList<>();
+        }
+
+        int[] arr = new int[26];
+        for (int i = 0; i < pSize; i++) {
+            arr[p.charAt(i) - 'a']--;
+            arr[s.charAt(i) - 'a']++;
+        }
+        int diff = 0;
+        for (int j = 0; j < 26; j++) {
+            if(arr[j] != 0){
+                diff++;
+            }
+        }
+
+        List<Integer> list = new ArrayList<>();
+        if(diff == 0){
+            list.add(0);
+        }
+        for (int i = pSize; i < sSize; i++) {
+            //移除开头的字母
+            if(arr[s.charAt(i - pSize) - 'a'] == 1){
+                diff--;
+            }else if(arr[s.charAt(i - pSize) - 'a'] == 0){
+                diff++;
+            }
+            arr[s.charAt(i - pSize) - 'a']--;
+            //补充当前字母
+            if(arr[s.charAt(i) - 'a'] == -1){
+                diff--;
+            }else if(arr[s.charAt(i) - 'a'] == 0){
+                diff++;
+            }
+            arr[s.charAt(i) - 'a']++;
+            //完全相同, 添加索引
+            if(diff == 0){
+                list.add(i - pSize + 1);
+            }
+        }
+        return list;
     }
 
     @Override
