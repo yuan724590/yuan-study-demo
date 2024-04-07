@@ -5032,6 +5032,73 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String gameOfLife(){
+        int[][] arr = new int[][]{{0,0,0,0,0},{0,0,1,0,0},{0,0,1,0,0},{0,0,1,0,0},{0,0,0,0,0}};
+        gameOfLife(arr);
+        System.out.println(JSON.toJSONString(arr));
+        return "success";
+    }
+
+    public void gameOfLife(int[][] board) {
+        int m = board.length, n = board[0].length;
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                //计算周围的活细胞数量
+                int count = gameOfLifeCount(board, m, n, i, j);
+                if(board[i][j] == 1 && (count != 2 && count != 3)){
+                    board[i][j] = 2;
+                    continue;
+                }
+                if(board[i][j] == 0 && count == 3){
+                    board[i][j] = -1;
+                }
+            }
+        }
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if(board[i][j] == 2){
+                    board[i][j] = 0;
+                }else if(board[i][j] == -1){
+                    board[i][j] = 1;
+                }
+            }
+        }
+    }
+
+    public int gameOfLifeCount(int[][] board, int m, int n, int i, int j) {
+        int count = 0;
+        if(i > 0){
+            if(j > 0 && board[i - 1][j - 1] > 0){
+                count++;
+            }
+            if(board[i - 1][j] > 0){
+                count++;
+            }
+            if(j + 1 < n && board[i - 1][j + 1] > 0){
+                count++;
+            }
+        }
+        if(j > 0 && board[i][j - 1] > 0){
+            count++;
+        }
+        if(j + 1 < n && board[i][j + 1] > 0){
+            count++;
+        }
+        if(i + 1 < m){
+            if(j > 0 && board[i + 1][j - 1] > 0){
+                count++;
+            }
+            if(board[i + 1][j] > 0){
+                count++;
+            }
+            if(j + 1 < n && board[i + 1][j + 1] > 0){
+                count++;
+            }
+        }
+        return count;
+    }
+
+    @Override
     public String lengthOfLIS(){
         System.out.println(JSON.toJSONString(lengthOfLIS(new int[]{10,9,2,5,3,7,101,18})));
         return "success";
@@ -5146,6 +5213,45 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String removeDuplicateLetters(){
+        System.out.println(JSON.toJSONString(removeDuplicateLetters("bcabc")));
+        return "success";
+    }
+
+    public String removeDuplicateLetters(String s) {
+        boolean[] flagArr = new boolean[26];
+        int[] num = new int[26];
+        for (int i = 0; i < s.length(); i++) {
+            num[s.charAt(i) - 'a']++;
+        }
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < s.length(); i++) {
+            char chars = s.charAt(i);
+            int index = chars - 'a';
+            //sb中是否包括此字母, 包括则跳过
+            if (!flagArr[index]) {
+                //当前值 < 最后的值
+                while (sb.length() > 0 && sb.charAt(sb.length() - 1) > chars) {
+                    //判断当前字母在后面还是否存在， 如果存在就干掉
+                    if (num[sb.charAt(sb.length() - 1) - 'a'] > 0) {
+                        flagArr[sb.charAt(sb.length() - 1) - 'a'] = false;
+                        sb.deleteCharAt(sb.length() - 1);
+                    } else {
+                        //sb的最后一个字母再后面没有了
+                        break;
+                    }
+                }
+                flagArr[index] = true;
+                sb.append(chars);
+            }
+            //因为每次计算的是sb中最后一个字母而非本字母, 所以要进行扣除
+            num[index] -= 1;
+        }
+        return sb.toString();
+    }
+
+    @Override
     public String coinChange(){
         System.out.println(JSON.toJSONString(coinChange(new int[]{186,419,83,408}, 6249)));
         return "success";
@@ -5213,6 +5319,62 @@ public class SubjectServiceImpl implements SubjectService {
             }
         }
         return dp;
+    }
+
+    @Override
+    public String firstUniqChar(){
+        System.out.println(JSON.toJSONString(firstUniqChar("loveleetcode")));
+        return "success";
+    }
+
+    public int firstUniqChar(String s) {
+        int[] arr = new int[26];
+        int n = s.length();
+        for (int i = 0; i < n; i++) {
+            arr[s.charAt(i) - 'a']++;
+        }
+        for (int i = 0; i < n; i++) {
+            if (arr[s.charAt(i) - 'a'] == 1) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    @Override
+    public String removeKdigits(){
+        System.out.println(JSON.toJSONString(removeKdigits("1432219", 2)));
+        return "success";
+    }
+
+    public String removeKdigits(String num, int k) {
+        Deque<Character> deque = new LinkedList<>();
+        int n = num.length();
+        for (int i = 0; i < n; i++) {
+            char chars = num.charAt(i);
+            while (!deque.isEmpty() && k > 0 && deque.peekLast() > chars) {
+                //如果出现高位的数字 > 底位的数字, 那么就过滤掉
+                deque.pollLast();
+                k--;
+            }
+            deque.offerLast(chars);
+        }
+
+        for (int i = 0; i < k; i++) {
+            //如果前面没过滤全, 那么从高位开始过滤
+            deque.pollLast();
+        }
+        StringBuilder stringBuilder = new StringBuilder();
+        boolean leadingZero = true;
+        while (!deque.isEmpty()) {
+            char digit = deque.pollFirst();
+            if (leadingZero && digit == '0') {
+                continue;
+            }
+            leadingZero = false;
+            stringBuilder.append(digit);
+        }
+        return stringBuilder.length() == 0 ? "0" : stringBuilder.toString();
     }
 
     @Override

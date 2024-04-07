@@ -1281,6 +1281,14 @@ public class SubjectController {
     }
 
     /**
+     * 289. 生命游戏
+     */
+    @GetMapping(value = "/gameOfLife")
+    public void gameOfLife(){
+        subjectService.gameOfLife();
+    }
+
+    /**
      * 300. 最长递增子序列
      */
     @GetMapping(value = "/lengthOfLIS")
@@ -1305,6 +1313,14 @@ public class SubjectController {
     }
 
     /**
+     * 316. 去除重复字母
+     */
+    @GetMapping(value = "/removeDuplicateLetters")
+    public void removeDuplicateLetters(){
+        subjectService.removeDuplicateLetters();
+    }
+
+    /**
      * 322. 零钱兑换
      */
     @GetMapping(value = "/coinChange")
@@ -1326,6 +1342,22 @@ public class SubjectController {
     @GetMapping(value = "/countBits")
     public void countBits(){
         subjectService.countBits();
+    }
+
+    /**
+     * 387. 字符串中的第一个唯一字符
+     */
+    @GetMapping(value = "/firstUniqChar")
+    public String firstUniqChar() {
+        return subjectService.firstUniqChar();
+    }
+
+    /**
+     * 402. 移掉 K 位数字
+     */
+    @GetMapping(value = "/removeKdigits")
+    public String removeKdigits() {
+        return subjectService.removeKdigits();
     }
 
     /**
@@ -1481,6 +1513,11 @@ public class SubjectController {
      * employee -> employee_id, name, experience_years
      * 查询每一个项目中员工的 平均 工作年限，精确到小数点后两位
      * select a.project_id, round(avg(b.experience_years), 2) as average_years from project a left join Employee b on a.employee_id = b.employee_id group by a.project_id
+     */
+
+    /**
+     * 1081. 不同字符的最小子序列
+     * 同yuan.study.demo.service.subjectService.SubjectService#removeDuplicateLetters(), 故跳过
      */
 
     /**
