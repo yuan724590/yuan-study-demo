@@ -1209,6 +1209,14 @@ public class SubjectController {
      */
 
     /**
+     * 219. 存在重复元素 II
+     */
+    @GetMapping(value = "/containsNearbyDuplicate")
+    public void containsNearbyDuplicate(){
+        subjectService.containsNearbyDuplicate();
+    }
+
+    /**
      * 225. 用队列实现栈
      */
     @GetMapping(value = "/my/stack")
@@ -1487,6 +1495,14 @@ public class SubjectController {
     @GetMapping(value = "/superpalindromesInRange")
     public String superpalindromesInRange() {
         return subjectService.superpalindromesInRange();
+    }
+
+    /**
+     * 933. 最近的请求次数
+     */
+    @GetMapping(value = "/recentCounter")
+    public String recentCounter() {
+        return subjectService.recentCounter();
     }
 
     /**

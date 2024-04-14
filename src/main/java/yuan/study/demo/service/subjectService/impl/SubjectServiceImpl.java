@@ -4793,6 +4793,26 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String containsNearbyDuplicate(){
+        System.out.println(JSON.toJSONString(containsNearbyDuplicate(new int[]{1,2,3,1}, 3)));
+        return "success";
+    }
+
+    public boolean containsNearbyDuplicate(int[] nums, int k) {
+        Set<Integer> set = new HashSet<>();
+        int n = nums.length;
+        for (int i = 0; i < n; i++) {
+            if(i > k){
+                set.remove(nums[i - k - 1]);
+            }
+            if(!set.add(nums[i])){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
     public String isPowerOfTwo(){
         System.out.println(JSON.toJSONString(isPowerOfTwo(56)));
         return "success";
@@ -5627,6 +5647,34 @@ public class SubjectServiceImpl implements SubjectService {
             }
         }
         return temp == l;
+    }
+
+    @Override
+    public String recentCounter(){
+        RecentCounter recentCounter = new RecentCounter();
+        System.out.println(JSON.toJSONString(recentCounter.ping(1)));
+        System.out.println(JSON.toJSONString(recentCounter.ping(100)));
+        System.out.println(JSON.toJSONString(recentCounter.ping(3001)));
+        System.out.println(JSON.toJSONString(recentCounter.ping(3002)));
+        return "success";
+    }
+
+    class RecentCounter {
+        int[] calls = new int[10005];
+        //代表最后待插入的位置、t-3000范围的起始位置
+        int i, j;
+        public RecentCounter() {
+            i = j = 0;
+        }
+
+        public int ping(int t) {
+            calls[j] = t;
+            j++;
+            while(calls[i] < t - 3000){
+                i++;
+            }
+            return j - i;
+        }
     }
 
     @Override
