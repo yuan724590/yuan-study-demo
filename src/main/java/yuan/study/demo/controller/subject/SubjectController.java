@@ -9,6 +9,7 @@ import javax.annotation.Resource;
 /**
  * Leetcode 默认类型的题
  * https://leetcode.cn/problemset/all/?page=1
+ * total: 235(2024.4.21)
  */
 @RestController
 public class SubjectController {
@@ -1329,6 +1330,14 @@ public class SubjectController {
     }
 
     /**
+     * 321. 拼接最大数
+     */
+    @GetMapping(value = "/maxNumber")
+    public void maxNumber(){
+        subjectService.maxNumber();
+    }
+
+    /**
      * 322. 零钱兑换
      */
     @GetMapping(value = "/coinChange")
@@ -1350,6 +1359,14 @@ public class SubjectController {
     @GetMapping(value = "/countBits")
     public void countBits(){
         subjectService.countBits();
+    }
+
+    /**
+     * 373. 查找和最小的 K 对数字
+     */
+    @GetMapping(value = "/kSmallestPairs")
+    public void kSmallestPairs(){
+        subjectService.kSmallestPairs();
     }
 
     /**

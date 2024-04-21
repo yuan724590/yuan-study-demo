@@ -5272,6 +5272,90 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String maxNumber(){
+        System.out.println(JSON.toJSONString(maxNumber(new int[]{3,4,6,5}, new int[]{9,1,2,5,8,3}, 5)));
+        return "success";
+    }
+
+    public int[] maxNumber(int[] nums1, int[] nums2, int k) {
+        int m = nums1.length, n = nums2.length;
+        int[] maxArr = new int[k];
+        int start = Math.max(0, k - n), end = Math.min(k, m);
+        //循环选择所有的可能, 对比最大的
+        for (int i = start; i <= end; i++) {
+            //如果只要i个元素, 获取相应的最优解
+            int[] subsequence1 = maxSubsequence(nums1, i);
+            int[] subsequence2 = maxSubsequence(nums2, k - i);
+            //按照归并排序的逻辑进行合并
+            int[] curArr = merge(subsequence1, subsequence2);
+            //对比当前计算结果和上次的计算结果, 如果这次的计算结果更大就进行复制
+            if (compare(curArr, 0, maxArr, 0) > 0) {
+                System.arraycopy(curArr, 0, maxArr, 0, k);
+            }
+        }
+        return maxArr;
+    }
+
+    /**
+     * 如果只要i个元素, 获取相应的最优解
+     */
+    public int[] maxSubsequence(int[] nums, int i) {
+        int length = nums.length;
+        int[] stack = new int[i];
+        int top = -1;
+        int remain = length - i;
+        for (int num : nums) {
+            while (top >= 0 && stack[top] < num && remain > 0) {
+                top--;
+                remain--;
+            }
+            if (top < i - 1) {
+                stack[++top] = num;
+            } else {
+                remain--;
+            }
+        }
+        return stack;
+    }
+
+    public int[] merge(int[] subsequence1, int[] subsequence2) {
+        int x = subsequence1.length, y = subsequence2.length;
+        if (x == 0) {
+            return subsequence2;
+        }
+        if (y == 0) {
+            return subsequence1;
+        }
+        int mergeLength = x + y;
+        int[] merged = new int[mergeLength];
+        int index1 = 0, index2 = 0;
+        for (int i = 0; i < mergeLength; i++) {
+            if (compare(subsequence1, index1, subsequence2, index2) > 0) {
+                merged[i] = subsequence1[index1++];
+            } else {
+                merged[i] = subsequence2[index2++];
+            }
+        }
+        return merged;
+    }
+
+    /**
+     * 从某个index开始, 对比数组的大小
+     */
+    public int compare(int[] subsequence1, int index1, int[] subsequence2, int index2) {
+        int x = subsequence1.length, y = subsequence2.length;
+        while (index1 < x && index2 < y) {
+            int difference = subsequence1[index1] - subsequence2[index2];
+            if (difference != 0) {
+                return difference;
+            }
+            index1++;
+            index2++;
+        }
+        return (x - index1) - (y - index2);
+    }
+
+    @Override
     public String coinChange(){
         System.out.println(JSON.toJSONString(coinChange(new int[]{186,419,83,408}, 6249)));
         return "success";
@@ -5339,6 +5423,34 @@ public class SubjectServiceImpl implements SubjectService {
             }
         }
         return dp;
+    }
+
+    @Override
+    public String kSmallestPairs(){
+        System.out.println(JSON.toJSONString(kSmallestPairs(new int[]{2,4,6}, new int[]{1,7,11}, 3)));
+        return "success";
+    }
+
+    public List<List<Integer>> kSmallestPairs(int[] nums1, int[] nums2, int k) {
+        PriorityQueue<int[]> priorityQueue = new PriorityQueue<>(k, (o1, o2)-> nums1[o1[0]] + nums2[o1[1]] - nums1[o2[0]] - nums2[o2[1]]);
+        int m = nums1.length, n = nums2.length;
+        for (int i = 0; i < Math.min(m, k); i++) {
+            priorityQueue.offer(new int[]{i,0});
+        }
+
+        List<List<Integer>> ansList = new ArrayList<>();
+        while (k-- > 0 && !priorityQueue.isEmpty()) {
+            int[] idxPair = priorityQueue.poll();
+            List<Integer> list = new ArrayList<>();
+            list.add(nums1[idxPair[0]]);
+            list.add(nums2[idxPair[1]]);
+            ansList.add(list);
+            if (idxPair[1] + 1 < n) {
+                priorityQueue.offer(new int[]{idxPair[0], idxPair[1] + 1});
+            }
+        }
+
+        return ansList;
     }
 
     @Override
