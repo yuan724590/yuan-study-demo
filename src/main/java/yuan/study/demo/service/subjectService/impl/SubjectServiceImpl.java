@@ -5934,5 +5934,53 @@ public class SubjectServiceImpl implements SubjectService {
             right = _right;
             next = _next;
         }
-    };
+    }
+
+    @Override
+    public String maxTaskAssign(){
+        System.out.println(JSON.toJSONString(maxTaskAssign(new int[]{3,2,1}, new int[]{0,3,3}, 1, 1)));
+        return "success";
+    }
+
+    public int maxTaskAssign(int[] tasks, int[] workers, int pills, int strength) {
+        Arrays.sort(tasks);
+        Arrays.sort(workers);
+        int l = 0, r = Math.min(tasks.length, workers.length);
+        while(l < r){
+            int mid = (l + r) >> 1;
+            if(canFinish(mid, tasks, workers, pills, strength)){
+                l = mid;
+            } else{
+                r = mid - 1;
+            }
+            if(l == r - 1){
+                if(canFinish(r, tasks, workers, pills, strength)){
+                    l = r;
+                }
+                break;
+            }
+        }
+        return l;
+    }
+
+    boolean canFinish(int num, int[] tasks, int[] workers, int pills, int strength){
+        Deque<Integer> deque = new ArrayDeque<>();
+        int p = workers.length - 1;
+        for(int i = num - 1; i >= 0; i--){
+            while(p >= workers.length - num && workers[p] >= tasks[i] - strength){
+                deque.add(workers[p]);
+                p--;
+            }
+            if(!deque.isEmpty() && deque.getFirst() >= tasks[i]){
+                deque.removeFirst();
+            } else{
+                if(pills == 0 || deque.isEmpty()){
+                    return false;
+                }
+                deque.removeLast();
+                pills--;
+            }
+        }
+        return true;
+    }
 }

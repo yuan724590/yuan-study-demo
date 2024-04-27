@@ -1771,6 +1771,14 @@ public class SubjectController {
      */
 
     /**
+     * 2071. 你可以安排的最多任务数目
+     */
+    @GetMapping(value = "/maxTaskAssign")
+    public String maxTaskAssign() {
+        return subjectService.maxTaskAssign();
+    }
+
+    /**
      * 2356. 每位教师所教授的科目种类的数量
      * Teacher -> teacher_id, subject_id, dept_id
      * 查询每位老师在大学里教授的科目种类的数量
