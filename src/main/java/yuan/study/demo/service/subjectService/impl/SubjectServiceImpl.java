@@ -4323,6 +4323,55 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String findRepeatedDnaSequences(){
+        System.out.println(JSON.toJSONString(findRepeatedDnaSequences("AAAAACCCCCAAAAACCCCCCAAAAAGGGTTT")));
+        return "success";
+    }
+
+    public List<String> findRepeatedDnaSequences(String s) {
+        int length = 10;
+        List<String> list = new ArrayList<>();
+        Map<String, Integer> map = new HashMap<>();
+        int n = s.length();
+        for (int i = 0; i <= n - length; i++) {
+            String sub = s.substring(i, i + length);
+            map.put(sub, map.getOrDefault(sub, 0) + 1);
+            if (map.get(sub) == 2) {
+                list.add(sub);
+            }
+        }
+        return list;
+    }
+
+    @Override
+    public String compareVersion(){
+        System.out.println(JSON.toJSONString(compareVersion("1.01", "1.001")));
+        return "success";
+    }
+
+    public int compareVersion(String version1, String version2) {
+        if (version1 == null || version2 == null) {
+            return 0;
+        }
+        // 注意此处为正则匹配，不能用.
+        String[] versionArr1 = version1.split("\\.");
+        int length1 = versionArr1.length;
+        String[] versionArr2 = version2.split("\\.");
+        int length2 = versionArr2.length;
+        int max = Math.max(length1, length2);
+        for (int i = 0; i < max; i++) {
+            int val1 = length1 > i ? Integer.parseInt(versionArr1[i]) : 0;
+            int val2 = length2 > i ? Integer.parseInt(versionArr2[i]) : 0;
+            if(val1 > val2){
+                return 1;
+            }else if(val1 < val2){
+                return -1;
+            }
+        }
+        return 0;
+    }
+
+    @Override
     public String maxProfit4(){
         System.out.println(JSON.toJSONString(maxProfit4(2, new int[]{3,2,6,5,0,3})));
         return "success";
@@ -4790,6 +4839,48 @@ public class SubjectServiceImpl implements SubjectService {
         public boolean empty() {
             return queue2.isEmpty();
         }
+    }
+
+    @Override
+    public String getSkyline(){
+        System.out.println(JSON.toJSONString(getSkyline(new int[][]{{2,9,10},{3,7,15},{5,12,12},{15,20,10},{19,24,8}})));
+        return "success";
+    }
+
+    public List<List<Integer>> getSkyline(int[][] buildings) {
+        // 如果将所有的建筑的边界作为一条线，那么所有的答案都在这些线上
+        // 考虑任意一条线，那么这条线和所有相交的建筑（这里排除掉刚好和建筑右边界相交），取一个最高的高度，
+        // 然后判断这个高度是否和ans末尾最后一个元素的高度相等，不相等就加入进去
+        List<Integer> boundarieList = new ArrayList<>();
+        for (int[] building : buildings) {
+            boundarieList.add(building[0]);
+            boundarieList.add(building[1]);
+        }
+        Collections.sort(boundarieList);
+
+        // 创建一个堆，维护一个边界-高度值对
+        PriorityQueue<int[]> pq = new PriorityQueue<>((a, b) -> b[1] - a[1]);
+        List<List<Integer>> resList = new ArrayList<>();
+        int n = buildings.length, index = 0;
+        for (int boundary : boundarieList) {
+            // 对于一个建筑，如果其左边界在当前判断的边界线左边或重叠，那么向堆加入右边界-高度值对
+            while (index < n && buildings[index][0] <= boundary) {
+                pq.offer(new int[]{buildings[index][1], buildings[index][2]});
+                index++;
+            }
+            // 对于那些加入了堆中的建筑，从堆的顶部移出建筑右边界在边界线左边或重叠的边界-高度值对
+            while (!pq.isEmpty() && pq.peek()[0] <= boundary) {
+                pq.poll();
+            }
+            // 经过上面的两步操作之后，当前边界线穿过的建筑（不含右边界）全都在堆中，并且堆的顶端是所有穿过的建筑中，高度最高的，也就是天际线高度
+            // 如果此时的堆为空，证明边界线没有穿过任何建筑，来到了建筑的分割位置，天际线为0
+            int max = pq.isEmpty() ? 0 : pq.peek()[1];
+            // 按照这种算法，每一条边界线都会产生一个天际线高度，如果这个高度和ans末尾元素的高度一致，那么就说明两条边界线穿过了同一个建筑，并且相邻，那么按照规则只取最左端
+            if (resList.isEmpty() || max != resList.get(resList.size() - 1).get(1)) {
+                resList.add(Arrays.asList(boundary, max));
+            }
+        }
+        return resList;
     }
 
     @Override
@@ -5605,6 +5696,83 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String medianSlidingWindow(){
+        System.out.println(JSON.toJSONString(medianSlidingWindow(new int[]{1,3,-1,-3,5,3,6,7}, 3)));
+        return "success";
+    }
+
+    public double[] medianSlidingWindow(int[] nums, int k) {
+        PriorityQueue<Integer> minPriorityQueue = new PriorityQueue<>();
+        PriorityQueue<Integer> maxPriorityQueue = new PriorityQueue<>((o1, o2) -> o2 - o1);
+        for (int i = 0; i < k - 1; i++) {
+            medianSlidingWindowAdd(minPriorityQueue, maxPriorityQueue, nums[i]);
+        }
+        double[] arr = new double[nums.length - k];
+        int index = 0;
+        for (int i = 0; i < nums.length - k; i++) {
+            medianSlidingWindowAdd(minPriorityQueue, maxPriorityQueue, nums[i + k]);
+            arr[index++] = medianSlidingWindowMedian(minPriorityQueue, maxPriorityQueue);
+            minPriorityQueue.remove(nums[i]);
+            maxPriorityQueue.remove(nums[i]);
+        }
+        return arr;
+    }
+
+    public double medianSlidingWindowMedian(PriorityQueue<Integer> minPriorityQueue, PriorityQueue<Integer> maxPriorityQueue) {
+        if(minPriorityQueue.size() > maxPriorityQueue.size()){
+            return minPriorityQueue.peek();
+        }
+        return (double)(maxPriorityQueue.peek() + minPriorityQueue.peek()) / 2;
+    }
+
+    private void medianSlidingWindowAdd(PriorityQueue<Integer> minPriorityQueue, PriorityQueue<Integer> maxPriorityQueue, int num){
+        minPriorityQueue.add(num);
+        if(minPriorityQueue.size() > maxPriorityQueue.size() + 1){
+            maxPriorityQueue.add(minPriorityQueue.poll());
+        }
+    }
+
+    @Override
+    public String findClosestElements(){
+        System.out.println(JSON.toJSONString(findClosestElements(new int[]{1,2,4,5}, 4, 3)));
+        return "success";
+    }
+
+    public List<Integer> findClosestElements(int[] arr, int k, int x) {
+        int right = binarySearch(arr, x);
+        int left = right - 1;
+        while (k-- > 0) {
+            if (left < 0) {
+                right++;
+            } else if (right >= arr.length) {
+                left--;
+            } else if (x - arr[left] <= arr[right] - x) {
+                left--;
+            } else {
+                right++;
+            }
+        }
+        List<Integer> ans = new ArrayList<>();
+        for (int i = left + 1; i < right; i++) {
+            ans.add(arr[i]);
+        }
+        return ans;
+    }
+
+    public int binarySearch(int[] arr, int x) {
+        int low = 0, high = arr.length - 1;
+        while (low < high) {
+            int mid = low + (high - low) / 2;
+            if (arr[mid] >= x) {
+                high = mid;
+            } else {
+                low = mid + 1;
+            }
+        }
+        return low;
+    }
+
+    @Override
     public String kthLargest(){
         KthLargest kthLargest = new KthLargest(3, new int[]{4, 5, 8, 2});
         System.out.println("add: " + kthLargest.add(3));
@@ -5807,6 +5975,99 @@ public class SubjectServiceImpl implements SubjectService {
             right--;
         }
         return left == right;
+    }
+
+    @Override
+    public String movesToStamp(){
+        System.out.println(JSON.toJSONString(movesToStamp("abc", "aabcaca")));
+        return "success";
+    }
+
+    public int[] movesToStamp(String stamp, String target) {
+        int m = stamp.length(), n = target.length();
+        Queue<Integer> queue = new ArrayDeque<>();
+        boolean[] doneArr = new boolean[n];
+        Stack<Integer> stack = new Stack<>();
+        List<MovesToStampNode> list = new ArrayList<>();
+
+        for (int i = 0; i <= n - m; i++) {
+            //核对正确的部分
+            Set<Integer> made = new HashSet<>();
+            //核对错误的部分
+            Set<Integer> todo = new HashSet<>();
+            for (int j = 0; j < m; j++) {
+                if (target.charAt(i + j) == stamp.charAt(j)){
+                    made.add(i + j);
+                } else {
+                    todo.add(i + j);
+                }
+            }
+
+            list.add(new MovesToStampNode(made, todo));
+
+            // 如果这段完全符合stamp
+            if (todo.isEmpty()) {
+                stack.push(i);
+                for (int j = i; j < i + m; j++) {
+                    if (doneArr[j]) {
+                        continue;
+                    }
+                    //记录这段内容的下标
+                    queue.add(j);
+                    doneArr[j] = true;
+                }
+            }
+        }
+
+        //从结果倒推, 每次只修复一个
+        while (!queue.isEmpty()) {
+            int i = queue.poll();
+            //j取值范围:[往前推m字段长度, 距离最后还有m字段长度]
+            for (int j = Math.max(0, i - m + 1); j <= Math.min(n - m, i); j++) {
+                //stamp盖在j这个位置时, stamp在i位置的值与target对应位置不相同
+                if (!list.get(j).todo.contains(i)) {
+                    continue;
+                }
+                list.get(j).todo.remove(i);
+                //仅有一个不同
+                if (list.get(j).todo.isEmpty()) {
+                    stack.push(j);
+                    for (int made : list.get(j).made) {
+                        if (doneArr[made]) {
+                            continue;
+                        }
+                        queue.add(made);
+                        doneArr[made] = true;
+                    }
+                }
+            }
+        }
+
+        for (boolean done: doneArr){
+            if (done) {
+                continue;
+            }
+            return new int[0];
+        }
+
+        //转义返回值格式
+        int[] arr = new int[stack.size()];
+        int index = 0;
+        while (!stack.isEmpty()){
+            arr[index++] = stack.pop();
+        }
+        return arr;
+    }
+
+    public static class MovesToStampNode {
+        //核对正确的部分
+        Set<Integer> made;
+        //核对错误的部分
+        Set<Integer> todo;
+        MovesToStampNode(Set<Integer> made, Set<Integer> todo) {
+            this.made = made;
+            this.todo = todo;
+        }
     }
 
     @Override

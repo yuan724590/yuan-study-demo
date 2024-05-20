@@ -1089,6 +1089,19 @@ public class SubjectController {
     }
 
     /**
+     * 160. 相交链表
+     * 同yuan.study.demo.controller.subject.OfferSubjectController#getIntersectionNode()故跳过
+     */
+
+    /**
+     * 165. 比较版本号
+     */
+    @GetMapping(value = "/compareVersion")
+    public void compareVersion(){
+        subjectService.compareVersion();
+    }
+
+    /**
      * 169. 多数元素
      * 同yuan.study.demo.controller.subject.OfferSubjectController#majorityElement() 故跳过
      */
@@ -1112,6 +1125,14 @@ public class SubjectController {
      * select c.name as Department, a.name as Employee,a.salary from employee a left join department c on a.departmentId = c.id where (select count(distinct(b.salary)) from employee b where a.departmentId = b.departmentId and a.salary < b.salary) < 3
      * select Department, Employee, salary from (select b.name as Department, a.name as Employee, a.salary as Salary, dense_rank() over(partition by departmentId order by salary desc) as ranks from Employee a left join Department b on a.departmentId = b.id) c where ranks <= 3
      */
+
+    /**
+     * 187. 重复的DNA序列
+     */
+    @GetMapping(value = "/findRepeatedDnaSequences")
+    public void findRepeatedDnaSequences(){
+        subjectService.findRepeatedDnaSequences();
+    }
 
     /**
      * 188. 买卖股票的最佳时机 IV
@@ -1210,6 +1231,14 @@ public class SubjectController {
      */
 
     /**
+     * 218. 天际线问题
+     */
+    @GetMapping(value = "/getSkyline")
+    public void getSkyline(){
+        subjectService.getSkyline();
+    }
+
+    /**
      * 219. 存在重复元素 II
      */
     @GetMapping(value = "/containsNearbyDuplicate")
@@ -1274,6 +1303,11 @@ public class SubjectController {
     }
 
     /**
+     * 264. 丑数 II
+     * 同yuan.study.demo.service.subjectService.OfferSubjectService#nthUglyNumber(), 故跳过
+     */
+
+    /**
      * 274. H 指数
      */
     @GetMapping(value = "/hIndex")
@@ -1296,6 +1330,11 @@ public class SubjectController {
     public void gameOfLife(){
         subjectService.gameOfLife();
     }
+
+    /**
+     * 295. 数据流的中位数
+     * 同yuan.study.demo.controller.subject.OfferSubjectController#medianFinder(),故跳过
+     */
 
     /**
      * 300. 最长递增子序列
@@ -1402,6 +1441,14 @@ public class SubjectController {
     }
 
     /**
+     * 480. 滑动窗口中位数
+     */
+    @GetMapping(value = "/medianSlidingWindow")
+    public String medianSlidingWindow() {
+        return subjectService.medianSlidingWindow();
+    }
+
+    /**
      * 550. 游戏玩法分析 IV
      * Activity -> player_id, device_id, event_date, games_played
      * 查询首次登录的第二天登录的玩家比率
@@ -1475,6 +1522,14 @@ public class SubjectController {
      */
 
     /**
+     * 658. 找到 K 个最接近的元素
+     */
+    @GetMapping(value = "/findClosestElements")
+    public String findClosestElements() {
+        return subjectService.findClosestElements();
+    }
+
+    /**
      * 703. 数据流中的第 K 大元素
      */
     @GetMapping(value = "/k/th/largest")
@@ -1528,6 +1583,14 @@ public class SubjectController {
     @GetMapping(value = "/validMountainArray")
     public String validMountainArray() {
         return subjectService.validMountainArray();
+    }
+
+    /**
+     * 936. 戳印序列
+     */
+    @GetMapping(value = "/movesToStamp")
+    public String movesToStamp() {
+        return subjectService.movesToStamp();
     }
 
     /**
