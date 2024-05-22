@@ -4167,6 +4167,67 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String reorderList(){
+        ListNode l4 = new ListNode(4, null);
+        ListNode l3 = new ListNode(3, l4);
+        ListNode l2 = new ListNode(2, l3);
+        ListNode l1 = new ListNode(1, l2);
+        reorderList(l1);
+        System.out.println(JSON.toJSONString(l1));
+        return "success";
+    }
+
+    public void reorderList(ListNode head) {
+        if (head == null) {
+            return;
+        }
+        //通过快慢指针获取中间的元素
+        ListNode mid = middleNode(head);
+        ListNode l1 = head;
+        ListNode l2 = mid.next;
+        mid.next = null;
+        l2 = reverseList(l2);
+        mergeList(l1, l2);
+    }
+
+    private ListNode middleNode(ListNode head) {
+        ListNode slow = head;
+        ListNode fast = head;
+        while (fast.next != null && fast.next.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        return slow;
+    }
+
+    private ListNode reverseList(ListNode head) {
+        ListNode prev = null;
+        ListNode curr = head;
+        while (curr != null) {
+            ListNode nextTemp = curr.next;
+            curr.next = prev;
+            prev = curr;
+            curr = nextTemp;
+        }
+        return prev;
+    }
+
+    private void mergeList(ListNode l1, ListNode l2) {
+        ListNode l1_tmp;
+        ListNode l2_tmp;
+        while (l1 != null && l2 != null) {
+            l1_tmp = l1.next;
+            l2_tmp = l2.next;
+
+            l1.next = l2;
+            l1 = l1_tmp;
+
+            l2.next = l1;
+            l2 = l2_tmp;
+        }
+    }
+
+    @Override
     public String lruCache(){
         LRUCache lRUCache = new LRUCache(2);
         lRUCache.put(1, 1); // 缓存是 {1=1}
@@ -5696,6 +5757,68 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String smallestRange(){
+        List<Integer> list1 = Lists.newArrayList(4,10,15,24,26);
+        List<Integer> list2 = Lists.newArrayList(0,9,12,20);
+        List<Integer> list3 = Lists.newArrayList(5,18,22,30);
+        System.out.println(JSON.toJSONString(smallestRange(Lists.newArrayList(list1, list2, list3))));
+        return "success";
+    }
+
+    /**
+     * 核心思路:将每个数及其隶属组存入二维数组,然后按照数字大小升序,
+     * (每个一维数组下标0记录数字下标1记录隶属组)
+     * 再使用滑动窗口直到包含指定的组,然后再收缩窗口直到数据遍历完毕,取最小区间即可.
+     */
+    public int[] smallestRange(List<List<Integer>> nums) {
+        // 数据总数
+        int n = 0;
+        for(List<Integer> list : nums){
+            n += list.size();
+        }
+        // 二维数组
+        int x = 0, y = 0;
+        int[][] ordered = new int[n][2];
+        for(List<Integer> list : nums){
+            for(Integer tmp : list){
+                ordered[x][0] = tmp;
+                ordered[x][1] = y;
+                x++;
+            }
+            y++;
+        }
+        // 排序-按照数字排序
+        Arrays.sort(ordered);
+        // 存储区间结果
+        int[] result = new int[2];
+        // 统计窗口内每个组所对应数字的具体个数
+        int[] count = new int[nums.size()];
+        // 滑动窗口内组的个数
+        int groupSize = 0;
+        // 找到指定数量的组后缩小窗口即减少组内元素的数量
+        int tmp = 0;
+        for(int i = 0; i < n; i++){
+            // 如果没有记录过这个组则组的数量+1并且标记这个组内的元素数量也+1
+            // 否则只记录组内元素数量+1
+            // 这一步就是滑动窗口直到包含所有组,组内元素数量一般大于组的个数
+            if(count[ordered[i][1]]++ == 0){
+                groupSize++;
+            }
+            if(groupSize == nums.size()){
+                // 找到指定数量的组后缩小窗口即减少组内元素的数量
+                while(count[ordered[tmp][1]] > 1){
+                    count[ordered[tmp++][1]]--;
+                }
+                // 包含初始条件/后续缩小窗口的结果
+                if((result[0] == 0 && result[1] == 0) || result[1] - result[0] > ordered[i][0] - ordered[tmp][0]){
+                    result = new int[]{ordered[tmp][0],ordered[i][0]};
+                }
+            }
+        }
+        return result;
+    }
+
+    @Override
     public String medianSlidingWindow(){
         System.out.println(JSON.toJSONString(medianSlidingWindow(new int[]{1,3,-1,-3,5,3,6,7}, 3)));
         return "success";
@@ -5823,6 +5946,69 @@ public class SubjectServiceImpl implements SubjectService {
             saleArr[i] = Math.max(saleArr[i - 1], buyArr[i - 1] + prices[i] - fee);
         }
         return saleArr[prices.length - 1];
+    }
+
+    @Override
+    public String findLength(){
+        System.out.println(JSON.toJSONString(findLength(new int[]{1,2,3,2,1}, new int[]{3,2,1,4,7})));
+        return "success";
+    }
+
+    int mod = 1000000009;
+
+    public int findLength(int[] A, int[] B) {
+        int left = 1, right = Math.min(A.length, B.length) + 1;
+        while (left < right) {
+            int mid = (left + right) >> 1;
+            if (check(A, B, mid)) {
+                left = mid + 1;
+            } else {
+                right = mid;
+            }
+        }
+        return left - 1;
+    }
+
+    public boolean check(int[] A, int[] B, int len) {
+        int base = 113;
+        long hashA = 0;
+        for (int i = 0; i < len; i++) {
+            hashA = (hashA * base + A[i]) % mod;
+        }
+        Set<Long> bucketA = new HashSet<>();
+        bucketA.add(hashA);
+        long mult = qPow(base, len - 1);
+        for (int i = len; i < A.length; i++) {
+            hashA = ((hashA - A[i - len] * mult % mod + mod) % mod * base + A[i]) % mod;
+            bucketA.add(hashA);
+        }
+        long hashB = 0;
+        for (int i = 0; i < len; i++) {
+            hashB = (hashB * base + B[i]) % mod;
+        }
+        if (bucketA.contains(hashB)) {
+            return true;
+        }
+        for (int i = len; i < B.length; i++) {
+            hashB = ((hashB - B[i - len] * mult % mod + mod) % mod * base + B[i]) % mod;
+            if (bucketA.contains(hashB)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // 使用快速幂计算 x^n % mod 的值
+    public long qPow(long x, long n) {
+        long ret = 1;
+        while (n != 0) {
+            if ((n & 1) != 0) {
+                ret = ret * x % mod;
+            }
+            x = x * x % mod;
+            n >>= 1;
+        }
+        return ret;
     }
 
     @Override

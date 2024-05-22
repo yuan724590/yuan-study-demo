@@ -1073,6 +1073,14 @@ public class SubjectController {
     }
 
     /**
+     * 143. 重排链表
+     */
+    @GetMapping(value = "/reorderList")
+    public void reorderList(){
+        subjectService.reorderList();
+    }
+
+    /**
      * 146. LRU 缓存
      */
     @GetMapping(value = "/lruCache")
@@ -1522,6 +1530,14 @@ public class SubjectController {
      */
 
     /**
+     * 632. 最小区间
+     */
+    @GetMapping(value = "/smallestRange")
+    public String smallestRange() {
+        return subjectService.smallestRange();
+    }
+
+    /**
      * 658. 找到 K 个最接近的元素
      */
     @GetMapping(value = "/findClosestElements")
@@ -1543,6 +1559,14 @@ public class SubjectController {
     @GetMapping(value = "/max/profit6")
     public String maxProfit6() {
         return subjectService.maxProfit6();
+    }
+
+    /**
+     * 718. 最长重复子数组
+     */
+    @GetMapping(value = "/findLength")
+    public String findLength() {
+        return subjectService.findLength();
     }
 
     /**
