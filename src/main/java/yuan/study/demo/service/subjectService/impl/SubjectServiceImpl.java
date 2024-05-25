@@ -4903,6 +4903,35 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String kthSmallest(){
+        TreeNode treeNode = new TreeNode(5);
+        treeNode.left = new TreeNode(3);
+        treeNode.left.left = new TreeNode(2);
+        treeNode.left.left.left = new TreeNode(1);
+        treeNode.left.right = new TreeNode(4);
+        treeNode.right = new TreeNode(6);
+        System.out.println(JSON.toJSONString(kthSmallest(treeNode, 3)));
+        return "success";
+    }
+
+    public int kthSmallest(TreeNode root, int k) {
+        Deque<TreeNode> stack = new ArrayDeque<>();
+        while (root != null || !stack.isEmpty()) {
+            while (root != null) {
+                stack.push(root);
+                root = root.left;
+            }
+            root = stack.pop();
+            --k;
+            if (k == 0) {
+                break;
+            }
+            root = root.right;
+        }
+        return root.val;
+    }
+
+    @Override
     public String getSkyline(){
         System.out.println(JSON.toJSONString(getSkyline(new int[][]{{2,9,10},{3,7,15},{5,12,12},{15,20,10},{19,24,8}})));
         return "success";
@@ -5603,6 +5632,29 @@ public class SubjectServiceImpl implements SubjectService {
         }
 
         return ansList;
+    }
+
+    @Override
+    public String lexicalOrder(){
+        System.out.println(JSON.toJSONString(lexicalOrder(56)));
+        return "success";
+    }
+
+    public List<Integer> lexicalOrder(int n) {
+        List<Integer> list = new ArrayList<>();
+        int number = 1;
+        for (int i = 0; i < n; i++) {
+            list.add(number);
+            if (number * 10 <= n) {
+                number *= 10;
+            } else {
+                while (number % 10 == 9 || number + 1 > n) {
+                    number /= 10;
+                }
+                number++;
+            }
+        }
+        return list;
     }
 
     @Override

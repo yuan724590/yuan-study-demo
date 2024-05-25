@@ -1263,6 +1263,14 @@ public class SubjectController {
     }
 
     /**
+     * 230. 二叉搜索树中第K小的元素
+     */
+    @GetMapping(value = "/kthSmallest")
+    public void kthSmallest(){
+        subjectService.kthSmallest();
+    }
+
+    /**
      * 231. 2 的幂
      */
     @GetMapping(value = "/isPowerOfTwo")
@@ -1414,6 +1422,14 @@ public class SubjectController {
     @GetMapping(value = "/kSmallestPairs")
     public void kSmallestPairs(){
         subjectService.kSmallestPairs();
+    }
+
+    /**
+     * 386. 字典序排数
+     */
+    @GetMapping(value = "/lexicalOrder")
+    public String lexicalOrder() {
+        return subjectService.lexicalOrder();
     }
 
     /**
