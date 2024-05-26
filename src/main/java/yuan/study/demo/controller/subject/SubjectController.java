@@ -1449,6 +1449,14 @@ public class SubjectController {
     }
 
     /**
+     * 406. 根据身高重建队列
+     */
+    @GetMapping(value = "/reconstructQueue")
+    public String reconstructQueue() {
+        return subjectService.reconstructQueue();
+    }
+
+    /**
      * 407. 接雨水 II
      */
     @GetMapping(value = "/trapRainWater")

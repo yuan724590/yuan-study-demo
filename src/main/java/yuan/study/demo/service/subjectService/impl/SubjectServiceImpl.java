@@ -11,6 +11,9 @@ import yuan.study.demo.service.subjectService.SubjectService;
 
 import java.util.*;
 
+import static java.util.Arrays.stream;
+import static java.util.Collections.singletonList;
+
 
 @Slf4j
 @Service
@@ -5711,6 +5714,31 @@ public class SubjectServiceImpl implements SubjectService {
             stringBuilder.append(digit);
         }
         return stringBuilder.length() == 0 ? "0" : stringBuilder.toString();
+    }
+
+    @Override
+    public String reconstructQueue(){
+        System.out.println(JSON.toJSONString(reconstructQueue(new int[][]{{7,0},{4,4},{7,1},{5,0},{6,1},{5,2}})));
+        return "success";
+    }
+
+    public int[][] reconstructQueue(int[][] people) {
+        int n = people.length;
+        int[][] ans = new int[n][2];
+        Arrays.sort(people, (a, b) -> (a[0] == b[0] ? b[1] - a[1] : a[0] - b[0]));//按照people[0]升序, people[1]降序
+        List<Integer> seats = new ArrayList<>();
+        // 初始化座位列表
+        for (int i = 0; i < n; i++) {
+            seats.add(i);
+        }
+        for (int i = 0; i < n; i++) {
+            int k = people[i][1];
+            int seat = seats.get(k);
+            // 移除第 k 个位置代表该位置已落座，且不参与到还未落座人的 k 中（其只会比还未落座的人矮，就算相同，座位也在该身高相同但未落座的人后面）
+            seats.remove(k);
+            ans[seat] = people[i];
+        }
+        return ans;
     }
 
     @Override
