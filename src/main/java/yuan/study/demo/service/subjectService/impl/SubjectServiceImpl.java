@@ -12,7 +12,6 @@ import yuan.study.demo.service.subjectService.SubjectService;
 import java.util.*;
 
 import static java.util.Arrays.stream;
-import static java.util.Collections.singletonList;
 
 
 @Slf4j
@@ -4042,6 +4041,44 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String cloneGraph(){
+        Node node1 = new Node(1);
+        Node node2 = new Node(2);
+        Node node3 = new Node(3);
+        Node node4 = new Node(4);
+        node1.neighbors = Lists.newArrayList(node2, node4);
+        node2.neighbors = Lists.newArrayList(node1, node3);
+        node3.neighbors = Lists.newArrayList(node2, node4);
+        node4.neighbors = Lists.newArrayList(node1, node3);
+        System.out.println(JSON.toJSONString(cloneGraph(node1)));
+        return "success";
+    }
+
+    private Map<Node, Node> cloneGraphVisitedMap = new HashMap<>();
+
+    public Node cloneGraph(Node node) {
+        if (node == null) {
+            return null;
+        }
+
+        // 如果该节点已经被访问过了，则直接从哈希表中取出对应的克隆节点返回
+        if (cloneGraphVisitedMap.containsKey(node)) {
+            return cloneGraphVisitedMap.get(node);
+        }
+
+        // 克隆节点，注意到为了深拷贝我们不会克隆它的邻居的列表
+        Node cloneNode = new Node(node.val, new ArrayList<>());
+
+        cloneGraphVisitedMap.put(node, cloneNode);
+
+        // 遍历该节点的邻居并更新克隆节点的邻居列表
+        for (Node neighbor: node.neighbors) {
+            cloneNode.neighbors.add(cloneGraph(neighbor));
+        }
+        return cloneNode;
+    }
+
+    @Override
     public String wordBreak(){
         System.out.println(JSON.toJSONString(wordBreak("catsandog", Lists.newArrayList("cats", "dog", "sand", "and", "cat"))));
         return "success";
@@ -5417,6 +5454,86 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String countSmaller(){
+        System.out.println(JSON.toJSONString(countSmaller(new int[]{5,2,6,1})));
+        return "success";
+    }
+
+    public List<Integer> countSmaller(int[] nums) {
+        List<Integer> result = new ArrayList<>();
+        int len = nums.length;
+        if (len == 0) {
+            return result;
+        }
+
+        int[] temp = new int[len];
+        int[] res = new int[len];
+
+        // 索引数组,归并回去的时候,方便知道是哪个下标的元素
+        int[] indexes = new int[len];
+        for (int i = 0; i < len; i++) {
+            indexes[i] = i;
+        }
+        //针对数组 nums 指定的区间 [left, right] 进行归并排序，在排序的过程中完成统计任务
+        mergeAndCountSmaller(nums, 0, len - 1, indexes, temp, res);
+
+        // 把 int[] 转换成为 List<Integer>
+        for (int i = 0; i < len; i++) {
+            result.add(res[i]);
+        }
+        return result;
+    }
+
+    /**
+     * 针对数组 nums 指定的区间 [left, right] 进行归并排序，在排序的过程中完成统计任务
+     */
+    private void mergeAndCountSmaller(int[] nums, int left, int right, int[] indexes, int[] temp, int[] res) {
+        if (left == right) {
+            return;
+        }
+        int mid = left + (right - left) / 2;
+        mergeAndCountSmaller(nums, left, mid, indexes, temp, res);
+        mergeAndCountSmaller(nums, mid + 1, right, indexes, temp, res);
+
+        // 归并排序的优化，如果索引数组有序，则不存在逆序关系，没有必要合并
+        if (nums[indexes[mid]] <= nums[indexes[mid + 1]]) {
+            return;
+        }
+        //[left, mid] 是排好序的，[mid + 1, right] 是排好序的
+        mergeOfTwoSortedArrAndCountSmaller(nums, left, mid, right, indexes, temp, res);
+    }
+
+    /**
+     * [left, mid] 是排好序的，[mid + 1, right] 是排好序的
+     */
+    private void mergeOfTwoSortedArrAndCountSmaller(int[] nums, int left, int mid, int right, int[] indexes, int[] temp, int[] res) {
+        for (int i = left; i <= right; i++) {
+            temp[i] = indexes[i];
+        }
+
+        int i = left;
+        int j = mid + 1;
+        for (int k = left; k <= right; k++) {
+            if (i > mid) {
+                indexes[k] = temp[j];
+                j++;
+            } else if (j > right) {
+                indexes[k] = temp[i];
+                i++;
+                res[indexes[k]] += (right - mid);
+            } else if (nums[temp[i]] <= nums[temp[j]]) {
+                // 注意：这里是 <= ，保证稳定性
+                indexes[k] = temp[i];
+                i++;
+                res[indexes[k]] += (j - mid - 1);
+            } else {
+                indexes[k] = temp[j];
+                j++;
+            }
+        }
+    }
+
+    @Override
     public String removeDuplicateLetters(){
         System.out.println(JSON.toJSONString(removeDuplicateLetters("bcabc")));
         return "success";
@@ -6448,8 +6565,11 @@ public class SubjectServiceImpl implements SubjectService {
         public Node left;
         public Node right;
         public Node next;
+        public List<Node> neighbors;
 
-        public Node() {}
+        public Node() {
+            neighbors = new ArrayList<>();
+        }
 
         public Node(int _val) {
             val = _val;
@@ -6460,6 +6580,11 @@ public class SubjectServiceImpl implements SubjectService {
             left = _left;
             right = _right;
             next = _next;
+        }
+
+        public Node(int _val, List<Node> _neighbors) {
+            val = _val;
+            neighbors = _neighbors;
         }
     }
 

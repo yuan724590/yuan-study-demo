@@ -1041,6 +1041,14 @@ public class SubjectController {
     }
 
     /**
+     * 133. 克隆图
+     */
+    @GetMapping(value = "/cloneGraph")
+    public String cloneGraph() {
+        return subjectService.cloneGraph();
+    }
+
+    /**
      * 139. 单词拆分
      */
     @GetMapping(value = "/wordBreak")
@@ -1374,6 +1382,14 @@ public class SubjectController {
     @GetMapping(value = "/max/coins")
     public void maxCoins(){
         subjectService.maxCoins();
+    }
+
+    /**
+     * 315. 计算右侧小于当前元素的个数
+     */
+    @GetMapping(value = "/countSmaller")
+    public void countSmaller(){
+        subjectService.countSmaller();
     }
 
     /**
