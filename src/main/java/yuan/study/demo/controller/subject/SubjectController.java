@@ -1497,6 +1497,14 @@ public class SubjectController {
     }
 
     /**
+     * 547. 省份数量
+     */
+    @GetMapping(value = "/findCircleNum")
+    public String findCircleNum() {
+        return subjectService.findCircleNum();
+    }
+
+    /**
      * 550. 游戏玩法分析 IV
      * Activity -> player_id, device_id, event_date, games_played
      * 查询首次登录的第二天登录的玩家比率
@@ -1607,6 +1615,30 @@ public class SubjectController {
     @GetMapping(value = "/findLength")
     public String findLength() {
         return subjectService.findLength();
+    }
+
+    /**
+     * 785. 判断二分图
+     */
+    @GetMapping(value = "/isBipartite")
+    public String isBipartite() {
+        return subjectService.isBipartite();
+    }
+
+    /**
+     * 787. K 站中转内最便宜的航班
+     */
+    @GetMapping(value = "/findCheapestPrice")
+    public String findCheapestPrice() {
+        return subjectService.findCheapestPrice();
+    }
+
+    /**
+     * 797. 所有可能的路径
+     */
+    @GetMapping(value = "/allPathsSourceTarget")
+    public String allPathsSourceTarget() {
+        return subjectService.allPathsSourceTarget();
     }
 
     /**

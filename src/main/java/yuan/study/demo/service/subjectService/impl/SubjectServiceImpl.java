@@ -6053,6 +6053,38 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String findCircleNum(){
+        System.out.println(JSON.toJSONString(findCircleNum(new int[][]{{1,0,0,0,0},{1,1,0,1,0},{0,0,1,1,1},{0,0,1,1,1},{0,0,1,1,1}})));
+        return "success";
+    }
+
+    public int findCircleNum(int[][] isConnected) {
+        if (isConnected == null || isConnected.length == 0) {
+            return 0;
+        }
+        int n = isConnected.length, count = 0;
+        boolean[] flagArr = new boolean[n];
+        for (int i = 0; i < isConnected.length; i++) {
+            if(!flagArr[i]){
+                findCircleNumDfs(isConnected, flagArr, n, i);
+                count++;
+            }
+        }
+        return count;
+    }
+
+    private void findCircleNumDfs(int[][] isConnected, boolean[] flagArr, int n, int i){
+        for (int j = 0; j < n; j++) {
+            if(isConnected[i][j] == 1 && !flagArr[j]){
+                // 第i行的第j列是1, 那么第j行和第i行相连, 标记为已处理
+                flagArr[j] = true;
+                // 递归处理第j行
+                findCircleNumDfs(isConnected, flagArr, n, j);
+            }
+        }
+    }
+
+    @Override
     public String findClosestElements(){
         System.out.println(JSON.toJSONString(findClosestElements(new int[]{1,2,4,5}, 4, 3)));
         return "success";
@@ -6206,6 +6238,98 @@ public class SubjectServiceImpl implements SubjectService {
             n >>= 1;
         }
         return ret;
+    }
+
+    @Override
+    public  String isBipartite(){
+        System.out.println(JSON.toJSONString(isBipartite(new int[][]{{1,2,3},{0,2},{0,1,3},{0,2}})));
+        return "success";
+    }
+
+    private static final int UNCOLORED = 0;
+    private static final int RED = 1;
+    private static final int GREEN = 2;
+    private int[] colorArr;
+    private boolean valid = true;
+
+    public boolean isBipartite(int[][] graph) {
+        int n = graph.length;
+        colorArr = new int[n];
+        for (int i = 0; i < n && valid; i++) {
+            if (colorArr[i] == UNCOLORED) {
+                isBipartiteDfs(i, RED, graph);
+            }
+        }
+        return valid;
+    }
+
+    public void isBipartiteDfs(int i, int color, int[][] graph) {
+        colorArr[i] = color;
+        int c = color == RED ? GREEN : RED;
+        for (int neighbor : graph[i]) {
+            if (colorArr[neighbor] == UNCOLORED) {
+                isBipartiteDfs(neighbor, c, graph);
+                if (!valid) {
+                    return;
+                }
+            } else if (colorArr[neighbor] != c) {
+                valid = false;
+                return;
+            }
+        }
+    }
+
+    @Override
+    public String findCheapestPrice(){
+        System.out.println(JSON.toJSONString(findCheapestPrice(3, new int[][]{{0,1,100},{1,2,100},{0,2,500}}, 0, 2, 1)));
+        return "success";
+    }
+
+    public int findCheapestPrice(int n, int[][] flights, int src, int dst, int k) {
+        int defaultVal = Integer.MAX_VALUE / 2;
+        int[] arr = new int[n];
+        Arrays.fill(arr, defaultVal);
+        arr[src] = 0;
+        int ans = defaultVal;
+        for (int i = 1; i <= k + 1; i++) {
+            int[] newArr = new int[n];
+            Arrays.fill(newArr, defaultVal);
+            for (int[] flight : flights) {
+                newArr[flight[1]] = Math.min(newArr[flight[1]], arr[flight[0]] + flight[2]);
+            }
+            arr = newArr;
+            ans = Math.min(ans, arr[dst]);
+        }
+        return ans == defaultVal ? -1 : ans;
+    }
+
+
+    @Override
+    public String allPathsSourceTarget(){
+        System.out.println(JSON.toJSONString(allPathsSourceTarget(new int[][]{{1,2},{3},{3},{}})));
+        return "success";
+    }
+
+    List<List<Integer>> list = new ArrayList<>();
+
+    public List<List<Integer>> allPathsSourceTarget(int[][] graph) {
+        list.clear();
+        List<Integer> list = new ArrayList<>();
+        list.add(0);
+        allPathsSourceTarget(graph, graph.length, 0, list);
+        return this.list;
+    }
+
+    public void allPathsSourceTarget(int[][] graph, int n, int i, List<Integer> list) {
+        if(i == n - 1){
+            this.list.add(new ArrayList<>(list));
+            return;
+        }
+        for (int j = 0; j < graph[i].length; j++) {
+            list.add(graph[i][j]);
+            allPathsSourceTarget(graph, n, graph[i][j], list);
+            list.remove(list.size() - 1);
+        }
     }
 
     @Override
