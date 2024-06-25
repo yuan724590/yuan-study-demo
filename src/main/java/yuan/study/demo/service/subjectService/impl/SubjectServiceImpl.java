@@ -5683,6 +5683,30 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String wiggleSort(){
+        int[] arr = new int[]{1,5,1,1,6,4};
+        wiggleSort(arr);
+        System.out.println(JSON.toJSONString(arr));
+        return "success";
+    }
+
+    public void wiggleSort(int[] nums) {
+        int[] arr = nums.clone();
+        //[1,2,3,4]
+        Arrays.sort(arr);
+        int n = nums.length;
+        int j = (n + 1) / 2 - 1;
+        int k = n - 1;
+        //[2,4,1,3], 以这样的顺序插入, 防止出现排序后的同值造成数组异常
+        for (int i = 0; i < n; i += 2, j--, k--) {
+            nums[i] = arr[j];
+            if (i + 1 < n) {
+                nums[i + 1] = arr[k];
+            }
+        }
+    }
+
+    @Override
     public String rob3(){
         TreeNode treeNode = new TreeNode(3);
         treeNode.left = new TreeNode(1);
@@ -5755,6 +5779,35 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String wiggleMaxLength(){
+        System.out.println(JSON.toJSONString(wiggleMaxLength(new int[]{1,17,5,10,13,15,10,5,16,8})));
+        return "success";
+    }
+
+    public int wiggleMaxLength(int[] nums) {
+        int n = nums.length;
+        if (n < 2) {
+            return n;
+        }
+        int[] up = new int[n];
+        int[] down = new int[n];
+        up[0] = down[0] = 1;
+        for (int i = 1; i < n; i++) {
+            if (nums[i] > nums[i - 1]) {
+                up[i] = Math.max(up[i - 1], down[i - 1] + 1);
+                down[i] = down[i - 1];
+            } else if (nums[i] < nums[i - 1]) {
+                up[i] = up[i - 1];
+                down[i] = Math.max(up[i - 1] + 1, down[i - 1]);
+            } else {
+                up[i] = up[i - 1];
+                down[i] = down[i - 1];
+            }
+        }
+        return Math.max(up[n - 1], down[n - 1]);
+    }
+
+    @Override
     public String lexicalOrder(){
         System.out.println(JSON.toJSONString(lexicalOrder(56)));
         return "success";
@@ -5795,6 +5848,48 @@ public class SubjectServiceImpl implements SubjectService {
             }
         }
         return -1;
+    }
+
+    @Override
+    public String decodeString(){
+        System.out.println(JSON.toJSONString(decodeString("100[leetcode]")));
+        return "success";
+    }
+
+    public String decodeString(String s) {
+        StringBuilder stringBuilder = new StringBuilder();
+        for(int i = s.length() - 1; i >= 0; i--){
+            char c = s.charAt(i);
+            if(c == ']'){
+                int j = i - 1, count = 1;
+                for(; j >= 0; j--){
+                    c = s.charAt(j);
+                    if(c == ']'){
+                        count++;
+                    }else if(c == '['){
+                        count--;
+                        if(count == 0){
+                            String part = decodeString(s.substring(j + 1, i));
+                            int k = j - 1;
+                            for(; k >= 0; k--){
+                                if(s.charAt(k) < '0' || s.charAt(k) > '9'){
+                                    break;
+                                }
+                            }
+                            int num = Integer.parseInt(s.substring(k + 1, j));
+                            for (k = 0; k < num; k++) {
+                                stringBuilder.insert(0, part);
+                            }
+                            i = j - 1;
+                            break;
+                        }
+                    }
+                }
+            }else if(c >= 'a' && c <= 'z'){
+                stringBuilder.insert(0, c);
+            }
+        }
+        return stringBuilder.toString();
     }
 
     @Override
@@ -6302,7 +6397,6 @@ public class SubjectServiceImpl implements SubjectService {
         }
         return ans == defaultVal ? -1 : ans;
     }
-
 
     @Override
     public String allPathsSourceTarget(){

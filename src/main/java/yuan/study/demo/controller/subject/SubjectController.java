@@ -1417,6 +1417,14 @@ public class SubjectController {
     }
 
     /**
+     * 324. 摆动排序 II
+     */
+    @GetMapping(value = "/wiggleSort")
+    public void wiggleSort(){
+        subjectService.wiggleSort();
+    }
+
+    /**
      * 337. 打家劫舍 III
      */
     @GetMapping(value = "/rob3")
@@ -1441,6 +1449,14 @@ public class SubjectController {
     }
 
     /**
+     * 376. 摆动序列
+     */
+    @GetMapping(value = "/wiggleMaxLength")
+    public void wiggleMaxLength(){
+        subjectService.wiggleMaxLength();
+    }
+
+    /**
      * 386. 字典序排数
      */
     @GetMapping(value = "/lexicalOrder")
@@ -1454,6 +1470,14 @@ public class SubjectController {
     @GetMapping(value = "/firstUniqChar")
     public String firstUniqChar() {
         return subjectService.firstUniqChar();
+    }
+
+    /**
+     * 394. 字符串解码
+     */
+    @GetMapping(value = "/decodeString")
+    public String decodeString() {
+        return subjectService.decodeString();
     }
 
     /**
