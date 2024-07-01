@@ -5751,6 +5751,48 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String canMeasureWater(){
+        System.out.println(JSON.toJSONString(canMeasureWater(3, 5, 4)));
+        return "success";
+    }
+
+    public boolean canMeasureWater(int x, int y, int z) {
+        Deque<int[]> stack = new LinkedList<>();
+        stack.push(new int[]{0, 0});
+        Set<Long> set = new HashSet<>();
+        while (!stack.isEmpty()) {
+            if (set.contains(hash(stack.peek()))) {
+                stack.pop();
+                continue;
+            }
+            set.add(hash(stack.peek()));
+
+            int[] state = stack.pop();
+            int remainX = state[0], remainY = state[1];
+            if (remainX == z || remainY == z || remainX + remainY == z) {
+                return true;
+            }
+            // 把 X 壶灌满。
+            stack.push(new int[]{x, remainY});
+            // 把 Y 壶灌满。
+            stack.push(new int[]{remainX, y});
+            // 把 X 壶倒空。
+            stack.push(new int[]{0, remainY});
+            // 把 Y 壶倒空。
+            stack.push(new int[]{remainX, 0});
+            // 把 X 壶的水灌进 Y 壶，直至灌满或倒空。
+            stack.push(new int[]{remainX - Math.min(remainX, y - remainY), remainY + Math.min(remainX, y - remainY)});
+            // 把 Y 壶的水灌进 X 壶，直至灌满或倒空。
+            stack.push(new int[]{remainX + Math.min(remainY, x - remainX), remainY - Math.min(remainY, x - remainX)});
+        }
+        return false;
+    }
+
+    public long hash(int[] state) {
+        return (long) state[0] * 1000001 + state[1];
+    }
+
+    @Override
     public String kSmallestPairs(){
         System.out.println(JSON.toJSONString(kSmallestPairs(new int[]{2,4,6}, new int[]{1,7,11}, 3)));
         return "success";
@@ -6145,6 +6187,83 @@ public class SubjectServiceImpl implements SubjectService {
         if(minPriorityQueue.size() > maxPriorityQueue.size() + 1){
             maxPriorityQueue.add(minPriorityQueue.poll());
         }
+    }
+
+    @Override
+    public String predictTheWinner(){
+        System.out.println(JSON.toJSONString(predictTheWinner(new int[]{1,5,233,7})));
+        return "success";
+    }
+
+    public boolean predictTheWinner(int[] nums) {
+        int length = nums.length;
+        int[] dp = new int[length];
+        for (int i = 0; i < length; i++) {
+            dp[i] = nums[i];
+        }
+        for (int i = length - 2; i >= 0; i--) {
+            for (int j = i + 1; j < length; j++) {
+                //计算出两个人差异值并存放在数组中继续使用
+                dp[j] = Math.max(nums[i] - dp[j], nums[j] - dp[j - 1]);
+            }
+        }
+        return dp[length - 1] >= 0;
+    }
+
+    @Override
+    public String reversePairs(){
+        System.out.println(JSON.toJSONString(reversePairs(new int[]{1,3,2,3,1})));
+        return "success";
+    }
+
+    public int reversePairs(int[] nums) {
+        if (nums.length == 0) {
+            return 0;
+        }
+        return reversePairsRecursive(nums, 0, nums.length - 1);
+    }
+
+    public int reversePairsRecursive(int[] nums, int left, int right) {
+        if (left == right) {
+            return 0;
+        }
+        int mid = (left + right) / 2;
+        int n1 = reversePairsRecursive(nums, left, mid);
+        int n2 = reversePairsRecursive(nums, mid + 1, right);
+        int ret = n1 + n2;
+
+        // 首先统计下标对的数量
+        int i = left;
+        int j = mid + 1;
+        while (i <= mid) {
+            while (j <= right && (long) nums[i] > 2 * (long) nums[j]) {
+                j++;
+            }
+            ret += j - mid - 1;
+            i++;
+        }
+
+        // 随后合并两个排序数组
+        int[] sorted = new int[right - left + 1];
+        int p1 = left, p2 = mid + 1;
+        int p = 0;
+        while (p1 <= mid || p2 <= right) {
+            if (p1 > mid) {
+                sorted[p++] = nums[p2++];
+            } else if (p2 > right) {
+                sorted[p++] = nums[p1++];
+            } else {
+                if (nums[p1] < nums[p2]) {
+                    sorted[p++] = nums[p1++];
+                } else {
+                    sorted[p++] = nums[p2++];
+                }
+            }
+        }
+        for (int k = 0; k < sorted.length; k++) {
+            nums[left + k] = sorted[k];
+        }
+        return ret;
     }
 
     @Override

@@ -1441,6 +1441,14 @@ public class SubjectController {
     }
 
     /**
+     * 365. 水壶问题
+     */
+    @GetMapping(value = "/canMeasureWater")
+    public void canMeasureWater(){
+        subjectService.canMeasureWater();
+    }
+
+    /**
      * 373. 查找和最小的 K 对数字
      */
     @GetMapping(value = "/kSmallestPairs")
@@ -1518,6 +1526,22 @@ public class SubjectController {
     @GetMapping(value = "/medianSlidingWindow")
     public String medianSlidingWindow() {
         return subjectService.medianSlidingWindow();
+    }
+
+    /**
+     * 486. 预测赢家
+     */
+    @GetMapping(value = "/predictTheWinner")
+    public String predictTheWinner() {
+        return subjectService.predictTheWinner();
+    }
+
+    /**
+     * 493. 翻转对
+     */
+    @GetMapping(value = "/reversePairs2")
+    public String reversePairs() {
+        return subjectService.reversePairs();
     }
 
     /**
