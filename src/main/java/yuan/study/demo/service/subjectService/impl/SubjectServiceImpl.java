@@ -152,10 +152,10 @@ public class SubjectServiceImpl implements SubjectService {
 
     @Override
     public void getTheLongestPalindromeString(){
-        System.out.println(longestPalindrome("addc"));
+        System.out.println(getTheLongestPalindromeString("addc"));
     }
 
-    public String longestPalindrome(String s) {
+    public String getTheLongestPalindromeString(String s) {
         if (s == null || s.length() < 1) {
             return "";
         }
@@ -6040,6 +6040,32 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String longestPalindrome(){
+        System.out.println(longestPalindrome("AAabccccddzz"));
+        return "success";
+    }
+
+    public int longestPalindrome(String s) {
+        int n = s.length();
+        if(n <= 1){
+            return n;
+        }
+        int[] arr = new int[58];
+        for (int i = 0; i < n; i++) {
+            arr[s.charAt(i) - 'A']++;
+        }
+        int max = 0;
+        boolean flag = false;
+        for (int i = 0; i < arr.length; i++) {
+            max += arr[i] >> 1 << 1;
+            if(!flag && arr[i] % 2 == 1){
+                flag = true;
+            }
+        }
+        return max + (flag ? 1 : 0);
+    }
+
+    @Override
     public String findAnagrams(){
         System.out.println(JSON.toJSONString(findAnagrams("cbaebabacd", "abc")));
         return "success";
@@ -6264,6 +6290,135 @@ public class SubjectServiceImpl implements SubjectService {
             nums[left + k] = sorted[k];
         }
         return ret;
+    }
+
+    @Override
+    public String updateBoard(){
+        char[][] arr = new char[][]{{'E','E','E','E','E','E','E','E'},
+                        {'E','E','E','E','E','E','E','M'},
+                        {'E','E','M','E','E','E','E','E'},
+                        {'M','E','E','E','E','E','E','E'},
+                        {'E','E','E','E','E','E','E','E'},
+                        {'E','E','E','E','E','E','E','E'},
+                        {'E','E','E','E','E','E','E','E'},
+                        {'E','E','M','M','E','E','E','E'}};
+        System.out.println(JSON.toJSONString(updateBoard(arr, new int[]{0,0})));
+        return "success";
+    }
+
+    public char[][] updateBoard(char[][] board, int[] click) {
+        int xClick = click[0];
+        int yClick = click[1];
+        if(board[xClick][yClick] == 'M'){
+            board[xClick][yClick] = 'X';
+            return board;
+        }
+        updateBoard(board, xClick, yClick);
+        return board;
+    }
+
+    private void updateBoard(char[][] board, int x, int y) {
+        if(board[x][y] == 'M' || board[x][y] == 'B' || (board[x][y] >= '1' && board[x][y] <= '9')){
+            return;
+        }
+        //此点周围的雷数
+        int count = boardCount(board, x, y);
+        if(count > 0){
+            board[x][y] = (char) (count + '0');
+            return;
+        }
+        board[x][y] = 'B';
+        //向外扩散, 只有是空的时候才会扩散
+        updateBoardDiffuse(board, x, y);
+    }
+
+    /**
+     * 向外扩散
+     * @param board
+     * @param x
+     * @param y
+     */
+    private void updateBoardDiffuse(char[][] board, int x, int y){
+        if(x > 0){
+            if(y > 0){
+                //左上
+                updateBoard(board, x - 1, y - 1);
+            }
+            //左
+            updateBoard(board, x - 1, y);
+            if(y < board[0].length - 1){
+                //左下
+                updateBoard(board, x - 1, y + 1);
+            }
+        }
+        if(y > 0){
+            //上
+            updateBoard(board, x, y - 1);
+        }
+        if(y < board[0].length - 1){
+            //下
+            updateBoard(board, x, y + 1);
+        }
+        if(x < board.length - 1){
+            if(y > 0){
+                //右上
+                updateBoard(board, x + 1, y - 1);
+            }
+            //右
+            updateBoard(board, x + 1, y);
+            if(y < board[0].length - 1){
+                //右下
+                updateBoard(board, x + 1, y + 1);
+            }
+        }
+    }
+
+    /**
+     * 计算周围雷的数量
+     * @param board
+     * @param x
+     * @param y
+     * @return
+     */
+    private int boardCount(char[][] board, int x, int y) {
+        int count = 0;
+        if(x > 0){
+            if(y > 0 && board[x - 1][y - 1] == 'M'){
+                //左上
+                count++;
+            }
+            if(board[x - 1][y] == 'M'){
+                //左
+                count++;
+            }
+            if(y < board[0].length - 1 && board[x - 1][y + 1] == 'M'){
+                //左下
+                count++;
+            }
+        }
+        if(y > 0 && board[x][y - 1] == 'M'){
+            //上
+            count++;
+        }
+        if(y < board[0].length - 1 && board[x][y + 1] == 'M'){
+            //下
+            count++;
+        }
+        if(x < board.length - 1){
+            if(y > 0 && board[x + 1][y - 1] == 'M'){
+                //右上
+                count++;
+            }
+            if(board[x + 1][y] == 'M'){
+                //右
+                count++;
+            }
+            if(y < board[0].length - 1 && board[x + 1][y + 1] == 'M'){
+                //右下
+                count++;
+            }
+        }
+        return count;
     }
 
     @Override

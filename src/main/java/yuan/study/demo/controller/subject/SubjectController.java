@@ -1513,6 +1513,14 @@ public class SubjectController {
     }
 
     /**
+     * 409. 最长回文串
+     */
+    @GetMapping(value = "/longestPalindrome")
+    public String longestPalindrome() {
+        return subjectService.longestPalindrome();
+    }
+
+    /**
      * 438. 找到字符串中所有字母异位词
      */
     @GetMapping(value = "/findAnagrams")
@@ -1542,6 +1550,14 @@ public class SubjectController {
     @GetMapping(value = "/reversePairs2")
     public String reversePairs() {
         return subjectService.reversePairs();
+    }
+
+    /**
+     * 529. 扫雷游戏
+     */
+    @GetMapping(value = "/updateBoard")
+    public String updateBoard() {
+        return subjectService.updateBoard();
     }
 
     /**
