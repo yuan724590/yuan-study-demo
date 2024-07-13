@@ -6066,6 +6066,34 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String splitArray(){
+        System.out.println(JSON.toJSONString(splitArray(new int[]{1,2,3,4,5}, 2)));
+        return "success";
+    }
+
+    public int splitArray(int[] nums, int m) {
+        int n = nums.length;
+        int[][] f = new int[n + 1][m + 1];
+        for (int i = 0; i <= n; i++) {
+            Arrays.fill(f[i], Integer.MAX_VALUE);
+        }
+        int[] sub = new int[n + 1];
+        for (int i = 0; i < n; i++) {
+            sub[i + 1] = sub[i] + nums[i];
+        }
+        f[0][0] = 0;
+        for (int i = 1; i <= n; i++) {
+            for (int j = 1; j <= Math.min(i, m); j++) {
+                for (int k = 0; k < i; k++) {
+                    //前i个元素切为j份的结果 = min(历史计算的结果, max(按k切割时少一切份计算的结果, 按k切割时后半部分的结果))
+                    f[i][j] = Math.min(f[i][j], Math.max(f[k][j - 1], sub[i] - sub[k]));
+                }
+            }
+        }
+        return f[n][m];
+    }
+
+    @Override
     public String findAnagrams(){
         System.out.println(JSON.toJSONString(findAnagrams("cbaebabacd", "abc")));
         return "success";
@@ -6176,6 +6204,28 @@ public class SubjectServiceImpl implements SubjectService {
             }
         }
         return result;
+    }
+
+    @Override
+    public String findContentChildren(){
+        System.out.println(JSON.toJSONString(findContentChildren(new int[]{1,2,3}, new int[]{3})));
+        return "success";
+    }
+
+    public int findContentChildren(int[] g, int[] s) {
+        Arrays.sort(g);
+        Arrays.sort(s);
+        int count = 0, j = -1, gNum = g.length, sNum = s.length - 1;
+        for (int i = 0; i < gNum; i++) {
+            while(j < sNum) {
+                j++;
+                if(s[j] >= g[i]){
+                    count++;
+                    break;
+                }
+            }
+        }
+        return count;
     }
 
     @Override

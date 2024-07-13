@@ -1521,11 +1521,27 @@ public class SubjectController {
     }
 
     /**
+     * 410. 分割数组的最大值
+     */
+    @GetMapping(value = "/splitArray")
+    public String splitArray() {
+        return subjectService.splitArray();
+    }
+
+    /**
      * 438. 找到字符串中所有字母异位词
      */
     @GetMapping(value = "/findAnagrams")
     public String findAnagrams() {
         return subjectService.findAnagrams();
+    }
+
+    /**
+     * 455. 分发饼干
+     */
+    @GetMapping(value = "/findContentChildren")
+    public String findContentChildren() {
+        return subjectService.findContentChildren();
     }
 
     /**
