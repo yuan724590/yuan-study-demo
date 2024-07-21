@@ -1441,6 +1441,14 @@ public class SubjectController {
     }
 
     /**
+     * 349. 两个数组的交集
+     */
+    @GetMapping(value = "/intersection")
+    public void intersection(){
+        subjectService.intersection();
+    }
+
+    /**
      * 365. 水壶问题
      */
     @GetMapping(value = "/canMeasureWater")
@@ -1526,6 +1534,14 @@ public class SubjectController {
     @GetMapping(value = "/splitArray")
     public String splitArray() {
         return subjectService.splitArray();
+    }
+
+    /**
+     * 416. 分割等和子集
+     */
+    @GetMapping(value = "/canPartition")
+    public String canPartition() {
+        return subjectService.canPartition();
     }
 
     /**

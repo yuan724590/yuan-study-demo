@@ -5751,6 +5751,36 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String intersection(){
+        System.out.println(JSON.toJSONString(intersection(new int[]{1,2,2,1}, new int[]{2,2})));
+        return "success";
+    }
+
+    public int[] intersection(int[] nums1, int[] nums2) {
+        Arrays.sort(nums1);
+        Arrays.sort(nums2);
+        int length1 = nums1.length, length2 = nums2.length;
+        int[] intersection = new int[length1 + length2];
+        int index = 0, index1 = 0, index2 = 0;
+        while (index1 < length1 && index2 < length2) {
+            int num1 = nums1[index1], num2 = nums2[index2];
+            if (num1 == num2) {
+                // 保证加入元素的唯一性
+                if (index == 0 || num1 != intersection[index - 1]) {
+                    intersection[index++] = num1;
+                }
+                index1++;
+                index2++;
+            } else if (num1 < num2) {
+                index1++;
+            } else {
+                index2++;
+            }
+        }
+        return Arrays.copyOfRange(intersection, 0, index);
+    }
+
+    @Override
     public String canMeasureWater(){
         System.out.println(JSON.toJSONString(canMeasureWater(3, 5, 4)));
         return "success";
@@ -6091,6 +6121,42 @@ public class SubjectServiceImpl implements SubjectService {
             }
         }
         return f[n][m];
+    }
+
+    @Override
+    public String canPartition(){
+        System.out.println(JSON.toJSONString(canPartition(new int[]{1,5,11,5})));
+        return "success";
+    }
+
+    public boolean canPartition(int[] nums) {
+        int n = nums.length;
+        if (n < 2) {
+            return false;
+        }
+        int sum = 0, maxNum = 0;
+        for (int num : nums) {
+            sum += num;
+            maxNum = Math.max(maxNum, num);
+        }
+        //和为奇数, 返回false
+        if (sum % 2 != 0) {
+            return false;
+        }
+        sum = sum / 2;
+        //最大的数字超过预期值, 返回false
+        if (maxNum > sum) {
+            return false;
+        }
+        boolean[] dp = new boolean[sum + 1];
+        dp[0] = true;
+        for (int i = 0; i < n; i++) {
+            int num = nums[i];
+            for (int j = sum; j >= num; j--) {
+                dp[j] = dp[j] | dp[j - num];
+            }
+        }
+        return dp[sum];
     }
 
     @Override
