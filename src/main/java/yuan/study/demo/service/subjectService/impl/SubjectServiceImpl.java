@@ -5204,6 +5204,55 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public  String diffWaysToCompute(){
+        System.out.println(JSON.toJSONString(diffWaysToCompute("2*3-4*5")));
+        return "success";
+    }
+
+
+    public List<Integer> diffWaysToCompute(String expression) {
+        List<Integer> list = new ArrayList<>();
+        int len = expression.length();
+        int start;
+        for (start = 0; start < len; start++) {
+            //找到一个运算符
+            if(!Character.isDigit(expression.charAt(start))) {
+                break;
+            }
+        }
+        //没找到等于字符串里没有运算符，那直接返回对应数字结果
+        if(start == len) {
+            list.add(Integer.parseInt(expression));
+        }
+
+        for (int i = start; i < len; i++) {
+            if(Character.isDigit(expression.charAt(i))){
+                continue;
+            }
+            char op = expression.charAt(i);
+            //用该运算符分隔成 左边的字符串 和 右边的字符串
+            //左边的字符串再递归继续求得 数字结果集
+            List<Integer> left = diffWaysToCompute(expression.substring(0,i));
+            //右边的字符串再递归继续求得 数字结果集
+            List<Integer> right = diffWaysToCompute(expression.substring(i+1,len));
+
+            //从左右两个求得数字结果集里拿出数字，基于当前运算符运算完 ，添加进最终list，得到最终数字结果集
+            for (int j : left){
+                for (int k : right){
+                    if(op=='+'){
+                        list.add(j+k);
+                    } else if(op == '-') {
+                        list.add(j-k);
+                    } else if(op == '*') {
+                        list.add(j*k);
+                    }
+                }
+            }
+        }
+        return list;
+    }
+
+    @Override
     public String isAnagram(){
         System.out.println(JSON.toJSONString(isAnagram("rat", "car")));
         return "success";
@@ -5748,6 +5797,27 @@ public class SubjectServiceImpl implements SubjectService {
             }
         }
         return dp;
+    }
+
+    @Override
+    public String integerBreak(){
+        System.out.println(JSON.toJSONString(integerBreak(36)));
+        return "success";
+    }
+
+    public int integerBreak(int n) {
+        if(n <= 3){
+            return n - 1;
+        }
+        int res = 1;
+        while(n > 4){
+            res = 3 * res;
+            n = n - 3;
+        }
+        if(n >= 2){
+            res = res * n;
+        }
+        return res;
     }
 
     @Override

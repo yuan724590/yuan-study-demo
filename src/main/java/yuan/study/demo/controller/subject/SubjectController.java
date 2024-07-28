@@ -1319,6 +1319,14 @@ public class SubjectController {
     }
 
     /**
+     * 241. 为运算表达式设计优先级
+     */
+    @GetMapping(value = "/diffWaysToCompute")
+    public void diffWaysToCompute(){
+        subjectService.diffWaysToCompute();
+    }
+
+    /**
      * 242. 有效的字母异位词
      */
     @GetMapping(value = "/is/anagram")
@@ -1438,6 +1446,14 @@ public class SubjectController {
     @GetMapping(value = "/countBits")
     public void countBits(){
         subjectService.countBits();
+    }
+
+    /**
+     * 343. 整数拆分
+     */
+    @GetMapping(value = "/integerBreak")
+    public void integerBreak(){
+        subjectService.integerBreak();
     }
 
     /**
