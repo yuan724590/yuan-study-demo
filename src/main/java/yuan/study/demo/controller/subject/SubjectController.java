@@ -1946,6 +1946,14 @@ public class SubjectController {
      */
 
     /**
+     * 1492. n 的第 k 个因子
+     */
+    @GetMapping(value = "/kthFactor")
+    public String kthFactor() {
+        return subjectService.kthFactor();
+    }
+
+    /**
      * 1517. 查找拥有有效邮箱的用户
      * select user_id,name,mail from Users where mail regexp '^[a-zA-Z][a-zA-Z0-9\\_\\.\\-]*@leetcode\\.com$'
      */
@@ -2040,6 +2048,14 @@ public class SubjectController {
      * 1978. 上级经理已离职的公司员工
      * select a.employee_id from employees a left join employees b on a.manager_id = b.employee_id where a.salary < 30000 and a.manager_id is not null and b.name is null order by a.employee_id
      */
+
+    /**
+     * 1979. 找出数组的最大公约数
+     */
+    @GetMapping(value = "/findGCD")
+    public String findGCD() {
+        return subjectService.findGCD();
+    }
 
     /**
      * 2071. 你可以安排的最多任务数目

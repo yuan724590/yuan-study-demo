@@ -7267,6 +7267,62 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String kthFactor(){
+        System.out.println(JSON.toJSONString(kthFactor(12, 3)));
+        return "success";
+    }
+
+    public int kthFactor(int n, int k) {
+        int count = 0, i;
+        for (i = 1; i * i <= n; i++) {
+            if (n % i != 0) {
+                continue;
+            }
+            count++;
+            if (count == k) {
+                return i;
+            }
+        }
+        i--;
+        if (i * i == n) {
+            i--;
+        }
+        for (; i > 0; i--) {
+            if (n % i == 0) {
+                count++;
+                if (count == k) {
+                    return n / i;
+                }
+            }
+        }
+        return -1;
+    }
+
+    @Override
+    public String findGCD(){
+        System.out.println(JSON.toJSONString(findGCD(new int[]{2,5,6,9,10})));
+        return "success";
+    }
+
+    public int findGCD(int[] nums) {
+        int min = Integer.MAX_VALUE, max = Integer.MIN_VALUE;
+        for (int num : nums) {
+            if (num > max) {
+                max = num;
+            }
+            if (num < min) {
+                min = num;
+            }
+        }
+        while(min != 0){
+            int x = max;
+            max = min;
+            min = x % min;
+        }
+        return max;
+    }
+
+    @Override
     public String maxTaskAssign(){
         System.out.println(JSON.toJSONString(maxTaskAssign(new int[]{3,2,1}, new int[]{0,3,3}, 1, 1)));
         return "success";
