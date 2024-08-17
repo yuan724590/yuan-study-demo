@@ -1202,6 +1202,14 @@ public class SubjectController {
     }
 
     /**
+     * 204. 计数质数
+     */
+    @GetMapping(value = "/canFinish")
+    public void countPrimes(){
+        subjectService.countPrimes();
+    }
+
+    /**
      * 207. 课程表
      */
     @GetMapping(value = "/canFinish")
@@ -1340,11 +1348,24 @@ public class SubjectController {
      */
 
     /**
+     * 268. 丢失的数字
+     * 同yuan.study.demo.controller.subject.OfferSubjectController#missingNumber(), 故跳过
+     */
+
+    /**
      * 274. H 指数
      */
     @GetMapping(value = "/hIndex")
     public void hIndex(){
         subjectService.hIndex();
+    }
+
+    /**
+     * 279. 完全平方数
+     */
+    @GetMapping(value = "/numSquares")
+    public void numSquares(){
+        subjectService.numSquares();
     }
 
     /**
@@ -1390,6 +1411,14 @@ public class SubjectController {
     @GetMapping(value = "/max/coins")
     public void maxCoins(){
         subjectService.maxCoins();
+    }
+
+    /**
+     * 313. 超级丑数
+     */
+    @GetMapping(value = "/nthSuperUglyNumber")
+    public void nthSuperUglyNumber(){
+        subjectService.nthSuperUglyNumber();
     }
 
     /**
@@ -1462,6 +1491,13 @@ public class SubjectController {
     @GetMapping(value = "/intersection")
     public void intersection(){
         subjectService.intersection();
+    }
+
+    /**
+     * 354. 俄罗斯套娃信封问题
+     */
+    public void maxEnvelopes(){
+        subjectService.maxEnvelopes();
     }
 
     /**

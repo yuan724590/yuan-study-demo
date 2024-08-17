@@ -4559,6 +4559,30 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String countPrimes(){
+        System.out.println(JSON.toJSONString(countPrimes(10)));
+        return "success";
+    }
+
+    public int countPrimes(int n) {
+        if(n < 3){
+            return 0;
+        }
+        int count = 0;
+        boolean[] arr = new boolean[n];
+        for (int i = 2; i < n; i++) {
+            if(arr[i]){
+                continue;
+            }
+            count++;
+            for (int j = 2; j * i < n; j++) {
+                arr[j * i] = true;
+            }
+        }
+        return count;
+    }
+
+    @Override
     public String canFinish(){
         System.out.println(JSON.toJSONString(canFinish(5, new int[][]{{1,0},{1,2},{0,1}})));
         return "success";
@@ -5303,6 +5327,25 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String numSquares(){
+        System.out.println(JSON.toJSONString(numSquares(12)));
+        return "success";
+    }
+
+    public int numSquares(int n) {
+        int[] dp = new int[n + 1];
+        Arrays.fill(dp, Integer.MAX_VALUE);
+        dp[0] = 0;
+        dp[1] = 1;
+        for (int i = 1; i <= n; i++) {
+            for (int j = 1; j * j <= i; j++) {
+                dp[i] = Math.min(dp[i], dp[i - j * j] + 1);
+            }
+        }
+        return dp[n];
+    }
+
+    @Override
     public String moveZeroes(){
         int[] arr = new int[]{0,1,0,3,12};
         moveZeroes(arr);
@@ -5500,6 +5543,39 @@ public class SubjectServiceImpl implements SubjectService {
             }
         }
         return map[1][map.length - 2];
+    }
+
+    @Override
+    public String nthSuperUglyNumber(){
+        System.out.println(JSON.toJSONString(nthSuperUglyNumber(12, new int[]{2,7,13,19})));
+        return "success";
+    }
+
+    public int nthSuperUglyNumber(int n, int[] primes) {
+        int m = primes.length;
+        int[] num = new int[m];
+        Arrays.fill(num, 0);
+
+        int[] dp = new int[n];
+        Arrays.fill(dp, Integer.MAX_VALUE);
+        dp[0] = 1;
+
+        int[] val = new int[m];
+        for (int i = 1; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                val[j] = dp[num[j]] * primes[j];
+                if (val[j] >= 0) {
+                    //处理溢出的问题
+                    dp[i] = Math.min(dp[i], val[j]);
+                }
+            }
+            for (int j = 0; j < m; j++) {
+                if (val[j] == dp[i]) {
+                    num[j]++;
+                }
+            }
+        }
+        return dp[n - 1];
     }
 
     @Override
@@ -5848,6 +5924,47 @@ public class SubjectServiceImpl implements SubjectService {
             }
         }
         return Arrays.copyOfRange(intersection, 0, index);
+    }
+
+    @Override
+    public String maxEnvelopes(){
+        System.out.println(JSON.toJSONString(maxEnvelopes(new int[][]{{5,4},{6,4},{6,7},{2,3}})));
+        return "success";
+    }
+
+    public int maxEnvelopes(int[][] envelopes) {
+        if (envelopes.length == 0) {
+            return 0;
+        }
+
+        int n = envelopes.length;
+        Arrays.sort(envelopes, (e1, e2) -> e1[0] != e2[0] ? e1[0] - e2[0] : e2[1] - e1[1]);
+
+        List<Integer> list = new ArrayList<>();
+        list.add(envelopes[0][1]);
+        for (int i = 1; i < n; ++i) {
+            int num = envelopes[i][1];
+            if (num > list.get(list.size() - 1)) {
+                list.add(num);
+            } else {
+                int index = maxEnvelopesBinarySearch(list, num);
+                list.set(index, num);
+            }
+        }
+        return list.size();
+    }
+
+    private int maxEnvelopesBinarySearch(List<Integer> list, int target) {
+        int low = 0, high = list.size() - 1;
+        while (low < high) {
+            int mid = (high - low) / 2 + low;
+            if (list.get(mid) < target) {
+                low = mid + 1;
+            } else {
+                high = mid;
+            }
+        }
+        return low;
     }
 
     @Override
@@ -6646,7 +6763,7 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     public List<Integer> findClosestElements(int[] arr, int k, int x) {
-        int right = binarySearch(arr, x);
+        int right = maxEnvelopesBinarySearch(arr, x);
         int left = right - 1;
         while (k-- > 0) {
             if (left < 0) {
@@ -6666,7 +6783,7 @@ public class SubjectServiceImpl implements SubjectService {
         return ans;
     }
 
-    public int binarySearch(int[] arr, int x) {
+    public int maxEnvelopesBinarySearch(int[] arr, int x) {
         int low = 0, high = arr.length - 1;
         while (low < high) {
             int mid = low + (high - low) / 2;
