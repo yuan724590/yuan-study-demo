@@ -5058,6 +5058,27 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String maximalSquare(){
+        System.out.println(JSON.toJSONString(maximalSquare(new char[][]{{'1','0','1','0','0'},{'1','0','1','1','1'},{'1','1','1','1','1'},{'1','0','0','1','0'}})));
+        return "success";
+    }
+
+    public int maximalSquare(char[][] matrix) {
+        int rows = matrix.length, columns = matrix[0].length, maxSide = 0;
+        int[][] dp = new int[rows + 1][columns + 1];
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < columns; j++) {
+                if (matrix[i][j] == '0') {
+                    continue;
+                }
+                dp[i + 1][j + 1] = Math.min(Math.min(dp[i][j + 1], dp[i + 1][j]), dp[i][j]) + 1;
+                maxSide = Math.max(maxSide, dp[i + 1][j + 1]);
+            }
+        }
+        return maxSide * maxSide;
+    }
+
+    @Override
     public String isPowerOfTwo(){
         System.out.println(JSON.toJSONString(isPowerOfTwo(56)));
         return "success";
@@ -5181,6 +5202,30 @@ public class SubjectServiceImpl implements SubjectService {
             return right;
         }
         return null;
+    }
+
+    @Override
+    public String productExceptSelf(){
+        System.out.println(JSON.toJSONString(productExceptSelf(new int[]{-1,1,0,-3,3})));
+        return "success";
+    }
+
+    public int[] productExceptSelf(int[] nums) {
+        int n = nums.length;
+        int[] leftDp = new int[n + 1];
+        int[] rightDp = new int[n + 1];
+        leftDp[0] = 1;
+        for (int i = 0; i < n; i++) {
+            leftDp[i + 1] = nums[i] * leftDp[i];
+        }
+        rightDp[n] = 1;
+        for (int i = n - 1; i >= 0; i--) {
+            rightDp[i] = nums[i] * rightDp[i + 1];
+        }
+        for (int i = 0; i < nums.length; i++) {
+            nums[i] = leftDp[i] * rightDp[i + 1];
+        }
+        return nums;
     }
 
     @Override

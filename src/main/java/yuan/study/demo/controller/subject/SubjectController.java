@@ -1204,7 +1204,7 @@ public class SubjectController {
     /**
      * 204. 计数质数
      */
-    @GetMapping(value = "/canFinish")
+    @GetMapping(value = "/countPrimes")
     public void countPrimes(){
         subjectService.countPrimes();
     }
@@ -1271,6 +1271,14 @@ public class SubjectController {
     }
 
     /**
+     * 221. 最大正方形
+     */
+    @GetMapping(value = "/maximalSquare")
+    public void maximalSquare(){
+        subjectService.maximalSquare();
+    }
+
+    /**
      * 225. 用队列实现栈
      */
     @GetMapping(value = "/my/stack")
@@ -1316,6 +1324,14 @@ public class SubjectController {
     @GetMapping(value = "/lowest/common/ancestor2")
     public void lowestCommonAncestor2(){
         subjectService.lowestCommonAncestor2();
+    }
+
+    /**
+     * 238. 除自身以外数组的乘积
+     */
+    @GetMapping(value = "/productExceptSelf")
+    public void productExceptSelf(){
+        subjectService.productExceptSelf();
     }
 
     /**
