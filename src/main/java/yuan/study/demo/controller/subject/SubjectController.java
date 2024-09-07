@@ -1110,6 +1110,14 @@ public class SubjectController {
      */
 
     /**
+     * 162. 寻找峰值
+     */
+    @GetMapping(value = "/findPeakElement")
+    public void findPeakElement(){
+        subjectService.findPeakElement();
+    }
+
+    /**
      * 165. 比较版本号
      */
     @GetMapping(value = "/compareVersion")
@@ -1478,6 +1486,14 @@ public class SubjectController {
     }
 
     /**
+     * 329. 矩阵中的最长递增路径
+     */
+    @GetMapping(value = "/longestIncreasingPath")
+    public void longestIncreasingPath(){
+        subjectService.longestIncreasingPath();
+    }
+
+    /**
      * 337. 打家劫舍 III
      */
     @GetMapping(value = "/rob3")
@@ -1570,6 +1586,14 @@ public class SubjectController {
     @GetMapping(value = "/removeKdigits")
     public String removeKdigits() {
         return subjectService.removeKdigits();
+    }
+
+    /**
+     * 403. 青蛙过河
+     */
+    @GetMapping(value = "/canCross")
+    public String canCross() {
+        return subjectService.canCross();
     }
 
     /**
@@ -1838,6 +1862,14 @@ public class SubjectController {
     }
 
     /**
+     * 936. 戳印序列
+     */
+    @GetMapping(value = "/movesToStamp")
+    public String movesToStamp() {
+        return subjectService.movesToStamp();
+    }
+
+    /**
      * 941. 有效的山脉数组
      */
     @GetMapping(value = "/validMountainArray")
@@ -1846,11 +1878,11 @@ public class SubjectController {
     }
 
     /**
-     * 936. 戳印序列
+     * 952. 按公因数计算最大组件大小
      */
-    @GetMapping(value = "/movesToStamp")
-    public String movesToStamp() {
-        return subjectService.movesToStamp();
+    @GetMapping(value = "/largestComponentSize")
+    public String largestComponentSize() {
+        return subjectService.largestComponentSize();
     }
 
     /**

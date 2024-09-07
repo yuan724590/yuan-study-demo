@@ -4424,6 +4424,22 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String findPeakElement(){
+        System.out.println(JSON.toJSONString(findPeakElement(new int[]{1,2,3,1})));
+        return "success";
+    }
+
+    public int findPeakElement(int[] nums) {
+        int idx = 0;
+        for (int i = 1; i < nums.length; i++) {
+            if (nums[i] > nums[idx]) {
+                idx = i;
+            }
+        }
+        return idx;
+    }
+
+    @Override
     public String findRepeatedDnaSequences(){
         System.out.println(JSON.toJSONString(findRepeatedDnaSequences("AAAAACCCCCAAAAACCCCCCAAAAAGGGTTT")));
         return "success";
@@ -5877,6 +5893,45 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String longestIncreasingPath(){
+        System.out.println(JSON.toJSONString(longestIncreasingPath(new int[][]{{3,4,5},{3,2,6},{2,2,1}})));
+        return "success";
+    }
+
+    public int[][] longestIncreasingPathDirs = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
+    public int longestIncreasingPathRows, longestIncreasingPathColumns;
+
+    public int longestIncreasingPath(int[][] matrix) {
+        if (matrix == null || matrix.length == 0 || matrix[0].length == 0) {
+            return 0;
+        }
+        longestIncreasingPathRows = matrix.length;
+        longestIncreasingPathColumns = matrix[0].length;
+        int[][] memo = new int[longestIncreasingPathRows][longestIncreasingPathColumns];
+        int ans = 0;
+        for (int i = 0; i < longestIncreasingPathRows; ++i) {
+            for (int j = 0; j < longestIncreasingPathColumns; ++j) {
+                ans = Math.max(ans, dfs(matrix, i, j, memo));
+            }
+        }
+        return ans;
+    }
+
+    public int dfs(int[][] matrix, int row, int column, int[][] memo) {
+        if (memo[row][column] != 0) {
+            return memo[row][column];
+        }
+        memo[row][column]++;
+        for (int[] dir : longestIncreasingPathDirs) {
+            int newRow = row + dir[0], newColumn = column + dir[1];
+            if (newRow >= 0 && newRow < longestIncreasingPathRows && newColumn >= 0 && newColumn < longestIncreasingPathColumns && matrix[newRow][newColumn] > matrix[row][column]) {
+                memo[row][column] = Math.max(memo[row][column], dfs(matrix, newRow, newColumn, memo) + 1);
+            }
+        }
+        return memo[row][column];
+    }
+
+    @Override
     public String rob3(){
         TreeNode treeNode = new TreeNode(3);
         treeNode.left = new TreeNode(1);
@@ -6230,6 +6285,36 @@ public class SubjectServiceImpl implements SubjectService {
             stringBuilder.append(digit);
         }
         return stringBuilder.length() == 0 ? "0" : stringBuilder.toString();
+    }
+
+    @Override
+    public String canCross(){
+        System.out.println(JSON.toJSONString(canCross(new int[]{0,1,3,5,6,8,12,17})));
+        return "success";
+    }
+
+    public boolean canCross(int[] stones) {
+        int n = stones.length;
+        boolean[][] dp = new boolean[n][n];
+        dp[0][0] = true;
+        for (int i = 1; i < n; ++i) {
+            if (stones[i] - stones[i - 1] > i) {
+                return false;
+            }
+        }
+        for (int i = 1; i < n; ++i) {
+            for (int j = i - 1; j >= 0; --j) {
+                int k = stones[i] - stones[j];
+                if (k > j + 1) {
+                    break;
+                }
+                dp[i][k] = dp[j][k - 1] || dp[j][k] || dp[j][k + 1];
+                if (i == n - 1 && dp[i][k]) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     @Override
@@ -7181,26 +7266,6 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
-    public String validMountainArray(){
-        System.out.println(JSON.toJSONString(validMountainArray(new int[]{0,3,2,1})));
-        return "success";
-    }
-
-    public boolean validMountainArray(int[] arr) {
-        if(arr.length < 3){
-            return false;
-        }
-        int left = 0, right = arr.length - 1;
-        while (left < arr.length - 2 && arr[left] < arr[left + 1]) {
-            left++;
-        }
-        while (right > 1 && arr[right] < arr[right - 1]) {
-            right--;
-        }
-        return left == right;
-    }
-
-    @Override
     public String movesToStamp(){
         System.out.println(JSON.toJSONString(movesToStamp("abc", "aabcaca")));
         return "success";
@@ -7292,6 +7357,101 @@ public class SubjectServiceImpl implements SubjectService {
             this.todo = todo;
         }
     }
+
+    @Override
+    public String validMountainArray(){
+        System.out.println(JSON.toJSONString(validMountainArray(new int[]{0,3,2,1})));
+        return "success";
+    }
+
+    public boolean validMountainArray(int[] arr) {
+        if(arr.length < 3){
+            return false;
+        }
+        int left = 0, right = arr.length - 1;
+        while (left < arr.length - 2 && arr[left] < arr[left + 1]) {
+            left++;
+        }
+        while (right > 1 && arr[right] < arr[right - 1]) {
+            right--;
+        }
+        return left == right;
+    }
+
+    @Override
+    public String largestComponentSize(){
+        System.out.println(JSON.toJSONString(largestComponentSize(new int[]{2,3,6,7,4,12,21,39})));
+        return "success";
+    }
+
+    public static int largestComponentSizeN = (int) 1e5 + 7;
+
+    public static int[] largestComponentSizeIsPrime = new int[largestComponentSizeN];
+
+    public static int[] largestComponentSizePrimes = new int[largestComponentSizeN];
+
+    //并查集
+    public static int[] largestComponentSizeParent = new int[largestComponentSizeN];
+
+    int largestComponentSizeK = 0;
+
+    private int largestComponentSize(int[] nums) {
+        //欧拉筛，找出1-n的所有质数
+        for (int i = 2; i < largestComponentSizeN; i++) {
+            if (largestComponentSizeIsPrime[i] == 0) {
+                largestComponentSizePrimes[largestComponentSizeK++] = i;
+            }
+            for (int j = 0; largestComponentSizePrimes[j] * i < largestComponentSizeN; j++) {
+                largestComponentSizeIsPrime[largestComponentSizePrimes[j] * i] = 1;
+                if (i % largestComponentSizePrimes[j] == 0) {
+                    break;
+                }
+            }
+        }
+        //初始化并查集
+        for (int i = 0; i < largestComponentSizeN; i++) {
+            largestComponentSizeParent[i] = i;
+        }
+        //遍历nums中的每个数,和他们的质因数连接
+        for (int num : nums) {
+            int quotient = num;
+            for (int j = 0; j < largestComponentSizeK && largestComponentSizePrimes[j] * largestComponentSizePrimes[j] <= quotient; j++) {
+                if (quotient % largestComponentSizePrimes[j] == 0) {
+                    //primes[i]是他的质因数
+                    union(num, largestComponentSizePrimes[j]);
+                    while (quotient % largestComponentSizePrimes[j] == 0) {
+                        quotient /= largestComponentSizePrimes[j];
+                    }
+                }
+            }
+            //假如剩下了一个质因数，也和num连接，使得不同的质因数可以联合到一起
+            //这种情况是因为 num是一个合数 由不同的质因数相乘组成 把他的质因数 连接起来
+            if (quotient > 1) {
+                union(quotient, num);
+            }
+        }
+        int[] cnt = new int[largestComponentSizeN];
+        int ans = 0;
+        //是否属于某个根
+        for (int num : nums) {
+            ans = Math.max(ans, ++cnt[find(num)]);
+        }
+        return ans;
+    }
+
+    private void union(int x, int y) {
+        int parentX = find(x);
+        int parentY = find(y);
+        if (parentX != parentY) {
+            largestComponentSizeParent[parentX] = parentY;
+        }
+    }
+
+    private int find(int x) {
+        // 采用路径压缩
+        return largestComponentSizeParent[x] == x ? x : (largestComponentSizeParent[x] = find(largestComponentSizeParent[x]));
+    }
+
 
     @Override
     public String findInMountainArray(){
