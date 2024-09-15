@@ -2946,8 +2946,8 @@ public class SubjectServiceImpl implements SubjectService {
         if(root == null){
             return;
         }
-        inorderTraversal(root.left, list);
         list.add(root.val);
+        inorderTraversal(root.left, list);
         inorderTraversal(root.right, list);
     }
 
@@ -4079,6 +4079,101 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String canCompleteCircuit(){
+        System.out.println(JSON.toJSONString(canCompleteCircuit(new int[]{1,2,3,4,5}, new int[]{3,4,5,1,2})));
+        return "success";
+    }
+
+    public int canCompleteCircuit(int[] gas, int[] cost) {
+        int n = gas.length;
+        int i = 0;
+        while (i < n) {
+            int sumOfGas = 0, sumOfCost = 0;
+            int cnt = 0;
+            while (cnt < n) {
+                int j = (i + cnt) % n;
+                sumOfGas += gas[j];
+                sumOfCost += cost[j];
+                if (sumOfCost > sumOfGas) {
+                    break;
+                }
+                cnt++;
+            }
+            if (cnt == n) {
+                return i;
+            } else {
+                i = i + cnt + 1;
+            }
+        }
+        return -1;
+    }
+
+    @Override
+    public String candy(){
+        System.out.println(JSON.toJSONString(candy(new int[]{1,0,2})));
+        return "success";
+    }
+
+    public int candy(int[] ratings) {
+        int n = ratings.length;
+        int ret = 1;
+        int inc = 1, dec = 0, pre = 1;
+        for (int i = 1; i < n; i++) {
+            if (ratings[i] >= ratings[i - 1]) {
+                dec = 0;
+                pre = ratings[i] == ratings[i - 1] ? 1 : pre + 1;
+                ret += pre;
+                inc = pre;
+            } else {
+                dec++;
+                if (dec == inc) {
+                    dec++;
+                }
+                ret += dec;
+                pre = 1;
+            }
+        }
+        return ret;
+    }
+
+    @Override
+    public String copyRandomList(){
+        Node node = new Node(7);
+        Node node1 = new Node(13);
+        Node node2 = new Node(11);
+        Node node3 = new Node(10);
+        Node node4 = new Node(1);
+
+        node.next = node1;
+        node1.next = node2;
+        node2.next = node3;
+        node3.next = node4;
+
+        node1.random = node;
+        node2.random = node4;
+        node3.random = node2;
+        node4.random = node2;
+
+        System.out.println(JSON.toJSONString(copyRandomList(node)));
+        return "success";
+    }
+
+    Map<Node, Node> copyRandomListMap = new HashMap<>();
+
+    public Node copyRandomList(Node head) {
+        if (head == null) {
+            return null;
+        }
+        if (!copyRandomListMap.containsKey(head)) {
+            Node headNew = new Node(head.val);
+            copyRandomListMap.put(head, headNew);
+            headNew.next = copyRandomList(head.next);
+            headNew.random = copyRandomList(head.random);
+        }
+        return copyRandomListMap.get(head);
+    }
+
+    @Override
     public String wordBreak(){
         System.out.println(JSON.toJSONString(wordBreak("catsandog", Lists.newArrayList("cats", "dog", "sand", "and", "cat"))));
         return "success";
@@ -4265,6 +4360,32 @@ public class SubjectServiceImpl implements SubjectService {
             l2.next = l1;
             l2 = l2_tmp;
         }
+    }
+
+    @Override
+    public String preorderTraversal(){
+        TreeNode treeNode = new TreeNode(1);
+        TreeNode treeNode1 = new TreeNode(2);
+        TreeNode treeNode2 = new TreeNode(3);
+        treeNode.right = treeNode1;
+        treeNode1.left = treeNode2;
+        System.out.println(JSON.toJSONString(preorderTraversal(treeNode)));
+        return "success";
+    }
+
+    public List<Integer> preorderTraversal(TreeNode root) {
+        List<Integer> list = new ArrayList<>();
+        preorderTraversal(root, list);
+        return list;
+    }
+
+    private void preorderTraversal(TreeNode root, List<Integer> list) {
+        if(root == null){
+            return;
+        }
+        list.add(root.val);
+        preorderTraversal(root.left, list);
+        preorderTraversal(root.right, list);
     }
 
     @Override
@@ -7564,6 +7685,7 @@ public class SubjectServiceImpl implements SubjectService {
         public int val;
         public Node left;
         public Node right;
+        public Node random;
         public Node next;
         public List<Node> neighbors;
 

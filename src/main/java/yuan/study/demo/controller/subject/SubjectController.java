@@ -1049,6 +1049,40 @@ public class SubjectController {
     }
 
     /**
+     * 134. 加油站
+     */
+    @GetMapping(value = "/canCompleteCircuit")
+    public String canCompleteCircuit() {
+        return subjectService.canCompleteCircuit();
+    }
+
+    /**
+     * 135. 分发糖果
+     */
+    @GetMapping(value = "/candy")
+    public String candy() {
+        return subjectService.candy();
+    }
+
+    /**
+     * 136. 只出现一次的数字
+     * 同yuan.study.demo.controller.subject.OfferSubjectController#singleNumber(), 故跳过
+     */
+
+    /**
+     * 137. 只出现一次的数字 II
+     * 同yuan.study.demo.controller.subject.OfferSubjectController#singleNumber(), 故跳过
+     */
+
+    /**
+     * 138. 随机链表的复制
+     */
+    @GetMapping(value = "/copyRandomList")
+    public void copyRandomList(){
+        subjectService.copyRandomList();
+    }
+
+    /**
      * 139. 单词拆分
      */
     @GetMapping(value = "/wordBreak")
@@ -1086,6 +1120,14 @@ public class SubjectController {
     @GetMapping(value = "/reorderList")
     public void reorderList(){
         subjectService.reorderList();
+    }
+
+    /**
+     * 144. 二叉树的前序遍历
+     */
+    @GetMapping(value = "/preorderTraversal")
+    public void preorderTraversal(){
+        subjectService.preorderTraversal();
     }
 
     /**

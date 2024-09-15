@@ -483,7 +483,6 @@ public class OfferSubjectController {
     /**
      * 56 - II. 数组中数字出现的次数 II
      */
-
     @GetMapping(value = "/single/number")
     public String singleNumber() {
         return subjectService.singleNumber();
