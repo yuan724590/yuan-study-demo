@@ -1139,6 +1139,22 @@ public class SubjectController {
     }
 
     /**
+     * 147. 对链表进行插入排序
+     */
+    @GetMapping(value = "/insertionSortList")
+    public void insertionSortList(){
+        subjectService.insertionSortList();
+    }
+
+    /**
+     * 148. 排序链表
+     */
+    @GetMapping(value = "/sortList")
+    public void sortList(){
+        subjectService.sortList();
+    }
+
+    /**
      * 152. 乘积最大子数组
      */
     @GetMapping(value = "/maxProduct")

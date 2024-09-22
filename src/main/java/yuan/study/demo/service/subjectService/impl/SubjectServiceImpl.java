@@ -4524,6 +4524,67 @@ public class SubjectServiceImpl implements SubjectService {
 //    }
 
     @Override
+    public String insertionSortList(){
+        ListNode head3 = new ListNode(3);
+        ListNode head2 = new ListNode(1, head3);
+        ListNode head1 = new ListNode(2, head2);
+        ListNode head = new ListNode(4, head1);
+        System.out.println(JSON.toJSONString(insertionSortList(head)));
+        return "success";
+    }
+
+    public ListNode insertionSortList(ListNode head) {
+        if (head == null) {
+            return head;
+        }
+        ListNode dummyHead = new ListNode(0);
+        dummyHead.next = head;
+        ListNode lastSorted = head, curr = head.next;
+        while (curr != null) {
+            if (lastSorted.val <= curr.val) {
+                lastSorted = lastSorted.next;
+            } else {
+                ListNode prev = dummyHead;
+                while (prev.next.val <= curr.val) {
+                    prev = prev.next;
+                }
+                lastSorted.next = curr.next;
+                curr.next = prev.next;
+                prev.next = curr;
+            }
+            curr = lastSorted.next;
+        }
+        return dummyHead.next;
+    }
+
+    @Override
+    public String sortList(){
+        ListNode head3 = new ListNode(3);
+        ListNode head2 = new ListNode(1, head3);
+        ListNode head1 = new ListNode(2, head2);
+        ListNode head = new ListNode(4, head1);
+        System.out.println(JSON.toJSONString(sortList(head)));
+        return "success";
+    }
+
+    public ListNode sortList(ListNode head) {
+        ListNode copy = head;
+        List<Integer> list = new ArrayList<>();
+        while(copy != null){
+            list.add(copy.val);
+            copy = copy.next;
+        }
+        list.sort(Comparator.naturalOrder());
+
+        copy = head;
+        for (int i = 0; i < list.size(); i++) {
+            copy.val = list.get(i);
+            copy = copy.next;
+        }
+        return head;
+    }
+
+    @Override
     public String maxProduct(){
         System.out.println(JSON.toJSONString(maxProduct(new int[]{2,3,-2,4})));
         return "success";
