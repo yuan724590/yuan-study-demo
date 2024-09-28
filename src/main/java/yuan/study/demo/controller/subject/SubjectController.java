@@ -1155,6 +1155,14 @@ public class SubjectController {
     }
 
     /**
+     * 149. 直线上最多的点数
+     */
+    @GetMapping(value = "/maxPoints")
+    public void maxPoints(){
+        subjectService.maxPoints();
+    }
+
+    /**
      * 152. 乘积最大子数组
      */
     @GetMapping(value = "/maxProduct")

@@ -4585,6 +4585,56 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String maxPoints(){
+        System.out.println(JSON.toJSONString(maxPoints(new int[][]{{1,1},{3,2},{5,3},{4,1},{2,3},{1,4}})));
+        return "success";
+    }
+
+    public int maxPoints(int[][] points) {
+        int n = points.length;
+        if (n <= 2) {
+            return n;
+        }
+        int ret = 0;
+        for (int i = 0; i < n; i++) {
+            if (ret >= n - i || ret > n / 2) {
+                break;
+            }
+            Map<Integer, Integer> map = new HashMap<>();
+            for (int j = i + 1; j < n; j++) {
+                int xDiff = points[i][0] - points[j][0];
+                int yDiff = points[i][1] - points[j][1];
+                if (xDiff == 0) {
+                    yDiff = 1;
+                } else if (yDiff == 0) {
+                    xDiff = 1;
+                } else {
+                    if (yDiff < 0) {
+                        xDiff = -xDiff;
+                        yDiff = -yDiff;
+                    }
+                    int gcdXY = maxPointsGcd(Math.abs(xDiff), Math.abs(yDiff));
+                    xDiff /= gcdXY;
+                    yDiff /= gcdXY;
+                }
+                int key = yDiff + xDiff * 20001;
+                map.put(key, map.getOrDefault(key, 0) + 1);
+            }
+            int maxn = 0;
+            for (Map.Entry<Integer, Integer> entry: map.entrySet()) {
+                int num = entry.getValue();
+                maxn = Math.max(maxn, num + 1);
+            }
+            ret = Math.max(ret, maxn);
+        }
+        return ret;
+    }
+
+    public int maxPointsGcd(int a, int b) {
+        return b != 0 ? maxPointsGcd(b, a % b) : a;
+    }
+
+    @Override
     public String maxProduct(){
         System.out.println(JSON.toJSONString(maxProduct(new int[]{2,3,-2,4})));
         return "success";
