@@ -4721,6 +4721,106 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String fractionToDecimal(){
+        System.out.println(JSON.toJSONString(fractionToDecimal(333, 4)));
+        return "success";
+    }
+
+    public String fractionToDecimal(int numerator, int denominator) {
+        long numeratorLong = numerator;
+        long denominatorLong = denominator;
+        if (numeratorLong % denominatorLong == 0) {
+            return String.valueOf(numeratorLong / denominatorLong);
+        }
+
+        StringBuilder sb = new StringBuilder();
+        if (numeratorLong < 0 ^ denominatorLong < 0) {
+            sb.append('-');
+        }
+
+        // 整数部分
+        numeratorLong = Math.abs(numeratorLong);
+        denominatorLong = Math.abs(denominatorLong);
+        long integerPart = numeratorLong / denominatorLong;
+        sb.append(integerPart);
+        sb.append('.');
+
+        // 小数部分
+        StringBuilder fractionPart = new StringBuilder();
+        Map<Long, Integer> remainderIndexMap = new HashMap<>();
+        long remainder = numeratorLong % denominatorLong;
+        int index = 0;
+        while (remainder != 0 && !remainderIndexMap.containsKey(remainder)) {
+            remainderIndexMap.put(remainder, index);
+            remainder *= 10;
+            fractionPart.append(remainder / denominatorLong);
+            remainder %= denominatorLong;
+            index++;
+        }
+        // 有循环节
+        if (remainder != 0) {
+            int insertIndex = remainderIndexMap.get(remainder);
+            fractionPart.insert(insertIndex, '(');
+            fractionPart.append(')');
+        }
+        sb.append(fractionPart);
+
+        return sb.toString();
+    }
+
+    @Override
+    public String twoSum167(){
+        System.out.println(JSON.toJSONString(twoSum167(new int[]{2,3,4}, 6)));
+        return "success";
+    }
+
+    public int[] twoSum167(int[] numbers, int target) {
+        int n = numbers.length, left = 0, right = n - 1;
+        while(left < right){
+            if(numbers[left] + numbers[right] == target){
+                break;
+            }
+            if(numbers[left] + numbers[right] > target){
+                right--;
+            }else{
+                left++;
+            }
+        }
+        return new int[]{left + 1, right + 1};
+    }
+
+    @Override
+    public String convertToTitle(){
+        System.out.println(JSON.toJSONString(convertToTitle(2147483647)));
+        return "success";
+    }
+
+    public String convertToTitle(int columnNumber) {
+        StringBuffer sb = new StringBuffer();
+        while (columnNumber > 0) {
+            int a0 = (columnNumber - 1) % 26 + 1;
+            sb.append((char)(a0 - 1 + 'A'));
+            columnNumber = (columnNumber - a0) / 26;
+        }
+        return sb.reverse().toString();
+    }
+
+    @Override
+    public String titleToNumber(){
+        System.out.println(JSON.toJSONString(titleToNumber  ("ZY")));
+        return "success";
+    }
+
+    public int titleToNumber(String columnTitle) {
+        int n = columnTitle.length();
+        int val = 0;
+        for(int i = 0; i < n; i++){
+            val = val * 26 + columnTitle.charAt(i) - 'A' + 1;
+        }
+        return val;
+    }
+
+    @Override
     public String maxProfit4(){
         System.out.println(JSON.toJSONString(maxProfit4(2, new int[]{3,2,6,5,0,3})));
         return "success";

@@ -1192,9 +1192,41 @@ public class SubjectController {
     }
 
     /**
+     * 166. 分数到小数
+     */
+    @GetMapping(value = "/fractionToDecimal")
+    public void fractionToDecimal(){
+        subjectService.fractionToDecimal();
+    }
+
+    /**
+     * 167. 两数之和 II - 输入有序数组
+     */
+    @GetMapping(value = "/twoSum167")
+    public void twoSum167(){
+        subjectService.twoSum167();
+    }
+
+    /**
+     * 168. Excel表列名称
+     */
+    @GetMapping(value = "/convertToTitle")
+    public void convertToTitle(){
+        subjectService.convertToTitle();
+    }
+
+    /**
      * 169. 多数元素
      * 同yuan.study.demo.controller.subject.OfferSubjectController#majorityElement() 故跳过
      */
+
+    /**
+     * 171. Excel 表列序号
+     */
+    @GetMapping(value = "/titleToNumber")
+    public void titleToNumber(){
+        subjectService.titleToNumber();
+    }
 
     /**
      * 176. 第二高的薪水
