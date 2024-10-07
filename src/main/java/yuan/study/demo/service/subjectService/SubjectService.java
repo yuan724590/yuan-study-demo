@@ -3790,6 +3790,90 @@ public interface SubjectService {
      */
     String titleToNumber();
 
+    /**
+     * 给定一个整数 n ，返回 n! 结果中尾随零的数量。
+     *
+     * 提示 n! = n * (n - 1) * (n - 2) * ... * 3 * 2 * 1
+     *
+     * 示例 1：
+     * 输入：n = 3
+     * 输出：0
+     * 解释：3! = 6 ，不含尾随 0
+     *
+     * 示例 2：
+     * 输入：n = 5
+     * 输出：1
+     * 解释：5! = 120 ，有一个尾随 0
+     *
+     * 示例 3：
+     * 输入：n = 0
+     * 输出：0
+     *
+     * 提示：
+     * 0 <= n <= 104
+     */
+    String trailingZeroes();
+
+    /**
+     * 实现一个二叉搜索树迭代器类BSTIterator ，表示一个按中序遍历二叉搜索树（BST）的迭代器：
+     * BSTIterator(TreeNode root) 初始化 BSTIterator 类的一个对象。BST 的根节点 root 会作为构造函数的一部分给出。指针应初始化为一个不存在于 BST 中的数字，且该数字小于 BST 中的任何元素。
+     * boolean hasNext() 如果向指针右侧遍历存在数字，则返回 true ；否则返回 false 。
+     * int next()将指针向右移动，然后返回指针处的数字。
+     * 注意，指针初始化为一个不存在于 BST 中的数字，所以对 next() 的首次调用将返回 BST 中的最小元素。
+     *
+     * 你可以假设 next() 调用总是有效的，也就是说，当调用 next() 时，BST 的中序遍历中至少存在一个下一个数字。
+     *
+     * 示例：
+     * 输入
+     * ["BSTIterator", "next", "next", "hasNext", "next", "hasNext", "next", "hasNext", "next", "hasNext"]
+     * [[[7, 3, 15, null, null, 9, 20]], [], [], [], [], [], [], [], [], []]
+     * 输出
+     * [null, 3, 7, true, 9, true, 15, true, 20, false]
+     *
+     * 解释
+     * BSTIterator bSTIterator = new BSTIterator([7, 3, 15, null, null, 9, 20]);
+     * bSTIterator.next();    // 返回 3
+     * bSTIterator.next();    // 返回 7
+     * bSTIterator.hasNext(); // 返回 True
+     * bSTIterator.next();    // 返回 9
+     * bSTIterator.hasNext(); // 返回 True
+     * bSTIterator.next();    // 返回 15
+     * bSTIterator.hasNext(); // 返回 True
+     * bSTIterator.next();    // 返回 20
+     * bSTIterator.hasNext(); // 返回 False
+     *
+     * 提示：
+     * 树中节点的数目在范围 [1, 105] 内
+     * 0 <= Node.val <= 106
+     * 最多调用 105 次 hasNext 和 next 操作
+     */
+    String bstIterator();
+
+    /**
+     * 恶魔们抓住了公主并将她关在了地下城 dungeon 的 右下角 。地下城是由 m x n 个房间组成的二维网格。我们英勇的骑士最初被安置在 左上角 的房间里，他必须穿过地下城并通过对抗恶魔来拯救公主。
+     * 骑士的初始健康点数为一个正整数。如果他的健康点数在某一时刻降至 0 或以下，他会立即死亡。
+     * 有些房间由恶魔守卫，因此骑士在进入这些房间时会失去健康点数（若房间里的值为负整数，则表示骑士将损失健康点数）；其他房间要么是空的（房间里的值为 0），要么包含增加骑士健康点数的魔法球（若房间里的值为正整数，则表示骑士将增加健康点数）。
+     * 为了尽快解救公主，骑士决定每次只 向右 或 向下 移动一步。
+     * 返回确保骑士能够拯救到公主所需的最低初始健康点数。
+     * 注意：任何房间都可能对骑士的健康点数造成威胁，也可能增加骑士的健康点数，包括骑士进入的左上角房间以及公主被监禁的右下角房间。
+     *
+     * 示例 1：
+     * 输入：dungeon = [[-2,-3,3],[-5,-10,1],[10,30,-5]]
+     * 输出：7
+     * 解释：如果骑士遵循最佳路径：右 -> 右 -> 下 -> 下 ，则骑士的初始健康点数至少为 7 。
+     *
+     * 示例 2：
+     * 输入：dungeon = [[0]]
+     * 输出：1
+     *
+     * 提示：
+     * m == dungeon.length
+     * n == dungeon[i].length
+     * 1 <= m, n <= 200
+     * -1000 <= dungeon[i][j] <= 1000
+     */
+    String calculateMinimumHP();
+
 
     /**
      * DNA序列 由一系列核苷酸组成，缩写为 'A', 'C', 'G' 和 'T'.。

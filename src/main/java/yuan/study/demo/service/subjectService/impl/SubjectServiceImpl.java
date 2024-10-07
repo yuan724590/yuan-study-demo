@@ -5,6 +5,7 @@ import com.google.common.collect.Lists;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.poi.ss.formula.functions.T;
 import org.springframework.stereotype.Service;
 import yuan.study.demo.entity.ListNode;
 import yuan.study.demo.service.subjectService.SubjectService;
@@ -4818,6 +4819,89 @@ public class SubjectServiceImpl implements SubjectService {
             val = val * 26 + columnTitle.charAt(i) - 'A' + 1;
         }
         return val;
+    }
+
+    @Override
+    public String trailingZeroes(){
+        System.out.println(JSON.toJSONString(trailingZeroes(5)));
+        return "success";
+    }
+
+    public int trailingZeroes (int n) {
+        int ans = 0;
+        while (n != 0) {
+            n = n / 5;
+            ans = ans + n;
+        }
+        return ans;
+    }
+
+    @Override
+    public String bstIterator(){
+        TreeNode root = new TreeNode(7);
+        root.left = new TreeNode(3);
+        root.right = new TreeNode(15, new TreeNode(9), new TreeNode(20));
+        BSTIterator bSTIterator = new BSTIterator(root);
+        System.out.println(bSTIterator.next());
+        System.out.println(bSTIterator.next());
+        System.out.println(bSTIterator.hasNext());
+        System.out.println(bSTIterator.next());
+        System.out.println(bSTIterator.hasNext());
+        System.out.println(bSTIterator.next());
+        System.out.println(bSTIterator.hasNext());
+        System.out.println(bSTIterator.next());
+        System.out.println(bSTIterator.hasNext());
+        return "success";
+    }
+
+    class BSTIterator {
+        private int idx;
+        private final List<Integer> arr;
+
+        public BSTIterator(TreeNode root) {
+            idx = 0;
+            arr = new ArrayList<>();
+            inorderTraversal(root);
+        }
+
+        public int next() {
+            return arr.get(idx++);
+        }
+
+        public boolean hasNext() {
+            return idx < arr.size();
+        }
+
+        private void inorderTraversal(TreeNode root) {
+            if (root == null) {
+                return;
+            }
+            inorderTraversal(root.left);
+            arr.add(root.val);
+            inorderTraversal(root.right);
+        }
+    }
+
+    @Override
+    public String calculateMinimumHP(){
+        System.out.println(JSON.toJSONString(calculateMinimumHP(new int[][]{{-2,-3,3},{-5,-10,1},{10,30,-5}})));
+        return "success";
+    }
+
+    public int calculateMinimumHP(int[][] dungeon) {
+        int n = dungeon.length, m = dungeon[0].length;
+        int[][] dp = new int[n + 1][m + 1];
+        for (int i = 0; i <= n; ++i) {
+            Arrays.fill(dp[i], Integer.MAX_VALUE);
+        }
+        dp[n][m - 1] = dp[n - 1][m] = 1;
+        for (int i = n - 1; i >= 0; --i) {
+            for (int j = m - 1; j >= 0; --j) {
+                int minn = Math.min(dp[i + 1][j], dp[i][j + 1]);
+                dp[i][j] = Math.max(minn - dungeon[i][j], 1);
+            }
+        }
+        return dp[0][0];
     }
 
     @Override

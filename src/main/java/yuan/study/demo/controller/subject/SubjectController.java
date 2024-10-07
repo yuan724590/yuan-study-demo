@@ -1229,6 +1229,35 @@ public class SubjectController {
     }
 
     /**
+     * 172. 阶乘后的零
+     */
+    @GetMapping(value = "/trailingZeroes")
+    public void trailingZeroes(){
+        subjectService.trailingZeroes();
+    }
+
+    /**
+     * 173. 二叉搜索树迭代器
+     */
+    @GetMapping(value = "/bstIterator")
+    public void bstIterator(){
+        subjectService.bstIterator();
+    }
+
+    /**
+     * 174. 地下城游戏
+     */
+    @GetMapping(value = "/calculateMinimumHP")
+    public void calculateMinimumHP(){
+        subjectService.calculateMinimumHP();
+    }
+
+    /**
+     * 175. 组合两个表
+     * SELECT a.FirstName AS firstName, a.LastName AS lastName, b.City as city, b.State as state FROM Person a LEFT JOIN Address b ON a.PersonId = b.PersonId
+     */
+
+    /**
      * 176. 第二高的薪水
      * SELECT (SELECT DISTINCT Salary FROM Employee ORDER BY Salary DESC LIMIT 1 OFFSET 1) AS SecondHighestSalary
      */
