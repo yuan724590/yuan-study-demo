@@ -1263,6 +1263,16 @@ public class SubjectController {
      */
 
     /**
+     * 177. 第N高的薪水
+     * SELECT DISTINCT salary FROM Employee ORDER BY salary DESC LIMIT M, 1
+     */
+
+    /**
+     * 178. 分数排名
+     * SELECT s.score, DENSE_RANK() OVER (ORDER BY s.score DESC) AS 'rank' FROM scores s;
+     */
+
+    /**
      * 180. 连续出现的数字
      * Logs -> id, num
      * 查询所有至少连续出现三次的数字
@@ -1655,6 +1665,7 @@ public class SubjectController {
     /**
      * 354. 俄罗斯套娃信封问题
      */
+    @GetMapping(value = "/maxEnvelopes")
     public void maxEnvelopes(){
         subjectService.maxEnvelopes();
     }
