@@ -1280,6 +1280,19 @@ public class SubjectController {
      */
 
     /**
+     * 181. 超过经理收入的员工
+     * Employee -> name, salary, managerId
+     * 查询挣得比经理多的雇员
+     * SELECT a.name AS Employee FROM Employee a LEFT JOIN Employee b ON a.managerId = b.id WHERE  a.salary > b.salary
+     */
+
+    /**
+     * 182. 查找重复的电子邮箱
+     * Person -> id, email
+     * select Email from Person group by Email having count(Email) > 1;
+     */
+
+    /**
      * 185. 部门工资前三高的所有员工
      * Employee -> id, name, salary, departmentId; Department -> id, name
      * 查询部门工资前三高的所有员工, 工资重复不影响排名
