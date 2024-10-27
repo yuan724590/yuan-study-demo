@@ -1293,6 +1293,22 @@ public class SubjectController {
      */
 
     /**
+     * 183. 从不订购的客户
+     * Customers -> id, name
+     * Orders -> id, customerId
+     * 找出所有从不点任何东西的顾客。
+     * SELECT a.name AS Customers FROM Customers a LEFT JOIN Orders b ON a.id = b.customerId WHERE b.id IS NULL
+     */
+
+    /**
+     * 184. 部门工资最高的员工
+     * Employee -> id, name, salary, departmentId
+     * Department -> id, name
+     * 查找出每个部门中薪资最高的员工。
+     * SELECT a.name AS Department, r.name AS Employee, salary Salary FROM (SELECT `name`, departmentId, salary, DENSE_RANK() over(PARTITION BY departmentId ORDER BY salary DESC) ranking FROM Employee) AS r LEFT JOIN Department a ON r.departmentId = a.idWHERE r.ranking = 1
+     */
+
+    /**
      * 185. 部门工资前三高的所有员工
      * Employee -> id, name, salary, departmentId; Department -> id, name
      * 查询部门工资前三高的所有员工, 工资重复不影响排名
