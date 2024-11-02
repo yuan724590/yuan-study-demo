@@ -1273,6 +1273,14 @@ public class SubjectController {
      */
 
     /**
+     * 179. 最大数
+     */
+    @GetMapping(value = "/largestNumber")
+    public void largestNumber(){
+        subjectService.largestNumber();
+    }
+
+    /**
      * 180. 连续出现的数字
      * Logs -> id, num
      * 查询所有至少连续出现三次的数字
@@ -1339,6 +1347,15 @@ public class SubjectController {
     public void rotate189(){
         subjectService.rotate189();
     }
+
+    /**
+     * 190. 颠倒二进制位
+     */
+    @GetMapping(value = "/reverseBits")
+    public void reverseBits(){
+        subjectService.reverseBits();
+    }
+
 
     /**
      * 191. 位1的个数

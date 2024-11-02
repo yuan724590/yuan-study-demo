@@ -4905,6 +4905,53 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String largestNumber(){
+        System.out.println(JSON.toJSONString(largestNumber(new int[]{3,30,34,5,9})));
+        return "success";
+    }
+
+    public String largestNumber(int[] nums) {
+        int n = nums.length;
+        Integer[] numsArr = new Integer[n];
+        for (int i = 0; i < n; i++) {
+            numsArr[i] = nums[i];
+        }
+
+        Arrays.sort(numsArr, (x, y) -> {
+            long xl = x;
+            long yl = y;
+            int digitX = countDigits(x);
+            int digitY = countDigits(y);
+
+            long cmp1 = xl * (long) Math.pow(10, digitY) + yl;
+            long cmp2 = yl * (long) Math.pow(10, digitX) + xl;
+
+            return Long.compare(cmp2, cmp1);
+        });
+
+        if (numsArr[0] == 0) {
+            return "0";
+        }
+        StringBuilder ret = new StringBuilder();
+        for (int num : numsArr) {
+            ret.append(num);
+        }
+        return ret.toString();
+    }
+
+    private int countDigits(int num) {
+        int count = 0;
+        if (num == 0) {
+            return 1;
+        }
+        while (num > 0) {
+            num /= 10;
+            count++;
+        }
+        return count;
+    }
+
+    @Override
     public String maxProfit4(){
         System.out.println(JSON.toJSONString(maxProfit4(2, new int[]{3,2,6,5,0,3})));
         return "success";
@@ -4943,6 +4990,23 @@ public class SubjectServiceImpl implements SubjectService {
         System.arraycopy(nums, 0, arr, 0, n);
         System.arraycopy(nums, 0, arr, n, n);
         System.arraycopy(arr, n - k, nums, 0, n);
+    }
+
+    @Override
+    public String reverseBits(){
+        System.out.println(JSON.toJSONString(reverseBits(43261596)));
+        return "success";
+    }
+
+    public int reverseBits(int n) {
+//        return Integer.reverse(n);
+
+        int rev = 0;
+        for (int i = 0; i < 32 && n != 0; ++i) {
+            rev = rev | (n & 1) << (31 - i);
+            n = n >>> 1;
+        }
+        return rev;
     }
 
     @Override
