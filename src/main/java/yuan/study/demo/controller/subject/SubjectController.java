@@ -1163,6 +1163,19 @@ public class SubjectController {
     }
 
     /**
+     * 150. 逆波兰表达式求值
+     */
+    @GetMapping(value = "/evalRPN")
+    public void evalRPN(){
+        subjectService.evalRPN();
+    }
+
+    /**
+     * 151. 反转字符串中的单词
+     * 同yuan.study.demo.controller.subject.OfferSubjectController#reverseWords(), 故跳过
+     */
+
+    /**
      * 152. 乘积最大子数组
      */
     @GetMapping(value = "/maxProduct")
@@ -1360,6 +1373,38 @@ public class SubjectController {
     /**
      * 191. 位1的个数
      * 同yuan.study.demo.controller.subject.OfferSubjectController#hammingWeight() 故跳过
+     */
+
+    /**
+     * 192. 统计词频
+     * 写一个 bash 脚本以统计一个文本文件 words.txt 中每个单词出现的频率
+     *
+     * 为了简单起见，你可以假设：
+     * 	words.txt只包括小写字母和 ' ' 。
+     * 	每个单词只由小写字母组成。
+     * 	单词间由一个或多个空格字符分隔。
+     *
+     * 示例:
+     * 假设 words.txt 内容如下：
+     * the day is sunny the the
+     * the sunny is is
+     *
+     * 你的脚本应当输出（以词频降序排列）：
+     * the 4
+     * is 3
+     * sunny 2
+     * day 1
+     *
+     * 说明:
+     * 不要担心词频相同的单词的排序问题，每个单词出现的频率都是唯一的。
+     * 你可以使用一行 Unix pipes 实现吗？
+     * cat words.txt | tr -s ' ' '\n' | sort | uniq -c | sort -nr | awk '{print $2" "$1}'
+     *      tr：用于转换或删除文件中的字符
+     *      tr -s：缩减连续重复的字符成指定的单个字符
+     *      uniq：用于检查及删除文本文件中重复出现的行列
+     *      uniq -c：计算每个单词出现的次数
+     *      sort -nr：根据出现次数对单词进行降序排序
+     *      awk '{print $2" "$1}'：调整输出格式，使单词出现在前面，次数出现在后面
      */
 
     /**
