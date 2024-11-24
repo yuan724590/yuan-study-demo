@@ -1430,11 +1430,27 @@ public class SubjectController {
     }
 
     /**
+     * 199. 二叉树的右视图
+     */
+    @GetMapping(value = "/rightSideView")
+    public void rightSideView(){
+        subjectService.rightSideView();
+    }
+
+    /**
      * 200. 岛屿数量
      */
     @GetMapping(value = "/numIslands")
     public void numIslands(){
         subjectService.numIslands();
+    }
+
+    /**
+     * 201. 数字范围按位与
+     */
+    @GetMapping(value = "/rangeBitwiseAnd")
+    public void rangeBitwiseAnd(){
+        subjectService.rangeBitwiseAnd();
     }
 
     /**

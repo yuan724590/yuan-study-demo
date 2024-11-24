@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.ss.formula.functions.T;
 import org.springframework.stereotype.Service;
+import sun.reflect.generics.tree.Tree;
 import yuan.study.demo.entity.ListNode;
 import yuan.study.demo.service.subjectService.SubjectService;
 
@@ -5062,6 +5063,39 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String rightSideView(){
+        TreeNode treeNode1 = new TreeNode(5);
+        TreeNode treeNode2 = new TreeNode(2, null, treeNode1);
+        TreeNode treeNode3 = new TreeNode(4);
+        TreeNode treeNode4 = new TreeNode(3, null, treeNode3);
+        TreeNode root = new TreeNode(1, treeNode2, treeNode4);
+        System.out.println(JSON.toJSONString(rightSideView(root)));
+        return "success";
+    }
+
+    public List<Integer> rightSideView(TreeNode root) {
+        List<Integer> list = new ArrayList<>();
+        rightSideView(root, list, 0);
+        return list;
+    }
+
+    public void rightSideView(TreeNode root, List<Integer> list, int i) {
+        if(root == null){
+            return;
+        }
+
+        if(list.size() <= i){
+            list.add(root.val);
+        }else{
+            list.set(i, root.val);
+        }
+
+        rightSideView(root.left, list, i + 1);
+
+        rightSideView(root.right, list, i + 1);
+    }
+
+    @Override
     public String numIslands(){
         System.out.println(JSON.toJSONString(numIslands(new char[][]{{'1','1','1','1','0'},{'1','1','0','1','0'},{'1','1','0','0','0'},{'0','0','0','0','0'}})));
         return "success";
@@ -5089,6 +5123,23 @@ public class SubjectServiceImpl implements SubjectService {
         infect(grid, i - 1, j);
         infect(grid, i, j + 1);
         infect(grid, i, j - 1);
+    }
+
+    @Override
+    public String rangeBitwiseAnd(){
+        System.out.println(JSON.toJSONString(rangeBitwiseAnd(5, 7)));
+        return "success";
+    }
+
+    public int rangeBitwiseAnd(int m, int n) {
+        int shift = 0;
+        // 找到公共前缀
+        while (m < n) {
+            m >>= 1;
+            n >>= 1;
+            ++shift;
+        }
+        return m << shift;
     }
 
     @Override
