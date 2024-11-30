@@ -1454,6 +1454,22 @@ public class SubjectController {
     }
 
     /**
+     * 202. 快乐数
+     */
+    @GetMapping(value = "/isHappy")
+    public void isHappy(){
+        subjectService.isHappy();
+    }
+
+    /**
+     * 203. 移除链表元素
+     */
+    @GetMapping(value = "/removeElements")
+    public void removeElements(){
+        subjectService.removeElements();
+    }
+
+    /**
      * 204. 计数质数
      */
     @GetMapping(value = "/countPrimes")

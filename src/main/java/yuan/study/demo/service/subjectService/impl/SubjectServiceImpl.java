@@ -5143,6 +5143,59 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String isHappy(){
+        System.out.println(JSON.toJSONString(isHappy(19)));
+        return "success";
+    }
+
+    public boolean isHappy(int n) {
+        int slow = n;
+        int fast = getNext(n);
+        while (fast != 1 && slow != fast) {
+            slow = getNext(slow);
+            fast = getNext(getNext(fast));
+        }
+        return fast == 1;
+    }
+
+    private int getNext(int n) {
+        int sum = 0;
+        while (n > 0) {
+            int d = n % 10;
+            n = n / 10;
+            sum += d * d;
+        }
+        return sum;
+    }
+
+    @Override
+    public String removeElements(){
+        ListNode l7 = new ListNode(6, null);
+        ListNode l6 = new ListNode(5, l7);
+        ListNode l5 = new ListNode(4, l6);
+        ListNode l4 = new ListNode(3, l5);
+        ListNode l3 = new ListNode(6, l4);
+        ListNode l2 = new ListNode(3, l3);
+        ListNode l1 = new ListNode(1, l2);
+        System.out.println(JSON.toJSONString(removeElements(l1, 6)));
+        return "success";
+    }
+
+    public ListNode removeElements(ListNode head, int val) {
+        ListNode node = new ListNode();
+        node.next = head;
+        ListNode copyNode = node;
+        while(copyNode.next != null){
+            if(copyNode.next.val == val){
+                copyNode.next = copyNode.next.next;
+            }else{
+                copyNode = copyNode.next;
+            }
+        }
+        return node.next;
+    }
+
+    @Override
     public String countPrimes(){
         System.out.println(JSON.toJSONString(countPrimes(10)));
         return "success";
