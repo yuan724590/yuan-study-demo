@@ -5220,6 +5220,27 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String isIsomorphic(){
+        System.out.println(JSON.toJSONString(isIsomorphic("egg", "add")));
+        return "success";
+    }
+
+    public boolean isIsomorphic(String s, String t) {
+        Map<Character, Character> sMap = new HashMap<>();
+        Map<Character, Character> tMap = new HashMap<>();
+        int len = s.length();
+        for (int i = 0; i < len; ++i) {
+            char x = s.charAt(i), y = t.charAt(i);
+            if ((sMap.containsKey(x) && sMap.get(x) != y) || (tMap.containsKey(y) && tMap.get(y) != x)) {
+                return false;
+            }
+            sMap.put(x, y);
+            tMap.put(y, x);
+        }
+        return true;
+    }
+
+    @Override
     public String canFinish(){
         System.out.println(JSON.toJSONString(canFinish(5, new int[][]{{1,0},{1,2},{0,1}})));
         return "success";
@@ -5336,6 +5357,32 @@ public class SubjectServiceImpl implements SubjectService {
             }
             return true;
         }
+    }
+
+    @Override
+    public String minSubArrayLen(){
+        System.out.println(JSON.toJSONString(minSubArrayLen(11, new int[]{1,1,1,1,1,1,1,1})));
+        return "success";
+    }
+
+    public int minSubArrayLen(int s, int[] nums) {
+        int n = nums.length;
+        if (n == 0) {
+            return 0;
+        }
+        int ans = Integer.MAX_VALUE;
+        int start = 0, end = 0;
+        int sum = 0;
+        while (end < n) {
+            sum += nums[end];
+            while (sum >= s) {
+                ans = Math.min(ans, end - start + 1);
+                sum = sum - nums[start];
+                start++;
+            }
+            end++;
+        }
+        return ans == Integer.MAX_VALUE ? 0 : ans;
     }
 
     @Override

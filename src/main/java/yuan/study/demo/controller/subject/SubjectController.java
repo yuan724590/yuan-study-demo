@@ -1478,6 +1478,19 @@ public class SubjectController {
     }
 
     /**
+     * 205. 同构字符串
+     */
+    @GetMapping(value = "/isIsomorphic")
+    public void isIsomorphic(){
+        subjectService.isIsomorphic();
+    }
+
+    /**
+     * 206. 反转链表
+     * 同yuan.study.demo.controller.subject.OfferSubjectController#reverseList(), 故跳过
+     */
+
+    /**
      * 207. 课程表
      */
     @GetMapping(value = "/canFinish")
@@ -1491,6 +1504,14 @@ public class SubjectController {
     @GetMapping(value = "/trie")
     public void trie(){
         subjectService.trie();
+    }
+
+    /**
+     * 209. 长度最小的子数组
+     */
+    @GetMapping(value = "/minSubArrayLen")
+    public void minSubArrayLen(){
+        subjectService.minSubArrayLen();
     }
 
     /**

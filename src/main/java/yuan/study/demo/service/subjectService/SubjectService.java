@@ -4206,6 +4206,30 @@ public interface SubjectService {
     String countPrimes();
 
     /**
+     * 给定两个字符串 s 和 t ，判断它们是否是同构的。
+     * 如果 s 中的字符可以按某种映射关系替换得到 t ，那么这两个字符串是同构的。
+     * 每个出现的字符都应当映射到另一个字符，同时不改变字符的顺序。不同字符不能映射到同一个字符上，相同字符只能映射到同一个字符上，字符可以映射到自己本身。
+     *
+     * 示例 1:
+     * 输入：s = "egg", t = "add"
+     * 输出：true
+     *
+     * 示例 2：
+     * 输入：s = "foo", t = "bar"
+     * 输出：false
+     *
+     * 示例 3：
+     * 输入：s = "paper", t = "title"
+     * 输出：true
+     *
+     * 提示：
+     * 1 <= s.length <= 5 * 104
+     * t.length == s.length
+     * s 和 t 由任意有效的 ASCII 字符组成
+     */
+    String isIsomorphic();
+
+    /**
      * 你这个学期必须选修 numCourses 门课程，记为 0 到 numCourses - 1 。
      *
      * 在选修某些课程之前需要一些先修课程。 先修课程按数组 prerequisites 给出，其中 prerequisites[i] = [ai, bi] ，表示如果要学习课程 ai 则 必须 先学习课程  bi 。
@@ -4265,6 +4289,34 @@ public interface SubjectService {
      * insert、search 和 startsWith 调用次数 总计 不超过 3 * 104 次
      */
     String trie();
+
+    /**
+     * 给定一个含有 n 个正整数的数组和一个正整数 target 。
+     * 找出该数组中满足其总和大于等于 target 的长度最小的子数组
+     *  [numsl, numsl+1, ..., numsr-1, numsr] ，并返回其长度。如果不存在符合条件的子数组，返回 0 。
+     *
+     * 示例 1：
+     * 输入：target = 7, nums = [2,3,1,2,4,3]
+     * 输出：2
+     * 解释：子数组 [4,3] 是该条件下的长度最小的子数组。
+     *
+     * 示例 2：
+     * 输入：target = 4, nums = [1,4,4]
+     * 输出：1
+     *
+     * 示例 3：
+     * 输入：target = 11, nums = [1,1,1,1,1,1,1,1]
+     * 输出：0
+     *
+     * 提示：
+     * 1 <= target <= 109
+     * 1 <= nums.length <= 105
+     * 1 <= nums[i] <= 104
+     *
+     * 进阶：
+     * 如果你已经实现 O(n) 时间复杂度的解法, 请尝试设计一个 O(n log(n)) 时间复杂度的解法。
+     */
+    String minSubArrayLen();
 
     /**
      * 现在你总共有 numCourses 门课需要选，记为 0 到 numCourses - 1。给你一个数组 prerequisites ，其中 prerequisites[i] = [ai, bi] ，表示在选修课程 ai 前 必须 先选修 bi 。
