@@ -1523,6 +1523,14 @@ public class SubjectController {
     }
 
     /**
+     * 211. 添加与搜索单词 - 数据结构设计
+     */
+    @GetMapping(value = "/wordDictionary")
+    public void wordDictionary(){
+        subjectService.wordDictionary();
+    }
+
+    /**
      * 212. 单词搜索 II
      */
     @GetMapping(value = "/findWords")
@@ -1536,6 +1544,14 @@ public class SubjectController {
     @GetMapping(value = "/rob2")
     public void rob2(){
         subjectService.rob2();
+    }
+
+    /**
+     * 214. 最短回文串
+     */
+    @GetMapping(value = "/shortestPalindrome")
+    public void shortestPalindrome(){
+        subjectService.shortestPalindrome();
     }
 
     /**

@@ -5450,6 +5450,60 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String wordDictionary(){
+        WordDictionary wordDictionary = new WordDictionary();
+        wordDictionary.addWord("bad");
+        wordDictionary.addWord("dad");
+        wordDictionary.addWord("mad");
+        System.out.println(JSON.toJSONString(wordDictionary.search("pad")));
+        System.out.println(JSON.toJSONString(wordDictionary.search("bad")));
+        System.out.println(JSON.toJSONString(wordDictionary.search(".ad")));
+        System.out.println(JSON.toJSONString(wordDictionary.search("b..")));
+        return "success";
+    }
+
+    static class WordDictionary {
+        private final WordDictionary[] items;
+        boolean isEnd;
+        public WordDictionary() {
+            items = new WordDictionary[26];
+        }
+
+        public void addWord(String word) {
+            WordDictionary curr = this;
+            int n = word.length();
+            for(int i = 0; i < n; i++){
+                int index = word.charAt(i) - 'a';
+                if(curr.items[index] == null)
+                    curr.items[index] = new WordDictionary();
+                curr = curr.items[index];
+            }
+            curr.isEnd = true;
+        }
+
+        public boolean search(String word) {
+            return search(this, word, 0);
+        }
+
+        private boolean search(WordDictionary curr, String word, int start){
+            int n = word.length();
+            if(start == n)
+                return curr.isEnd;
+            char c = word.charAt(start);
+            if(c != '.'){
+                WordDictionary item = curr.items[c - 'a'];
+                return item != null && search(item, word, start + 1);
+            }
+
+            for(int j = 0; j < 26; j++){
+                if(curr.items[j] != null && search(curr.items[j], word, start + 1))
+                    return true;
+            }
+            return false;
+        }
+    }
+
+    @Override
     public String findWords(){
         System.out.println(JSON.toJSONString(findWords(new char[][]{{'o','a','b','n'},{'o','t','a','e'},{'a','h','k','r'},{'a','f','l','v'}}, new String[]{"oa","oaa"})));
         return "success";
@@ -5599,6 +5653,49 @@ public class SubjectServiceImpl implements SubjectService {
             pre = tmp;
         }
         return cur;
+    }
+
+    @Override
+    public String shortestPalindrome(){
+        System.out.println(shortestPalindrome("aacecaaa"));
+        return "success";
+    }
+
+    public String shortestPalindrome(String s) {
+        int n = s.length();
+        int[] fail = new int[n];
+        //当前元素在整个字符串中第一次出现的索引值
+        Arrays.fill(fail, -1);
+        //j和自己值相同的索引, 认为i和j对称
+        for (int i = 1; i < n; i++) {
+            int j = fail[i - 1];
+            while (j != -1 && s.charAt(j + 1) != s.charAt(i)) {
+                //如果找到了和第一个元素相同值的索引, 现在判断下一个元素值是否相同
+                //如果不同就设置为-1,后续元素重新对比是否和第一个元素是否相同
+                j = fail[j];
+            }
+            if (s.charAt(j + 1) == s.charAt(i)) {
+                //寻找和第一个元素相同值的索引
+                fail[i] = j + 1;
+            }
+        }
+        //缺少的字符串后缀的index
+        int best = -1;
+        for (int i = n - 1; i >= 0; i--) {
+            while (best != -1 && s.charAt(best + 1) != s.charAt(i)) {
+                //当前已经跳过了x个元素, 认为已经进行轴对称对比
+                //但左轴的值 不等于 右侧的值, 所以要进行重置
+                best = fail[best];
+            }
+            if (s.charAt(best + 1) == s.charAt(i)) {
+                //当前元素的值 == 第一个元素的值
+                best++;
+            }
+        }
+        String add = best == n - 1 ? "" : s.substring(best + 1);
+        StringBuffer ans = new StringBuffer(add).reverse();
+        ans.append(s);
+        return ans.toString();
     }
 
     @Override
