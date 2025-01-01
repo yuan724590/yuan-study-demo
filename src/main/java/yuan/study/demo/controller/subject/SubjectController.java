@@ -1560,6 +1560,14 @@ public class SubjectController {
      */
 
     /**
+     * 216. 组合总和 III
+     */
+    @GetMapping(value = "/combinationSum3")
+    public void combinationSum3(){
+        subjectService.combinationSum3();
+    }
+
+    /**
      * 218. 天际线问题
      */
     @GetMapping(value = "/getSkyline")

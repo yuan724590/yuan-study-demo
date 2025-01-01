@@ -5699,6 +5699,37 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String combinationSum3(){
+        System.out.println(combinationSum3(3, 9));
+        return "success";
+    }
+
+    List<List<Integer>> combinationSum3List = new ArrayList<>();
+
+    public List<List<Integer>> combinationSum3(int k, int n) {
+        if(n > 45){
+            return new ArrayList<>();
+        }
+        combinationSum3(new ArrayList<>(), k, n);
+        return combinationSum3List;
+    }
+
+    private void combinationSum3(List<Integer> list, int k, int remaining) {
+        if (k <= 0 || remaining <= 0){
+            if(k == 0 && remaining == 0){
+                combinationSum3List.add(new ArrayList<>(list));
+            }
+            return;
+        }
+        int i = list.isEmpty() ? Math.min(remaining, 9) : list.get(list.size() - 1) - 1;
+        for (; i >= 1; i--) {
+            list.add(i);
+            combinationSum3(list, k - 1, remaining - i);
+            list.remove(list.size() - 1);
+        }
+    }
+
+    @Override
     public String myStack(){
         MyStack myStack = new MyStack();
         myStack.push(1);
