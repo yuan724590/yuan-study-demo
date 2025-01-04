@@ -1568,6 +1568,14 @@ public class SubjectController {
     }
 
     /**
+     * 217. 存在重复元素
+     */
+    @GetMapping(value = "/containsDuplicate")
+    public void containsDuplicate(){
+        subjectService.containsDuplicate();
+    }
+
+    /**
      * 218. 天际线问题
      */
     @GetMapping(value = "/getSkyline")
@@ -1589,6 +1597,14 @@ public class SubjectController {
     @GetMapping(value = "/maximalSquare")
     public void maximalSquare(){
         subjectService.maximalSquare();
+    }
+
+    /**
+     * 222. 完全二叉树的节点个数
+     */
+    @GetMapping(value = "/countNodes")
+    public void countNodes(){
+        subjectService.countNodes();
     }
 
     /**

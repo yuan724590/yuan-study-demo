@@ -5730,6 +5730,23 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String containsDuplicate(){
+        int[] nums = new int[]{1,2,3,1};
+        System.out.println(containsDuplicate(nums));
+        return "success";
+    }
+
+    public boolean containsDuplicate(int[] nums) {
+        Set<Integer> set = new HashSet<>();
+        for (int num : nums) {
+            if(!set.add(num)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
     public String myStack(){
         MyStack myStack = new MyStack();
         myStack.push(1);
@@ -5888,6 +5905,25 @@ public class SubjectServiceImpl implements SubjectService {
             }
         }
         return maxSide * maxSide;
+    }
+
+    @Override
+    public String countNodes(){
+        TreeNode treeNode = new TreeNode(1);
+        treeNode.left = new TreeNode(2);
+        treeNode.left.left = new TreeNode(4);
+        treeNode.left.right = new TreeNode(5);
+        treeNode.right = new TreeNode(3);
+        treeNode.right.left = new TreeNode(6);
+        System.out.println(JSON.toJSONString(countNodes(treeNode)));
+        return "success";
+    }
+
+    public int countNodes(TreeNode root) {
+        if(root == null){
+            return 0;
+        }
+        return countNodes(root.left) + countNodes(root.right) + 1;
     }
 
     @Override
