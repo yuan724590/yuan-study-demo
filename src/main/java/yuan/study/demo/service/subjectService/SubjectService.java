@@ -4623,6 +4623,37 @@ public interface SubjectService {
     String containsNearbyDuplicate();
 
     /**
+     * 给你一个整数数组 nums 和两个整数 indexDiff 和 valueDiff 。
+     *
+     * 找出满足下述条件的下标对 (i, j)：
+     * i != j,
+     * abs(i - j) <= indexDiff
+     * abs(nums[i] - nums[j]) <= valueDiff
+     * 如果存在，返回 true ；否则，返回 false 。
+     *
+     * 示例 1：
+     * 输入：nums = [1,2,3,1], indexDiff = 3, valueDiff = 0
+     * 输出：true
+     * 解释：可以找出 (i, j) = (0, 3) 。
+     * 满足下述 3 个条件：
+     * i != j --> 0 != 3
+     * abs(i - j) <= indexDiff --> abs(0 - 3) <= 3
+     * abs(nums[i] - nums[j]) <= valueDiff --> abs(1 - 1) <= 0
+     *
+     * 示例 2：
+     * 输入：nums = [1,5,9,1,5,9], indexDiff = 2, valueDiff = 3
+     * 输出：false
+     * 解释：尝试所有可能的下标对 (i, j) ，均无法满足这 3 个条件，因此返回 false 。
+     *
+     * 提示：
+     * 2 <= nums.length <= 105
+     * -109 <= nums[i] <= 109
+     * 1 <= indexDiff <= nums.length
+     * 0 <= valueDiff <= 109
+     */
+    String containsNearbyAlmostDuplicate();
+
+    /**
      * 在一个由 '0' 和 '1' 组成的二维矩阵内，找到只包含 '1' 的最大正方形，并返回其面积。
      *
      * 示例 1：
@@ -4670,6 +4701,33 @@ public interface SubjectService {
      * 进阶：遍历树来统计节点是一种时间复杂度为 O(n) 的简单解决方案。你可以设计一个更快的算法吗？
      */
     String countNodes();
+
+    /**
+     * 给你一个字符串表达式 s ，请你实现一个基本计算器来计算并返回它的值。
+     * 注意:不允许使用任何将字符串作为数学表达式计算的内置函数，比如 eval() 。
+     *
+     * 示例 1：
+     * 输入：s = "1 + 1"
+     * 输出：2
+     *
+     * 示例 2：
+     * 输入：s = " 2-1 + 2 "
+     * 输出：3
+     *
+     * 示例 3：
+     * 输入：s = "(1+(4+5+2)-3)+(6+8)"
+     * 输出：23
+     *
+     * 提示：
+     * 1 <= s.length <= 3 * 105
+     * s 由数字、'+'、'-'、'('、')'、和 ' ' 组成
+     * s 表示一个有效的表达式
+     * '+' 不能用作一元运算(例如， "+1" 和 "+(2 + 3)" 无效)
+     * '-' 可以用作一元运算(即 "-1" 和 "-(2 + 3)" 是有效的)
+     * 输入中不存在两个连续的操作符
+     * 每个数字和运行的计算将适合于一个有符号的 32位 整数
+     */
+    String calculate();
 
     /**
      * 给你一个整数 n，请你判断该整数是否是 2 的幂次方。如果是，返回 true ；否则，返回 false 。

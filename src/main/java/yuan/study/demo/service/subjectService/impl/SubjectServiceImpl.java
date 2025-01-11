@@ -5887,6 +5887,44 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String containsNearbyAlmostDuplicate(){
+        System.out.println(JSON.toJSONString(containsNearbyAlmostDuplicate(new int[]{1,5,9,1,5,9}, 2, 3)));
+        return "success";
+    }
+
+    public boolean containsNearbyAlmostDuplicate(int[] nums, int indexDiff, int valueDiff) {
+        int n = nums.length;
+        //key: 根据valueDiff差距 放置到不同的桶
+        //value: 数组中的值
+        Map<Long, Long> map = new HashMap<>();
+        long value = (long) valueDiff + 1;
+        for (int i = 0; i < n; i++) {
+            long id = getID(nums[i], value);
+            if (map.containsKey(id)) {
+                return true;
+            }
+            if (map.containsKey(id - 1) && Math.abs(nums[i] - map.get(id - 1)) < value) {
+                //可能在上个桶里有满足的
+                return true;
+            }
+            if (map.containsKey(id + 1) && Math.abs(nums[i] - map.get(id + 1)) < value) {
+                //可能在下个桶里有满足的
+                return true;
+            }
+            map.put(id, (long) nums[i]);
+            if (i >= indexDiff) {
+                //移除掉非indexDiff区间中的数
+                map.remove(getID(nums[i - indexDiff], value));
+            }
+        }
+        return false;
+    }
+
+    public long getID(long x, long value) {
+        return x >= 0 ? x / value : (x + 1) / value - 1;
+    }
+
+    @Override
     public String maximalSquare(){
         System.out.println(JSON.toJSONString(maximalSquare(new char[][]{{'1','0','1','0','0'},{'1','0','1','1','1'},{'1','1','1','1','1'},{'1','0','0','1','0'}})));
         return "success";
@@ -5924,6 +5962,50 @@ public class SubjectServiceImpl implements SubjectService {
             return 0;
         }
         return countNodes(root.left) + countNodes(root.right) + 1;
+    }
+
+    @Override
+    public String calculate(){
+        System.out.println(JSON.toJSONString(calculate("5-(1+5)")));
+        return "success";
+    }
+
+    public int calculate(String s) {
+        Deque<Integer> deque = new LinkedList<>();
+        deque.push(1);
+        int sign = 1, result = 0, n = s.length(), i = 0;
+        while (i < n) {
+            char c = s.charAt(i);
+            switch (c){
+                case ' ':
+                    i++;
+                    break;
+                case '+':
+                    sign = deque.peek();
+                    i++;
+                    break;
+                case '-':
+                    sign = - deque.peek();
+                    i++;
+                    break;
+                case '(':
+                    deque.push(sign);
+                    i++;
+                    break;
+                case ')':
+                    deque.pop();
+                    i++;
+                    break;
+                default:
+                    long num = 0;
+                    while (i < n && Character.isDigit(s.charAt(i))) {
+                        num = num * 10 + s.charAt(i) - '0';
+                        i++;
+                    }
+                    result += sign * num;
+            }
+        }
+        return result;
     }
 
     @Override

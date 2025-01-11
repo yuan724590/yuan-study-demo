@@ -1592,6 +1592,14 @@ public class SubjectController {
     }
 
     /**
+     * 220. 存在重复元素 III
+     */
+    @GetMapping(value = "/containsNearbyAlmostDuplicate")
+    public void containsNearbyAlmostDuplicate(){
+        subjectService.containsNearbyAlmostDuplicate();
+    }
+
+    /**
      * 221. 最大正方形
      */
     @GetMapping(value = "/maximalSquare")
@@ -1605,6 +1613,14 @@ public class SubjectController {
     @GetMapping(value = "/countNodes")
     public void countNodes(){
         subjectService.countNodes();
+    }
+
+    /**
+     * 224. 基本计算器
+     */
+    @GetMapping(value = "/calculate")
+    public void calculate(){
+        subjectService.calculate();
     }
 
     /**
