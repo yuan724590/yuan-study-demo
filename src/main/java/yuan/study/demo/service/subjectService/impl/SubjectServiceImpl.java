@@ -5796,6 +5796,31 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String invertTree(){
+        TreeNode treeNode = new TreeNode(4);
+        treeNode.left = new TreeNode(2);
+        treeNode.left.left = new TreeNode(1);
+        treeNode.left.right = new TreeNode(3);
+        treeNode.right = new TreeNode(7);
+        treeNode.right.left = new TreeNode(6);
+        treeNode.right.right = new TreeNode(9);
+        System.out.println(JSON.toJSONString(invertTree(treeNode)));
+        return "success";
+    }
+
+    public TreeNode invertTree(TreeNode root) {
+        if(root == null){
+            return null;
+        }
+        TreeNode left = root.left;
+        root.left = root.right;
+        root.right = left;
+        invertTree(root.left);
+        invertTree(root.right);
+        return root;
+    }
+
+    @Override
     public String kthSmallest(){
         TreeNode treeNode = new TreeNode(5);
         treeNode.left = new TreeNode(3);
@@ -5962,6 +5987,26 @@ public class SubjectServiceImpl implements SubjectService {
             return 0;
         }
         return countNodes(root.left) + countNodes(root.right) + 1;
+    }
+
+    @Override
+    public String computeArea(){
+        System.out.println(JSON.toJSONString(computeArea(-3,  0,  3,  4,  0,  -1,  9,  2)));
+        return "success";
+    }
+
+    public int computeArea(int ax1, int ay1, int ax2, int ay2, int bx1, int by1, int bx2, int by2) {
+        //第一个矩形面积
+        int area1 = (ax2 - ax1) * (ay2 - ay1);
+        //第二个矩形面积
+        int area2 = (bx2 - bx1) * (by2 - by1);
+
+        //覆盖区域
+        int overlapWidth = Math.min(ax2, bx2) - Math.max(ax1, bx1);
+        int overlapHeight = Math.min(ay2, by2) - Math.max(ay1, by1);
+        //这里取math.max为了兼容完全没有覆盖的场景
+        int overlapArea = Math.max(overlapWidth, 0) * Math.max(overlapHeight, 0);
+        return area1 + area2 - overlapArea;
     }
 
     @Override

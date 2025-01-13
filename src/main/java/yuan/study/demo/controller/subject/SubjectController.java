@@ -1616,6 +1616,14 @@ public class SubjectController {
     }
 
     /**
+     * 223. 矩形面积
+     */
+    @GetMapping(value = "/computeArea")
+    public void computeArea(){
+        subjectService.computeArea();
+    }
+
+    /**
      * 224. 基本计算器
      */
     @GetMapping(value = "/calculate")
@@ -1629,6 +1637,14 @@ public class SubjectController {
     @GetMapping(value = "/my/stack")
     public void myStack(){
         subjectService.myStack();
+    }
+
+    /**
+     * 226. 翻转二叉树
+     */
+    @GetMapping(value = "/invertTree")
+    public void invertTree(){
+        subjectService.invertTree();
     }
 
     /**
