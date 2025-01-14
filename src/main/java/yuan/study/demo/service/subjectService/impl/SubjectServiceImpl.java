@@ -5821,6 +5821,46 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String calculate227(){
+        System.out.println(JSON.toJSONString(calculate227("3+2*2")));
+        return "success";
+    }
+
+    public int calculate227(String s) {
+        Deque<Integer> stack = new ArrayDeque<>();
+        char preSign = '+';
+        int n = s.length(), num = 0;
+        for (int i = 0; i < n; i++) {
+            char c = s.charAt(i);
+            if (Character.isDigit(c)) {
+                num = num * 10 + c - '0';
+            }
+            if ((!Character.isDigit(c) && c != ' ') || i == n - 1) {
+                switch (preSign) {
+                    case '+':
+                        stack.push(num);
+                        break;
+                    case '-':
+                        stack.push(-num);
+                        break;
+                    case '*':
+                        stack.push(stack.pop() * num);
+                        break;
+                    default:
+                        stack.push(stack.pop() / num);
+                }
+                preSign = c;
+                num = 0;
+            }
+        }
+        int ans = 0;
+        while (!stack.isEmpty()) {
+            ans += stack.pop();
+        }
+        return ans;
+    }
+
+    @Override
     public String kthSmallest(){
         TreeNode treeNode = new TreeNode(5);
         treeNode.left = new TreeNode(3);
@@ -8650,5 +8690,15 @@ public class SubjectServiceImpl implements SubjectService {
             }
         }
         return true;
+    }
+
+    @Override
+    public String sum(){
+        System.out.println(JSON.toJSONString(sum(12, 5)));
+        return "success";
+    }
+
+    public int sum(int num1, int num2) {
+        return num1 + num2;
     }
 }

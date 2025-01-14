@@ -1648,6 +1648,14 @@ public class SubjectController {
     }
 
     /**
+     * 227. 基本计算器 II
+     */
+    @GetMapping(value = "/calculate227")
+    public void calculate227(){
+        subjectService.calculate227();
+    }
+
+    /**
      * 230. 二叉搜索树中第K小的元素
      */
     @GetMapping(value = "/kthSmallest")
@@ -2501,6 +2509,14 @@ public class SubjectController {
     @GetMapping(value = "/maxTaskAssign")
     public String maxTaskAssign() {
         return subjectService.maxTaskAssign();
+    }
+
+    /**
+     * 2235. 两整数相加
+     */
+    @GetMapping(value = "/sum")
+    public String sum() {
+        return subjectService.sum();
     }
 
     /**
