@@ -7476,6 +7476,45 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String findRightInterval(){
+        System.out.println(JSON.toJSONString(findRightInterval(new int[][]{{3,4},{2,3},{1,2}})));
+        return "success";
+    }
+
+    /**
+     * 扫描所有区间找到其起点大于当前区间的终点的区间（具有最小差值），时间复杂度为 O(n的平方)
+     * 首先我们可以对区间 intervals 的起始位置进行排序，并将每个起始位置 intervals[i][0]对应的索引 i 存储在数组 arr 中
+     * 然后枚举每个区间 i 的右端点 intervals[i][1]，利用二分查找来找到大于等于 intervals[i][1] 的最小值 val 即可
+     * 此时区间 i 对应的右侧区间即为右端点 val 对应的索引
+     */
+    public int[] findRightInterval(int[][] intervals) {
+        int n = intervals.length;
+        int[][] arr = new int[n][2];
+        for (int i = 0; i < n; i++) {
+            arr[i][0] = intervals[i][0];
+            arr[i][1] = i;
+        }
+        Arrays.sort(arr);
+
+        int[] ans = new int[n];
+        for (int i = 0; i < n; i++) {
+            int left = 0, right = n - 1;
+            int target = -1;
+            while (left <= right) {
+                int mid = (left + right) / 2;
+                if (arr[mid][0] >= intervals[i][1]) {
+                    target = arr[mid][1];
+                    right = mid - 1;
+                } else {
+                    left = mid + 1;
+                }
+            }
+            ans[i] = target;
+        }
+        return ans;
+    }
+
+    @Override
     public String findAnagrams(){
         System.out.println(JSON.toJSONString(findAnagrams("cbaebabacd", "abc")));
         return "success";
@@ -8618,6 +8657,51 @@ public class SubjectServiceImpl implements SubjectService {
             }
         }
         return -1;
+    }
+
+    @Override
+    public String waysToFillArray(){
+        System.out.println(JSON.toJSONString(waysToFillArray(new int[][]{{2,6},{5,1},{73,660}})));
+        return "success";
+    }
+
+
+    public int[] waysToFillArray(int[][] queries) {
+        int mod = 1000000007;
+
+        int[][] arr = new int[10013][14];
+        // 预处理组合数
+        arr[0][0] = 1;
+        for (int i = 1; i < 10013; i++) {
+            arr[i][0] = 1;
+            for (int j = 1; j < 14; j++) {
+                arr[i][j] = (arr[i - 1][j] + arr[i - 1][j - 1]) % mod;
+            }
+        }
+        int m = queries.length;
+        int[] ans = new int[m];
+        for (int i = 0; i < m; i++) {
+            int[] q = queries[i];
+            int n = q[0], k = q[1];
+            long res = 1;
+            for (int j = 2; j * j <= k; j++) {
+                if (k % j == 0) {
+                    // i 是 k 的质因子
+                    int e = 1;
+                    for (k /= j; k % j == 0; k /= j) {
+                        // 统计有多少个质因子 i
+                        e++;
+                    }
+                    res = res * arr[e + n - 1][e] % mod;
+                }
+            }
+            if (k > 1) {
+                // 还剩下一个质因子
+                res = res * n % mod;
+            }
+            ans[i] = (int) res;
+        }
+        return ans;
     }
 
     @Override

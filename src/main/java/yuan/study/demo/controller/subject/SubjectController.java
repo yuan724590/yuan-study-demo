@@ -1999,6 +1999,14 @@ public class SubjectController {
     }
 
     /**
+     * 436. 寻找右区间
+     */
+    @GetMapping(value = "/findRightInterval")
+    public String findRightInterval() {
+        return subjectService.findRightInterval();
+    }
+
+    /**
      * 438. 找到字符串中所有字母异位词
      */
     @GetMapping(value = "/findAnagrams")
@@ -2460,6 +2468,14 @@ public class SubjectController {
      * 查询所有经理的ID、名称、直接向该经理汇报的员工人数，以及这些员工的平均年龄，其中该平均年龄需要四舍五入到最接近的整数
      * select b.employee_id, b.name, count(a.reports_to) reports_count, round(avg(a.age),0) average_age from Employees a,Employees b where a.reports_to = b.employee_id group by a.reports_to having reports_count > 0 order by employee_id
      */
+
+    /**
+     * 1735. 生成乘积数组的方案数
+     */
+    @GetMapping(value = "/waysToFillArray")
+    public String waysToFillArray() {
+        return subjectService.waysToFillArray();
+    }
 
     /**
      * 1757. 可回收且低脂的产品
