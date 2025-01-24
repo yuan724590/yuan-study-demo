@@ -8705,6 +8705,47 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String mergeAlternately(){
+        System.out.println(JSON.toJSONString(mergeAlternately("abc", "pqr")));
+        return "success";
+    }
+
+    public String mergeAlternately(String word1, String word2) {
+        StringBuilder ans = new StringBuilder();
+        int m = word1.length(), n = word2.length(), i = 0, j = 0;
+        while (i < m && j < n) {
+            ans.append(word1.charAt(i++));
+            ans.append(word2.charAt(j++));
+        }
+        ans.append(word1, i, m);
+        ans.append(word2, j, n);
+        return ans.toString();
+    }
+
+    @Override
+    public String gcdOfStrings(){
+        System.out.println(JSON.toJSONString(gcdOfStrings("ABABAB", "ABAB")));
+        return "success";
+    }
+
+    public String gcdOfStrings(String str1, String str2) {
+        if (!str1.concat(str2).equals(str2.concat(str1))) {
+            return "";
+        }
+        return str1.substring(0, gcd(str1.length(), str2.length()));
+    }
+
+    public int gcd(int a, int b) {
+        int remainder = a % b;
+        while (remainder != 0) {
+            a = b;
+            b = remainder;
+            remainder = a % b;
+        }
+        return b;
+    }
+
+    @Override
     public String findGCD(){
         System.out.println(JSON.toJSONString(findGCD(new int[]{2,5,6,9,10})));
         return "success";

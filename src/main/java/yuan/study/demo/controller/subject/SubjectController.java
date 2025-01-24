@@ -2483,6 +2483,22 @@ public class SubjectController {
      */
 
     /**
+     * 1768. 交替合并字符串
+     */
+    @GetMapping(value = "/mergeAlternately")
+    public String mergeAlternately() {
+        return subjectService.mergeAlternately();
+    }
+
+    /**
+     * 1071. 字符串的最大公因子
+     */
+    @GetMapping(value = "/gcdOfStrings")
+    public String gcdOfStrings() {
+        return subjectService.gcdOfStrings();
+    }
+
+    /**
      * 1789. 员工的直属部门
      * Employee -> employee_id, department_id, primary_flag
      * 查出员工所属的直属部门 (直属部门: primary_flag = 'Y' / 仅一条为'N'的数据)
