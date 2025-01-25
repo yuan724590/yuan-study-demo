@@ -2266,6 +2266,14 @@ public class SubjectController {
      */
 
     /**
+     * 1071. 字符串的最大公因子
+     */
+    @GetMapping(value = "/gcdOfStrings")
+    public String gcdOfStrings() {
+        return subjectService.gcdOfStrings();
+    }
+
+    /**
      * 1075. 项目员工 I
      * project -> project_id, employee_id
      * employee -> employee_id, name, experience_years
@@ -2488,14 +2496,6 @@ public class SubjectController {
     @GetMapping(value = "/mergeAlternately")
     public String mergeAlternately() {
         return subjectService.mergeAlternately();
-    }
-
-    /**
-     * 1071. 字符串的最大公因子
-     */
-    @GetMapping(value = "/gcdOfStrings")
-    public String gcdOfStrings() {
-        return subjectService.gcdOfStrings();
     }
 
     /**

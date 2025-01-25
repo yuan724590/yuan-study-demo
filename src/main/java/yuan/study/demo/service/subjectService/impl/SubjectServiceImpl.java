@@ -8490,6 +8490,28 @@ public class SubjectServiceImpl implements SubjectService {
         return largestComponentSizeParent[x] == x ? x : (largestComponentSizeParent[x] = find(largestComponentSizeParent[x]));
     }
 
+    @Override
+    public String gcdOfStrings(){
+        System.out.println(JSON.toJSONString(gcdOfStrings("ABABAB", "ABAB")));
+        return "success";
+    }
+
+    public String gcdOfStrings(String str1, String str2) {
+        if (!str1.concat(str2).equals(str2.concat(str1))) {
+            return "";
+        }
+        return str1.substring(0, gcd(str1.length(), str2.length()));
+    }
+
+    public int gcd(int a, int b) {
+        int remainder = a % b;
+        while (remainder != 0) {
+            a = b;
+            b = remainder;
+            remainder = a % b;
+        }
+        return b;
+    }
 
     @Override
     public String findInMountainArray(){
@@ -8665,7 +8687,6 @@ public class SubjectServiceImpl implements SubjectService {
         return "success";
     }
 
-
     public int[] waysToFillArray(int[][] queries) {
         int mod = 1000000007;
 
@@ -8720,29 +8741,6 @@ public class SubjectServiceImpl implements SubjectService {
         ans.append(word1, i, m);
         ans.append(word2, j, n);
         return ans.toString();
-    }
-
-    @Override
-    public String gcdOfStrings(){
-        System.out.println(JSON.toJSONString(gcdOfStrings("ABABAB", "ABAB")));
-        return "success";
-    }
-
-    public String gcdOfStrings(String str1, String str2) {
-        if (!str1.concat(str2).equals(str2.concat(str1))) {
-            return "";
-        }
-        return str1.substring(0, gcd(str1.length(), str2.length()));
-    }
-
-    public int gcd(int a, int b) {
-        int remainder = a % b;
-        while (remainder != 0) {
-            a = b;
-            b = remainder;
-            remainder = a % b;
-        }
-        return b;
     }
 
     @Override

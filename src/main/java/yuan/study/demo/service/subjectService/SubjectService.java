@@ -6445,6 +6445,28 @@ public interface SubjectService {
     String largestComponentSize();
 
     /**
+     * 对于字符串 s 和 t，只有在 s = t + t + t + ... + t + t（t 自身连接 1 次或多次）时，我们才认定 “t 能除尽 s”。
+     * 给定两个字符串 str1 和 str2 。返回 最长字符串 x，要求满足 x 能除尽 str1 且 x 能除尽 str2 。
+     *
+     * 示例 1：
+     * 输入：str1 = "ABCABC", str2 = "ABC"
+     * 输出："ABC"
+     *
+     * 示例 2：
+     * 输入：str1 = "ABABAB", str2 = "ABAB"
+     * 输出："AB"
+     *
+     * 示例 3：
+     * 输入：str1 = "LEET", str2 = "CODE"
+     * 输出：""
+     *
+     * 提示：
+     * 1 <= str1.length, str2.length <= 1000
+     * str1 和 str2 由大写英文字母组成
+     */
+    String gcdOfStrings();
+
+    /**
      * （这是一个 交互式问题 ）
      *
      * 给你一个 山脉数组 mountainArr，请你返回能够使得 mountainArr.get(index) 等于 target 最小 的下标 index 值。
@@ -6592,28 +6614,6 @@ public interface SubjectService {
      * word1 和 word2 由小写英文字母组成
      */
     String mergeAlternately();
-
-    /**
-     * 对于字符串 s 和 t，只有在 s = t + t + t + ... + t + t（t 自身连接 1 次或多次）时，我们才认定 “t 能除尽 s”。
-     * 给定两个字符串 str1 和 str2 。返回 最长字符串 x，要求满足 x 能除尽 str1 且 x 能除尽 str2 。
-     *
-     * 示例 1：
-     * 输入：str1 = "ABCABC", str2 = "ABC"
-     * 输出："ABC"
-     *
-     * 示例 2：
-     * 输入：str1 = "ABABAB", str2 = "ABAB"
-     * 输出："AB"
-     *
-     * 示例 3：
-     * 输入：str1 = "LEET", str2 = "CODE"
-     * 输出：""
-     *
-     * 提示：
-     * 1 <= str1.length, str2.length <= 1000
-     * str1 和 str2 由大写英文字母组成
-     */
-    String gcdOfStrings();
 
     /**
      * 给你一个整数数组 nums ，返回数组中最大数和最小数的 最大公约数 。
