@@ -7925,6 +7925,30 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String canPlaceFlowers(){
+        System.out.println(JSON.toJSONString(canPlaceFlowers(new int[]{1,0,0,0,0,1}, 2)));
+        return "success";
+    }
+
+    public boolean canPlaceFlowers(int[] flowerbed, int n) {
+        if(n == 0){
+            return true;
+        }
+        int m = flowerbed.length;
+        for (int i = 0; i < m; i++) {
+            if(flowerbed[i] == 1 || (i < m - 1 && flowerbed[i + 1] == 1) || (i > 0 && flowerbed[i - 1] == 1)){
+                continue;
+            }
+            flowerbed[i] = 1;
+            n--;
+            if(n <= 0){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
     public String findClosestElements(){
         System.out.println(JSON.toJSONString(findClosestElements(new int[]{1,2,4,5}, 4, 3)));
         return "success";

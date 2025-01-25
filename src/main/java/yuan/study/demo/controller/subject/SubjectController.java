@@ -2111,6 +2111,14 @@ public class SubjectController {
      */
 
     /**
+     * 605. 种花问题
+     */
+    @GetMapping(value = "/canPlaceFlowers")
+    public String canPlaceFlowers() {
+        return subjectService.canPlaceFlowers();
+    }
+
+    /**
      * 610. 判断三角形
      * Triangle -> x, y, z
      * 判断x,y,z是否可以组成三角形
