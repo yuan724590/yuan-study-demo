@@ -6931,6 +6931,31 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String increasingTriplet(){
+        System.out.println(JSON.toJSONString(increasingTriplet(new int[]{2,1,5,0,4,6})));
+        return "success";
+    }
+
+    public boolean increasingTriplet(int[] nums) {
+        int n = nums.length;
+        if (n < 3) {
+            return false;
+        }
+        int first = nums[0], second = Integer.MAX_VALUE;
+        for (int i = 1; i < n; i++) {
+            int num = nums[i];
+            if (num > second) {
+                return true;
+            } else if (num > first) {
+                second = num;
+            } else {
+                first = num;
+            }
+        }
+        return false;
+    }
+
+    @Override
     public String rob3(){
         TreeNode treeNode = new TreeNode(3);
         treeNode.left = new TreeNode(1);

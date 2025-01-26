@@ -1855,6 +1855,14 @@ public class SubjectController {
     }
 
     /**
+     * 334. 递增的三元子序列
+     */
+    @GetMapping(value = "/increasingTriplet")
+    public void increasingTriplet(){
+        subjectService.increasingTriplet();
+    }
+
+    /**
      * 337. 打家劫舍 III
      */
     @GetMapping(value = "/rob3")
