@@ -8699,6 +8699,47 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String maxVowels(){
+        System.out.println(JSON.toJSONString(maxVowels("leetcode", 2)));
+        return "success";
+    }
+
+    public int maxVowels(String s, int k) {
+        int n = s.length(), count = 0;
+        String str = "aeiouAEIOU";
+        for (int i = 0; i < k; i++) {
+            if(str.indexOf(s.charAt(i)) < 0){
+                continue;
+            }
+            count++;
+        }
+        int max = count;
+        for (int i = k; i < n; i++) {
+            count = count + (str.indexOf(s.charAt(i)) < 0 ? 0 : 1) - (str.indexOf(s.charAt(i - k)) < 0 ? 0 : 1);
+            max = Math.max(max, count);
+        }
+        return max;
+    }
+
+    @Override
+    public String kidsWithCandies(){
+        System.out.println(JSON.toJSONString(kidsWithCandies(new int[]{4,2,1,1,2}, 1)));
+        return "success";
+    }
+
+    public List<Boolean> kidsWithCandies(int[] candies, int extraCandies) {
+        int n = candies.length, max = candies[0];
+        for (int i = 0; i < n; i++) {
+            max = Math.max(max, candies[i]);
+        }
+        List<Boolean> list = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+            list.add(candies[i] + extraCandies >= max);
+        }
+        return list;
+    }
+
+    @Override
     public String kthFactor(){
         System.out.println(JSON.toJSONString(kthFactor(12, 3)));
         return "success";

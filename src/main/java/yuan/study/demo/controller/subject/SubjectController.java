@@ -2417,11 +2417,27 @@ public class SubjectController {
      */
 
     /**
+     * 1456. 定长子串中元音的最大数目
+     */
+    @GetMapping(value = "/maxVowels")
+    public String maxVowels() {
+        return subjectService.maxVowels();
+    }
+
+    /**
      * 1484. 按日期分组销售产品
      * Activities -> sell_date, product
      * 查询每个日期、销售的不同产品的数量及其名称(逗号隔开)
      * select sell_date, count(distinct product) as num_sold, group_concat(distinct product order by product separator ',') as products from Activities group by sell_date order by sell_date
      */
+
+    /**
+     * 1431. 拥有最多糖果的孩子
+     */
+    @GetMapping(value = "/kidsWithCandies")
+    public String kidsWithCandies() {
+        return subjectService.kidsWithCandies();
+    }
 
     /**
      * 1492. n 的第 k 个因子
