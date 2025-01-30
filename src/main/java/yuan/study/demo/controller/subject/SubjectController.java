@@ -1887,6 +1887,14 @@ public class SubjectController {
     }
 
     /**
+     * 345. 反转字符串中的元音字母
+     */
+    @GetMapping(value = "/reverseVowels")
+    public void reverseVowels(){
+        subjectService.reverseVowels();
+    }
+
+    /**
      * 349. 两个数组的交集
      */
     @GetMapping(value = "/intersection")
@@ -1940,6 +1948,14 @@ public class SubjectController {
     @GetMapping(value = "/firstUniqChar")
     public String firstUniqChar() {
         return subjectService.firstUniqChar();
+    }
+
+    /**
+     * 392. 判断子序列
+     */
+    @GetMapping(value = "/isSubsequence")
+    public String isSubsequence() {
+        return subjectService.isSubsequence();
     }
 
     /**

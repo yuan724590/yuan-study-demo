@@ -5458,6 +5458,27 @@ public interface SubjectService {
     String integerBreak();
 
     /**
+     * 给你一个字符串 s ，仅反转字符串中的所有元音字母，并返回结果字符串。
+     *
+     * 元音字母包括 'a'、'e'、'i'、'o'、'u'，且可能以大小写两种形式出现不止一次。
+     *
+     * 示例 1：
+     * 输入：s = "IceCreAm"
+     * 输出："AceCreIm"
+     * 解释：
+     * s 中的元音是 ['I', 'e', 'e', 'A']。反转这些元音，s 变为 "AceCreIm".
+     *
+     * 示例 2：
+     * 输入：s = "leetcode"
+     * 输出："leotcede"
+     *
+     * 提示：
+     * 1 <= s.length <= 3 * 105
+     * s 由 可打印的 ASCII 字符组成
+     */
+    String reverseVowels();
+
+    /**
      * 给定两个数组 nums1 和 nums2 ，返回 它们的
      * 交集
      *  。输出结果中的每个元素一定是 唯一 的。我们可以 不考虑输出结果的顺序 。
@@ -5630,6 +5651,27 @@ public interface SubjectService {
      * s 只包含小写字母
      */
     String firstUniqChar();
+
+    /**
+     * 给定字符串 s 和 t ，判断 s 是否为 t 的子序列。
+     * 字符串的一个子序列是原始字符串删除一些（也可以不删除）字符而不改变剩余字符相对位置形成的新字符串。（例如，"ace"是"abcde"的一个子序列，而"aec"不是）。
+     * 进阶：
+     * 如果有大量输入的 S，称作 S1, S2, ... , Sk 其中 k >= 10亿，你需要依次检查它们是否为 T 的子序列。在这种情况下，你会怎样改变代码？
+     *
+     * 示例 1：
+     * 输入：s = "abc", t = "ahbgdc"
+     * 输出：true
+     *
+     * 示例 2：
+     * 输入：s = "axc", t = "ahbgdc"
+     * 输出：false
+     *
+     * 提示：
+     * 0 <= s.length <= 100
+     * 0 <= t.length <= 10^4
+     * 两个字符串都只由小写字符组成。
+     */
+    String isSubsequence();
 
     /**
      * 给定一个经过编码的字符串，返回它解码后的字符串。

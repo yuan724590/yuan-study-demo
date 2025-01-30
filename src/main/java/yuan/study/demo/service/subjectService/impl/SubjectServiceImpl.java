@@ -7021,6 +7021,42 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String reverseVowels(){
+        System.out.println(JSON.toJSONString(reverseVowels("IceCreAm")));
+        return "success";
+    }
+
+    public String reverseVowels(String s) {
+        int n = s.length();
+        char[] arr = s.toCharArray();
+        int start = 0, end = n - 1;
+        while (start < end) {
+            while (start < n && isConsonant(arr[start])) {
+                start++;
+            }
+            while (end > 0 && isConsonant(arr[end])) {
+                end--;
+            }
+            if (start < end) {
+                swap(arr, start, end);
+                start++;
+                end--;
+            }
+        }
+        return new String(arr);
+    }
+
+    private boolean isConsonant(char ch) {
+        return "aeiouAEIOU".indexOf(ch) < 0;
+    }
+
+    private void swap(char[] arr, int i, int j) {
+        char temp = arr[i];
+        arr[i] = arr[j];
+        arr[j] = temp;
+    }
+
+    @Override
     public String intersection(){
         System.out.println(JSON.toJSONString(intersection(new int[]{1,2,2,1}, new int[]{2,2})));
         return "success";
@@ -7231,6 +7267,29 @@ public class SubjectServiceImpl implements SubjectService {
             }
         }
         return -1;
+    }
+
+    @Override
+    public String isSubsequence(){
+        System.out.println(JSON.toJSONString(isSubsequence("b", "abc")));
+        return "success";
+    }
+
+    public boolean isSubsequence(String s, String t) {
+        if(s.isEmpty()){
+            return true;
+        }
+        int n = t.length(), m = s.length(), j = 0;
+        for (int i = 0; i < n; i++) {
+            if(t.charAt(i) != s.charAt(j)){
+                continue;
+            }
+            j++;
+            if(j == m){
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
