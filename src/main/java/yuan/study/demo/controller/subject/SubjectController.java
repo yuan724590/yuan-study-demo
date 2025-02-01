@@ -2039,6 +2039,14 @@ public class SubjectController {
     }
 
     /**
+     * 443. 压缩字符串
+     */
+    @GetMapping(value = "/compress")
+    public String compress() {
+        return subjectService.compress();
+    }
+
+    /**
      * 455. 分发饼干
      */
     @GetMapping(value = "/findContentChildren")
@@ -2173,6 +2181,14 @@ public class SubjectController {
     @GetMapping(value = "/smallestRange")
     public String smallestRange() {
         return subjectService.smallestRange();
+    }
+
+    /**
+     * 643. 子数组最大平均数 I
+     */
+    @GetMapping(value = "/findMaxAverage")
+    public String findMaxAverage() {
+        return subjectService.findMaxAverage();
     }
 
     /**

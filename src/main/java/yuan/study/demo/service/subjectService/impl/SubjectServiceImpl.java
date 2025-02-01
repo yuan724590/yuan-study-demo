@@ -7650,6 +7650,43 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String compress(){
+        System.out.println(JSON.toJSONString(compress(new char[]{'a','a','b','b','b','b','b','b','b','b','b','b','b','b'})));
+        return "success";
+    }
+
+    public int compress(char[] chars) {
+        int n = chars.length, write = 0, left = 0;
+        for (int i = 0; i < n; i++) {
+            if (i != n - 1 && chars[i] == chars[i + 1]) {
+                continue;
+            }
+            chars[write++] = chars[i];
+            int num = i - left + 1;
+            if (num > 1) {
+                int anchor = write;
+                while (num > 0) {
+                    chars[write++] = (char) (num % 10 + '0');
+                    num /= 10;
+                }
+                reverse(chars, anchor, write - 1);
+            }
+            left = i + 1;
+        }
+        return write;
+    }
+
+    private void reverse(char[] chars, int left, int right) {
+        while (left < right) {
+            char temp = chars[left];
+            chars[left] = chars[right];
+            chars[right] = temp;
+            left++;
+            right--;
+        }
+    }
+
+    @Override
     public String smallestRange(){
         List<Integer> list1 = Lists.newArrayList(4,10,15,24,26);
         List<Integer> list2 = Lists.newArrayList(0,9,12,20);
@@ -7709,6 +7746,25 @@ public class SubjectServiceImpl implements SubjectService {
             }
         }
         return result;
+    }
+
+    @Override
+    public String findMaxAverage(){
+        System.out.println(JSON.toJSONString(findMaxAverage(new int[]{5}, 1)));
+        return "success";
+    }
+
+    public double findMaxAverage(int[] nums, int k) {
+        int n = nums.length, sum = 0;
+        for (int i = 0; i < k; i++) {
+            sum += nums[i];
+        }
+        int max = sum;
+        for (int i = k; i < n; i++) {
+            sum = sum + nums[i] - nums[i - k];
+            max = Math.max(max, sum);
+        }
+        return (double) max / k;
     }
 
     @Override
