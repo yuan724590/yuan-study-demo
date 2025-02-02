@@ -8245,6 +8245,27 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String pivotIndex(){
+        System.out.println(JSON.toJSONString(pivotIndex(new int[]{1, 7, 3, 6, 5, 6})));
+        return "success";
+    }
+
+    public int pivotIndex(int[] nums) {
+        int n = nums.length;
+        int sum = 0, val = 0;
+        for (int num : nums) {
+            sum += num;
+        }
+        for (int i = 0; i < n; i++) {
+            if(2 * val + nums[i] == sum){
+                return i;
+            }
+            val += nums[i];
+        }
+        return -1;
+    }
+
+    @Override
     public  String isBipartite(){
         System.out.println(JSON.toJSONString(isBipartite(new int[][]{{1,2,3},{0,2},{0,1,3},{0,2}})));
         return "success";

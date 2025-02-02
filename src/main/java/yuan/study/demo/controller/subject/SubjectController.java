@@ -2224,6 +2224,14 @@ public class SubjectController {
     }
 
     /**
+     * 724. 寻找数组的中心下标
+     */
+    @GetMapping(value = "/pivotIndex")
+    public String pivotIndex() {
+        return subjectService.pivotIndex();
+    }
+
+    /**
      * 785. 判断二分图
      */
     @GetMapping(value = "/isBipartite")
