@@ -8908,6 +8908,66 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String longestSubarray(){
+        System.out.println(JSON.toJSONString(longestSubarray(new int[]{0,1,1,1,0,1,1,0,1})));
+        return "success";
+    }
+
+    public int longestSubarray(int[] nums) {
+        int res = 0, a = 0, b = 0;
+        for (int num : nums) {
+            if (num == 0) {
+                b = a;
+                a = 0;
+            } else {
+                a++;
+                b++;
+            }
+            res = Math.max(res, b);
+        }
+        if (res == nums.length) {
+            res--;
+        }
+        return res;
+    }
+
+    @Override
+    public String maxOperations(){
+        System.out.println(JSON.toJSONString(maxOperations(new int[]{4,4,1,3,1,3,2,2,5,5,1,5,2,1,2,3,5,4}, 2)));
+        return "success";
+    }
+
+    public int maxOperations(int[] nums, int k) {
+        int ans = 0;
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int num : nums) {
+            int c = map.getOrDefault(k - num, 0);
+            if (c > 0) {
+                map.put(k - num, c - 1);
+                ans++;
+            } else {
+                map.merge(num, 1, Integer::sum);
+            }
+        }
+        return ans;
+    }
+
+    @Override
+    public String largestAltitude(){
+        System.out.println(JSON.toJSONString(largestAltitude(new int[]{-5,1,5,0,-7})));
+        return "success";
+    }
+
+    public int largestAltitude(int[] gain) {
+        int sum = 0, max = Integer.MIN_VALUE;
+        for (int num : gain) {
+            sum = sum + num;
+            max = Math.max(max, sum);
+        }
+        return Math.max(max, 0);
+    }
+
+    @Override
     public String waysToFillArray(){
         System.out.println(JSON.toJSONString(waysToFillArray(new int[][]{{2,6},{5,1},{73,660}})));
         return "success";

@@ -2488,6 +2488,14 @@ public class SubjectController {
     }
 
     /**
+     * 1493. 删掉一个元素以后全为 1 的最长子数组
+     */
+    @GetMapping(value = "/longestSubarray")
+    public String longestSubarray() {
+        return subjectService.longestSubarray();
+    }
+
+    /**
      * 1517. 查找拥有有效邮箱的用户
      * select user_id,name,mail from Users where mail regexp '^[a-zA-Z][a-zA-Z0-9\\_\\.\\-]*@leetcode\\.com$'
      */
@@ -2531,6 +2539,14 @@ public class SubjectController {
      */
 
     /**
+     * 1679. K 和数对的最大数目
+     */
+    @GetMapping(value = "/maxOperations")
+    public String maxOperations() {
+        return subjectService.maxOperations();
+    }
+
+    /**
      * 1683. 无效的推文
      * Tweets -> tweet_id, content
      * 查询所有无效推文的编号ID。当推文内容中的字符数大于 15 时，该推文是无效的
@@ -2548,6 +2564,14 @@ public class SubjectController {
      * 查询所有经理的ID、名称、直接向该经理汇报的员工人数，以及这些员工的平均年龄，其中该平均年龄需要四舍五入到最接近的整数
      * select b.employee_id, b.name, count(a.reports_to) reports_count, round(avg(a.age),0) average_age from Employees a,Employees b where a.reports_to = b.employee_id group by a.reports_to having reports_count > 0 order by employee_id
      */
+
+    /**
+     * 1732. 找到最高海拔
+     */
+    @GetMapping(value = "/largestAltitude")
+    public String largestAltitude() {
+        return subjectService.largestAltitude();
+    }
 
     /**
      * 1735. 生成乘积数组的方案数
