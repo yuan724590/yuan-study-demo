@@ -2312,6 +2312,14 @@ public class SubjectController {
     }
 
     /**
+     * 1004. 最大连续1的个数 III
+     */
+    @GetMapping(value = "/longestOnes")
+    public String longestOnes() {
+        return subjectService.longestOnes();
+    }
+
+    /**
      * 1045. 买下所有产品的客户
      * select b.customer_id from (select c.customer_id as customer_id,a.count as count,count(distinct c.product_key) as customer_id_count from customer c, (select count(product_key) as count from product) a group by c.customer_id) as b where b.count = b.customer_id_count
      */

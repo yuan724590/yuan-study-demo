@@ -8676,6 +8676,36 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String longestOnes(){
+        System.out.println(JSON.toJSONString(longestOnes(new int[]{1,1,1,0,0,0,1,1,1,1,0}, 2)));
+        return "success";
+    }
+
+    public int longestOnes(int[] nums, int k) {
+        int n = nums.length;
+        //上次因为0超过k而断掉的坐标
+        int left = 0;
+        //在索引left时 左侧0的个数
+        int leftZeroCount = 0;
+        //在索引i时 左侧0的个数
+        int zeroCount = 0;
+        int ans = 0;
+        for (int i = 0; i < n; i++) {
+            if(nums[i] == 0){
+                zeroCount++;
+            }
+            while (zeroCount - k > leftZeroCount) {
+                if(nums[left] == 0){
+                    leftZeroCount++;
+                }
+                left++;
+            }
+            ans = Math.max(ans, i - left + 1);
+        }
+        return ans;
+    }
+
+    @Override
     public String gcdOfStrings(){
         System.out.println(JSON.toJSONString(gcdOfStrings("ABABAB", "ABAB")));
         return "success";
