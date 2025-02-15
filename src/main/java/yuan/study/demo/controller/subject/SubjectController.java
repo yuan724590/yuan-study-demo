@@ -2416,6 +2416,14 @@ public class SubjectController {
      */
 
     /**
+     * 1207. 独一无二的出现次数
+     */
+    @GetMapping(value = "/uniqueOccurrences")
+    public String uniqueOccurrences() {
+        return subjectService.uniqueOccurrences();
+    }
+
+    /**
      * 1211. 查询结果的质量和占比
      * Queries -> query_name, result, position, rating
      * quality：每个query_name的result 与position比率的平均值
@@ -2531,6 +2539,14 @@ public class SubjectController {
      * 查询各赛事的用户注册百分率
      * select b.contest_id,round(count(b.user_id) * 100 / u.count, 2) as percentage  from register b cross join (select count(*) as count from users a) u group by b.contest_id order by percentage desc,b.contest_id
      */
+
+    /**
+     * 1657. 确定两个字符串是否接近
+     */
+    @GetMapping(value = "/closeStrings")
+    public String closeStrings() {
+        return subjectService.closeStrings();
+    }
 
     /**
      * 1661. 每台机器的进程平均运行时间

@@ -8865,6 +8865,30 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String uniqueOccurrences(){
+        System.out.println(JSON.toJSONString(uniqueOccurrences(new int[]{-3,0,1,-3,1,1,1,-3,10,0})));
+        return "success";
+    }
+
+    public boolean uniqueOccurrences(int[] arr) {
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int num : arr) {
+            map.put(num, map.getOrDefault(num, 0) + 1);
+        }
+        if(map.size() <= 1){
+            return true;
+        }
+        int[] countArr = new int[arr.length + 1];
+        for(Map.Entry<Integer, Integer> entry : map.entrySet()){
+            if(countArr[entry.getValue()] == 1){
+                return false;
+            }
+            countArr[entry.getValue()] = 1;
+        }
+        return true;
+    }
+
+    @Override
     public String maxVowels(){
         System.out.println(JSON.toJSONString(maxVowels("leetcode", 2)));
         return "success";
@@ -8959,6 +8983,30 @@ public class SubjectServiceImpl implements SubjectService {
             res--;
         }
         return res;
+    }
+
+    @Override
+    public String closeStrings(){
+        System.out.println(JSON.toJSONString(closeStrings("cabbba", "aabbss")));
+        return "success";
+    }
+
+    public boolean closeStrings(String word1, String word2) {
+        int[] count1 = new int[26], count2 = new int[26];
+        for (char c : word1.toCharArray()) {
+            count1[c - 'a']++;
+        }
+        for (char c : word2.toCharArray()) {
+            count2[c - 'a']++;
+        }
+        for (int i = 0; i < 26; i++) {
+            if ((count1[i] > 0 && count2[i] == 0) || (count1[i] == 0 && count2[i] > 0)) {
+                return false;
+            }
+        }
+        Arrays.sort(count1);
+        Arrays.sort(count2);
+        return Arrays.equals(count1, count2);
     }
 
     @Override

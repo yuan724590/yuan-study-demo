@@ -6728,6 +6728,28 @@ public interface SubjectService {
     String longestCommonSubsequence();
 
     /**
+     * 给你一个整数数组 arr，如果每个数的出现次数都是独一无二的，就返回 true；否则返回 false。
+     *
+     * 示例 1：
+     * 输入：arr = [1,2,2,1,1,3]
+     * 输出：true
+     * 解释：在该数组中，1 出现了 3 次，2 出现了 2 次，3 只出现了 1 次。没有两个数的出现次数相同。
+     *
+     * 示例 2：
+     * 输入：arr = [1,2]
+     * 输出：false
+     *
+     * 示例 3：
+     * 输入：arr = [-3,0,1,-3,1,1,1,-3,10,0]
+     * 输出：true
+     *
+     * 提示：
+     * 1 <= arr.length <= 1000
+     * -1000 <= arr[i] <= 1000
+     */
+    String uniqueOccurrences();
+
+    /**
      * 给你字符串 s 和整数 k 。
      * 请返回字符串 s 中长度为 k 的单个子字符串中可能包含的最大元音字母数。
      * 英文中的 元音字母 为（a, e, i, o, u）。
@@ -6848,6 +6870,43 @@ public interface SubjectService {
      * nums[i] 要么是 0 要么是 1 。
      */
     String longestSubarray();
+
+    /**
+     * 如果可以使用以下操作从一个字符串得到另一个字符串，则认为两个字符串 接近 ：
+     *
+     * 操作 1：交换任意两个 现有 字符。
+     * 例如，abcde -> aecdb
+     *
+     * 操作 2：将一个 现有 字符的每次出现转换为另一个 现有 字符，并对另一个字符执行相同的操作。
+     * 例如，aacabb -> bbcbaa（所有 a 转化为 b ，而所有的 b 转换为 a ）
+     * 你可以根据需要对任意一个字符串多次使用这两种操作。
+     * 给你两个字符串，word1 和 word2 。如果 word1 和 word2 接近 ，就返回 true ；否则，返回 false 。
+     *
+     * 示例 1：
+     * 输入：word1 = "abc", word2 = "bca"
+     * 输出：true
+     * 解释：2 次操作从 word1 获得 word2 。
+     * 执行操作 1："abc" -> "acb"
+     * 执行操作 1："acb" -> "bca"
+     *
+     * 示例 2：
+     * 输入：word1 = "a", word2 = "aa"
+     * 输出：false
+     * 解释：不管执行多少次操作，都无法从 word1 得到 word2 ，反之亦然。
+     *
+     * 示例 3：
+     * 输入：word1 = "cabbba", word2 = "abbccc"
+     * 输出：true
+     * 解释：3 次操作从 word1 获得 word2 。
+     * 执行操作 1："cabbba" -> "caabbb"
+     * 执行操作 2："caabbb" -> "baaccc"
+     * 执行操作 2："baaccc" -> "abbccc"
+     *
+     * 提示：
+     * 1 <= word1.length, word2.length <= 105
+     * word1 和 word2 仅包含小写英文字母
+     */
+    String closeStrings();
 
     /**
      * 给你一个整数数组 nums 和一个整数 k 。
