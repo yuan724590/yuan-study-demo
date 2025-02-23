@@ -2664,6 +2664,14 @@ public class SubjectController {
     }
 
     /**
+     * 2215. 找出两数组的不同
+     */
+    @GetMapping(value = "/findDifference")
+    public String findDifference() {
+        return subjectService.findDifference();
+    }
+
+    /**
      * 2235. 两整数相加
      */
     @GetMapping(value = "/sum")

@@ -9180,6 +9180,30 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String findDifference(){
+        System.out.println(JSON.toJSONString(findDifference(new int[]{1,2,3,3}, new int[]{2,4,6})));
+        return "success";
+    }
+
+    public List<List<Integer>> findDifference(int[] nums1, int[] nums2) {
+        HashSet<Integer> set1 = new HashSet<>();
+        HashSet<Integer> set2 = new HashSet<>();
+        for (int n : nums2) {
+            set2.add(n);
+        }
+        for (int n : nums1) {
+            set1.add(n);
+        }
+        for (int n : nums2) {
+            set1.remove(n);
+        }
+        for (int n : nums1) {
+            set2.remove(n);
+        }
+        return Lists.newArrayList(Lists.newArrayList(set1), Lists.newArrayList(set2));
+    }
+
+    @Override
     public String sum(){
         System.out.println(JSON.toJSONString(sum(12, 5)));
         return "success";
