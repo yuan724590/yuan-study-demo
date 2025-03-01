@@ -9204,6 +9204,33 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String equalPairs(){
+        System.out.println(JSON.toJSONString(equalPairs(new int[][]{{3,2,1},{1,7,6},{2,7,7}})));
+        return "success";
+    }
+
+    public int equalPairs(int[][] grid) {
+        int num = 0, n = grid.length;
+        for (int row = 0; row < n; row++) {
+            for (int col = 0; col < n; col++) {
+                if (equal(row, col, n, grid)) {
+                    num++;
+                }
+            }
+        }
+        return num;
+    }
+
+    public boolean equal(int row, int col, int n, int[][] grid) {
+        for (int i = 0; i < n; i++) {
+            if (grid[row][i] != grid[i][col]) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    @Override
     public String sum(){
         System.out.println(JSON.toJSONString(sum(12, 5)));
         return "success";
@@ -9211,5 +9238,15 @@ public class SubjectServiceImpl implements SubjectService {
 
     public int sum(int num1, int num2) {
         return num1 + num2;
+    }
+
+    @Override
+    public String convertTemperature(){
+        System.out.println(JSON.toJSONString(convertTemperature(122.11)));
+        return "success";
+    }
+
+    public double[] convertTemperature(double celsius) {
+        return new double[]{celsius + 273.15, celsius * 1.80 + 32.00};
     }
 }

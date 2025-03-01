@@ -2672,6 +2672,14 @@ public class SubjectController {
     }
 
     /**
+     * 2352. 相等行列对
+     */
+    @GetMapping(value = "/equalPairs")
+    public String equalPairs() {
+        return subjectService.equalPairs();
+    }
+
+    /**
      * 2235. 两整数相加
      */
     @GetMapping(value = "/sum")
@@ -2685,4 +2693,12 @@ public class SubjectController {
      * 查询每位老师在大学里教授的科目种类的数量
      * SELECT teacher_id, COUNT(DISTINCT subject_id) AS cnt FROM Teacher GROUP BY teacher_id
      */
+
+    /**
+     * 2469. 温度转换
+     */
+    @GetMapping(value = "/convertTemperature")
+    public String convertTemperature() {
+        return subjectService.convertTemperature();
+    }
 }
