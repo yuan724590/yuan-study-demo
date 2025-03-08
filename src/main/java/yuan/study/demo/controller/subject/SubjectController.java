@@ -2192,6 +2192,14 @@ public class SubjectController {
     }
 
     /**
+     * 649. Dota2 参议院
+     */
+    @GetMapping(value = "/predictPartyVictory")
+    public String predictPartyVictory() {
+        return subjectService.predictPartyVictory();
+    }
+
+    /**
      * 658. 找到 K 个最接近的元素
      */
     @GetMapping(value = "/findClosestElements")
@@ -2229,6 +2237,14 @@ public class SubjectController {
     @GetMapping(value = "/pivotIndex")
     public String pivotIndex() {
         return subjectService.pivotIndex();
+    }
+
+    /**
+     * 735. 小行星碰撞
+     */
+    @GetMapping(value = "/asteroidCollision")
+    public String asteroidCollision() {
+        return subjectService.asteroidCollision();
     }
 
     /**
@@ -2669,6 +2685,14 @@ public class SubjectController {
     @GetMapping(value = "/findDifference")
     public String findDifference() {
         return subjectService.findDifference();
+    }
+
+    /**
+     * 2235. 两整数相加
+     */
+    @GetMapping(value = "/sum")
+    public String sum() {
+        return subjectService.sum();
     }
 
     /**

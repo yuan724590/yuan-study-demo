@@ -7768,6 +7768,113 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String predictPartyVictory(){
+        System.out.println(JSON.toJSONString(predictPartyVictory("DRRDRDRDRDDRDRDR")));
+        return "success";
+    }
+
+    private String predictPartyVictory(String senate){
+        //r的数量, 被ban之后未处理的数量, 总共被ban的数量
+        int rNum = 0;
+        int rBanDiff = 0;
+        int rBanTotal = 0;
+        //d的数量, 被ban之后未处理的数量, 总共被ban的数量
+        int dNum = 0;
+        int dBanDiff = 0;
+        int dBanTotal = 0;
+
+        char[] arr = senate.toCharArray();
+        boolean flag = true;
+        int n = arr.length;
+        while(true){
+            for (int i = 0; i < n; i++) {
+                char c = arr[i];
+                if(c == 'R'){
+                    if(flag){
+                        rNum++;
+                    }
+                    if(rBanDiff == 0){
+                        dBanDiff++;
+                        dBanTotal++;
+                        //兼容R全部被ban的场景
+                        if(dBanTotal == dNum && !flag){
+                            return "Radiant";
+                        }
+                    }else{
+                        //被ban的还没处理完, 把他从R改为标记为r
+                        rBanDiff--;
+                        arr[i] = 'r';
+                    }
+                }else if(c == 'D'){
+                    if(flag){
+                        dNum++;
+                    }
+                    if(dBanDiff == 0){
+                        rBanDiff++;
+                        rBanTotal++;
+                        //兼容D全部被ban的场景
+                        if(rBanTotal == rNum && !flag){
+                            return "Dire";
+                        }
+                    }else{
+                        //被ban的还没处理完, 把他从D改为标记为d
+                        dBanDiff--;
+                        arr[i] = 'd';
+                    }
+                }
+            }
+            flag = false;
+            //已经全部被ban
+            if(dBanTotal >= dNum){
+                return "Radiant";
+            }
+            if(rBanTotal >= rNum){
+                return "Dire";
+            }
+        }
+    }
+
+    @Override
+    public String findClosestElements(){
+        System.out.println(JSON.toJSONString(findClosestElements(new int[]{1,2,4,5}, 4, 3)));
+        return "success";
+    }
+
+    public List<Integer> findClosestElements(int[] arr, int k, int x) {
+        int right = maxEnvelopesBinarySearch(arr, x);
+        int left = right - 1;
+        while (k-- > 0) {
+            if (left < 0) {
+                right++;
+            } else if (right >= arr.length) {
+                left--;
+            } else if (x - arr[left] <= arr[right] - x) {
+                left--;
+            } else {
+                right++;
+            }
+        }
+        List<Integer> ans = new ArrayList<>();
+        for (int i = left + 1; i < right; i++) {
+            ans.add(arr[i]);
+        }
+        return ans;
+    }
+
+    public int maxEnvelopesBinarySearch(int[] arr, int x) {
+        int low = 0, high = arr.length - 1;
+        while (low < high) {
+            int mid = low + (high - low) / 2;
+            if (arr[mid] >= x) {
+                high = mid;
+            } else {
+                low = mid + 1;
+            }
+        }
+        return low;
+    }
+
+    @Override
     public String findContentChildren(){
         System.out.println(JSON.toJSONString(findContentChildren(new int[]{1,2,3}, new int[]{3})));
         return "success";
@@ -8089,46 +8196,6 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
-    public String findClosestElements(){
-        System.out.println(JSON.toJSONString(findClosestElements(new int[]{1,2,4,5}, 4, 3)));
-        return "success";
-    }
-
-    public List<Integer> findClosestElements(int[] arr, int k, int x) {
-        int right = maxEnvelopesBinarySearch(arr, x);
-        int left = right - 1;
-        while (k-- > 0) {
-            if (left < 0) {
-                right++;
-            } else if (right >= arr.length) {
-                left--;
-            } else if (x - arr[left] <= arr[right] - x) {
-                left--;
-            } else {
-                right++;
-            }
-        }
-        List<Integer> ans = new ArrayList<>();
-        for (int i = left + 1; i < right; i++) {
-            ans.add(arr[i]);
-        }
-        return ans;
-    }
-
-    public int maxEnvelopesBinarySearch(int[] arr, int x) {
-        int low = 0, high = arr.length - 1;
-        while (low < high) {
-            int mid = low + (high - low) / 2;
-            if (arr[mid] >= x) {
-                high = mid;
-            } else {
-                low = mid + 1;
-            }
-        }
-        return low;
-    }
-
-    @Override
     public String kthLargest(){
         KthLargest kthLargest = new KthLargest(3, new int[]{4, 5, 8, 2});
         System.out.println("add: " + kthLargest.add(3));
@@ -8263,6 +8330,34 @@ public class SubjectServiceImpl implements SubjectService {
             val += nums[i];
         }
         return -1;
+    }
+
+    @Override
+    public String asteroidCollision(){
+        System.out.println(JSON.toJSONString(asteroidCollision(new int[]{8,-8})));
+        return "success";
+    }
+
+    public int[] asteroidCollision(int[] asteroids) {
+        Deque<Integer> stack = new ArrayDeque<>();
+        for (int aster : asteroids) {
+            boolean flag = true;
+            while (flag && aster < 0 && !stack.isEmpty() && stack.peek() > 0) {
+                flag = stack.peek() < -aster;
+                if (stack.peek() <= -aster) {
+                    stack.pop();
+                }
+            }
+            if (flag) {
+                stack.push(aster);
+            }
+        }
+        int size = stack.size();
+        int[] ans = new int[size];
+        for (int i = size - 1; i >= 0; i--) {
+            ans[i] = stack.pop();
+        }
+        return ans;
     }
 
     @Override
@@ -9201,6 +9296,16 @@ public class SubjectServiceImpl implements SubjectService {
             set2.remove(n);
         }
         return Lists.newArrayList(Lists.newArrayList(set1), Lists.newArrayList(set2));
+    }
+
+    @Override
+    public String sum(){
+        System.out.println(JSON.toJSONString(sum(12, 5)));
+        return "success";
+    }
+
+    public int sum(int num1, int num2) {
+        return num1 + num2;
     }
 
     @Override
