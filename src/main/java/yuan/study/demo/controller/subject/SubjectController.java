@@ -2713,10 +2713,10 @@ public class SubjectController {
     /**
      * 2390. 从字符串中移除星号
      */
-//    @GetMapping(value = "/removeStars")
-//    public String removeStars() {
-//        return subjectService.removeStars();
-//    }
+    @GetMapping(value = "/removeStars")
+    public String removeStars() {
+        return subjectService.removeStars();
+    }
 
     /**
      * 2469. 温度转换
