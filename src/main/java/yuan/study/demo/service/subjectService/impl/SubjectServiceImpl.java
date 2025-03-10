@@ -9336,13 +9336,21 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
-    public String sum(){
-        System.out.println(JSON.toJSONString(sum(12, 5)));
+    public String removeStars(){
+        System.out.println(JSON.toJSONString(removeStars("leet**cod*e")));
         return "success";
     }
 
-    public int sum(int num1, int num2) {
-        return num1 + num2;
+    public String removeStars(String s) {
+        StringBuilder sb = new StringBuilder();
+        for (char c : s.toCharArray()) {
+            if (c != '*') {
+                sb.append(c);
+            } else {
+                sb.setLength(sb.length() - 1);
+            }
+        }
+        return sb.toString();
     }
 
     @Override

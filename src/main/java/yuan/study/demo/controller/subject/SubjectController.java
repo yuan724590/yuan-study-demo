@@ -2704,19 +2704,19 @@ public class SubjectController {
     }
 
     /**
-     * 2235. 两整数相加
-     */
-    @GetMapping(value = "/sum")
-    public String sum() {
-        return subjectService.sum();
-    }
-
-    /**
      * 2356. 每位教师所教授的科目种类的数量
      * Teacher -> teacher_id, subject_id, dept_id
      * 查询每位老师在大学里教授的科目种类的数量
      * SELECT teacher_id, COUNT(DISTINCT subject_id) AS cnt FROM Teacher GROUP BY teacher_id
      */
+
+    /**
+     * 2390. 从字符串中移除星号
+     */
+//    @GetMapping(value = "/removeStars")
+//    public String removeStars() {
+//        return subjectService.removeStars();
+//    }
 
     /**
      * 2469. 温度转换
