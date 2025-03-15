@@ -2680,6 +2680,14 @@ public class SubjectController {
     }
 
     /**
+     * 2095. 删除链表的中间节点
+     */
+    @GetMapping(value = "/deleteMiddle")
+    public String deleteMiddle() {
+        return subjectService.deleteMiddle();
+    }
+
+    /**
      * 2215. 找出两数组的不同
      */
     @GetMapping(value = "/findDifference")

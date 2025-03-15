@@ -9275,6 +9275,31 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String deleteMiddle(){
+        ListNode listNode5 = new ListNode(5);
+        ListNode listNode4 = new ListNode(4, listNode5);
+        ListNode listNode3 = new ListNode(3, listNode4);
+        ListNode listNode2 = new ListNode(2, listNode3);
+        ListNode listNode1 = new ListNode(1, listNode2);
+        System.out.println(JSON.toJSONString(deleteMiddle(listNode1)));
+        return "success";
+    }
+
+    public ListNode deleteMiddle(ListNode head) {
+        if(head.next == null){
+            return null;
+        }
+        ListNode slow = head;
+        ListNode fast = head.next.next;
+        while(fast != null && fast.next != null){
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        slow.next = slow.next.next;
+        return head;
+    }
+
+    @Override
     public String findDifference(){
         System.out.println(JSON.toJSONString(findDifference(new int[]{1,2,3,3}, new int[]{2,4,6})));
         return "success";
