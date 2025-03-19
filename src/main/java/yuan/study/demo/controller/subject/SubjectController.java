@@ -1847,6 +1847,14 @@ public class SubjectController {
     }
 
     /**
+     * 328. 奇偶链表
+     */
+    @GetMapping(value = "/oddEvenList")
+    public void oddEvenList(){
+        subjectService.oddEvenList();
+    }
+
+    /**
      * 329. 矩阵中的最长递增路径
      */
     @GetMapping(value = "/longestIncreasingPath")

@@ -6892,6 +6892,39 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String oddEvenList(){
+        ListNode listNode5 = new ListNode(5);
+        ListNode listNode4 = new ListNode(4, listNode5);
+        ListNode listNode3 = new ListNode(3, listNode4);
+        ListNode listNode2 = new ListNode(2, listNode3);
+        ListNode listNode1 = new ListNode(1, listNode2);
+        System.out.println(JSON.toJSONString(oddEvenList(listNode1)));
+        return "success";
+    }
+
+    public ListNode oddEvenList(ListNode head) {
+        if(head == null){
+            return head;
+        }
+        ListNode listNode = head;
+        ListNode odd = listNode;
+        int i = 1;
+        while(listNode.next != null){
+            i++;
+            if(i % 2 == 0){
+                listNode = listNode.next;
+                continue;
+            }
+            ListNode temp = listNode.next;
+            listNode.next = temp.next;
+            temp.next = odd.next;
+            odd.next = temp;
+            odd = odd.next;
+        }
+        return head;
+    }
+
+    @Override
     public String longestIncreasingPath(){
         System.out.println(JSON.toJSONString(longestIncreasingPath(new int[][]{{3,4,5},{3,2,6},{2,2,1}})));
         return "success";
