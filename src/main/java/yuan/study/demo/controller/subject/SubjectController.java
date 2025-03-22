@@ -2712,6 +2712,14 @@ public class SubjectController {
     }
 
     /**
+     * 2236. 判断根结点是否等于子结点之和
+     */
+    @GetMapping(value = "/checkTree")
+    public String checkTree() {
+        return subjectService.checkTree();
+    }
+
+    /**
      * 2352. 相等行列对
      */
     @GetMapping(value = "/equalPairs")

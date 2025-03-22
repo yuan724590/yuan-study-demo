@@ -9367,6 +9367,19 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String checkTree(){
+        TreeNode treeNode = new TreeNode(5);
+        treeNode.left = new TreeNode(1);
+        treeNode.right = new TreeNode(4);
+        System.out.println(JSON.toJSONString(checkTree(treeNode)));
+        return "success";
+    }
+
+    public boolean checkTree(TreeNode root) {
+        return root.val == root.left.val + root.right.val;
+    }
+
+    @Override
     public String equalPairs(){
         System.out.println(JSON.toJSONString(equalPairs(new int[][]{{3,2,1},{1,7,6},{2,7,7}})));
         return "success";
