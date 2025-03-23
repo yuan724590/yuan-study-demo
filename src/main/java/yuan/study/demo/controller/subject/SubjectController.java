@@ -2696,6 +2696,14 @@ public class SubjectController {
     }
 
     /**
+     * 2130. 链表最大孪生和
+     */
+    @GetMapping(value = "/pairSum")
+    public String pairSum() {
+        return subjectService.pairSum();
+    }
+
+    /**
      * 2215. 找出两数组的不同
      */
     @GetMapping(value = "/findDifference")

@@ -9333,6 +9333,35 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String pairSum(){
+        ListNode listNode1 = new ListNode(1);
+        ListNode listNode2 = new ListNode(2, listNode1);
+        ListNode listNode3 = new ListNode(4, listNode2);
+        ListNode head = new ListNode(5, listNode3);
+        System.out.println(JSON.toJSONString(pairSum(head)));
+        return "success";
+    }
+
+    public int pairSum(ListNode head) {
+        ListNode prev = null, slow = head, fast = head;
+        while(fast != null && fast.next != null){
+            fast = fast.next.next;
+            //将前半部分链表反转
+            ListNode next = slow.next;
+            slow.next = prev;
+            prev = slow;
+            slow = next;
+        }
+        int max = 0;
+        while(slow != null){
+            max = Math.max(max, slow.val + prev.val);
+            slow = slow.next;
+            prev = prev.next;
+        }
+        return max;
+    }
+
+    @Override
     public String findDifference(){
         System.out.println(JSON.toJSONString(findDifference(new int[]{1,2,3,3}, new int[]{2,4,6})));
         return "success";
