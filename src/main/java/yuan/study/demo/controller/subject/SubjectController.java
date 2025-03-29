@@ -2497,6 +2497,14 @@ public class SubjectController {
      */
 
     /**
+     * 1448. 统计二叉树中好节点的数目
+     */
+    @GetMapping(value = "/goodNodes")
+    public String goodNodes() {
+        return subjectService.goodNodes();
+    }
+
+    /**
      * 1456. 定长子串中元音的最大数目
      */
     @GetMapping(value = "/maxVowels")

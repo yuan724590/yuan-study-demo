@@ -9017,6 +9017,31 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public  String goodNodes(){
+        TreeNode root = new TreeNode(3);
+        root.left = new TreeNode(1);
+        root.right = new TreeNode(4);
+        root.left.left = new TreeNode(3);
+        root.right.left = new TreeNode(1);
+        root.right.right = new TreeNode(5);
+        System.out.println(JSON.toJSONString(goodNodes(root)));
+        return "success";
+    }
+
+    public int goodNodes(TreeNode root) {
+        return goodNodes(root, Integer.MIN_VALUE);
+    }
+
+    public int goodNodes(TreeNode root, int max) {
+        if(root == null){
+            return 0;
+        }
+        int left = goodNodes(root.left, max);
+        int right = goodNodes(root.right, max);
+        return left + right + (root.val >= max ? 1 : 0);
+    }
+
+    @Override
     public String maxVowels(){
         System.out.println(JSON.toJSONString(maxVowels("leetcode", 2)));
         return "success";
