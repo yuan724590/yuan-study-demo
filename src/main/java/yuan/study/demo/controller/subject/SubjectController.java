@@ -2492,6 +2492,14 @@ public class SubjectController {
      */
 
     /**
+     * 1372. 二叉树中的最长交错路径
+     */
+    @GetMapping(value = "/longestZigZag")
+    public String longestZigZag() {
+        return subjectService.longestZigZag();
+    }
+
+    /**
      * 1378. 使用唯一标识码替换员工ID
      * select b.unique_id,a.name from Employees a left join EmployeeUNI b on a.id = b.id
      */

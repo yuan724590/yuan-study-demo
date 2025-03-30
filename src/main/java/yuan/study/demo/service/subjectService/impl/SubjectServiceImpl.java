@@ -9017,6 +9017,35 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String longestZigZag(){
+        TreeNode treeNode1 = new TreeNode(1, null, new TreeNode(1, null, new TreeNode(1)));
+        TreeNode treeNode2 = new TreeNode(1, treeNode1, new TreeNode(1));
+        TreeNode root = new TreeNode(1, null, new TreeNode(1, new TreeNode(1), treeNode2));
+        System.out.println(JSON.toJSONString(longestZigZag(root)));
+        return "success";
+    }
+
+    int longestZigZag;
+
+    public int longestZigZag(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        longestZigZag = 0;
+        longestZigZag(root, 0, 0);
+        return longestZigZag;
+    }
+
+    private void longestZigZag(TreeNode root, int left, int right){
+        if(root == null){
+            return;
+        }
+        longestZigZag = Math.max(longestZigZag, Math.max(left, right));
+        longestZigZag(root.left, right + 1, 0);
+        longestZigZag(root.right, 0, left + 1);
+    }
+
+    @Override
     public  String goodNodes(){
         TreeNode root = new TreeNode(3);
         root.left = new TreeNode(1);
