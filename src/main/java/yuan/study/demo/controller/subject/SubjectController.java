@@ -115,7 +115,7 @@ public class SubjectController {
      * 12. 整数转罗马数字
      */
     @GetMapping(value = "/int/to/roman")
-    public void IntToRoman(){
+    public void intToRoman(){
         subjectService.intToRoman();
     }
 

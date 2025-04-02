@@ -1311,7 +1311,7 @@ public class SubjectServiceImpl implements SubjectService {
         return "success";
     }
 
-    public  String countAndSay(int n) {
+    public String countAndSay(int n) {
         if(n == 1){
             return "1";
         }
@@ -2281,6 +2281,36 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String minDistance(){
+        System.out.println(JSON.toJSONString(minDistance("horse", "ros")));
+        return "success";
+    }
+
+    public int minDistance(String word1, String word2) {
+        int m = word1.length();
+        int n = word2.length();
+        int[][] dp = new int[m + 1][n + 1];
+        for (int i = 1; i <= m; i++) {
+            dp[i][0] =  i;
+        }
+        for (int j = 1; j <= n; j++) {
+            dp[0][j] = j;
+        }
+        for (int i = 1; i <= m; i++) {
+            for (int j = 1; j <= n; j++) {
+                if (word1.charAt(i - 1) == word2.charAt(j - 1)) {
+                    //元素相同, 什么都不用改动
+                    dp[i][j] = dp[i - 1][j - 1];
+                } else {
+                    //
+                    dp[i][j] = Math.min(Math.min(dp[i - 1][j - 1], dp[i][j - 1]), dp[i - 1][j]) + 1;
+                }
+            }
+        }
+        return dp[m][n];
+    }
+
+    @Override
     public String setZeroes(){
         int[][] matrix = new int[][]{{0,1,2,0},{3,4,5,2},{1,3,1,5}};
         setZeroes(matrix);
@@ -2438,35 +2468,6 @@ public class SubjectServiceImpl implements SubjectService {
         return res;
     }
 
-    @Override
-    public String minDistance(){
-        System.out.println(JSON.toJSONString(minDistance("horse", "ros")));
-        return "success";
-    }
-
-    public int minDistance(String word1, String word2) {
-        int m = word1.length();
-        int n = word2.length();
-        int[][] dp = new int[m + 1][n + 1];
-        for (int i = 1; i <= m; i++) {
-            dp[i][0] =  i;
-        }
-        for (int j = 1; j <= n; j++) {
-            dp[0][j] = j;
-        }
-        for (int i = 1; i <= m; i++) {
-            for (int j = 1; j <= n; j++) {
-                if (word1.charAt(i - 1) == word2.charAt(j - 1)) {
-                    //元素相同, 什么都不用改动
-                    dp[i][j] = dp[i - 1][j - 1];
-                } else {
-                    //
-                    dp[i][j] = Math.min(Math.min(dp[i - 1][j - 1], dp[i][j - 1]), dp[i - 1][j]) + 1;
-                }
-            }
-        }
-        return dp[m][n];
-    }
 
     @Override
     public String exist(){
@@ -3369,7 +3370,7 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
-    public  String numDistinct(){
+    public String numDistinct(){
         System.out.println(JSON.toJSONString(numDistinct("rabbbit","rabbit")));
         return "success";
     }
@@ -3925,12 +3926,6 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
-    public String partition131(){
-        System.out.println(JSON.toJSONString(partition131("aab")));
-        return "success";
-    }
-
-    @Override
     public String solve(){
         char[][] chars = new char[][]{{'X','X','X','X'},{'X','O','O','X'},{'X','X','O','X'},{'X','O','X','X'}};
         solve(chars);
@@ -4008,6 +4003,12 @@ public class SubjectServiceImpl implements SubjectService {
                 list131.remove(list131.size() - 1);
             }
         }
+    }
+
+    @Override
+    public String partition131(){
+        System.out.println(JSON.toJSONString(partition131("aab")));
+        return "success";
     }
 
     @Override
@@ -4711,27 +4712,6 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
-    public String findRepeatedDnaSequences(){
-        System.out.println(JSON.toJSONString(findRepeatedDnaSequences("AAAAACCCCCAAAAACCCCCCAAAAAGGGTTT")));
-        return "success";
-    }
-
-    public List<String> findRepeatedDnaSequences(String s) {
-        int length = 10;
-        List<String> list = new ArrayList<>();
-        Map<String, Integer> map = new HashMap<>();
-        int n = s.length();
-        for (int i = 0; i <= n - length; i++) {
-            String sub = s.substring(i, i + length);
-            map.put(sub, map.getOrDefault(sub, 0) + 1);
-            if (map.get(sub) == 2) {
-                list.add(sub);
-            }
-        }
-        return list;
-    }
-
-    @Override
     public String compareVersion(){
         System.out.println(JSON.toJSONString(compareVersion("1.01", "1.001")));
         return "success";
@@ -4987,6 +4967,27 @@ public class SubjectServiceImpl implements SubjectService {
             count++;
         }
         return count;
+    }
+
+    @Override
+    public String findRepeatedDnaSequences(){
+        System.out.println(JSON.toJSONString(findRepeatedDnaSequences("AAAAACCCCCAAAAACCCCCCAAAAAGGGTTT")));
+        return "success";
+    }
+
+    public List<String> findRepeatedDnaSequences(String s) {
+        int length = 10;
+        List<String> list = new ArrayList<>();
+        Map<String, Integer> map = new HashMap<>();
+        int n = s.length();
+        for (int i = 0; i <= n - length; i++) {
+            String sub = s.substring(i, i + length);
+            map.put(sub, map.getOrDefault(sub, 0) + 1);
+            if (map.get(sub) == 2) {
+                list.add(sub);
+            }
+        }
+        return list;
     }
 
     @Override
@@ -5747,149 +5748,6 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
-    public String myStack(){
-        MyStack myStack = new MyStack();
-        myStack.push(1);
-        myStack.push(2);
-        System.out.println("top: " +  myStack.top());
-        System.out.println("pop: " +  myStack.pop());
-        System.out.println("empty: " +  myStack.empty());
-        return "success";
-    }
-
-    class MyStack {
-
-        //输入队列
-        private Queue<Integer> queue1;
-
-        //输出队列
-        private Queue<Integer> queue2;
-
-        public MyStack() {
-            queue1 = new LinkedList<>();
-            queue2 = new LinkedList<>();
-        }
-
-        public void push(int x) {
-            queue1.offer(x);
-            // 将queue2队列中元素全部转给queue1队列
-            while(!queue2.isEmpty()){
-                queue1.offer(queue2.poll());
-            }
-            // 交换queue1和queue2,使得queue1队列没有在push()的时候始终为空队列
-            Queue<Integer> temp = queue1;
-            queue1 = queue2;
-            queue2 = temp;
-        }
-
-        public int pop() {
-            return queue2.poll();
-        }
-
-        public int top() {
-            return queue2.peek();
-        }
-
-        public boolean empty() {
-            return queue2.isEmpty();
-        }
-    }
-
-    @Override
-    public String invertTree(){
-        TreeNode treeNode = new TreeNode(4);
-        treeNode.left = new TreeNode(2);
-        treeNode.left.left = new TreeNode(1);
-        treeNode.left.right = new TreeNode(3);
-        treeNode.right = new TreeNode(7);
-        treeNode.right.left = new TreeNode(6);
-        treeNode.right.right = new TreeNode(9);
-        System.out.println(JSON.toJSONString(invertTree(treeNode)));
-        return "success";
-    }
-
-    public TreeNode invertTree(TreeNode root) {
-        if(root == null){
-            return null;
-        }
-        TreeNode left = root.left;
-        root.left = root.right;
-        root.right = left;
-        invertTree(root.left);
-        invertTree(root.right);
-        return root;
-    }
-
-    @Override
-    public String calculate227(){
-        System.out.println(JSON.toJSONString(calculate227("3+2*2")));
-        return "success";
-    }
-
-    public int calculate227(String s) {
-        Deque<Integer> stack = new ArrayDeque<>();
-        char preSign = '+';
-        int n = s.length(), num = 0;
-        for (int i = 0; i < n; i++) {
-            char c = s.charAt(i);
-            if (Character.isDigit(c)) {
-                num = num * 10 + c - '0';
-            }
-            if ((!Character.isDigit(c) && c != ' ') || i == n - 1) {
-                switch (preSign) {
-                    case '+':
-                        stack.push(num);
-                        break;
-                    case '-':
-                        stack.push(-num);
-                        break;
-                    case '*':
-                        stack.push(stack.pop() * num);
-                        break;
-                    default:
-                        stack.push(stack.pop() / num);
-                }
-                preSign = c;
-                num = 0;
-            }
-        }
-        int ans = 0;
-        while (!stack.isEmpty()) {
-            ans += stack.pop();
-        }
-        return ans;
-    }
-
-    @Override
-    public String kthSmallest(){
-        TreeNode treeNode = new TreeNode(5);
-        treeNode.left = new TreeNode(3);
-        treeNode.left.left = new TreeNode(2);
-        treeNode.left.left.left = new TreeNode(1);
-        treeNode.left.right = new TreeNode(4);
-        treeNode.right = new TreeNode(6);
-        System.out.println(JSON.toJSONString(kthSmallest(treeNode, 3)));
-        return "success";
-    }
-
-    public int kthSmallest(TreeNode root, int k) {
-        Deque<TreeNode> stack = new ArrayDeque<>();
-        while (root != null || !stack.isEmpty()) {
-            while (root != null) {
-                stack.push(root);
-                root = root.left;
-            }
-            root = stack.pop();
-            --k;
-            if (k == 0) {
-                break;
-            }
-            root = root.right;
-        }
-        return root.val;
-    }
-
-    @Override
     public String getSkyline(){
         System.out.println(JSON.toJSONString(getSkyline(new int[][]{{2,9,10},{3,7,15},{5,12,12},{15,20,10},{19,24,8}})));
         return "success";
@@ -6093,6 +5951,150 @@ public class SubjectServiceImpl implements SubjectService {
         return result;
     }
 
+
+    @Override
+    public String myStack(){
+        MyStack myStack = new MyStack();
+        myStack.push(1);
+        myStack.push(2);
+        System.out.println("top: " +  myStack.top());
+        System.out.println("pop: " +  myStack.pop());
+        System.out.println("empty: " +  myStack.empty());
+        return "success";
+    }
+
+    class MyStack {
+
+        //输入队列
+        private Queue<Integer> queue1;
+
+        //输出队列
+        private Queue<Integer> queue2;
+
+        public MyStack() {
+            queue1 = new LinkedList<>();
+            queue2 = new LinkedList<>();
+        }
+
+        public void push(int x) {
+            queue1.offer(x);
+            // 将queue2队列中元素全部转给queue1队列
+            while(!queue2.isEmpty()){
+                queue1.offer(queue2.poll());
+            }
+            // 交换queue1和queue2,使得queue1队列没有在push()的时候始终为空队列
+            Queue<Integer> temp = queue1;
+            queue1 = queue2;
+            queue2 = temp;
+        }
+
+        public int pop() {
+            return queue2.poll();
+        }
+
+        public int top() {
+            return queue2.peek();
+        }
+
+        public boolean empty() {
+            return queue2.isEmpty();
+        }
+    }
+
+    @Override
+    public String invertTree(){
+        TreeNode treeNode = new TreeNode(4);
+        treeNode.left = new TreeNode(2);
+        treeNode.left.left = new TreeNode(1);
+        treeNode.left.right = new TreeNode(3);
+        treeNode.right = new TreeNode(7);
+        treeNode.right.left = new TreeNode(6);
+        treeNode.right.right = new TreeNode(9);
+        System.out.println(JSON.toJSONString(invertTree(treeNode)));
+        return "success";
+    }
+
+    public TreeNode invertTree(TreeNode root) {
+        if(root == null){
+            return null;
+        }
+        TreeNode left = root.left;
+        root.left = root.right;
+        root.right = left;
+        invertTree(root.left);
+        invertTree(root.right);
+        return root;
+    }
+
+    @Override
+    public String calculate227(){
+        System.out.println(JSON.toJSONString(calculate227("3+2*2")));
+        return "success";
+    }
+
+    public int calculate227(String s) {
+        Deque<Integer> stack = new ArrayDeque<>();
+        char preSign = '+';
+        int n = s.length(), num = 0;
+        for (int i = 0; i < n; i++) {
+            char c = s.charAt(i);
+            if (Character.isDigit(c)) {
+                num = num * 10 + c - '0';
+            }
+            if ((!Character.isDigit(c) && c != ' ') || i == n - 1) {
+                switch (preSign) {
+                    case '+':
+                        stack.push(num);
+                        break;
+                    case '-':
+                        stack.push(-num);
+                        break;
+                    case '*':
+                        stack.push(stack.pop() * num);
+                        break;
+                    default:
+                        stack.push(stack.pop() / num);
+                }
+                preSign = c;
+                num = 0;
+            }
+        }
+        int ans = 0;
+        while (!stack.isEmpty()) {
+            ans += stack.pop();
+        }
+        return ans;
+    }
+
+    @Override
+    public String kthSmallest(){
+        TreeNode treeNode = new TreeNode(5);
+        treeNode.left = new TreeNode(3);
+        treeNode.left.left = new TreeNode(2);
+        treeNode.left.left.left = new TreeNode(1);
+        treeNode.left.right = new TreeNode(4);
+        treeNode.right = new TreeNode(6);
+        System.out.println(JSON.toJSONString(kthSmallest(treeNode, 3)));
+        return "success";
+    }
+
+    public int kthSmallest(TreeNode root, int k) {
+        Deque<TreeNode> stack = new ArrayDeque<>();
+        while (root != null || !stack.isEmpty()) {
+            while (root != null) {
+                stack.push(root);
+                root = root.left;
+            }
+            root = stack.pop();
+            --k;
+            if (k == 0) {
+                break;
+            }
+            root = root.right;
+        }
+        return root.val;
+    }
+
     @Override
     public String isPowerOfTwo(){
         System.out.println(JSON.toJSONString(isPowerOfTwo(56)));
@@ -6288,7 +6290,7 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
-    public  String diffWaysToCompute(){
+    public String diffWaysToCompute(){
         System.out.println(JSON.toJSONString(diffWaysToCompute("2*3-4*5")));
         return "success";
     }
@@ -7719,193 +7721,6 @@ public class SubjectServiceImpl implements SubjectService {
         }
     }
 
-    @Override
-    public String smallestRange(){
-        List<Integer> list1 = Lists.newArrayList(4,10,15,24,26);
-        List<Integer> list2 = Lists.newArrayList(0,9,12,20);
-        List<Integer> list3 = Lists.newArrayList(5,18,22,30);
-        System.out.println(JSON.toJSONString(smallestRange(Lists.newArrayList(list1, list2, list3))));
-        return "success";
-    }
-
-    /**
-     * 核心思路:将每个数及其隶属组存入二维数组,然后按照数字大小升序,
-     * (每个一维数组下标0记录数字下标1记录隶属组)
-     * 再使用滑动窗口直到包含指定的组,然后再收缩窗口直到数据遍历完毕,取最小区间即可.
-     */
-    public int[] smallestRange(List<List<Integer>> nums) {
-        // 数据总数
-        int n = 0;
-        for(List<Integer> list : nums){
-            n += list.size();
-        }
-        // 二维数组
-        int x = 0, y = 0;
-        int[][] ordered = new int[n][2];
-        for(List<Integer> list : nums){
-            for(Integer tmp : list){
-                ordered[x][0] = tmp;
-                ordered[x][1] = y;
-                x++;
-            }
-            y++;
-        }
-        // 排序-按照数字排序
-        Arrays.sort(ordered);
-        // 存储区间结果
-        int[] result = new int[2];
-        // 统计窗口内每个组所对应数字的具体个数
-        int[] count = new int[nums.size()];
-        // 滑动窗口内组的个数
-        int groupSize = 0;
-        // 找到指定数量的组后缩小窗口即减少组内元素的数量
-        int tmp = 0;
-        for(int i = 0; i < n; i++){
-            // 如果没有记录过这个组则组的数量+1并且标记这个组内的元素数量也+1
-            // 否则只记录组内元素数量+1
-            // 这一步就是滑动窗口直到包含所有组,组内元素数量一般大于组的个数
-            if(count[ordered[i][1]]++ == 0){
-                groupSize++;
-            }
-            if(groupSize == nums.size()){
-                // 找到指定数量的组后缩小窗口即减少组内元素的数量
-                while(count[ordered[tmp][1]] > 1){
-                    count[ordered[tmp++][1]]--;
-                }
-                // 包含初始条件/后续缩小窗口的结果
-                if((result[0] == 0 && result[1] == 0) || result[1] - result[0] > ordered[i][0] - ordered[tmp][0]){
-                    result = new int[]{ordered[tmp][0],ordered[i][0]};
-                }
-            }
-        }
-        return result;
-    }
-
-    @Override
-    public String findMaxAverage(){
-        System.out.println(JSON.toJSONString(findMaxAverage(new int[]{5}, 1)));
-        return "success";
-    }
-
-    public double findMaxAverage(int[] nums, int k) {
-        int n = nums.length, sum = 0;
-        for (int i = 0; i < k; i++) {
-            sum += nums[i];
-        }
-        int max = sum;
-        for (int i = k; i < n; i++) {
-            sum = sum + nums[i] - nums[i - k];
-            max = Math.max(max, sum);
-        }
-        return (double) max / k;
-    }
-
-    @Override
-    public String predictPartyVictory(){
-        System.out.println(JSON.toJSONString(predictPartyVictory("DRRDRDRDRDDRDRDR")));
-        return "success";
-    }
-
-    private String predictPartyVictory(String senate){
-        //r的数量, 被ban之后未处理的数量, 总共被ban的数量
-        int rNum = 0;
-        int rBanDiff = 0;
-        int rBanTotal = 0;
-        //d的数量, 被ban之后未处理的数量, 总共被ban的数量
-        int dNum = 0;
-        int dBanDiff = 0;
-        int dBanTotal = 0;
-
-        char[] arr = senate.toCharArray();
-        boolean flag = true;
-        int n = arr.length;
-        while(true){
-            for (int i = 0; i < n; i++) {
-                char c = arr[i];
-                if(c == 'R'){
-                    if(flag){
-                        rNum++;
-                    }
-                    if(rBanDiff == 0){
-                        dBanDiff++;
-                        dBanTotal++;
-                        //兼容R全部被ban的场景
-                        if(dBanTotal == dNum && !flag){
-                            return "Radiant";
-                        }
-                    }else{
-                        //被ban的还没处理完, 把他从R改为标记为r
-                        rBanDiff--;
-                        arr[i] = 'r';
-                    }
-                }else if(c == 'D'){
-                    if(flag){
-                        dNum++;
-                    }
-                    if(dBanDiff == 0){
-                        rBanDiff++;
-                        rBanTotal++;
-                        //兼容D全部被ban的场景
-                        if(rBanTotal == rNum && !flag){
-                            return "Dire";
-                        }
-                    }else{
-                        //被ban的还没处理完, 把他从D改为标记为d
-                        dBanDiff--;
-                        arr[i] = 'd';
-                    }
-                }
-            }
-            flag = false;
-            //已经全部被ban
-            if(dBanTotal >= dNum){
-                return "Radiant";
-            }
-            if(rBanTotal >= rNum){
-                return "Dire";
-            }
-        }
-    }
-
-    @Override
-    public String findClosestElements(){
-        System.out.println(JSON.toJSONString(findClosestElements(new int[]{1,2,4,5}, 4, 3)));
-        return "success";
-    }
-
-    public List<Integer> findClosestElements(int[] arr, int k, int x) {
-        int right = maxEnvelopesBinarySearch(arr, x);
-        int left = right - 1;
-        while (k-- > 0) {
-            if (left < 0) {
-                right++;
-            } else if (right >= arr.length) {
-                left--;
-            } else if (x - arr[left] <= arr[right] - x) {
-                left--;
-            } else {
-                right++;
-            }
-        }
-        List<Integer> ans = new ArrayList<>();
-        for (int i = left + 1; i < right; i++) {
-            ans.add(arr[i]);
-        }
-        return ans;
-    }
-
-    public int maxEnvelopesBinarySearch(int[] arr, int x) {
-        int low = 0, high = arr.length - 1;
-        while (low < high) {
-            int mid = low + (high - low) / 2;
-            if (arr[mid] >= x) {
-                high = mid;
-            } else {
-                low = mid + 1;
-            }
-        }
-        return low;
-    }
 
     @Override
     public String findContentChildren(){
@@ -8229,6 +8044,194 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String smallestRange(){
+        List<Integer> list1 = Lists.newArrayList(4,10,15,24,26);
+        List<Integer> list2 = Lists.newArrayList(0,9,12,20);
+        List<Integer> list3 = Lists.newArrayList(5,18,22,30);
+        System.out.println(JSON.toJSONString(smallestRange(Lists.newArrayList(list1, list2, list3))));
+        return "success";
+    }
+
+    /**
+     * 核心思路:将每个数及其隶属组存入二维数组,然后按照数字大小升序,
+     * (每个一维数组下标0记录数字下标1记录隶属组)
+     * 再使用滑动窗口直到包含指定的组,然后再收缩窗口直到数据遍历完毕,取最小区间即可.
+     */
+    public int[] smallestRange(List<List<Integer>> nums) {
+        // 数据总数
+        int n = 0;
+        for(List<Integer> list : nums){
+            n += list.size();
+        }
+        // 二维数组
+        int x = 0, y = 0;
+        int[][] ordered = new int[n][2];
+        for(List<Integer> list : nums){
+            for(Integer tmp : list){
+                ordered[x][0] = tmp;
+                ordered[x][1] = y;
+                x++;
+            }
+            y++;
+        }
+        // 排序-按照数字排序
+        Arrays.sort(ordered);
+        // 存储区间结果
+        int[] result = new int[2];
+        // 统计窗口内每个组所对应数字的具体个数
+        int[] count = new int[nums.size()];
+        // 滑动窗口内组的个数
+        int groupSize = 0;
+        // 找到指定数量的组后缩小窗口即减少组内元素的数量
+        int tmp = 0;
+        for(int i = 0; i < n; i++){
+            // 如果没有记录过这个组则组的数量+1并且标记这个组内的元素数量也+1
+            // 否则只记录组内元素数量+1
+            // 这一步就是滑动窗口直到包含所有组,组内元素数量一般大于组的个数
+            if(count[ordered[i][1]]++ == 0){
+                groupSize++;
+            }
+            if(groupSize == nums.size()){
+                // 找到指定数量的组后缩小窗口即减少组内元素的数量
+                while(count[ordered[tmp][1]] > 1){
+                    count[ordered[tmp++][1]]--;
+                }
+                // 包含初始条件/后续缩小窗口的结果
+                if((result[0] == 0 && result[1] == 0) || result[1] - result[0] > ordered[i][0] - ordered[tmp][0]){
+                    result = new int[]{ordered[tmp][0],ordered[i][0]};
+                }
+            }
+        }
+        return result;
+    }
+
+    @Override
+    public String findMaxAverage(){
+        System.out.println(JSON.toJSONString(findMaxAverage(new int[]{5}, 1)));
+        return "success";
+    }
+
+    public double findMaxAverage(int[] nums, int k) {
+        int n = nums.length, sum = 0;
+        for (int i = 0; i < k; i++) {
+            sum += nums[i];
+        }
+        int max = sum;
+        for (int i = k; i < n; i++) {
+            sum = sum + nums[i] - nums[i - k];
+            max = Math.max(max, sum);
+        }
+        return (double) max / k;
+    }
+
+    @Override
+    public String predictPartyVictory(){
+        System.out.println(JSON.toJSONString(predictPartyVictory("DRRDRDRDRDDRDRDR")));
+        return "success";
+    }
+
+    private String predictPartyVictory(String senate){
+        //r的数量, 被ban之后未处理的数量, 总共被ban的数量
+        int rNum = 0;
+        int rBanDiff = 0;
+        int rBanTotal = 0;
+        //d的数量, 被ban之后未处理的数量, 总共被ban的数量
+        int dNum = 0;
+        int dBanDiff = 0;
+        int dBanTotal = 0;
+
+        char[] arr = senate.toCharArray();
+        boolean flag = true;
+        int n = arr.length;
+        while(true){
+            for (int i = 0; i < n; i++) {
+                char c = arr[i];
+                if(c == 'R'){
+                    if(flag){
+                        rNum++;
+                    }
+                    if(rBanDiff == 0){
+                        dBanDiff++;
+                        dBanTotal++;
+                        //兼容R全部被ban的场景
+                        if(dBanTotal == dNum && !flag){
+                            return "Radiant";
+                        }
+                    }else{
+                        //被ban的还没处理完, 把他从R改为标记为r
+                        rBanDiff--;
+                        arr[i] = 'r';
+                    }
+                }else if(c == 'D'){
+                    if(flag){
+                        dNum++;
+                    }
+                    if(dBanDiff == 0){
+                        rBanDiff++;
+                        rBanTotal++;
+                        //兼容D全部被ban的场景
+                        if(rBanTotal == rNum && !flag){
+                            return "Dire";
+                        }
+                    }else{
+                        //被ban的还没处理完, 把他从D改为标记为d
+                        dBanDiff--;
+                        arr[i] = 'd';
+                    }
+                }
+            }
+            flag = false;
+            //已经全部被ban
+            if(dBanTotal >= dNum){
+                return "Radiant";
+            }
+            if(rBanTotal >= rNum){
+                return "Dire";
+            }
+        }
+    }
+
+    @Override
+    public String findClosestElements(){
+        System.out.println(JSON.toJSONString(findClosestElements(new int[]{1,2,4,5}, 4, 3)));
+        return "success";
+    }
+
+    public List<Integer> findClosestElements(int[] arr, int k, int x) {
+        int right = maxEnvelopesBinarySearch(arr, x);
+        int left = right - 1;
+        while (k-- > 0) {
+            if (left < 0) {
+                right++;
+            } else if (right >= arr.length) {
+                left--;
+            } else if (x - arr[left] <= arr[right] - x) {
+                left--;
+            } else {
+                right++;
+            }
+        }
+        List<Integer> ans = new ArrayList<>();
+        for (int i = left + 1; i < right; i++) {
+            ans.add(arr[i]);
+        }
+        return ans;
+    }
+
+    public int maxEnvelopesBinarySearch(int[] arr, int x) {
+        int low = 0, high = arr.length - 1;
+        while (low < high) {
+            int mid = low + (high - low) / 2;
+            if (arr[mid] >= x) {
+                high = mid;
+            } else {
+                low = mid + 1;
+            }
+        }
+        return low;
+    }
+
+    @Override
     public String kthLargest(){
         KthLargest kthLargest = new KthLargest(3, new int[]{4, 5, 8, 2});
         System.out.println("add: " + kthLargest.add(3));
@@ -8394,7 +8397,7 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
-    public  String isBipartite(){
+    public String isBipartite(){
         System.out.println(JSON.toJSONString(isBipartite(new int[][]{{1,2,3},{0,2},{0,1,3},{0,2}})));
         return "success";
     }
@@ -9046,7 +9049,7 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
-    public  String goodNodes(){
+    public String goodNodes(){
         TreeNode root = new TreeNode(3);
         root.left = new TreeNode(1);
         root.right = new TreeNode(4);
