@@ -2552,6 +2552,14 @@ public class SubjectController {
     }
 
     /**
+     * 1512. 好数对的数目
+     */
+    @GetMapping(value = "/numIdenticalPairs")
+    public String numIdenticalPairs() {
+        return subjectService.numIdenticalPairs();
+    }
+
+    /**
      * 1517. 查找拥有有效邮箱的用户
      * select user_id,name,mail from Users where mail regexp '^[a-zA-Z][a-zA-Z0-9\\_\\.\\-]*@leetcode\\.com$'
      */

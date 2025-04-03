@@ -9171,6 +9171,23 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String numIdenticalPairs(){
+        System.out.println(JSON.toJSONString(numIdenticalPairs(new int[]{1,2,3,1,1,3})));
+        return "success";
+    }
+
+    public int numIdenticalPairs(int[] nums) {
+        int ans = 0;
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int num : nums) {
+            int n = map.getOrDefault(num, 0);
+            map.put(num, n + 1);
+            ans += n;
+        }
+        return ans;
+    }
+
+    @Override
     public String closeStrings(){
         System.out.println(JSON.toJSONString(closeStrings("cabbba", "aabbss")));
         return "success";
