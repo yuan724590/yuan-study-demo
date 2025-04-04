@@ -8232,6 +8232,24 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String searchBST(){
+        TreeNode root = new TreeNode(4);
+        root.left = new TreeNode(2);
+        root.right = new TreeNode(7);
+        root.left.left = new TreeNode(1);
+        root.left.right = new TreeNode(3);
+        System.out.println(JSON.toJSONString(searchBST(root, 2)));
+        return "success";
+    }
+
+    public TreeNode searchBST(TreeNode root, int val) {
+        while (root != null && root.val != val) {
+            root = root.val < val ? root.right : root.left;
+        }
+        return root;
+    }
+
+    @Override
     public String kthLargest(){
         KthLargest kthLargest = new KthLargest(3, new int[]{4, 5, 8, 2});
         System.out.println("add: " + kthLargest.add(3));

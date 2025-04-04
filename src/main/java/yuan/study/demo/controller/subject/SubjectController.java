@@ -2216,6 +2216,14 @@ public class SubjectController {
     }
 
     /**
+     * 700. 二叉搜索树中的搜索
+     */
+    @GetMapping(value = "/searchBST")
+    public String searchBST() {
+        return subjectService.searchBST();
+    }
+
+    /**
      * 703. 数据流中的第 K 大元素
      */
     @GetMapping(value = "/k/th/largest")
