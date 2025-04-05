@@ -7480,6 +7480,24 @@ public interface SubjectService {
     String removeStars();
 
     /**
+     * 给你一个正整数 n ，返回 2 和 n 的最小公倍数（正整数）。
+     *
+     * 示例 1：
+     * 输入：n = 5
+     * 输出：10
+     * 解释：5 和 2 的最小公倍数是 10 。
+     *
+     * 示例 2：
+     * 输入：n = 6
+     * 输出：6
+     * 解释：6 和 2 的最小公倍数是 6 。注意数字会是它自身的倍数。
+     *
+     * 提示：
+     * 1 <= n <= 150
+     */
+    String smallestEvenMultiple();
+
+    /**
      * 给你一个四舍五入到两位小数的非负浮点数 celsius 来表示温度，以 摄氏度（Celsius）为单位。
      * 你需要将摄氏度转换为 开氏度（Kelvin）和 华氏度（Fahrenheit），并以数组 ans = [kelvin, fahrenheit] 的形式返回结果。
      * 返回数组 ans 。与实际答案误差不超过 10-5 的会视为正确答案。

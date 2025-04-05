@@ -9546,6 +9546,16 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String smallestEvenMultiple(){
+        System.out.println(JSON.toJSONString(smallestEvenMultiple(5)));
+        return "success";
+    }
+
+    public int smallestEvenMultiple(int n) {
+        return n << (n & 1);
+    }
+
+    @Override
     public String convertTemperature(){
         System.out.println(JSON.toJSONString(convertTemperature(122.11)));
         return "success";

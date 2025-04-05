@@ -2783,6 +2783,14 @@ public class SubjectController {
     }
 
     /**
+     * 2413. 最小偶倍数
+     */
+    @GetMapping(value = "/smallestEvenMultiple")
+    public String smallestEvenMultiple() {
+        return subjectService.smallestEvenMultiple();
+    }
+
+    /**
      * 2469. 温度转换
      */
     @GetMapping(value = "/convertTemperature")
