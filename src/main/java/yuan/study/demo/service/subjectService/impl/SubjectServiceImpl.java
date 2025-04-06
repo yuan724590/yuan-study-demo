@@ -9133,6 +9133,21 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String xorOperation(){
+        System.out.println(JSON.toJSONString(xorOperation(5, 0)));
+        return "success";
+    }
+
+    public int xorOperation(int n, int start) {
+        int pre = start, res = pre;
+        for (int i = 1; i < n; i++) {
+            pre = start + 2 * i;
+            res ^= pre;
+        }
+        return res;
+    }
+
+    @Override
     public String kthFactor(){
         System.out.println(JSON.toJSONString(kthFactor(12, 3)));
         return "success";

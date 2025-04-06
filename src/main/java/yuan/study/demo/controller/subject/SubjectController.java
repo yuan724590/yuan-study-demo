@@ -2544,6 +2544,14 @@ public class SubjectController {
     }
 
     /**
+     * 1486. 数组异或操作
+     */
+    @GetMapping(value = "/xorOperation")
+    public String xorOperation() {
+        return subjectService.xorOperation();
+    }
+
+    /**
      * 1492. n 的第 k 个因子
      */
     @GetMapping(value = "/kthFactor")
