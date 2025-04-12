@@ -9014,6 +9014,41 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String maxLevelSum(){
+        TreeNode root = new TreeNode(1);
+        root.left = new TreeNode(7, new TreeNode(7), new TreeNode(-8));
+        root.right = new TreeNode(0);
+
+        System.out.println(JSON.toJSONString(maxLevelSum(root)));
+        return "success";
+    }
+
+    public int maxLevelSum(TreeNode root) {
+        Deque<TreeNode> deque = new ArrayDeque<>();
+        int max = Integer.MIN_VALUE, depth = 1, ans = 0;
+        deque.addLast(root);
+        while (!deque.isEmpty()) {
+            int n = deque.size(), cur = 0;
+            while (n > 0) {
+                TreeNode node = deque.pollFirst();
+                if (node.left != null){
+                    deque.addLast(node.left);
+                }
+                if (node.right != null){
+                    deque.addLast(node.right);
+                }
+                cur += node.val;
+                n--;
+            }
+            if (cur > max) {
+                max = cur; ans = depth;
+            }
+            depth++;
+        }
+        return ans;
+    }
+
+    @Override
     public String uniqueOccurrences(){
         System.out.println(JSON.toJSONString(uniqueOccurrences(new int[]{-3,0,1,-3,1,1,1,-3,10,0})));
         return "success";

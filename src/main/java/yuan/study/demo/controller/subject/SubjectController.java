@@ -2419,6 +2419,14 @@ public class SubjectController {
      */
 
     /**
+     * 1161. 最大层内元素和
+     */
+    @GetMapping(value = "/maxLevelSum")
+    public String maxLevelSum() {
+        return subjectService.maxLevelSum();
+    }
+
+    /**
      * 1164. 指定日期的产品价格
      * Products -> product_id, new_price, change_date
      * 查询2019-08-16全部产品的价格, 产品价格未改动则默认是10
