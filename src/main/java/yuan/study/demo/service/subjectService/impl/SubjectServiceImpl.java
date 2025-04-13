@@ -8556,6 +8556,54 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String leafSimilar(){
+        TreeNode treeNode1 = new TreeNode(2, new TreeNode(7), new TreeNode(4));
+        TreeNode treeNode2 = new TreeNode(5, new TreeNode(6), treeNode1);
+        TreeNode root1 = new TreeNode(3);
+        root1.left = treeNode2;
+        root1.right = new TreeNode(1, new TreeNode(9), new TreeNode(8));
+
+
+        TreeNode root2 = new TreeNode(3);
+        root2.left = new TreeNode(5, new TreeNode(6), new TreeNode(7));
+        TreeNode treeNode3 = new TreeNode(2, new TreeNode(9), new TreeNode(8));
+        root2.right = new TreeNode(1, new TreeNode(4), treeNode3);
+        System.out.println(JSON.toJSONString(leafSimilar(root1, root2)));
+        return "success";
+    }
+
+    public boolean leafSimilar(TreeNode root1, TreeNode root2) {
+        List<Integer> list1 = new ArrayList<>();
+        leafSimilar(root1, list1);
+
+        List<Integer> list2 = new ArrayList<>();
+        leafSimilar(root2, list2);
+
+        if(list1.size() != list2.size()){
+            return false;
+        }
+        for (int i = 0; i < list1.size(); i++) {
+            if(!list1.get(i).equals(list2.get(i))){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public void leafSimilar(TreeNode root, List<Integer> list) {
+         if(root.left == null && root.right == null){
+             list.add(root.val);
+             return;
+         }
+         if(root.left != null){
+             leafSimilar(root.left, list);
+         }
+         if(root.right != null){
+             leafSimilar(root.right, list);
+         }
+    }
+
+    @Override
     public String superpalindromesInRange(){
         System.out.println(JSON.toJSONString(superpalindromesInRange("38455498359", "999999999999999999")));
         return "success";

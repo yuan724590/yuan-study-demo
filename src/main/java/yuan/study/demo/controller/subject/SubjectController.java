@@ -2304,6 +2304,14 @@ public class SubjectController {
     }
 
     /**
+     * 872. 叶子相似的树
+     */
+    @GetMapping(value = "/leafSimilar")
+    public String leafSimilar() {
+        return subjectService.leafSimilar();
+    }
+
+    /**
      * 906. 超级回文数
      */
     @GetMapping(value = "/superpalindromesInRange")
