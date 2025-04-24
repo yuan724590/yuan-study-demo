@@ -107,6 +107,11 @@
 	java.lang.Iterable       →  StreamSupport.stream($expr$.spliterator(), false).collect(Collectors.groupingBy($keyType:regularExpression(concat(guessElementType(expr), ""), ".*/.", "")$$key$));
 	java.util.stream.Stream  →  $expr$.collect(Collectors.groupingBy($keyType:regularExpression(concat(guessElementType(expr), ""), ".*/.", "")$$key$));
 
+.flatMap : flatMap
+	java.util.Map     →  $expr$.values().stream().flatMap(List::stream).collect(Collectors.toList())
+
+.flatMapNext : flatMapNext
+	java.util.List           →  List<$type:guessElementType(expr)$> $END$List = $expr$;
 
 # check and compare
 
