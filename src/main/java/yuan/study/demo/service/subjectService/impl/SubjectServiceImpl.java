@@ -5,15 +5,11 @@ import com.google.common.collect.Lists;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.poi.ss.formula.functions.T;
 import org.springframework.stereotype.Service;
-import sun.reflect.generics.tree.Tree;
 import yuan.study.demo.entity.ListNode;
 import yuan.study.demo.service.subjectService.SubjectService;
 
 import java.util.*;
-
-import static java.util.Arrays.stream;
 
 
 @Slf4j
@@ -9213,6 +9209,42 @@ public class SubjectServiceImpl implements SubjectService {
             list.add(candies[i] + extraCandies >= max);
         }
         return list;
+    }
+
+    @Override
+    public String minReorder(){
+        System.out.println(JSON.toJSONString(minReorder(6, new int[][]{{0,1},{1,3},{2,3},{4,0},{4,5}})));
+        return "success";
+    }
+
+    public int minReorder(int n, int[][] connections) {
+        List<List<Integer>> lists = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+            lists.add(new ArrayList<>());
+        }
+        for (int[] connection : connections) {
+            lists.get(connection[0]).add(-connection[1]);
+            lists.get(connection[1]).add(connection[0]);
+        }
+        Deque<Integer> deque = new LinkedList<>();
+        deque.add(0);
+        boolean[] visited = new boolean[n];
+        int res = 0;
+        while (!deque.isEmpty()) {
+            int node = deque.pop();
+            for (Integer num : lists.get(node)) {
+                int a = Math.abs(num);
+                if(visited[a]){
+                    continue;
+                }
+                visited[a] = true;
+                deque.add(a);
+                if(num < 0){
+                    res++;
+                }
+            }
+        }
+        return res;
     }
 
     @Override
