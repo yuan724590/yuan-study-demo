@@ -8479,19 +8479,19 @@ public class SubjectServiceImpl implements SubjectService {
         return "success";
     }
 
-    List<List<Integer>> list = new ArrayList<>();
+    List<List<Integer>> targetList = new ArrayList<>();
 
     public List<List<Integer>> allPathsSourceTarget(int[][] graph) {
-        list.clear();
+        targetList.clear();
         List<Integer> list = new ArrayList<>();
         list.add(0);
         allPathsSourceTarget(graph, graph.length, 0, list);
-        return this.list;
+        return this.targetList;
     }
 
     public void allPathsSourceTarget(int[][] graph, int n, int i, List<Integer> list) {
         if(i == n - 1){
-            this.list.add(new ArrayList<>(list));
+            this.targetList.add(new ArrayList<>(list));
             return;
         }
         for (int j = 0; j < graph[i].length; j++) {
