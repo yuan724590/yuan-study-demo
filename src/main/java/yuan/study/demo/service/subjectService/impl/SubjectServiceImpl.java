@@ -8502,6 +8502,40 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String canVisitAllRooms(){
+        List<List<Integer>> list = new ArrayList<>();
+        list.add(Lists.newArrayList(1, 3));
+        list.add(Lists.newArrayList(3, 0, 1));
+        list.add(Lists.newArrayList(2));
+        list.add(Lists.newArrayList(0));
+        System.out.println(JSON.toJSONString(canVisitAllRooms(list)));
+        return "success";
+    }
+
+    public boolean canVisitAllRooms(List<List<Integer>> rooms) {
+        int n = rooms.size();
+        boolean[] arr = new boolean[n];
+        canVisitAllRooms(rooms, arr, 0);
+        for (boolean b : arr) {
+            if (!b) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private void canVisitAllRooms(List<List<Integer>> rooms, boolean[] arr, int index) {
+        if(arr[index]){
+            return;
+        }
+        arr[index] = true;
+        List<Integer> list = rooms.get(index);
+        for (Integer integer : list) {
+            canVisitAllRooms(rooms, arr, integer);
+        }
+    }
+
+    @Override
     public String longestMountain(){
         System.out.println(JSON.toJSONString(longestMountain(new int[]{0,1,0,1})));
         return "success";

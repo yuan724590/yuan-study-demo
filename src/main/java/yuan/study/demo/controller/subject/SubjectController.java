@@ -2288,6 +2288,14 @@ public class SubjectController {
     }
 
     /**
+     * 841. 钥匙和房间
+     */
+    @GetMapping(value = "/canVisitAllRooms")
+    public String canVisitAllRooms() {
+        return subjectService.canVisitAllRooms();
+    }
+
+    /**
      * 845. 数组中的最长山脉
      */
     @GetMapping(value = "/longestMountain")
@@ -2527,6 +2535,14 @@ public class SubjectController {
      * 1378. 使用唯一标识码替换员工ID
      * select b.unique_id,a.name from Employees a left join EmployeeUNI b on a.id = b.id
      */
+
+    /**
+     * 1431. 拥有最多糖果的孩子
+     */
+    @GetMapping(value = "/kidsWithCandies")
+    public String kidsWithCandies() {
+        return subjectService.kidsWithCandies();
+    }
 
     /**
      * 1448. 统计二叉树中好节点的数目
