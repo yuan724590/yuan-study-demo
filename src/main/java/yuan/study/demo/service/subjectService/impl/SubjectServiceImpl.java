@@ -9492,6 +9492,70 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String nearestExit(){
+//        System.out.println(JSON.toJSONString(nearestExit(new char[][]{{'+','+','.','+'},{'.','.','.','+'},{'+','+','+','.'}}, new int[]{1, 2})));
+//        System.out.println(JSON.toJSONString(nearestExit(new char[][]{{'.','+'}}, new int[]{0, 0})));
+        System.out.println(JSON.toJSONString(nearestExit(new char[][]{{'+','.','+','+','+','+','+'},{'+','.','+','.','.','.','+'},{'+','.','+','.','+','.','+'},{'+','.','.','.','+','.','+'},{'+','+','+','+','+','+','.'}}, new int[]{0, 1})));
+        return "success";
+    }
+
+    public int nearestExit(char[][] maze, int[] entrance) {
+        return nearestExit(maze, entrance[0], entrance[1]);
+    }
+
+    class NearestExitPoint {
+        /**
+         * 横坐标
+         */
+        int x;
+        /**
+         * 纵坐标
+         */
+        int y;
+        /**
+         * 步数
+         */
+        int step;
+
+        public NearestExitPoint(int x, int y, int step) {
+            this.x = x;
+            this.y = y;
+            this.step = step;
+        }
+    }
+
+    public int nearestExit(char[][] maze, int i, int j) {
+        //可以移动的方向
+        int[] dx = {1, -1, 0, 0};
+        int[] dy = {0, 0, 1, -1};
+        int m = maze.length, n = maze[0].length;
+        Queue<NearestExitPoint> queue = new LinkedList<>();
+        queue.offer(new NearestExitPoint(i, j, 0));
+        //标记为已访问过
+        maze[i][j] = '+';
+        while (!queue.isEmpty()) {
+            NearestExitPoint poll = queue.poll();
+            if ((poll.x != i || poll.y != j) && (poll.x == 0 || poll.x == m - 1 || poll.y == 0 || poll.y == n - 1)) {
+                //不是入口，且是边界
+                return poll.step;
+            }
+            //枚举四个方向
+            for (int k = 0; k < 4; k++) {
+                int x = poll.x + dx[k];
+                int y = poll.y + dy[k];
+                //没越界且未访问过
+                if (x >= 0 && x < m && y >= 0 && y < n && maze[x][y] == '.') {
+                    queue.offer(new NearestExitPoint(x, y, poll.step + 1));
+                    //标记为已访问过
+                    maze[x][y] = '+';
+                }
+            }
+        }
+        //程序运行到这里，说明不存在这样的路径，返回 -1
+        return -1;
+    }
+
+    @Override
     public String findGCD(){
         System.out.println(JSON.toJSONString(findGCD(new int[]{2,5,6,9,10})));
         return "success";

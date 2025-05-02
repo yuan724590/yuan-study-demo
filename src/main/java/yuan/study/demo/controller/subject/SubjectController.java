@@ -2731,6 +2731,14 @@ public class SubjectController {
      */
 
     /**
+     * 1926. 迷宫中离入口最近的出口
+     */
+    @GetMapping(value = "/nearestExit")
+    public String nearestExit() {
+        return subjectService.nearestExit();
+    }
+
+    /**
      * 1934. 确认率
      * Signups -> user_id, time_stamp
      * Confirmations -> user_id, time_stamp, action
