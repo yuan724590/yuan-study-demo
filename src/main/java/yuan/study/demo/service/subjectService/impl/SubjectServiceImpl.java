@@ -9503,7 +9503,7 @@ public class SubjectServiceImpl implements SubjectService {
         return nearestExit(maze, entrance[0], entrance[1]);
     }
 
-    class NearestExitPoint {
+    static class NearestExitPoint {
         /**
          * 横坐标
          */
