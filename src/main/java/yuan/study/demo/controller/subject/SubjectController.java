@@ -2360,6 +2360,14 @@ public class SubjectController {
     }
 
     /**
+     * 994. 腐烂的橘子
+     */
+    @GetMapping(value = "/orangesRotting")
+    public String orangesRotting() {
+        return subjectService.orangesRotting();
+    }
+
+    /**
      * 1004. 最大连续1的个数 III
      */
     @GetMapping(value = "/longestOnes")

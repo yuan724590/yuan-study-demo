@@ -8903,6 +8903,47 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String orangesRotting(){
+        System.out.println(JSON.toJSONString(orangesRotting(new int[][]{{2,1,1},{1,1,0},{0,1,1}})));
+        return "success";
+    }
+
+    public int orangesRotting(int[][] grid) {
+        Deque<int[]> queue = new LinkedList<>();
+        int m = grid.length, n = grid[0].length, fresh = 0;
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++){
+                if(grid[i][j] == 2){
+                    queue.offer(new int[]{i, j});
+                }else if(grid[i][j] == 1){
+                    fresh++;
+                }
+            }
+        }
+        int res = 0;
+        int[] xArr = new int[]{-1, 1, 0, 0};
+        int[] yArr = new int[]{0, 0, -1, 1};
+        while(!queue.isEmpty()){
+            if(fresh > 0){
+                res++;
+            }
+            int size = queue.size();
+            for (int i = 0; i < size; i++) {
+                int[] arr = queue.pop();
+                for (int j = 0; j < 4; j++) {
+                    int x = arr[0] + xArr[j], y = arr[1] + yArr[j];
+                    if (x >= 0 && x < m && y >= 0 && y < n && grid[x][y] == 1) {
+                        queue.offer(new int[]{x, y});
+                        grid[x][y] = 2;
+                        fresh--;
+                    }
+                }
+            }
+        }
+        return fresh == 0 ? res : -1;
+    }
+
+    @Override
     public String longestOnes(){
         System.out.println(JSON.toJSONString(longestOnes(new int[]{1,1,1,0,0,0,1,1,1,1,0}, 2)));
         return "success";
