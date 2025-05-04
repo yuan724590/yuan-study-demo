@@ -1975,6 +1975,14 @@ public class SubjectController {
     }
 
     /**
+     * 399. 除法求值
+     */
+    @GetMapping(value = "/calcEquation")
+    public String calcEquation() {
+        return subjectService.calcEquation();
+    }
+
+    /**
      * 402. 移掉 K 位数字
      */
     @GetMapping(value = "/removeKdigits")

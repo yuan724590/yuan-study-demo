@@ -7366,6 +7366,66 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String calcEquation(){
+        List<String> list = Lists.newArrayList("x1", "x2");
+        List<String> list1 = Lists.newArrayList("x2", "x3");
+        List<String> list2 = Lists.newArrayList("x3", "x4");
+        List<String> list3 = Lists.newArrayList("x4", "x5");
+        List<List<String>> equations = Lists.newArrayList(list, list1, list2, list3);
+        double[] values = new double[]{3.0, 4.0, 5.0, 6.0};
+        List<String> questionList = Lists.newArrayList("x2", "x4");
+        List<String> questionList1 = Lists.newArrayList("b", "a");
+        List<String> questionList2 = Lists.newArrayList("a", "e");
+        List<List<String>> qList = Lists.newArrayList(questionList, questionList1, questionList2);
+        System.out.println(JSON.toJSONString(calcEquation(equations, values, qList)));
+        return "success";
+    }
+
+    public double[] calcEquation(List<List<String>> equations, double[] values, List<List<String>> queries) {
+        Map<String, Map<String, Double>> map = new HashMap<>();
+        for (int i = 0; i < equations.size(); i++) {
+            List<String> equation = equations.get(i);
+            String k1 = equation.get(0);
+            String k2 = equation.get(1);
+            map.computeIfAbsent(k1, e -> new HashMap<>()).put(k2, values[i]);
+            map.computeIfAbsent(k2, e -> new HashMap<>()).put(k1, 1 / values[i]);
+        }
+        int n = queries.size();
+        double[] ans = new double[n];
+        for (int i = 0; i < n; i++) {
+            List<String> query = queries.get(i);
+            String k1 = query.get(0);
+            String k2 = query.get(1);
+            ans[i] = calcEquation(map, k1, k2, new HashSet<>());
+        }
+        return ans;
+    }
+
+    private double calcEquation(Map<String, Map<String, Double>> map, String k1, String k2, Set<String> set) {
+        if(!map.containsKey(k1) || !map.containsKey(k2)){
+            return -1.0;
+        }
+        if(k1.equals(k2)){
+            return 1.0;
+        }
+        Map<String, Double> valMap = map.get(k1);
+        if(valMap.containsKey(k2)){
+            return valMap.get(k2);
+        }
+        set.add(k1);
+        for(Map.Entry<String, Double> entry : valMap.entrySet()){
+            if(set.contains(entry.getKey())){
+                continue;
+            }
+            double val = calcEquation(map, entry.getKey(), k2, set);
+            if(val != -1.0){
+                return val * entry.getValue();
+            }
+        }
+        return -1.0;
+    }
+
+    @Override
     public String removeKdigits(){
         System.out.println(JSON.toJSONString(removeKdigits("1432219", 2)));
         return "success";
