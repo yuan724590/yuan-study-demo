@@ -2861,4 +2861,12 @@ public class SubjectController {
     public String convertTemperature() {
         return subjectService.convertTemperature();
     }
+
+    /**
+     * 2542. 最大子序列的分数
+     */
+    @GetMapping(value = "/maxScore")
+    public String maxScore() {
+        return subjectService.maxScore();
+    }
 }
