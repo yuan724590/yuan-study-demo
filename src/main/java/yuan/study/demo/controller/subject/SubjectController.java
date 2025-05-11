@@ -2824,6 +2824,14 @@ public class SubjectController {
     }
 
     /**
+     * 2336. 无限集中的最小数字
+     */
+    @GetMapping(value = "/smallestInfiniteSet")
+    public String smallestInfiniteSet() {
+        return subjectService.smallestInfiniteSet();
+    }
+
+    /**
      * 2352. 相等行列对
      */
     @GetMapping(value = "/equalPairs")

@@ -9830,6 +9830,40 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String smallestInfiniteSet(){
+        SmallestInfiniteSet set = new SmallestInfiniteSet();
+        set.addBack(2);    // 2 已经在集合中，所以不做任何变更。
+        System.out.println(JSON.toJSONString(set.popSmallest())); // 返回 1 ，因为 1 是最小的正整数，并将其从集合中移除。
+        System.out.println(JSON.toJSONString(set.popSmallest())); // 返回 2 ，并将其从集合中移除。
+        System.out.println(JSON.toJSONString(set.popSmallest())); // 返回 3 ，并将其从集合中移除。
+        set.addBack(1);    // 将 1 添加到该集合中。
+        System.out.println(JSON.toJSONString(set.popSmallest())); // 返回 1 ，因为 1 在上一步中被添加到集合中，
+        // 且 1 是最小的正整数，并将其从集合中移除。
+        System.out.println(JSON.toJSONString(set.popSmallest())); // 返回 4 ，并将其从集合中移除。
+        System.out.println(JSON.toJSONString(set.popSmallest())); // 返回 5 ，并将其从集合中移除。
+        return "success";
+    }
+
+    class SmallestInfiniteSet {
+        PriorityQueue<Integer> queue;
+        int i = 1;
+
+        public SmallestInfiniteSet() {
+            queue = new PriorityQueue<>();
+        }
+
+        public int popSmallest() {
+            return queue.isEmpty() ? i++ : queue.poll();
+        }
+
+        public void addBack(int num) {
+            if(num < i && !queue.contains(num)){
+                queue.add(num);
+            }
+        }
+    }
+
+    @Override
     public String equalPairs(){
         System.out.println(JSON.toJSONString(equalPairs(new int[][]{{3,2,1},{1,7,6},{2,7,7}})));
         return "success";
