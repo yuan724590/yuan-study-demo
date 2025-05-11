@@ -2863,6 +2863,14 @@ public class SubjectController {
     }
 
     /**
+     * 2462. 雇佣 K 位工人的总代价
+     */
+    @GetMapping(value = "/totalCost")
+    public String totalCost() {
+        return subjectService.totalCost();
+    }
+
+    /**
      * 2469. 温度转换
      */
     @GetMapping(value = "/convertTemperature")

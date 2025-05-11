@@ -9919,6 +9919,41 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String totalCost(){
+        System.out.println(JSON.toJSONString(totalCost(new int[]{31,25,72,79,74,65,84,91,18,59,27,9,81,33,17,58}, 11, 2)));
+        return "success";
+    }
+
+    public long totalCost(int[] costs, int k, int candidates) {
+        int n = costs.length;
+        long ans = 0;
+        if (candidates * 2 + k > n) {
+            Arrays.sort(costs);
+            for (int i = 0; i < k; i++) {
+                ans += costs[i];
+            }
+            return ans;
+        }
+        PriorityQueue<Integer> pq1 = new PriorityQueue<>();
+        PriorityQueue<Integer> pq2 = new PriorityQueue<>();
+        for (int i = 0; i < candidates; i++) {
+            pq1.offer(costs[i]);
+            pq2.offer(costs[n - i - 1]);
+        }
+        int l = candidates, r = n - candidates  - 1;
+        for (int i = 0; i < k; i++) {
+            if(pq1.peek() <= pq2.peek()){
+                ans += pq1.poll();
+                pq1.offer(costs[l++]);
+            }else {
+                ans += pq2.poll();
+                pq2.offer(costs[r--]);
+            }
+        }
+        return ans;
+    }
+
+    @Override
     public String convertTemperature(){
         System.out.println(JSON.toJSONString(convertTemperature(122.11)));
         return "success";
