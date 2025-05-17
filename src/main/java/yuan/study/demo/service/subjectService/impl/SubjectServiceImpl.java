@@ -7690,6 +7690,47 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String pathSum(){
+        TreeNode root = new TreeNode(10);
+        root.left = new TreeNode(5);
+        root.right = new TreeNode(-3);
+        root.left.left = new TreeNode(3);
+        root.left.right = new TreeNode(2);
+        root.right.right = new TreeNode(11);
+        root.left.left.left = new TreeNode(3);
+        root.left.left.right = new TreeNode(-2);
+        root.left.right.right = new TreeNode(1);
+        System.out.println(JSON.toJSONString(pathSum(root, 8)));
+        return "success";
+
+    }
+
+    private int pathSum = 0;
+
+    public int pathSum(TreeNode root, int targetSum) {
+        //map的key是前缀和, value是前缀和的个数
+        Map<Long, Integer> map = new HashMap<>();
+        //兼容第一个节点就是targetSum的场景
+        map.put(0L, 1);
+        pathSum(root, targetSum, map, 0);
+        return pathSum;
+    }
+
+    private void pathSum(TreeNode root, int targetSum, Map<Long, Integer> map, long val) {
+        if(root == null){
+            return;
+        }
+        val = val + root.val;
+        //如果(路径和 - 目标值) > 0 说明 现在节点 到 路径和是(val - targetSum) 的差值是目标值, 就可以记录
+        pathSum += map.getOrDefault(val - targetSum, 0);
+        map.merge(val, 1, Integer::sum);
+        pathSum(root.left, targetSum, map, val);
+        pathSum(root.right, targetSum, map, val);
+        //清除此链路产生的数据
+        map.merge(val, -1, Integer::sum);
+    }
+
+    @Override
     public String findAnagrams(){
         System.out.println(JSON.toJSONString(findAnagrams("cbaebabacd", "abc")));
         return "success";

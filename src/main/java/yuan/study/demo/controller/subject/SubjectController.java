@@ -2047,6 +2047,14 @@ public class SubjectController {
     }
 
     /**
+     * 437. 路径总和 III
+     */
+    @GetMapping(value = "/pathSum")
+    public String pathSum() {
+        return subjectService.pathSum();
+    }
+
+    /**
      * 438. 找到字符串中所有字母异位词
      */
     @GetMapping(value = "/findAnagrams")
