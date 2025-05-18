@@ -2071,6 +2071,14 @@ public class SubjectController {
     }
 
     /**
+     * 450. 删除二叉搜索树中的节点
+     */
+    @GetMapping(value = "/deleteNode")
+    public String deleteNode() {
+        return subjectService.deleteNode();
+    }
+
+    /**
      * 455. 分发饼干
      */
     @GetMapping(value = "/findContentChildren")

@@ -7818,6 +7818,39 @@ public class SubjectServiceImpl implements SubjectService {
         }
     }
 
+    @Override
+    public String deleteNode(){
+        TreeNode treeNode = new TreeNode(5);
+        treeNode.left = new TreeNode(3, new TreeNode(2), new TreeNode(4));
+        treeNode.right = new TreeNode(6, null, new TreeNode(7));
+        System.out.println(JSON.toJSONString(deleteNode(treeNode, 3)));
+        return "success";
+    }
+
+    public TreeNode deleteNode(TreeNode root, int key) {
+        if(root == null){
+            return null;
+        }
+        if(root.val > key){
+            root.left = deleteNode(root.left, key);
+        }else if(root.val < key){
+            root.right = deleteNode(root.right, key);
+        }else{
+            if(root.left == null){
+                return root.right;
+            }
+            if(root.right == null){
+                return root.left;
+            }
+            TreeNode node = root.right;
+            while(node.left != null){
+                node = node.left;
+            }
+            node.left = root.left;
+            root = root.right;
+        }
+        return root;
+    }
 
     @Override
     public String findContentChildren(){
