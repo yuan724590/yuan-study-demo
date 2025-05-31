@@ -7229,6 +7229,33 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String guessNumber(){
+        System.out.println(JSON.toJSONString(guessNumber(2126753390)));
+        return "success";
+    }
+
+    public int guessNumber(int n) {
+        int left = 1, right = n;
+        while (left < right) {
+            //防止数字溢出
+            int mid = left + (right - left) / 2;
+            int res = guess(mid);
+            if (res == 0) {
+                return mid;
+            }else if (res < 0) {
+                right = mid - 1;
+            } else {
+                left = mid + 1;
+            }
+        }
+        return left;
+    }
+
+    private int guess(int n){
+        return -1 * Integer.compare(n, 1702766719);
+    }
+
+    @Override
     public String wiggleMaxLength(){
         System.out.println(JSON.toJSONString(wiggleMaxLength(new int[]{1,17,5,10,13,15,10,5,16,8})));
         return "success";

@@ -1935,6 +1935,14 @@ public class SubjectController {
     }
 
     /**
+     * 374. 猜数字大小
+     */
+    @GetMapping(value = "/guessNumber")
+    public void guessNumber(){
+        subjectService.guessNumber();
+    }
+
+    /**
      * 376. 摆动序列
      */
     @GetMapping(value = "/wiggleMaxLength")
