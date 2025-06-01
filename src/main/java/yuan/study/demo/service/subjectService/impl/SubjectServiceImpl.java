@@ -8795,6 +8795,40 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String minEatingSpeed(){
+        System.out.println(JSON.toJSONString(minEatingSpeed(new int[]{3,6,7,11}, 8)));
+        return "success";
+    }
+
+    public int minEatingSpeed(int[] piles, int h) {
+        int n = piles.length, left = 1, right = piles[0];
+        for (int i = 1; i < n; i++) {
+            right = Math.max(right, piles[i]);
+        }
+        if(n == h){
+            return right;
+        }
+        while(left < right){
+            int mid = (left + right) >> 1;
+            int count = minEatingSpeed(piles, n, mid);
+            if(count <= h){
+                right = mid;
+            }else{
+                left = mid + 1;
+            }
+        }
+        return left;
+    }
+
+    private int minEatingSpeed(int[] piles, int n, int speed){
+        int count = 0;
+        for (int i = 0; i < n; i++) {
+            count += (piles[i] + speed - 1) / speed;
+        }
+        return count;
+    }
+
+    @Override
     public String superpalindromesInRange(){
         System.out.println(JSON.toJSONString(superpalindromesInRange("38455498359", "999999999999999999")));
         return "success";

@@ -2352,6 +2352,14 @@ public class SubjectController {
     }
 
     /**
+     * 875. 爱吃香蕉的珂珂
+     */
+    @GetMapping(value = "/minEatingSpeed")
+    public String minEatingSpeed() {
+        return subjectService.minEatingSpeed();
+    }
+
+    /**
      * 906. 超级回文数
      */
     @GetMapping(value = "/superpalindromesInRange")
