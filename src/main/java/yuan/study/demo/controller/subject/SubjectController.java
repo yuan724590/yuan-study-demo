@@ -2463,6 +2463,14 @@ public class SubjectController {
     }
 
     /**
+     * 1137. 第 N 个泰波那契数
+     */
+    @GetMapping(value = "/tribonacci")
+    public String tribonacci() {
+        return subjectService.tribonacci();
+    }
+
+    /**
      * 1141. 查询近30天活跃用户数
      * select activity_date as day, count(distinct user_id) as active_users from Activity where activity_date >= '2019-06-28' and activity_date <= '2019-07-27' group by activity_date
      */
