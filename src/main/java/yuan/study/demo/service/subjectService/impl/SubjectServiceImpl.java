@@ -9965,6 +9965,31 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String successfulPairs(){
+        System.out.println(JSON.toJSONString(successfulPairs(new int[]{3,1,2}, new int[]{8,5,8}, 7)));
+        return "success";
+    }
+
+    public int[] successfulPairs(int[] spells, int[] potions, long success) {
+        Arrays.sort(potions);
+        int n = spells.length, m = potions.length;
+        int[] ans = new int[n];
+        for (int i = 0; i < n; i++) {
+            int left = 0, right = m;
+            while(left < right){
+                int mid = (left + right) >> 1;
+                if(potions[mid] * (long)spells[i] >= success){
+                    right = mid;
+                }else if(potions[mid] * (long)spells[i] < success){
+                    left = mid + 1;
+                }
+            }
+            ans[i] = m - left;
+        }
+        return ans;
+    }
+
+    @Override
     public String smallestInfiniteSet(){
         SmallestInfiniteSet set = new SmallestInfiniteSet();
         set.addBack(2);    // 2 已经在集合中，所以不做任何变更。

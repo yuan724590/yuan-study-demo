@@ -2856,6 +2856,14 @@ public class SubjectController {
     }
 
     /**
+     * 2300. 咒语和药水的成功对数
+     */
+    @GetMapping(value = "/successfulPairs")
+    public String successfulPairs() {
+        return subjectService.successfulPairs();
+    }
+
+    /**
      * 2336. 无限集中的最小数字
      */
     @GetMapping(value = "/smallestInfiniteSet")
