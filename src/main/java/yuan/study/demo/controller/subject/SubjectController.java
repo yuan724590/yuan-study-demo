@@ -2296,6 +2296,14 @@ public class SubjectController {
     }
 
     /**
+     * 746. 使用最小花费爬楼梯
+     */
+    @GetMapping(value = "/minCostClimbingStairs")
+    public String minCostClimbingStairs() {
+        return subjectService.minCostClimbingStairs();
+    }
+
+    /**
      * 785. 判断二分图
      */
     @GetMapping(value = "/isBipartite")
