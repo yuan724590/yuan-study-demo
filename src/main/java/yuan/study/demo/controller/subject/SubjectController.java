@@ -2571,6 +2571,14 @@ public class SubjectController {
      */
 
     /**
+     * 1318. 或运算的最小翻转次数
+     */
+    @GetMapping(value = "/minFlips")
+    public String minFlips() {
+        return subjectService.minFlips();
+    }
+
+    /**
      * 1321. 餐馆营业额变化增长
      * Customer -> customer_id, name, visited_on, amount
      * 查询每天的7天内消费总额的平均值

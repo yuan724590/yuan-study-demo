@@ -9427,6 +9427,30 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String minFlips(){
+        System.out.println(JSON.toJSONString(minFlips(2,6,5)));
+        return "success";
+    }
+
+    public int minFlips(int a, int b, int c) {
+        int ans = 0;
+        while(a > 0 || b > 0 || c > 0) {
+            if(c % 2 == 0) {
+                ans += b % 2;
+                ans += a % 2;
+            }else {
+                if(b % 2 == 0 && a % 2 == 0){
+                    ans++;
+                }
+            }
+            a >>= 1;
+            b >>= 1;
+            c >>= 1;
+        }
+        return ans;
+    }
+
+    @Override
     public String longestZigZag(){
         TreeNode treeNode1 = new TreeNode(1, null, new TreeNode(1, null, new TreeNode(1)));
         TreeNode treeNode2 = new TreeNode(1, treeNode1, new TreeNode(1));
