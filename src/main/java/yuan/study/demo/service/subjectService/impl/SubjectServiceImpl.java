@@ -8652,6 +8652,35 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String numTilings(){
+        System.out.println(JSON.toJSONString(numTilings(4)));
+        return "success";
+    }
+
+    /**
+     * f(1) = 1
+     * f(2) = 2
+     * f(3) = f(2) + f(1) = 5
+     * f(4) = f(3) + f(2) + 2 * (f(1) + 1) = 11
+     * f(5) = f(4) + f(3) + 2 * (f(2) + f(1) + 1) = 24
+     * 经过总结后发现 dp[i] = 2 * dp[i - 1] + dp[i - 3]
+     */
+    public int numTilings(int n) {
+        if (n == 1) {
+            return 1;
+        }
+        int mod = 1000000007;
+        long a = 1, b = 1, c = 2;
+        for (int i = 3; i <= n; i++) {
+            long f = (c * 2 + a) % mod;
+            a = b;
+            b = c;
+            c = f;
+        }
+        return (int) c;
+    }
+
+    @Override
     public String allPathsSourceTarget(){
         System.out.println(JSON.toJSONString(allPathsSourceTarget(new int[][]{{1,2},{3},{3},{}})));
         return "success";

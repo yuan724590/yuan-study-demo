@@ -2320,6 +2320,14 @@ public class SubjectController {
     }
 
     /**
+     * 790. 多米诺和托米诺平铺
+     */
+    @GetMapping(value = "/numTilings")
+    public String numTilings() {
+        return subjectService.numTilings();
+    }
+
+    /**
      * 797. 所有可能的路径
      */
     @GetMapping(value = "/allPathsSourceTarget")
