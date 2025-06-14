@@ -2047,6 +2047,14 @@ public class SubjectController {
     }
 
     /**
+     * 435. 无重叠区间
+     */
+    @GetMapping(value = "/eraseOverlapIntervals")
+    public String eraseOverlapIntervals() {
+        return subjectService.eraseOverlapIntervals();
+    }
+
+    /**
      * 436. 寻找右区间
      */
     @GetMapping(value = "/findRightInterval")

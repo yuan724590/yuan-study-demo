@@ -7678,6 +7678,25 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String eraseOverlapIntervals(){
+        System.out.println(JSON.toJSONString(eraseOverlapIntervals(new int[][]{{1,2},{2,3},{3,4},{1,3}})));
+        return "success";
+    }
+
+    public int eraseOverlapIntervals(int[][] intervals) {
+        Arrays.sort(intervals);
+        int ans = 0;
+        int pre = Integer.MIN_VALUE;
+        for (int[] val : intervals) {
+            if (val[0] >= pre) {
+                ans++;
+                pre = val[1];
+            }
+        }
+        return intervals.length - ans;
+    }
+
+    @Override
     public String findRightInterval(){
         System.out.println(JSON.toJSONString(findRightInterval(new int[][]{{3,4},{2,3},{1,2}})));
         return "success";
