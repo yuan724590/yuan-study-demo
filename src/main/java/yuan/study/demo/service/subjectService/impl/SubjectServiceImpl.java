@@ -9475,6 +9475,33 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String suggestedProducts(){
+        System.out.println(JSON.toJSONString(suggestedProducts(new String[]{"mobile","mouse","moneypot","monitor","mousepad"}, "mouse")));
+        return "success";
+    }
+
+    public List<List<String>> suggestedProducts(String[] products, String searchWord) {
+        List<List<String>> res = new ArrayList<>();
+        Arrays.sort(products);
+        int l = 0, r = products.length - 1;
+
+        for (int i = 0; i < searchWord.length(); i++) {
+            char cur = searchWord.charAt(i);
+            while (l <= r && (products[l].length() <= i || products[l].charAt(i) != cur)) {
+                l++;
+            }
+
+            while (l <= r && (products[r].length() <= i || products[r].charAt(i) != cur)) {
+                r--;
+            }
+            //l + 2的意思是题目要求取前3个
+            res.add(Arrays.asList(products).subList(l, Math.min(l + 2, r) + 1));
+        }
+
+        return res;
+    }
+
+    @Override
     public String minFlips(){
         System.out.println(JSON.toJSONString(minFlips(2,6,5)));
         return "success";

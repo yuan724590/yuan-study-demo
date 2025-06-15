@@ -2578,6 +2578,14 @@ public class SubjectController {
      */
 
     /**
+     * 1268. 搜索推荐系统
+     */
+    @GetMapping(value = "/suggestedProducts")
+    public String suggestedProducts() {
+        return subjectService.suggestedProducts();
+    }
+
+    /**
      * 1280. 学生们参加各科测试的次数
      * Students -> student_id, student_name
      * Subjects -> subject_name
