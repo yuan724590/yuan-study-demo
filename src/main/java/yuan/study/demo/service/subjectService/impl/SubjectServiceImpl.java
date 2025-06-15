@@ -7679,22 +7679,41 @@ public class SubjectServiceImpl implements SubjectService {
 
     @Override
     public String eraseOverlapIntervals(){
-        System.out.println(JSON.toJSONString(eraseOverlapIntervals(new int[][]{{1,2},{2,3},{3,4},{1,3}})));
+        System.out.println(JSON.toJSONString(eraseOverlapIntervals(new int[][]{{-52,31},{-73,-26},{82,97},{-65,-11},{-62,-49},{95,99},{58,95},{-31,49},{66,98},{-63,2},{30,47},{-40,-26}})));
         return "success";
     }
 
+    /**
+     * 从右侧算 可以避免重复计算的问题
+     * 先开始但不一定先结束, 这样就会造成重复算
+     * @param intervals
+     * @return
+     */
     public int eraseOverlapIntervals(int[][] intervals) {
-        Arrays.sort(intervals);
-        int ans = 0;
-        int pre = Integer.MIN_VALUE;
-        for (int[] val : intervals) {
-            if (val[0] >= pre) {
-                ans++;
-                pre = val[1];
+        int res = 0, r = Integer.MIN_VALUE;
+        Arrays.sort(intervals, Comparator.comparingInt(a -> a[1]));
+        for (int[] interval : intervals) {
+            if (r <= interval[0]) {
+                r = interval[1];
+            } else {
+                res++;
             }
         }
-        return intervals.length - ans;
+        return res;
     }
+
+//    public int eraseOverlapIntervals(int[][] intervals) {
+//        int res = 0;
+//        Arrays.sort(intervals, Comparator.comparingInt(a -> a[0]));
+//        for (int i = 1; i < intervals.length; i++) {
+//            if (intervals[i][0] < intervals[i - 1][1]) {
+//                //避免重叠
+//                intervals[i][1] = Math.min(intervals[i - 1][1], intervals[i][1]);
+//                res++;
+//            }
+//        }
+//        return res;
+//    }
 
     @Override
     public String findRightInterval(){
