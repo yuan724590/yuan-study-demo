@@ -8,7 +8,6 @@ import javax.annotation.Resource;
 
 /**
  * Leetcode 默认类型的题
- * https://leetcode.cn/problemset/all/?page=1
  * total: 235(2024.4.21)
  */
 @RestController
@@ -2092,6 +2091,14 @@ public class SubjectController {
     @GetMapping(value = "/deleteNode")
     public String deleteNode() {
         return subjectService.deleteNode();
+    }
+
+    /**
+     * 452. 用最少数量的箭引爆气球
+     */
+    @GetMapping(value = "/findMinArrowShots")
+    public String findMinArrowShots() {
+        return subjectService.findMinArrowShots();
     }
 
     /**

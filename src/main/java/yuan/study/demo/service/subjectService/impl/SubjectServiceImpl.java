@@ -7918,6 +7918,25 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String findMinArrowShots(){
+        System.out.println(JSON.toJSONString(findMinArrowShots(new int[][]{{10,16},{2,8},{1,6},{7,12}})));
+        return "success";
+    }
+
+    public int findMinArrowShots(int[][] points) {
+        Arrays.sort(points, Comparator.comparingInt(p -> p[1]));
+        int ans = 1;
+        int v = points[0][1];
+        for (int[] arr : points) {
+            if (arr[0] > v) {
+                ans++;
+                v = arr[1];
+            }
+        }
+        return ans;
+    }
+
+    @Override
     public String findContentChildren(){
         System.out.println(JSON.toJSONString(findContentChildren(new int[]{1,2,3}, new int[]{3})));
         return "success";
