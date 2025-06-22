@@ -8629,6 +8629,27 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String dailyTemperatures(){
+        System.out.println(JSON.toJSONString(dailyTemperatures(new int[]{34,80,80,34,34,80,80,80,80,34})));
+        return "success";
+    }
+
+    public int[] dailyTemperatures(int[] temperatures) {
+        int n = temperatures.length;
+        int[] arr = new int[n];
+        Deque<Integer> deque = new ArrayDeque<>();
+        for (int i = 0; i < n; i++) {
+            int v = temperatures[i];
+            while(!deque.isEmpty() && v > temperatures[deque.peek()]){
+                int j = deque.pop();
+                arr[j] = i - j;
+            }
+            deque.push(i);
+        }
+        return arr;
+    }
+
+    @Override
     public String minCostClimbingStairs(){
         System.out.println(JSON.toJSONString(minCostClimbingStairs(new int[]{1,100,1,1,1,100,1,1,100,1})));
         return "success";

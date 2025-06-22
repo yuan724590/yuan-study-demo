@@ -2311,6 +2311,14 @@ public class SubjectController {
     }
 
     /**
+     * 739. 每日温度
+     */
+    @GetMapping(value = "/dailyTemperatures")
+    public String dailyTemperatures() {
+        return subjectService.dailyTemperatures();
+    }
+
+    /**
      * 746. 使用最小花费爬楼梯
      */
     @GetMapping(value = "/minCostClimbingStairs")
