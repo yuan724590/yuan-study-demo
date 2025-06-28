@@ -2399,6 +2399,14 @@ public class SubjectController {
     }
 
     /**
+     * 901. 股票价格跨度
+     */
+    @GetMapping(value = "/stockSpanner")
+    public String stockSpanner() {
+        return subjectService.stockSpanner();
+    }
+
+    /**
      * 906. 超级回文数
      */
     @GetMapping(value = "/superpalindromesInRange")

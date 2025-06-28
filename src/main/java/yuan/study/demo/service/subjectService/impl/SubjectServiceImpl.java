@@ -8953,6 +8953,37 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String stockSpanner(){
+        StockSpanner stockSpanner = new StockSpanner();
+        System.out.println(stockSpanner.next(91));
+        System.out.println(stockSpanner.next(21));
+        System.out.println(stockSpanner.next(21));
+        System.out.println(stockSpanner.next(68));
+        System.out.println(stockSpanner.next(94));
+        return "success";
+    }
+
+    class StockSpanner {
+        private final Deque<int[]> stack = new ArrayDeque<>();
+
+        private int day = 0;
+
+        public StockSpanner() {
+            stack.push(new int[]{0, Integer.MAX_VALUE});
+        }
+
+        public int next(int price) {
+           while(price >= stack.peek()[1]){
+               stack.pop();
+           }
+           day++;
+           int res = day - stack.peek()[0];
+           stack.push(new int[]{day, price});
+           return res;
+        }
+    }
+
+    @Override
     public String superpalindromesInRange(){
         System.out.println(JSON.toJSONString(superpalindromesInRange("38455498359", "999999999999999999")));
         return "success";
