@@ -29,4 +29,27 @@ public class InterviewServiceImpl implements InterviewService {
         }
         return true;
     }
+
+    @Override
+    public String checkPermutation(){
+        System.out.println(JSON.toJSONString(CheckPermutation("abc", "bca")));
+        return "success";
+    }
+
+    public boolean CheckPermutation(String s1, String s2) {
+        int n = s1.length(), m = s2.length(), diff = 0;
+        if (n != m) {
+            return false;
+        }
+        int[] arr = new int[256];
+        for (int i = 0; i < n; i++) {
+            if (++arr[s1.charAt(i)] == 1) {
+                diff++;
+            }
+            if (--arr[s2.charAt(i)] == 0) {
+                diff--;
+            }
+        }
+        return diff == 0;
+    }
 }

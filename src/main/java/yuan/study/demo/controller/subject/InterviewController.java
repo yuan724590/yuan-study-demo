@@ -22,4 +22,11 @@ public class InterviewController {
         return interviewService.isUnique();
     }
 
+    /**
+     * 面试题 01.02. 判定字符是否唯一
+     */
+    @GetMapping(value = "/checkPermutation")
+    public String checkPermutation() {
+        return interviewService.checkPermutation();
+    }
 }
