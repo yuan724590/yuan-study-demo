@@ -29,4 +29,12 @@ public class InterviewController {
     public String checkPermutation() {
         return interviewService.checkPermutation();
     }
+
+    /**
+     * 面试题 01.03. URL化
+     */
+    @GetMapping(value = "/replaceSpaces")
+    public String replaceSpaces() {
+        return interviewService.replaceSpaces();
+    }
 }

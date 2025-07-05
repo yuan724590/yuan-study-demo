@@ -52,4 +52,70 @@ public class InterviewServiceImpl implements InterviewService {
         }
         return diff == 0;
     }
+
+    @Override
+    public String replaceSpaces(){
+        System.out.println(JSON.toJSONString(replaceSpaces("Mr John Smith    ", 13)));
+        return "success";
+    }
+
+    public String replaceSpaces(String S, int length) {
+        StringBuilder stringBuilder = new StringBuilder();
+        for(int i = 0; i < length; i++){
+            char c = S.charAt(i);
+            if(' ' == c){
+                stringBuilder.append("%20");
+            }else{
+                stringBuilder.append(c);
+            }
+        }
+        return stringBuilder.toString();
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
