@@ -4184,6 +4184,7 @@ public class SubjectServiceImpl implements SubjectService {
         for (int i = 0; i <= s.length(); i++) {
             for (String str : wordDict) {
                 if(i - str.length() >= 0){
+                    //之前的结果为true && 从i - str.length()开始 是以str开头
                     dp[i] = dp[i] || (dp[i - str.length()] && s.startsWith(str, i - str.length()));
                 }
             }

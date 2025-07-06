@@ -37,4 +37,12 @@ public class InterviewController {
     public String replaceSpaces() {
         return interviewService.replaceSpaces();
     }
+
+    /**
+     * 面试题 01.04. 回文排列
+     */
+    @GetMapping(value = "/canPermutePalindrome")
+    public String canPermutePalindrome() {
+        return interviewService.canPermutePalindrome();
+    }
 }

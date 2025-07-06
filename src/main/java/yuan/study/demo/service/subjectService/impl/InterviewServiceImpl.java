@@ -72,6 +72,31 @@ public class InterviewServiceImpl implements InterviewService {
         return stringBuilder.toString();
     }
 
+    @Override
+    public String canPermutePalindrome(){
+        System.out.println(JSON.toJSONString(canPermutePalindrome("AaBb//a")));
+        return "success";
+    }
+
+    public boolean canPermutePalindrome(String s) {
+        int[] arr = new int[128];
+        int n = s.length();
+        for (int i = 0; i < n; i++) {
+            arr[s.charAt(i)]++;
+        }
+        boolean single = false;
+        for (int i : arr) {
+            if(i % 2 == 0){
+                continue;
+            }
+            if(!single){
+                single = true;
+            }else{
+                return false;
+            }
+        }
+        return true;
+    }
 
 
 
