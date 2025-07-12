@@ -45,4 +45,12 @@ public class InterviewController {
     public String canPermutePalindrome() {
         return interviewService.canPermutePalindrome();
     }
+
+    /**
+     * 面试题 01.05. 一次编辑
+     */
+    @GetMapping(value = "/oneEditAway")
+    public String oneEditAway() {
+        return interviewService.oneEditAway();
+    }
 }
