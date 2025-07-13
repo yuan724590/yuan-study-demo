@@ -2157,6 +2157,14 @@ public class SubjectController {
      */
 
     /**
+     * 560. 和为 K 的子数组
+     */
+    @GetMapping(value = "/subarraySum")
+    public String subarraySum() {
+        return subjectService.subarraySum();
+    }
+
+    /**
      * 570. 至少有5名直接下属的经理
      * Employee -> id, name, department, managerId
      * select name from Employee where id in ( select managerId from Employee group by managerId having count(id)>=5 )

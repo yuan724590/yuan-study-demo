@@ -8235,6 +8235,27 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String subarraySum(){
+        System.out.println(JSON.toJSONString(subarraySum(new int[]{1,1,1}, 2)));
+        System.out.println(JSON.toJSONString(subarraySum(new int[]{1,2,3}, 3)));
+        System.out.println(JSON.toJSONString(subarraySum(new int[]{1}, 0)));
+        System.out.println(JSON.toJSONString(subarraySum(new int[]{-1, -1, -1}, 0)));
+        return "success";
+    }
+
+    public int subarraySum(int[] nums, int k) {
+        int ans = 0, sum = 0;
+        Map<Integer, Integer> map = new HashMap<>(nums.length);
+        map.put(0, 1);
+        for (int num : nums) {
+            sum += num;
+            ans += map.getOrDefault(sum - k, 0);
+            map.merge(sum, 1, Integer::sum);
+        }
+        return ans;
+    }
+
+    @Override
     public String canPlaceFlowers(){
         System.out.println(JSON.toJSONString(canPlaceFlowers(new int[]{1,0,0,0,0,1}, 2)));
         return "success";
