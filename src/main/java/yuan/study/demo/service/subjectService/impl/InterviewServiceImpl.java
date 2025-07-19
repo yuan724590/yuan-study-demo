@@ -129,6 +129,33 @@ public class InterviewServiceImpl implements InterviewService {
         return cnt <= 1;
     }
 
+    @Override
+    public String compressString(){
+        System.out.println(JSON.toJSONString(compressString("aabcccccaaa")));
+        return "success";
+    }
+
+    public String compressString(String s) {
+        int n = s.length(), num = 1;
+        if(n == 0){
+            return s;
+        }
+        StringBuilder sb = new StringBuilder();
+        sb.append(s.charAt(0));
+        for (int i = 1; i < n; i++) {
+            char c = s.charAt(i);
+            if(c == s.charAt(i - 1)){
+                num++;
+            }else{
+                sb.append(num);
+                sb.append(c);
+                num = 1;
+            }
+        }
+        sb.append(num);
+        return sb.length() >= n ? s : sb.toString();
+    }
+
 
 
 

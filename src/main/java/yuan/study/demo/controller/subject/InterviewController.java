@@ -53,4 +53,12 @@ public class InterviewController {
     public String oneEditAway() {
         return interviewService.oneEditAway();
     }
+
+    /**
+     * 面试题 01.06. 字符串压缩
+     */
+    @GetMapping(value = "/compressString")
+    public String compressString() {
+        return interviewService.compressString();
+    }
 }
