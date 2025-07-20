@@ -61,4 +61,22 @@ public class InterviewController {
     public String compressString() {
         return interviewService.compressString();
     }
+
+    /**
+     * 面试题 01.07. 旋转矩阵
+     * 同yuan.study.demo.service.subjectService.impl.SubjectServiceImpl#rotate() 故跳过
+     */
+
+    /**
+     * 面试题 01.08. 零矩阵
+     * 同yuan.study.demo.service.subjectService.impl.SubjectServiceImpl#setZeroes() 故跳过
+     */
+
+    /**
+     * 面试题 01.09. 字符串轮转
+     */
+    @GetMapping(value = "/isFlipedString")
+    public String isFlipedString() {
+        return interviewService.isFlipedString();
+    }
 }
