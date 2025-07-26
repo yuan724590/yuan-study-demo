@@ -2287,6 +2287,14 @@ public class SubjectController {
     }
 
     /**
+     * 709. 转换成小写字母
+     */
+    @GetMapping(value = "/toLowerCase")
+    public String toLowerCase() {
+        return subjectService.toLowerCase();
+    }
+
+    /**
      * 714. 买卖股票的最佳时机含手续费
      */
     @GetMapping(value = "/max/profit6")

@@ -6526,6 +6526,27 @@ public interface SubjectService {
     String kthLargest();
 
     /**
+     * 给你一个字符串 s ，将该字符串中的大写字母转换成相同的小写字母，返回新的字符串。
+     *
+     * 示例 1：
+     * 输入：s = "Hello"
+     * 输出："hello"
+     *
+     * 示例 2：
+     * 输入：s = "here"
+     * 输出："here"
+     *
+     *  示例 3：
+     * 输入：s = "LOVELY"
+     * 输出："lovely"
+     *
+     * 提示：
+     * 1 <= s.length <= 100
+     * s 由 ASCII 字符集中的可打印字符组成
+     */
+    String toLowerCase();
+
+    /**
      * 给定一个整数数组 prices，其中 prices[i]表示第 i 天的股票价格 ；整数 fee 代表了交易股票的手续费用。
      *
      * 你可以无限次地完成交易，但是你每笔交易都需要付手续费。如果你已经购买了一个股票，在卖出它之前你就不能再继续购买股票了。

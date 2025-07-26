@@ -8486,6 +8486,16 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String toLowerCase(){
+        System.out.println(JSON.toJSONString(toLowerCase("Hello")));
+        return "success";
+    }
+
+    public String toLowerCase(String s) {
+        return s.toLowerCase();
+    }
+
+    @Override
     public String kthLargest(){
         KthLargest kthLargest = new KthLargest(3, new int[]{4, 5, 8, 2});
         System.out.println("add: " + kthLargest.add(3));
