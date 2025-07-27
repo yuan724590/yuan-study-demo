@@ -79,4 +79,12 @@ public class InterviewController {
     public String isFlipedString() {
         return interviewService.isFlipedString();
     }
+
+    /**
+     * 面试题 02.01. 移除重复节点
+     */
+    @GetMapping(value = "/removeDuplicateNodes")
+    public String removeDuplicateNodes() {
+        return interviewService.removeDuplicateNodes();
+    }
 }

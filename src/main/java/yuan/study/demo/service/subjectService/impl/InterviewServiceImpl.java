@@ -3,7 +3,11 @@ package yuan.study.demo.service.subjectService.impl;
 import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import yuan.study.demo.entity.ListNode;
 import yuan.study.demo.service.subjectService.InterviewService;
+
+import java.util.HashSet;
+import java.util.Set;
 
 
 @Slf4j
@@ -170,6 +174,34 @@ public class InterviewServiceImpl implements InterviewService {
         return s.contains(s1);
     }
 
+    @Override
+    public String removeDuplicateNodes(){
+        ListNode listNode = new ListNode(1);
+        listNode.next = new ListNode(2);
+        listNode.next.next = new ListNode(3);
+        listNode.next.next.next = new ListNode(3);
+        listNode.next.next.next.next = new ListNode(2);
+        listNode.next.next.next.next.next = new ListNode(1);
+        System.out.println(JSON.toJSONString(removeDuplicateNodes(listNode)));
+        return "success";
+    }
+
+    public ListNode removeDuplicateNodes(ListNode head) {
+        if (head == null) {
+            return head;
+        }
+        Set<Integer> occurred = new HashSet<>();
+        occurred.add(head.val);
+        ListNode copy = head;
+        while (copy.next != null) {
+            if (occurred.add(copy.next.val)) {
+                copy = copy.next;
+            } else {
+                copy.next = copy.next.next;
+            }
+        }
+        return head;
+    }
 
 
 
