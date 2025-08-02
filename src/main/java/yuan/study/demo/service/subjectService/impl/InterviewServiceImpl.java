@@ -203,7 +203,31 @@ public class InterviewServiceImpl implements InterviewService {
         return head;
     }
 
+    @Override
+    public String kthToLast(){
+        ListNode listNode = new ListNode(1);
+        listNode.next = new ListNode(2);
+        listNode.next.next = new ListNode(3);
+        listNode.next.next.next = new ListNode(4);
+        listNode.next.next.next.next = new ListNode(5);
+        System.out.println(JSON.toJSONString(kthToLast(listNode, 2)));
+        return "success";
+    }
 
+    public int kthToLast(ListNode head, int k) {
+        ListNode listNode = head;
+        for (int i = 1; i < k; i++) {
+            if(listNode == null){
+                return -1;
+            }
+            listNode = listNode.next;
+        }
+        while(listNode.next != null){
+            listNode = listNode.next;
+            head = head.next;
+        }
+        return head.val;
+    }
 
 
 

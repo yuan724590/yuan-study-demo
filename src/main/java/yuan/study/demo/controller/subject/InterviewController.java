@@ -87,4 +87,12 @@ public class InterviewController {
     public String removeDuplicateNodes() {
         return interviewService.removeDuplicateNodes();
     }
+
+    /**
+     * 面试题 02.02. 返回倒数第 k 个节点
+     */
+    @GetMapping(value = "/kthToLast")
+    public String kthToLast() {
+        return interviewService.kthToLast();
+    }
 }
