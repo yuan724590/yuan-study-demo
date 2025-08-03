@@ -95,4 +95,12 @@ public class InterviewController {
     public String kthToLast() {
         return interviewService.kthToLast();
     }
+
+    /**
+     * 面试题 02.03. 删除中间节点
+     */
+    @GetMapping(value = "/deleteNode0203")
+    public String deleteNode() {
+        return interviewService.deleteNode();
+    }
 }

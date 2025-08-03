@@ -229,6 +229,22 @@ public class InterviewServiceImpl implements InterviewService {
         return head.val;
     }
 
+    @Override
+    public String deleteNode(){
+        ListNode listNode = new ListNode(4);
+        listNode.next = new ListNode(5);
+        listNode.next.next = new ListNode(1);
+        listNode.next.next.next = new ListNode(9);
+        deleteNode(listNode);
+        System.out.println(JSON.toJSONString(listNode));
+        return "success";
+    }
+
+    public void deleteNode(ListNode node) {
+        node.val=node.next.val;
+        node.next=node.next.next;
+    }
+
 
 
 
