@@ -245,6 +245,49 @@ public class InterviewServiceImpl implements InterviewService {
         node.next=node.next.next;
     }
 
+    @Override
+    public String addTwoNumbers(){
+        ListNode listNode = new ListNode(7);
+        listNode.next = new ListNode(1);
+        listNode.next.next = new ListNode(6);
+        ListNode listNode1 = new ListNode(5);
+        listNode1.next = new ListNode(9);
+        listNode1.next.next = new ListNode(2);
+        System.out.println(JSON.toJSONString(addTwoNumbers(listNode, listNode1)));
+        return "success";
+    }
+
+    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+        ListNode listNode = new ListNode();
+        ListNode copy = listNode;
+        int a = 0;
+        while(l1 != null && l2 != null){
+            int v = l1.val + l2.val + a;
+            listNode.next = new ListNode(v % 10);
+            a = v / 10;
+            l1 = l1.next;
+            l2 = l2.next;
+            listNode = listNode.next;
+        }
+        while(l1 != null){
+            int v = l1.val + a;
+            listNode.next = new ListNode(v % 10);
+            a = v / 10;
+            l1 = l1.next;
+            listNode = listNode.next;
+        }
+        while(l2 != null){
+            int v = l2.val + a;
+            listNode.next = new ListNode(v % 10);
+            a = v / 10;
+            l2 = l2.next;
+            listNode = listNode.next;
+        }
+        if(a != 0){
+            listNode.next = new ListNode(a);
+        }
+        return copy.next;
+    }
 
 
 

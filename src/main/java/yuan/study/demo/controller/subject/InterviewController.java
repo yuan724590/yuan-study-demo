@@ -103,4 +103,18 @@ public class InterviewController {
     public String deleteNode() {
         return interviewService.deleteNode();
     }
+
+    /**
+     * 面试题 02.04. 分割链表
+     * 同 yuan.study.demo.controller.subject.SubjectController#partition() 故跳过
+     */
+
+    /**
+     * 面试题 02.05. 链表求和
+     * @return
+     */
+    @GetMapping(value = "/addTwoNumbers5")
+    public String addTwoNumbers() {
+        return interviewService.addTwoNumbers();
+    }
 }
