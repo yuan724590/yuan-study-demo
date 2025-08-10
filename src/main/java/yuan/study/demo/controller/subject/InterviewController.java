@@ -111,10 +111,17 @@ public class InterviewController {
 
     /**
      * 面试题 02.05. 链表求和
-     * @return
      */
     @GetMapping(value = "/addTwoNumbers5")
     public String addTwoNumbers() {
         return interviewService.addTwoNumbers();
+    }
+
+    /**
+     * 面试题 02.06. 回文链表
+     */
+    @GetMapping(value = "/isPalindrome6")
+    public String isPalindrome() {
+        return interviewService.isPalindrome();
     }
 }

@@ -289,6 +289,69 @@ public class InterviewServiceImpl implements InterviewService {
         return copy.next;
     }
 
+    @Override
+    public String isPalindrome(){
+        ListNode listNode = new ListNode(1);
+        listNode.next = new ListNode(2);
+        listNode.next.next = new ListNode(3);
+        listNode.next.next.next = new ListNode(2);
+        listNode.next.next.next.next = new ListNode(1);
+        System.out.println(JSON.toJSONString(isPalindrome(listNode)));
+        return "success";
+    }
+
+    public boolean isPalindrome(ListNode head) {
+        if(head == null) {
+            return true;
+        }
+        //快慢指针寻找中间节点
+        ListNode midNode = findMidNode(head);
+        ListNode secondHalfHead = reverseLinked(midNode.next);
+        ListNode curr1 = head;
+        ListNode curr2 = secondHalfHead;
+
+        boolean palindrome = true;
+        while(palindrome && curr2 != null){
+            if(curr1.val != curr2.val) palindrome = false;
+            curr1 = curr1.next;
+            curr2 = curr2.next;
+        }
+
+        return palindrome;
+    }
+
+    /**
+     * 反转链表
+     * @param head
+     * @return
+     */
+    private ListNode reverseLinked(ListNode head){
+        ListNode cur = head;
+        ListNode prev = null;
+        while(cur != null){
+            ListNode nextTemp = cur.next;
+            cur.next = prev;
+            prev = cur;
+            cur = nextTemp;
+        }
+        return prev;
+    }
+
+    /**
+     * 快慢指针寻找中间节点
+     * @param head
+     * @return
+     */
+    private ListNode findMidNode(ListNode head){
+        ListNode fast = head;
+        ListNode low = head;
+        while(fast.next != null && fast.next.next != null){
+            fast = fast.next.next;
+            low = low.next;
+        }
+        return low;
+    }
+
 
 
 
