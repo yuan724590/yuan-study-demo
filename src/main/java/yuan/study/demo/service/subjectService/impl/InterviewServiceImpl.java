@@ -352,6 +352,64 @@ public class InterviewServiceImpl implements InterviewService {
         return low;
     }
 
+    @Override
+    public String tripleInOne(){
+        TripleInOne tripleInOne = new TripleInOne(1);
+        tripleInOne.push(0, 1);
+        tripleInOne.push(0, 2);
+        tripleInOne.push(0, 3);
+        System.out.println(tripleInOne.pop(0));
+        System.out.println(tripleInOne.peek(0));
+        System.out.println(tripleInOne.isEmpty(0));
+        return "success";
+    }
+
+    class TripleInOne {
+        int n = 3;
+        int[] data;
+        int[] locations;
+        int size;
+        public TripleInOne(int stackSize) {
+            size = stackSize;
+            data = new int[size * n];
+            locations = new int[n];
+            for (int i = 0; i < n; i++) {
+                locations[i] = i * size;
+            }
+        }
+
+        public void push(int stackNum, int value) {
+            int idx = locations[stackNum];
+            if (idx < (stackNum + 1) * size) {
+                data[idx] = value;
+                locations[stackNum]++;
+            }
+        }
+
+        public int pop(int stackNum) {
+            int idx = locations[stackNum];
+            if (idx > stackNum * size) {
+                locations[stackNum]--;
+                return data[idx - 1];
+            } else {
+                return -1;
+            }
+        }
+
+        public int peek(int stackNum) {
+            int idx = locations[stackNum];
+            if (idx > stackNum * size) {
+                return data[idx - 1];
+            } else {
+                return -1;
+            }
+        }
+
+        public boolean isEmpty(int stackNum) {
+            return locations[stackNum] == stackNum * size;
+        }
+    }
+
 
 
 

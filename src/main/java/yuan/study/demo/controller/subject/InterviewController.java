@@ -124,4 +124,22 @@ public class InterviewController {
     public String isPalindrome() {
         return interviewService.isPalindrome();
     }
+
+    /**
+     * 面试题 02.07. 链表相交
+     * 同yuan.study.demo.controller.subject.OfferSubjectController#getIntersectionNode() 故跳过
+     */
+
+    /**
+     * 面试题 02.08. 环路检测
+     * 同yuan.study.demo.controller.subject.SubjectController#detectCycle() 故跳过
+     */
+
+    /**
+     * 面试题 03.01. 三合一
+     */
+    @GetMapping(value = "/tripleInOne")
+    public String tripleInOne() {
+        return interviewService.tripleInOne();
+    }
 }
