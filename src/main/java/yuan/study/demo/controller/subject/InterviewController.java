@@ -127,12 +127,12 @@ public class InterviewController {
 
     /**
      * 面试题 02.07. 链表相交
-     * 同yuan.study.demo.controller.subject.OfferSubjectController#getIntersectionNode() 故跳过
+     * 同yuan.study.demo.controller.subject.OfferSubjectController#getIntersectionNode()重复 故跳过
      */
 
     /**
      * 面试题 02.08. 环路检测
-     * 同yuan.study.demo.controller.subject.SubjectController#detectCycle() 故跳过
+     * 同yuan.study.demo.controller.subject.SubjectController#detectCycle()重复 故跳过
      */
 
     /**
@@ -141,5 +141,18 @@ public class InterviewController {
     @GetMapping(value = "/tripleInOne")
     public String tripleInOne() {
         return interviewService.tripleInOne();
+    }
+
+    /**
+     * 面试题 03.02. 栈的最小值
+     * 和yuan.study.demo.controller.subject.OfferSubjectController#minStack()重复 故跳过
+     */
+
+    /**
+     * 面试题 03.03. 堆盘子
+     */
+    @GetMapping(value = "/stackOfPlates")
+    public String stackOfPlates() {
+        return interviewService.stackOfPlates();
     }
 }
