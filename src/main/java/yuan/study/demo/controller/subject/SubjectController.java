@@ -1782,6 +1782,14 @@ public class SubjectController {
     }
 
     /**
+     * 304. 二维区域和检索 - 矩阵不可变
+     */
+    @GetMapping(value = "/numMatrix")
+    public void numMatrix(){
+        subjectService.numMatrix();
+    }
+
+    /**
      * 309. 最佳买卖股票时机含冷冻期
      */
     @GetMapping(value = "/max/profit5")
