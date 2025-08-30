@@ -1830,6 +1830,14 @@ public class SubjectController {
     }
 
     /**
+     * 318. 最大单词长度乘积
+     */
+    @GetMapping(value = "/maxProduct318")
+    public void maxProduct318(){
+        subjectService.maxProduct318();
+    }
+
+    /**
      * 321. 拼接最大数
      */
     @GetMapping(value = "/maxNumber")

@@ -6786,6 +6786,34 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String maxProduct318(){
+        System.out.println(JSON.toJSONString(maxProduct(new String[]{"abcw","baz","foo","bar","xtfn","abcdef"})));
+        return "success";
+    }
+
+    public int maxProduct(String[] words) {
+        int n = words.length, idx = 0;
+        int[] arr = new int[n];
+        for (String w : words) {
+            int t = 0;
+            for (int i = 0; i < w.length(); i++) {
+                int u = w.charAt(i) - 'a';
+                t |= (1 << u);
+            }
+            arr[idx++] = t;
+        }
+        int ans = 0;
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < i; j++) {
+                if ((arr[i] & arr[j]) == 0) {
+                    ans = Math.max(ans, words[i].length() * words[j].length());
+                }
+            }
+        }
+        return ans;
+    }
+
+    @Override
     public String maxNumber(){
         System.out.println(JSON.toJSONString(maxNumber(new int[]{3,4,6,5}, new int[]{9,1,2,5,8,3}, 5)));
         return "success";

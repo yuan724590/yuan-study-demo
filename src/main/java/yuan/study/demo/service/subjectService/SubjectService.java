@@ -5288,6 +5288,31 @@ public interface SubjectService {
     String removeDuplicateLetters();
 
     /**
+     * 给你一个字符串数组 words ，找出并返回 length(words[i]) * length(words[j]) 的最大值，并且这两个单词不含有公共字母。如果不存在这样的两个单词，返回 0 。
+     *
+     * 示例 1：
+     * 输入：words = ["abcw","baz","foo","bar","xtfn","abcdef"]
+     * 输出：16
+     * 解释：这两个单词为 "abcw", "xtfn"。
+     *
+     * 示例 2：
+     * 输入：words = ["a","ab","abc","d","cd","bcd","abcd"]
+     * 输出：4
+     * 解释：这两个单词为 "ab", "cd"。
+     *
+     * 示例 3：
+     * 输入：words = ["a","aa","aaa","aaaa"]
+     * 输出：0
+     * 解释：不存在这样的两个单词。
+     *
+     * 提示：
+     * 2 <= words.length <= 1000
+     * 1 <= words[i].length <= 1000
+     * words[i] 仅包含小写字母
+     */
+    String maxProduct318();
+
+    /**
      * 给你两个整数数组 nums1 和 nums2，它们的长度分别为 m 和 n。数组 nums1 和 nums2 分别代表两个数各位上的数字。同时你也会得到一个整数 k。
      *
      * 请你利用这两个数组中的数字中创建一个长度为 k <= m + n 的最大数，在这个必须保留来自同一数组的数字的相对顺序。
