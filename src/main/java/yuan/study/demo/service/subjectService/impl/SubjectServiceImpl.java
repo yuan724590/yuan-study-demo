@@ -8131,6 +8131,31 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String findMaxLength(){
+        System.out.println(JSON.toJSONString(findMaxLength(new int[]{0,1,1,1,1,1,0,0,0})));
+        System.out.println(JSON.toJSONString(findMaxLength(new int[]{0,1,1,0,0,0,1})));
+        return "success";
+    }
+
+    public int findMaxLength(int[] nums) {
+        int cur = 0, ans = 0, n = nums.length;
+        // 避免扩容
+        Map<Integer, Integer> map = new HashMap<>(n, 1.05f);
+        map.put(0, -1);
+        for (int i = 0; i < n; i++) {
+            // 遇到 0 减一；遇到 1 加一
+            cur = nums[i] == 0 ? cur - 1 : cur + 1;
+            if (map.containsKey(cur)) {
+                // 当 map 中存在一样的 key 时 数组中满足条件的位置应该是[map.get(cur) + 1, i]
+                ans = Math.max(ans, i - map.get(cur));
+            } else {
+                map.put(cur, i);
+            }
+        }
+        return ans;
+    }
+
+    @Override
     public String updateBoard(){
         char[][] arr = new char[][]{{'E','E','E','E','E','E','E','E'},
                         {'E','E','E','E','E','E','E','M'},

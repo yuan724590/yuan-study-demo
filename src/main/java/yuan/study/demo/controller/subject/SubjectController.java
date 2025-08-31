@@ -2150,6 +2150,14 @@ public class SubjectController {
     }
 
     /**
+     * 525. 连续数组
+     */
+    @GetMapping(value = "/findMaxLength")
+    public String findMaxLength() {
+        return subjectService.findMaxLength();
+    }
+
+    /**
      * 529. 扫雷游戏
      */
     @GetMapping(value = "/updateBoard")
