@@ -470,6 +470,79 @@ public class InterviewServiceImpl implements InterviewService {
         }
     }
 
+    @Override
+    public String sortedStack(){
+        SortedStack sortedStack = new SortedStack();
+        sortedStack.push(42);
+        sortedStack.push(8);
+        sortedStack.push(29);
+        sortedStack.push(25);
+        sortedStack.pop();
+        sortedStack.pop();
+        sortedStack.push(52);
+        sortedStack.push(63);
+        sortedStack.pop();
+        sortedStack.push(47);
+        sortedStack.pop();
+        sortedStack.push(45);
+        sortedStack.push(52);
+        sortedStack.pop();
+        sortedStack.pop();
+        sortedStack.push(17);
+        sortedStack.pop();
+        sortedStack.push(6);
+        sortedStack.push(30);
+        sortedStack.push(51);
+        sortedStack.push(46);
+        sortedStack.push(2);
+        sortedStack.push(56);
+        sortedStack.push(39);
+        sortedStack.push(38);
+        return "success";
+    }
+
+    class SortedStack {
+
+        Stack<Integer> stack;
+        Stack<Integer> stack2;
+
+        public SortedStack() {
+            stack = new Stack<>();
+            stack2 = new Stack<>();
+        }
+
+        public void push(int val) {
+            if(stack.isEmpty() || stack.peek() > val){
+                stack.push(val);
+                return;
+            }
+            while(!stack.isEmpty() && stack.peek() < val){
+                stack2.push(stack.pop());
+            }
+            stack.push(val);
+            while(!stack2.isEmpty()){
+                stack.push(stack2.pop());
+            }
+        }
+
+        public void pop() {
+            if(!stack.isEmpty()) {
+                stack.pop();
+            }
+        }
+
+        public int peek() {
+            if(stack.isEmpty()) {
+                return -1;
+            }
+            return stack.peek();
+        }
+
+        public boolean isEmpty() {
+            return stack.isEmpty();
+        }
+    }
+
 
 
 

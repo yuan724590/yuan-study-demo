@@ -155,4 +155,17 @@ public class InterviewController {
     public String stackOfPlates() {
         return interviewService.stackOfPlates();
     }
+
+    /**
+     * 面试题 03.04. 化栈为队
+     * 同yuan.study.demo.controller.subject.SubjectController#myQueue(), 故跳过
+     */
+
+    /**
+     * 面试题 03.05. 栈排序
+     */
+    @GetMapping(value = "/sortedStack")
+    public String sortedStack() {
+        return interviewService.sortedStack();
+    }
 }
