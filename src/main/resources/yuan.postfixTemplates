@@ -68,6 +68,9 @@
                                     $END$\
                                 }
 
+.filter : filter list
+	java.util.List           →  $expr$.stream().filter($type:regularExpression(concat(guessElementType(expr), ""), ".*/.", "")$$method$).collect(Collectors.toList())
+	java.util.Set            →  $expr$.stream().filter($fVar:asuggestShortVariableName()$ -> $f$).collect(Collectors.toSet())
 
 # map
 

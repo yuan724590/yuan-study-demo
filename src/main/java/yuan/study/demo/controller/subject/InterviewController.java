@@ -168,4 +168,12 @@ public class InterviewController {
     public String sortedStack() {
         return interviewService.sortedStack();
     }
+
+    /**
+     * 面试题 03.06. 动物收容所
+     */
+    @GetMapping(value = "/animalShelf")
+    public String animalShelf() {
+        return interviewService.animalShelf();
+    }
 }
