@@ -176,4 +176,12 @@ public class InterviewController {
     public String animalShelf() {
         return interviewService.animalShelf();
     }
+
+    /**
+     * 面试题 04.01. 节点间通路
+     */
+    @GetMapping(value = "/findWhetherExistsPath")
+    public String findWhetherExistsPath() {
+        return interviewService.findWhetherExistsPath();
+    }
 }

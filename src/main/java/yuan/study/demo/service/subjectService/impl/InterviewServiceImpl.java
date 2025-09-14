@@ -3,7 +3,6 @@ package yuan.study.demo.service.subjectService.impl;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import lombok.extern.slf4j.Slf4j;
-import org.checkerframework.checker.units.qual.A;
 import org.springframework.stereotype.Service;
 import yuan.study.demo.entity.ListNode;
 import yuan.study.demo.service.subjectService.InterviewService;
@@ -616,6 +615,36 @@ public class InterviewServiceImpl implements InterviewService {
         }
     }
 
+    @Override
+    public String findWhetherExistsPath(){
+        System.out.println(JSON.toJSONString(findWhetherExistsPath(4, new int[][]{{0, 1}, {0, 2}, {1, 2}, {2, 0}, {3, 2}}, 0, 3)));
+        return "success";
+    }
+
+    private boolean[] findWhetherExistsPathVisited = null;
+    public boolean findWhetherExistsPath(int n, int[][] graph, int start, int target) {
+        findWhetherExistsPathVisited = new boolean[graph.length];
+        return findWhetherExistsPath(graph, start, target);
+    }
+
+    private boolean findWhetherExistsPath(int[][] graph, int start, int target) {
+        for (int i = 0; i < graph.length; ++i) {
+            if (findWhetherExistsPathVisited[i]) {
+                continue;
+            }
+            //如果当前节点的起点等于start，终点等于target，直接返回true
+            if (graph[i][0] == start && graph[i][1] == target) {
+                return true;
+            }
+            findWhetherExistsPathVisited[i] = true;
+            //如果当前指向终点 && 有路径可以指向当前来源
+            if (graph[i][1] == target && findWhetherExistsPath(graph, start, graph[i][0])) {
+                return true;
+            }
+            findWhetherExistsPathVisited[i] = false;
+        }
+        return false;
+    }
 
 
 
