@@ -184,4 +184,17 @@ public class InterviewController {
     public String findWhetherExistsPath() {
         return interviewService.findWhetherExistsPath();
     }
+
+    /**
+     * 面试题 04.02. 最小高度树
+     * 同yuan.study.demo.controller.subject.SubjectController#sortedArrayToBST(), 故跳过
+     */
+
+    /**
+     * 面试题 04.03. 特定深度节点链表
+     */
+    @GetMapping(value = "/listOfDepth")
+    public String listOfDepth() {
+        return interviewService.listOfDepth();
+    }
 }

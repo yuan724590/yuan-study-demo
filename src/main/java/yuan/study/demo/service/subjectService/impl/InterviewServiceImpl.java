@@ -2,7 +2,11 @@ package yuan.study.demo.service.subjectService.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.poi.ss.formula.functions.T;
 import org.springframework.stereotype.Service;
 import yuan.study.demo.entity.ListNode;
 import yuan.study.demo.service.subjectService.InterviewService;
@@ -646,45 +650,70 @@ public class InterviewServiceImpl implements InterviewService {
         return false;
     }
 
+    @Override
+    public String listOfDepth(){
+        TreeNode treeNode = new TreeNode(1);
+        treeNode.left = new TreeNode(2, new TreeNode(4, new TreeNode(8), null), new TreeNode(5));
+        treeNode.right = new TreeNode(3, null, new TreeNode(7));
+        System.out.println(JSON.toJSONString(listOfDepth(treeNode)));
+        return "success";
+    }
+
+    public ListNode[] listOfDepth(TreeNode tree) {
+        Map<Integer, ListNode> map = new HashMap<>();
+        listOfDepth(tree, map, 0);
+        return map.values().toArray(new ListNode[0]);
+    }
+
+    private void listOfDepth(TreeNode tree, Map<Integer, ListNode> map, int deep){
+        if(tree == null){
+            return;
+        }
+        listOfDepth(tree.left, map, deep + 1);
+
+        if(map.containsKey(deep)){
+            ListNode listNode = map.get(deep);
+            while(listNode.next != null){
+                listNode = listNode.next;
+            }
+            listNode.next = new ListNode(tree.val);
+        }else{
+            map.put(deep, new ListNode(tree.val));
+        }
+
+        listOfDepth(tree.right, map, deep + 1);
+    }
 
 
 
 
 
 
+    @AllArgsConstructor
+    @Data
+    class TreeNode {
+        int val;
 
+        TreeNode left;
 
+        TreeNode right;
 
+        TreeNode(int x) {
+            val = x;
+        }
+    }
 
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @Data
+    public class ListNode {
 
+        int val;
 
+        ListNode next;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        ListNode(int val) {
+            this.val = val;
+        }
+    }
 }
