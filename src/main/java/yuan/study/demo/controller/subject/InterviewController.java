@@ -197,4 +197,30 @@ public class InterviewController {
     public String listOfDepth() {
         return interviewService.listOfDepth();
     }
+
+    /**
+     * 面试题 04.04. 检查平衡性
+     * 同yuan.study.demo.service.subjectService.impl.OfferSubjectServiceImpl#isBalanced(), 故跳过
+     */
+
+    /**
+     * 面试题 04.05. 合法二叉搜索树
+     * 同yuan.study.demo.controller.subject.SubjectController#isValidBST(), 故跳过
+     */
+
+    /**
+     * 面试题 04.06. 后继者
+     */
+    @GetMapping(value = "/inorderSuccessor")
+    public String inorderSuccessor() {
+        return interviewService.inorderSuccessor();
+    }
+
+    /**
+     * 面试题 04.08. 首个共同祖先
+     */
+    @GetMapping(value = "/lowestCommonAncestor")
+    public String lowestCommonAncestor() {
+        return interviewService.lowestCommonAncestor();
+    }
 }

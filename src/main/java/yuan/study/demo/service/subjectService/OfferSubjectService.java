@@ -1157,7 +1157,7 @@ public interface OfferSubjectService {
      *    3   3
      *   / \
      *  4   4
-     * 返回 false 。
+     * 返回false 。
      *
      * 限制：
      * 0 <= 树的结点个数 <= 10000

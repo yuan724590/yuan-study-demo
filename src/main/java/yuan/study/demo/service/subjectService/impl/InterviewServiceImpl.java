@@ -684,6 +684,42 @@ public class InterviewServiceImpl implements InterviewService {
         listOfDepth(tree.right, map, deep + 1);
     }
 
+    @Override
+    public String inorderSuccessor(){
+//        TreeNode root = new TreeNode(5, null, new TreeNode(6));
+//        root.left = new TreeNode(3, new TreeNode(2, new TreeNode(1), null), new TreeNode(4));
+        TreeNode root = new TreeNode(2, new TreeNode(1), new TreeNode(3));
+        System.out.println(JSON.toJSONString(inorderSuccessor(root, new TreeNode(1))));
+        return "success";
+    }
+
+    public TreeNode inorderSuccessor(TreeNode root, TreeNode p) {
+        if (root == null) return null;
+        if (root.val <= p.val) return inorderSuccessor(root.right, p);
+        TreeNode ans = inorderSuccessor(root.left, p);
+        return ans == null ? root : ans;
+    }
+
+    @Override
+    public String lowestCommonAncestor(){
+        TreeNode treeNode = new TreeNode(3);
+        treeNode.left = new TreeNode(5, new TreeNode(6), new TreeNode(2, new TreeNode(7), new TreeNode(4)));
+        treeNode.right = new TreeNode(1, new TreeNode(0), new TreeNode(8));
+        System.out.println(JSON.toJSONString(lowestCommonAncestor(treeNode, new TreeNode(5), new TreeNode(1))));
+        return "success";
+    }
+
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        if (root == null || root == p || root == q)
+            return root;
+        TreeNode left = lowestCommonAncestor(root.left, p, q);
+        TreeNode right = lowestCommonAncestor(root.right, p, q);
+        if (left != null && right != null)
+            return root;
+        return left != null ? left : right;
+    }
+
+
 
 
 
