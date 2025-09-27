@@ -223,4 +223,12 @@ public class InterviewController {
     public String lowestCommonAncestor() {
         return interviewService.lowestCommonAncestor();
     }
+
+    /**
+     * 面试题 04.09. 二叉搜索树序列
+     */
+    @GetMapping(value = "/BSTSequences")
+    public String BSTSequences() {
+        return interviewService.BSTSequences();
+    }
 }

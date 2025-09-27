@@ -6,9 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.poi.ss.formula.functions.T;
 import org.springframework.stereotype.Service;
-import yuan.study.demo.entity.ListNode;
 import yuan.study.demo.service.subjectService.InterviewService;
 
 import java.util.*;
@@ -717,6 +715,64 @@ public class InterviewServiceImpl implements InterviewService {
         if (left != null && right != null)
             return root;
         return left != null ? left : right;
+    }
+
+    @Override
+    public String BSTSequences(){
+        TreeNode treeNode = new TreeNode(4);
+        treeNode.left = new TreeNode(1);
+        treeNode.left.right = new TreeNode(3);
+        treeNode.left.right.left = new TreeNode(2);
+        System.out.println(JSON.toJSONString(BSTSequences(treeNode)));
+        return "success";
+    }
+
+    private List<List<Integer>> BSTSequencesAns;
+
+    public List<List<Integer>> BSTSequences(TreeNode root) {
+        BSTSequencesAns = new ArrayList<>();
+        List<Integer> pathList = new ArrayList<>();
+        // 如果 root==null 返回 [[]]
+        if (root == null) {
+            BSTSequencesAns.add(pathList);
+            return BSTSequencesAns;
+        }
+        List<TreeNode> queue = new LinkedList<>();
+        queue.add(root);
+        // 开始进行回溯
+        BSTSequencesBfs(queue, pathList);
+        return BSTSequencesAns;
+    }
+
+    /**
+     * 回溯法+广度优先遍历
+     */
+    private void BSTSequencesBfs(List<TreeNode> queue, List<Integer> pathList) {
+        // queue 为空说明遍历完了，可以返回了
+        if (queue.isEmpty()) {
+            BSTSequencesAns.add(new ArrayList<>(pathList));
+            return;
+        }
+        // 将 queue 拷贝一份，用于稍后回溯
+        List<TreeNode> copy = new ArrayList<>(queue);
+        // 对 queue 进行循环，每循环考虑 “是否 「将当前 cur 节点从 queue 中取出并将其左右子
+        // 节点加入 queue ，然后将 cur.val 加入到 path 末尾」 ” 的情况进行回溯
+        for (int i = 0; i < queue.size(); i++) {
+            TreeNode cur = queue.get(i);
+            pathList.add(cur.val);
+            queue.remove(i);
+            // 将左右子节点加入队列
+            if (cur.left != null) {
+                queue.add(cur.left);
+            }
+            if (cur.right != null) {
+                queue.add(cur.right);
+            }
+            BSTSequencesBfs(queue, pathList);
+            // 恢复 path 和 queue ，进行回溯
+            pathList.remove(pathList.size() - 1);
+            queue = new ArrayList<>(copy);
+        }
     }
 
 
