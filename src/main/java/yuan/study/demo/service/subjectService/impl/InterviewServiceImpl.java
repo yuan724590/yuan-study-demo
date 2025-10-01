@@ -775,6 +775,31 @@ public class InterviewServiceImpl implements InterviewService {
         }
     }
 
+    @Override
+    public String checkSubTree(){
+        TreeNode treeNode1 = new TreeNode(1, new TreeNode(2), new TreeNode(3));
+        TreeNode treeNode2 = new TreeNode(2);
+        checkSubTree(treeNode1, treeNode2);
+        System.out.println(JSON.toJSONString(checkSubTree(treeNode1, treeNode2)));
+        return "success";
+    }
+
+    public boolean checkSubTree(TreeNode t1, TreeNode t2) {
+        return checkSubTreeEqual(t1, t2) || (t1 != null && (checkSubTree(t1.left, t2) || checkSubTree(t1.right, t2)));
+    }
+
+    private boolean checkSubTreeEqual(TreeNode t1, TreeNode t2) {
+        if(t1 == null && t2 == null){
+            return true;
+        }else if(t1 == null || t2 == null){
+            return false;
+        }
+        return t1.val == t2.val && checkSubTreeEqual(t1.left, t2.left) && checkSubTreeEqual(t1.right, t2.right);
+    }
+
+
+
+
 
 
 

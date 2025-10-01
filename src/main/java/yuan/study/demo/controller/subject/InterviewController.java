@@ -231,4 +231,12 @@ public class InterviewController {
     public String BSTSequences() {
         return interviewService.BSTSequences();
     }
+
+    /**
+     * 面试题 04.10. 检查子树
+     */
+    @GetMapping(value = "/checkSubTree")
+    public String checkSubTree() {
+        return interviewService.checkSubTree();
+    }
 }
