@@ -797,6 +797,23 @@ public class InterviewServiceImpl implements InterviewService {
         return t1.val == t2.val && checkSubTreeEqual(t1.left, t2.left) && checkSubTreeEqual(t1.right, t2.right);
     }
 
+    @Override
+    public String insertBits(){
+        System.out.println(JSON.toJSONString(insertBits(1024, 19, 2, 6)));
+        return "success";
+    }
+
+    public int insertBits(int N, int M, int i, int j) {
+        int mask = ((1 << (j - i + 1)) - 1) << i;
+        mask =~ mask;
+        N &= mask;
+        M = M << i;
+        return M | N;
+    }
+
+
+
+
 
 
 

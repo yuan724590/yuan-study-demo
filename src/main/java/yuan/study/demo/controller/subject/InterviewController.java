@@ -239,4 +239,17 @@ public class InterviewController {
     public String checkSubTree() {
         return interviewService.checkSubTree();
     }
+
+    /**
+     * 面试题 04.12. 求和路径
+     * 同yuan.study.demo.service.subjectService.impl.SubjectServiceImpl#pathSum, 故跳过
+     */
+
+    /**
+     * 面试题 05.01. 插入
+     */
+    @GetMapping(value = "/insertBits")
+    public String insertBits() {
+        return interviewService.insertBits();
+    }
 }
