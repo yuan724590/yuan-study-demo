@@ -252,4 +252,14 @@ public class InterviewController {
     public String insertBits() {
         return interviewService.insertBits();
     }
+
+    /**
+     * 面试题 05.02. 二进制数转字符串
+     */
+    @GetMapping(value = "/printBin")
+    public String printBin() {
+        return interviewService.printBin();
+    }
+
+
 }
