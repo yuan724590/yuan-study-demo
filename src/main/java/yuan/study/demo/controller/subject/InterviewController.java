@@ -261,5 +261,11 @@ public class InterviewController {
         return interviewService.printBin();
     }
 
-
+    /**
+     * 面试题 05.03. 翻转数位
+     */
+    @GetMapping(value = "/reverseBits0503")
+    public String reverseBits() {
+        return interviewService.reverseBits();
+    }
 }

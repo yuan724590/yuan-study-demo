@@ -833,8 +833,30 @@ public class InterviewServiceImpl implements InterviewService {
         return "ERROR";
     }
 
+    public String reverseBits(){
+        System.out.println(JSON.toJSONString(reverseBits(-1)));
+        return "success";
+    }
 
-
+    public int reverseBits(int num) {
+        int max = 0;
+        int reverse = 0;
+        int cur = 0;
+        for(int i = 0; i < 32; i++){
+            if((num & 1) == 1){
+                cur++;
+                reverse++;
+            }else{
+                reverse = cur + 1;
+                cur = 0;
+            }
+            if(reverse > max) {
+                max = reverse;
+            }
+            num >>= 1;
+        }
+        return max;
+    }
 
 
 
