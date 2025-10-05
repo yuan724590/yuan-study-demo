@@ -858,6 +858,87 @@ public class InterviewServiceImpl implements InterviewService {
         return max;
     }
 
+    public String findClosedNumbers(){
+        System.out.println(JSON.toJSONString(findClosedNumbers(34)));
+        return "success";
+    }
+
+    public int[] findClosedNumbers(int num) {
+        int[] res =  new int[2];
+        if (num <= 0) {
+            res[0] = -1;
+            res[1] = -1;
+            return res;
+        }
+        res[0] = getNext(num);
+        res[1] = getPrev(num);
+        return res;
+    }
+
+    /**
+     * 取得后一个较大的数
+     * @param num
+     * @return
+     */
+    private int getNext(int num) {
+        // c0 二进制中最后一个1之后0的数量
+        // c1 二进制中最后一个1往左连续1的数量
+        int n = num, c0 = 0, c1 = 0;
+        while ((n & 1) == 0 && n != 0) {
+            c0++;
+            n >>= 1;
+        }
+        while ((n & 1) == 1) {
+            c1++;
+            n >>= 1;
+        }
+
+        // 现在已经是1111..000... 没有更大的数字
+        int p = c0 + c1;
+        if (p == 31) {
+            return -1;
+        }
+
+        // 在连续1之前拼1
+        num |= (1 << p);
+        // 将p右方的所有位清零
+        num &= -(1 << p);
+        // 在右方插入 (c1 - 1) 个1
+        num |= (1 << (c1 - 1)) - 1;
+        return num;
+    }
+
+    /**
+     * 取得前一个较小的数
+     */
+    private int getPrev(int num) {
+        // c1 二进制中最后一个0之后1的数量
+        // c0 二进制中最后一个0往左连续0的数量
+        int n = num, c0 = 0, c1 = 0;
+        while ((n & 1) == 1) {
+            c1++;
+            n >>= 1;
+        }
+
+        if (n == 0) {
+            return -1;
+        }
+
+        while ((n & 1) == 0 && n != 0) {
+            c0++;
+            n >>= 1;
+        }
+
+        int p = c0 + c1;
+        // 将位0到位p清零
+        num &= ((~0) << (p + 1));
+        // 在右方插入 (c1 + 1) 个1
+        int mask = (1 << (c1 + 1)) - 1;
+        // 将连续的1放到最左侧
+        num |= mask << (c0 - 1);
+        return num;
+    }
+
 
 
 

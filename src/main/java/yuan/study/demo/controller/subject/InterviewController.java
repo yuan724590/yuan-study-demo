@@ -268,4 +268,12 @@ public class InterviewController {
     public String reverseBits() {
         return interviewService.reverseBits();
     }
+
+    /**
+     * 面试题 05.04. 下一个数
+     */
+    @GetMapping(value = "/findClosedNumbers")
+    public String findClosedNumbers() {
+        return interviewService.findClosedNumbers();
+    }
 }
