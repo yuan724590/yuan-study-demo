@@ -939,6 +939,24 @@ public class InterviewServiceImpl implements InterviewService {
         return num;
     }
 
+    @Override
+    public String convertInteger(){
+        System.out.println(JSON.toJSONString(convertInteger(826966453, -729934991)));
+        return "success";
+    }
+
+    public int convertInteger(int A, int B) {
+        int temp = A ^ B;
+        int count = 0;
+        while (temp != 0) {
+            // 去掉二进制表示的最右边的1
+            temp &= (temp - 1);
+            count++;
+        }
+        return count;
+    }
+
+
 
 
 

@@ -276,4 +276,12 @@ public class InterviewController {
     public String findClosedNumbers() {
         return interviewService.findClosedNumbers();
     }
+
+    /**
+     * 面试题 05.06. 整数转换
+     */
+    @GetMapping(value = "/convertInteger")
+    public String convertInteger() {
+        return interviewService.convertInteger();
+    }
 }
