@@ -285,3 +285,12 @@ public class InterviewController {
         return interviewService.convertInteger();
     }
 }
+
+    /**
+     * 面试题 05.07. 配对交换
+     */
+    @GetMapping(value = "/exchangeBits")
+    public String exchangeBits() {
+        return interviewService.exchangeBits();
+    }
+}

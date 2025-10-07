@@ -956,7 +956,25 @@ public class InterviewServiceImpl implements InterviewService {
         return count;
     }
 
+    @Override
+    public String exchangeBits(){
+        System.out.println(JSON.toJSONString(exchangeBits(3)));
+        return "success";
+    }
 
+    /**
+     * 0x55555555 = 0b0101_0101_0101_0101_0101_0101_0101_0101
+     * 0xaaaaaaaa = 0b1010_1010_1010_1010_1010_1010_1010_1010
+     */
+    public int exchangeBits(int num) {
+        //奇数
+        int odd = num & 0x55555555;
+        //偶数
+        int even = num & 0xaaaaaaaa;
+        odd = odd << 1;
+        even = even >>> 1;
+        return odd | even;
+    }
 
 
 
