@@ -284,7 +284,6 @@ public class InterviewController {
     public String convertInteger() {
         return interviewService.convertInteger();
     }
-}
 
     /**
      * 面试题 05.07. 配对交换
@@ -292,5 +291,13 @@ public class InterviewController {
     @GetMapping(value = "/exchangeBits")
     public String exchangeBits() {
         return interviewService.exchangeBits();
+    }
+
+    /**
+     * 面试题 05.08. 绘制直线
+     */
+    @GetMapping(value = "/drawLine")
+    public String drawLine() {
+        return interviewService.drawLine();
     }
 }

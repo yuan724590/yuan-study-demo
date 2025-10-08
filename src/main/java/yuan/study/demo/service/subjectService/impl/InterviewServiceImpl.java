@@ -976,6 +976,32 @@ public class InterviewServiceImpl implements InterviewService {
         return odd | even;
     }
 
+    @Override
+    public String drawLine(){
+        System.out.println(JSON.toJSONString(drawLine(3, 96, 0, 95, 0)));
+        return "success";
+    }
+
+    public int[] drawLine(int length, int w, int x1, int x2, int y) {
+        int[] ans = new int[length];
+        int low = (y * w + x1) / 32;
+        int high = (y * w + x2) / 32;
+        for (int i = low; i <= high; i++) {
+            ans[i] = -1;
+        }
+        ans[low] = ans[low] >>> x1 % 32;
+        ans[high] = ans[high] & Integer.MIN_VALUE >> x2 % 32;
+        return ans;
+    }
+
+
+
+
+
+
+
+
+
 
 
 
