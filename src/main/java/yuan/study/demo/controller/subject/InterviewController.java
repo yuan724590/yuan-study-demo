@@ -300,4 +300,12 @@ public class InterviewController {
     public String drawLine() {
         return interviewService.drawLine();
     }
+
+    /**
+     * 面试题 08.01. 三步问题
+     */
+    @GetMapping(value = "/waysToStep")
+    public String waysToStep() {
+        return interviewService.waysToStep();
+    }
 }
