@@ -1014,6 +1014,52 @@ public class InterviewServiceImpl implements InterviewService {
         return ((int) (dp[n]));
     }
 
+    @Override
+    public String pathWithObstacles(){
+        System.out.println(JSON.toJSONString(pathWithObstacles(new int[][]{{0,0,0},{0,1,0},{0,0,0}})));
+        return "success";
+    }
+
+    List<List<Integer>> pathWithObstaclesPath = new LinkedList<>();
+    // 行数
+    int pathWithObstaclesR = 0;
+    // 列数
+    int pathWithObstaclesL = 0;
+
+    public List<List<Integer>> pathWithObstacles(int[][] obstacleGrid) {
+        pathWithObstaclesR = obstacleGrid.length;
+        if (pathWithObstaclesR == 0) {
+            return pathWithObstaclesPath;
+        }
+        pathWithObstaclesL = obstacleGrid[0].length;
+        if (obstacleGrid[pathWithObstaclesR - 1][pathWithObstaclesL - 1] == 1) {
+            return pathWithObstaclesPath;
+        }
+        boolean[][] visit = new boolean[pathWithObstaclesR][pathWithObstaclesL];
+        backtrack(obstacleGrid, 0, 0, visit);
+        return pathWithObstaclesPath;
+    }
+
+    public boolean backtrack(int[][] obstacleGrid, int x, int y, boolean[][] visit) {
+        if (x >= pathWithObstaclesR || y >= pathWithObstaclesL || obstacleGrid[x][y] == 1 || visit[x][y]) {
+            return false;
+        }
+        // 如果不是以上情况，说明这个格子值得探索，做出选择
+        pathWithObstaclesPath.add(Arrays.asList(x, y));
+        visit[x][y] = true;
+        // 选择后是否到达终点
+        if (x == pathWithObstaclesR - 1 && y == pathWithObstaclesL - 1) {
+            return true;
+        }
+        // 选择后没到终点，先尝试向下，再尝试向右，神奇的或运算
+        if (backtrack(obstacleGrid, x + 1, y, visit) || backtrack(obstacleGrid, x, y + 1, visit)) {
+            return true;
+        }
+        // 既不能向下也不能向右，是个死胡同，撤销选择
+        pathWithObstaclesPath.remove(pathWithObstaclesPath.size() - 1);
+        return false;
+    }
+
 
 
 

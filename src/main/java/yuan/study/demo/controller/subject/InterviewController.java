@@ -308,4 +308,12 @@ public class InterviewController {
     public String waysToStep() {
         return interviewService.waysToStep();
     }
+
+    /**
+     * 面试题 08.02. 迷路的机器人
+     */
+    @GetMapping(value = "/pathWithObstacles")
+    public String pathWithObstacles() {
+        return interviewService.pathWithObstacles();
+    }
 }
