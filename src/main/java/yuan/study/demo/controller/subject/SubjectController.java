@@ -2189,6 +2189,14 @@ public class SubjectController {
     }
 
     /**
+     * 567. 字符串的排列
+     */
+    @GetMapping(value = "/checkInclusion")
+    public String checkInclusion() {
+        return subjectService.checkInclusion();
+    }
+
+    /**
      * 570. 至少有5名直接下属的经理
      * Employee -> id, name, department, managerId
      * select name from Employee where id in ( select managerId from Employee group by managerId having count(id)>=5 )

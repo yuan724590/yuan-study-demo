@@ -8338,6 +8338,36 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String checkInclusion(){
+        System.out.println(JSON.toJSONString(checkInclusion("ab", "eidbaooo")));
+        return "success";
+    }
+
+    public boolean checkInclusion(String s1, String s2) {
+        int m = s1.length(), n = s2.length();
+        if(m > n){
+            return false;
+        }
+        int[] arr1 = new int[26];
+        int[] arr2 = new int[26];
+        for (int i = 0; i < m; i++) {
+            arr1[s1.charAt(i) - 'a']++;
+            arr2[s2.charAt(i) - 'a']++;
+        }
+        if(Arrays.equals(arr1, arr2)){
+            return true;
+        }
+        for (int i = m; i < n; i++) {
+            arr2[s2.charAt(i) - 'a']++;
+            arr2[s2.charAt(i - m) - 'a']--;
+            if(Arrays.equals(arr1, arr2)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
     public String canPlaceFlowers(){
         System.out.println(JSON.toJSONString(canPlaceFlowers(new int[]{1,0,0,0,0,1}, 2)));
         return "success";

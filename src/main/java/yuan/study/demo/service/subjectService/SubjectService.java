@@ -6427,6 +6427,25 @@ public interface SubjectService {
     String subarraySum();
 
     /**
+     * 给你两个字符串 s1 和 s2 ，写一个函数来判断 s2 是否包含 s1 的 排列。如果是，返回 true ；否则，返回 false 。
+     * 换句话说，s1 的排列之一是 s2 的 子串 。
+     *
+     * 示例 1：
+     * 输入：s1 = "ab" s2 = "eidbaooo"
+     * 输出：true
+     * 解释：s2 包含 s1 的排列之一 ("ba").
+     *
+     * 示例 2：
+     * 输入：s1= "ab" s2 = "eidboaoo"
+     * 输出：false
+     *
+     * 提示：
+     * 1 <= s1.length, s2.length <= 104
+     * s1 和 s2 仅包含小写字母
+     */
+    String checkInclusion();
+
+    /**
      * 假设有一个很长的花坛，一部分地块种植了花，另一部分却没有。可是，花不能种植在相邻的地块上，它们会争夺水源，两者都会死去。
      * 给你一个整数数组 flowerbed 表示花坛，由若干 0 和 1 组成，其中 0 表示没种植花，1 表示种植了花。另有一个数 n ，能否在不打破种植规则的情况下种入 n 朵花？能则返回 true ，不能则返回 false 。
      *
