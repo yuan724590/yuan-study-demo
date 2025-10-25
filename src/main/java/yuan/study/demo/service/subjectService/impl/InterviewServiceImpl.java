@@ -1060,6 +1060,22 @@ public class InterviewServiceImpl implements InterviewService {
         return false;
     }
 
+    @Override
+    public String findMagicIndex(){
+        System.out.println(JSON.toJSONString(findMagicIndex(new int[]{0,0,0})));
+        return "success";
+    }
+
+    public int findMagicIndex(int[] nums) {
+        int n = nums.length;
+        for (int i = 0; i < n; i++) {
+            if(nums[i] == i){
+                return i;
+            }
+        }
+        return -1;
+    }
+
 
 
 

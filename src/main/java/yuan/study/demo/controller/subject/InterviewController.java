@@ -316,4 +316,17 @@ public class InterviewController {
     public String pathWithObstacles() {
         return interviewService.pathWithObstacles();
     }
+
+    /**
+     * 面试题 08.03. 魔术索引
+     */
+    @GetMapping(value = "/findMagicIndex")
+    public String findMagicIndex() {
+        return interviewService.findMagicIndex();
+    }
+
+    /**
+     * 面试题 08.04. 幂集
+     * 同yuan.study.demo.controller.subject.SubjectController#subsets(), 故跳过
+     */
 }
