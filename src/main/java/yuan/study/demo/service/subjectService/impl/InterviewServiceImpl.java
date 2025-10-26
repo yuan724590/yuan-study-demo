@@ -1076,6 +1076,27 @@ public class InterviewServiceImpl implements InterviewService {
         return -1;
     }
 
+    @Override
+    public String multiply(){
+        System.out.println(JSON.toJSONString(multiply(3, 4)));
+        return "success";
+    }
+
+    public int multiply(int A, int B) {
+        if(A > B){
+            int c = B;
+            B = A;
+            A = c;
+        }
+        int ans = 0;
+        for (int i = 0; A != 0; i++) {
+            if ((A & 1) == 1) {
+                ans += B << i;
+            }
+            A >>= 1;
+        }
+        return ans;
+    }
 
 
 

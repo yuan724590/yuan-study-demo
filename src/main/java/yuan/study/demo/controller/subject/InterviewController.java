@@ -329,4 +329,12 @@ public class InterviewController {
      * 面试题 08.04. 幂集
      * 同yuan.study.demo.controller.subject.SubjectController#subsets(), 故跳过
      */
+
+    /**
+     * 面试题 08.05. 递归乘法
+     */
+    @GetMapping(value = "/multiply0805")
+    public String multiply() {
+        return interviewService.multiply();
+    }
 }
