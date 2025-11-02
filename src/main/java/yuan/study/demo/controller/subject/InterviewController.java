@@ -337,4 +337,12 @@ public class InterviewController {
     public String multiply() {
         return interviewService.multiply();
     }
+
+    /**
+     * 面试题 08.06. 汉诺塔问题
+     */
+    @GetMapping(value = "/hanota")
+    public String hanota() {
+        return interviewService.hanota();
+    }
 }

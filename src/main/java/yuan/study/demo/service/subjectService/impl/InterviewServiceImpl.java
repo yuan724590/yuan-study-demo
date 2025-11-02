@@ -1098,6 +1098,40 @@ public class InterviewServiceImpl implements InterviewService {
         return ans;
     }
 
+    @Override
+    public String hanota(){
+        List<Integer> A = new Stack<>();
+        A.add(0);
+        A.add(1);
+        A.add(2);
+        List<Integer> B = new Stack<>();
+        List<Integer> C = new Stack<>();
+        hanota(A, B, C);
+        System.out.println(JSON.toJSONString(C));
+        return "success";
+    }
+
+    public void hanota(List<Integer> A, List<Integer> B, List<Integer> C) {
+        int N = A.size();
+        move(N, A, B, C);
+    }
+
+    /**
+     * 将N个圆盘从A柱经由B柱移动到C柱
+     */
+    void move(int N, List<Integer> A, List<Integer> B, List<Integer> C) {
+        if (N == 1) {
+            // 直接将A柱的圆盘移动到C柱
+            C.add(0, A.remove(0));
+            return;
+        }
+
+        move(N - 1, A, C, B);
+        C.add(0, A.remove(0));
+        move(N - 1, B, A, C);
+    }
+
+
 
 
 
