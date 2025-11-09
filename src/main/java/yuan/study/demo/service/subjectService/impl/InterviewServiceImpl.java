@@ -1131,6 +1131,53 @@ public class InterviewServiceImpl implements InterviewService {
         move(N - 1, B, A, C);
     }
 
+    @Override
+    public String permutation(){
+        System.out.println(JSON.toJSONString(permutation("qqe")));
+        return "success";
+    }
+
+    List<String> permutationList = new ArrayList<>();
+
+    public String[] permutation(String S) {
+        char[] chars = S.toCharArray();
+        int[] used = new int[chars.length];
+        StringBuilder sb = new StringBuilder();
+        dfs(used, chars, sb);
+        return permutationList.toArray(new String[0]);
+    }
+
+    public void dfs(int[] used, char[] chars, StringBuilder sb){
+        if (sb.length() == chars.length){
+            permutationList.add(sb.toString());
+            return;
+        }
+
+        // 每次面临的选择
+        loop:
+        for (int i = 0; i < chars.length; i++) {
+            if (used[i] == 1) {
+                continue;
+            }
+            //used[j] == 0 且 chars[j] == cur 说明在同一层 此时遇到相等的元素需要剪枝，因为该分支和之前的分支重复了
+            //used[j] == 1 且 chars[j] == cur 不是同一层 此时即便遇到相等的元素也是不能剪枝的 比如第二层的a 和 第三层的a
+            char cur = chars[i];
+            for (int j = 0; j < i; j++) {
+                if (used[j] == 0 && chars[j] == cur){
+                    // 如果出现过这个值, 即出现了重复的组合
+                    continue loop;
+                }
+            }
+            sb.append(chars[i]);
+            used[i] = 1;
+            dfs(used, chars, sb);
+            sb.deleteCharAt(sb.length() - 1);
+            used[i] = 0;
+        }
+    }
+
+
+
 
 
 

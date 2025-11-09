@@ -345,4 +345,17 @@ public class InterviewController {
     public String hanota() {
         return interviewService.hanota();
     }
+
+    /**
+     * 面试题 08.07. 无重复字符串的排列组合
+     * 同yuan.study.demo.service.subjectService.impl.OfferSubjectServiceImpl#permutation(),故跳过
+     */
+
+    /**
+     * 面试题 08.08. 有重复字符串的排列组合
+     */
+    @GetMapping(value = "/permutation0808")
+    public String permutation() {
+        return interviewService.permutation();
+    }
 }

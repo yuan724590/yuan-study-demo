@@ -1616,7 +1616,9 @@ public class OfferSubjectServiceImpl implements OfferSubjectService {
         }
 
         for(int i = 0; i < len; i++){
-            if(i > 0 && !used[i-1] && c[i] == c[i-1]) continue;
+            if(i > 0 && !used[i-1] && c[i] == c[i-1]) {
+                continue;
+            }
 
             if(!used[i]){
                 path.append(c[i]);
