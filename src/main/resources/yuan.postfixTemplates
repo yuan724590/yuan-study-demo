@@ -187,3 +187,8 @@
 	ANY                      →  if($EXPR$ != null){\
 		$END$\
 	}
+
+.if : if obeject
+	ANY                      →  if($EXPR$$END$){\
+		\
+	}
