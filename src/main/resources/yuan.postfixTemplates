@@ -72,6 +72,30 @@
 	java.util.List           →  $expr$.stream().filter($type:regularExpression(concat(guessElementType(expr), ""), ".*/.", "")$$method$).collect(Collectors.toList())
 	java.util.Set            →  $expr$.stream().filter($fVar:asuggestShortVariableName()$ -> $f$).collect(Collectors.toSet())
 
+.sortAsc : asc sort number list
+	java.util.List           →  $expr$.sort(Comparator.naturalOrder());
+
+.sortDesc : desc sort number list
+	java.util.List           →  $expr$.sort(Comparator.reverseOrder());
+
+.sortAscNew : return asc sort number list
+	java.util.List           →  List<$keyType:regularExpression(concat(guessElementType(expr), ""), ".*/.", "")$$key$> $END$List = $expr$.stream().sorted().collect(Collectors.toList());
+
+.sortDescNew : return desc sort number list
+	java.util.List           →  List<$keyType:regularExpression(concat(guessElementType(expr), ""), ".*/.", "")$$key$> $END$List = $expr$.stream().sorted(Comparator.reverseOrder()).collect(Collectors.toList());
+
+.sortAscComparator : asc sort list with Comparator
+	java.util.List           →  $expr$.sort(Comparator.comparing($keyType:regularExpression(concat(guessElementType(expr), ""), ".*/.", "")$$key$));
+
+.sortDescComparator : desc sort list with Comparator
+	java.util.List           →  $expr$.sort(Comparator.comparing($keyType:regularExpression(concat(guessElementType(expr), ""), ".*/.", "")$$key$).reversed());
+
+.sortAscStream : asc sort list with stream
+	java.util.List           →  List<$keyType:regularExpression(concat(guessElementType(expr), ""), ".*/.", "")$$key$> $END$List = $expr$.stream().sorted(Comparator.comparing($keyType$$value$)).collect(Collectors.toList());
+
+.sortDescStream : desc sort list with stream
+	java.util.List           →  List<$keyType:regularExpression(concat(guessElementType(expr), ""), ".*/.", "")$$key$> $END$List = $expr$.stream().sorted(Comparator.comparing($keyType$$value$).reversed()).collect(Collectors.toList());
+
 # map
 
 .map : map entries
@@ -94,6 +118,13 @@
 .toMapNext : the next step of the toMap
 	java.util.Map            →  Map<$key$, $value$> $map$Map = $expr$;
 
+.toMapGroup : Convert to map and remove duplicates
+	ARRAY                    →  Map<$key1$, $types::regularExpression(concat(guessElementType(expr), ""), ".*/.", "")$> $map$Map = Arrays.stream($expr$).collect(Collectors.toMap($keyType:regularExpression(concat(guessElementType(expr), ""), ".*/.", "")$$key$, e -> e, (o1,o2)->o1));
+	java.util.Collection     →  Map<$key1$, $types::regularExpression(concat(guessElementType(expr), ""), ".*/.", "")$> $map$Map = $expr$.stream().collect(Collectors.toMap($keyType:regularExpression(concat(guessElementType(expr), ""), ".*/.", "")$$key$, e -> e, (o1,o2)->o1));
+	java.lang.Iterable       →  Map<$key1$, $types::regularExpression(concat(guessElementType(expr), ""), ".*/.", "")$> $map$Map = StreamSupport.stream($expr$.spliterator(), false).collect(Collectors.toMap($keyType:regularExpression(concat(guessElementType(expr), ""), ".*/.", "")$$key$, e -> e, (o1,o2)->o1));
+	java.util.stream.Stream  →  Map<$key1$, $types::regularExpression(concat(guessElementType(expr), ""), ".*/.", "")$> $map$Map = $expr$.collect(Collectors.toMap($keyExpr$, e -> e, (o1,o2)->o1));
+	java.util.Map            →  Map<$key1$, $types::regularExpression(concat(guessElementType(expr), ""), ".*/.", "")$> $map$Map = $expr$.entrySet().stream().collect(Collectors.toMap($keyType:regularExpression(concat(guessElementType(expr), ""), ".*/.", "")$$key$, e -> e, (o1,o2)->o1));
+
 .entrySet : the entry loop of a map
 	java.util.Map  →  for($entry:regularExpression(concat(typeOfVariable(expr), ""), "Map", "Map.Entry")$ entry : $expr$.entrySet()){\
                             $END$\
@@ -101,6 +132,9 @@
 
 .keySet : the key loop of a map
 	com.alibaba.fastjson.JSONObject →  for(String key : $expr$.keySet()){\
+                                            $END$\
+                                        }
+	java.util.Map            →  for(String key : $expr$.keySet()){\
                                             $END$\
                                         }
 
