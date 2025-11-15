@@ -358,4 +358,17 @@ public class InterviewController {
     public String permutation() {
         return interviewService.permutation();
     }
+
+    /**
+     * 面试题 08.09. 括号
+     * 同yuan.study.demo.controller.subject.SubjectController#generateParenthesis(), 故跳过
+     */
+
+    /**
+     * 面试题 08.10. 颜色填充
+     */
+    @GetMapping(value = "/floodFill")
+    public String floodFill() {
+        return interviewService.floodFill();
+    }
 }

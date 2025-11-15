@@ -1176,6 +1176,33 @@ public class InterviewServiceImpl implements InterviewService {
         }
     }
 
+    @Override
+    public String floodFill(){
+        System.out.println(JSON.toJSONString(floodFill(new int[][]{{1,1,1},{1,1,0},{1,0,1}}, 1, 1, 2)));
+        return "success";
+    }
+
+    public int[][] floodFill(int[][] image, int sr, int sc, int newColor) {
+        if(image[sr][sc] == newColor){
+            return image;
+        }
+        int oldColor = image[sr][sc];
+        floodFill(image, sr, sc, oldColor, newColor);
+        return image;
+    }
+
+    private void floodFill(int[][] image, int i, int j, int oldColor, int newColor){
+        if(i < 0 || i >= image.length || j < 0 || j >= image[0].length || image[i][j] != oldColor){
+            return;
+        }
+        image[i][j] = newColor;
+
+        floodFill(image, i - 1, j, oldColor, newColor);
+        floodFill(image, i, j - 1, oldColor, newColor);
+        floodFill(image, i + 1, j, oldColor, newColor);
+        floodFill(image, i, j + 1, oldColor, newColor);
+    }
+
 
 
 
