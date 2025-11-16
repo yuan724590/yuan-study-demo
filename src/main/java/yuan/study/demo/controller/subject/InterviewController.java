@@ -371,4 +371,12 @@ public class InterviewController {
     public String floodFill() {
         return interviewService.floodFill();
     }
+
+    /**
+     * 面试题 08.11. 硬币
+     */
+    @GetMapping(value = "/waysToChange")
+    public String waysToChange() {
+        return interviewService.waysToChange();
+    }
 }

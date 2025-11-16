@@ -1203,6 +1203,26 @@ public class InterviewServiceImpl implements InterviewService {
         floodFill(image, i, j + 1, oldColor, newColor);
     }
 
+    @Override
+    public String waysToChange(){
+        System.out.println(JSON.toJSONString(waysToChange(7)));
+        return "success";
+    }
+
+    public int waysToChange(int n) {
+        int[] dp = new int[n + 1];
+        int[] coins = new int[]{1,5,10,25};
+
+        //dp[i] += dp[i - coin];
+        dp[0] = 1;
+        for (int coin : coins) {
+            for (int i = coin; i < n; i++) {
+                dp[i] = (dp[i] + dp[i - coin]) % 1000000007;
+            }
+        }
+        return dp[n];
+    }
+
 
 
 
