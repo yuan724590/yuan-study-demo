@@ -144,6 +144,12 @@
 	java.lang.Iterable       →  StreamSupport.stream($expr$.spliterator(), false).collect(Collectors.groupingBy($keyType:regularExpression(concat(guessElementType(expr), ""), ".*/.", "")$$key$));
 	java.util.stream.Stream  →  $expr$.collect(Collectors.groupingBy($keyType:regularExpression(concat(guessElementType(expr), ""), ".*/.", "")$$key$));
 
+.groupByMap : group by attribute
+	ARRAY                    →  Arrays.stream($expr$).collect(Collectors.groupingBy($keyType:regularExpression(concat(guessElementType(expr), ""), ".*/.", "")$$key$));
+	java.util.Collection     →  $expr$.stream().collect(Collectors.groupingBy($keyType:regularExpression(concat(guessElementType(expr), ""), ".*/.", "")$$method$));
+	java.lang.Iterable       →  StreamSupport.stream($expr$.spliterator(), false).collect(Collectors.groupingBy($keyType:regularExpression(concat(guessElementType(expr), ""), ".*/.", "")$$key$));
+	java.util.stream.Stream  →  $expr$.collect(Collectors.groupingBy($keyType:regularExpression(concat(guessElementType(expr), ""), ".*/.", "")$$key$));
+
 .flatMap : flatMap
 	java.util.Map     →  $expr$.values().stream().flatMap(List::stream).collect(Collectors.toList())
 

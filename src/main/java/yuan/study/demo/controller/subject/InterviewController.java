@@ -379,4 +379,17 @@ public class InterviewController {
     public String waysToChange() {
         return interviewService.waysToChange();
     }
+
+    /**
+     * 面试题 08.12. 八皇后
+     * 同yuan.study.demo.controller.subject.SubjectController#solveNQueens(), 故跳过
+     */
+
+    /**
+     * 面试题 08.13. 堆箱子
+     */
+    @GetMapping(value = "/pileBox")
+    public String pileBox() {
+        return interviewService.pileBox();
+    }
 }

@@ -1223,6 +1223,43 @@ public class InterviewServiceImpl implements InterviewService {
         return dp[n];
     }
 
+    @Override
+    public String pileBox(){
+        System.out.println(JSON.toJSONString(pileBox(new int[][]{{16, 19, 15}, {3, 9, 16}, {19, 6, 11}, {8, 19, 15}, {5, 10, 20}, {18, 19, 8}, {16, 1, 12}, {11, 6, 1}, {13, 1, 19}, {4, 14, 6}, {19, 2, 19}, {18, 3, 14}, {15, 20, 10}, {3, 20, 14}, {6, 20, 8}, {15, 17, 20}, {4, 17, 12}, {2, 10, 17}, {5, 4, 1}, {3, 12, 7}, {10, 10, 16}, {12, 5, 8}, {17, 16, 17}, {19, 19, 8}, {20, 11, 18}, {20, 5, 8}, {9, 3, 5}, {4, 9, 9}, {17, 11, 8}, {2, 14, 19}, {9, 6, 19}, {18, 2, 5}, {14, 18, 14}, {7, 14, 3}, {17, 10, 2}, {19, 1, 13}, {9, 17, 2}, {1, 2, 3}, {17, 7, 6}, {18, 13, 2}, {14, 8, 18}, {14, 5, 8}, {7, 19, 12}, {6, 19, 14}, {13, 17, 7}, {2, 3, 18}, {17, 5, 16}, {9, 18, 19}, {11, 17, 12}, {1, 13, 13}, {8, 17, 2}, {7, 20, 3}, {16, 14, 5}})));
+        return "success";
+    }
+
+    public int pileBox(int[][] box) {
+        Arrays.sort(box, (a, b) -> {
+            if (a[2] != b[2]) {
+                return Integer.compare(a[2], b[2]);
+            } else if(a[1] != b[1]){
+                return Integer.compare(a[1], b[1]);
+            } else {
+                return Integer.compare(a[0], b[0]);
+            }
+        });
+        int n = box.length, max = 0;
+        int[] dp = new int[n + 1];
+        dp[0] = 0;
+        for (int i = 0; i < n; i++) {
+            int[] nowArr = box[i];
+
+            for (int j = i - 1; j >= 0; j--) {
+                int[] arr = box[j];
+                if(arr[0] >= nowArr[0] || arr[1] >= nowArr[1] || arr[2] >= nowArr[2]){
+                    continue;
+                }
+                dp[i + 1] = Math.max(dp[j + 1] + nowArr[2], dp[i + 1]);
+            }
+            if(dp[i + 1] == 0){
+                dp[i + 1] = nowArr[2];
+            }
+            max = Math.max(max, dp[i + 1]);
+        }
+        return max;
+    }
+
 
 
 
