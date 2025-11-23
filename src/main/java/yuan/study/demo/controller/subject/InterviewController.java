@@ -392,4 +392,12 @@ public class InterviewController {
     public String pileBox() {
         return interviewService.pileBox();
     }
+
+    /**
+     * 面试题 08.14. 布尔运算
+     */
+    @GetMapping(value = "/countEval")
+    public String countEval() {
+        return interviewService.countEval();
+    }
 }

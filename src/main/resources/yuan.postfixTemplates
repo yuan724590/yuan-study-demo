@@ -122,7 +122,7 @@
 	ARRAY                    →  Map<$key1$, $types::regularExpression(concat(guessElementType(expr), ""), ".*/.", "")$> $map$Map = Arrays.stream($expr$).collect(Collectors.toMap($keyType:regularExpression(concat(guessElementType(expr), ""), ".*/.", "")$$key$, e -> e, (o1,o2)->o1));
 	java.util.Collection     →  Map<$key1$, $types::regularExpression(concat(guessElementType(expr), ""), ".*/.", "")$> $map$Map = $expr$.stream().collect(Collectors.toMap($keyType:regularExpression(concat(guessElementType(expr), ""), ".*/.", "")$$key$, e -> e, (o1,o2)->o1));
 	java.lang.Iterable       →  Map<$key1$, $types::regularExpression(concat(guessElementType(expr), ""), ".*/.", "")$> $map$Map = StreamSupport.stream($expr$.spliterator(), false).collect(Collectors.toMap($keyType:regularExpression(concat(guessElementType(expr), ""), ".*/.", "")$$key$, e -> e, (o1,o2)->o1));
-	java.util.stream.Stream  →  Map<$key1$, $types::regularExpression(concat(guessElementType(expr), ""), ".*/.", "")$> $map$Map = $expr$.collect(Collectors.toMap($keyExpr$, e -> e, (o1,o2)->o1));
+	java.util.stream.Stream  →	Map<$key1$, $types::regularExpression(concat(guessElementType(expr), ""), ".*/.", "")$> $map$Map = $expr$.collect(Collectors.toMap($keyExpr$, e -> e, (o1,o2)->o1));
 	java.util.Map            →  Map<$key1$, $types::regularExpression(concat(guessElementType(expr), ""), ".*/.", "")$> $map$Map = $expr$.entrySet().stream().collect(Collectors.toMap($keyType:regularExpression(concat(guessElementType(expr), ""), ".*/.", "")$$key$, e -> e, (o1,o2)->o1));
 
 .entrySet : the entry loop of a map
