@@ -8473,6 +8473,25 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String countSubstrings(){
+        System.out.println(JSON.toJSONString(countSubstrings("aaaaa")));
+        return "success";
+    }
+
+    public int countSubstrings(String s) {
+        int n = s.length(), ans = 0;
+        for (int i = 0; i < 2 * n - 1; i++) {
+            int l = i / 2, r = i / 2 + i % 2;
+            while (l >= 0 && r < n && s.charAt(l) == s.charAt(r)) {
+                --l;
+                ++r;
+                ++ans;
+            }
+        }
+        return ans;
+    }
+
+    @Override
     public String predictPartyVictory(){
         System.out.println(JSON.toJSONString(predictPartyVictory("DRRDRDRDRDDRDRDR")));
         return "success";

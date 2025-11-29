@@ -2287,6 +2287,14 @@ public class SubjectController {
     }
 
     /**
+     * 647. 回文子串
+     */
+    @GetMapping(value = "/countSubstrings")
+    public String countSubstrings() {
+        return subjectService.countSubstrings();
+    }
+
+    /**
      * 649. Dota2 参议院
      */
     @GetMapping(value = "/predictPartyVictory")
