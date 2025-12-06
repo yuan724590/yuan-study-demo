@@ -400,4 +400,22 @@ public class InterviewController {
     public String countEval() {
         return interviewService.countEval();
     }
+
+    /**
+     * 面试题 10.01. 合并排序的数组
+     * 同yuan.study.demo.controller.subject.SubjectController#merge88(), 故跳过
+     */
+
+    /**
+     * 面试题 10.02. 变位词组
+     * 同yuan.study.demo.controller.subject.SubjectController#groupAnagrams(), 故跳过
+     */
+
+    /**
+     * 面试题 10.03. 搜索旋转数组
+     */
+    @GetMapping(value = "/search1003")
+    public String search() {
+        return interviewService.search();
+    }
 }

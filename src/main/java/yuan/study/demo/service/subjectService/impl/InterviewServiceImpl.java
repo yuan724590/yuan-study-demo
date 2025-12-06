@@ -1328,6 +1328,21 @@ public class InterviewServiceImpl implements InterviewService {
         return res;
     }
 
+    @Override
+    public String search(){
+        System.out.println(JSON.toJSONString(search(new int[]{15, 16, 19, 20, 25, 1, 3, 4, 5, 7, 10, 14}, 5)));
+        return "success";
+    }
+
+    public int search(int[] arr, int target) {
+        int n = arr.length;
+        for (int i = 0; i < n; i++) {
+            if(arr[i] == target){
+                return i;
+            }
+        }
+        return -1;
+    }
 
 
 
