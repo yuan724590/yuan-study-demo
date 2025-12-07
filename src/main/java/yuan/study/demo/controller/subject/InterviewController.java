@@ -418,4 +418,12 @@ public class InterviewController {
     public String search() {
         return interviewService.search();
     }
+
+    /**
+     * 面试题 10.05. 稀疏数组搜索
+     */
+    @GetMapping(value = "/findString")
+    public String findString() {
+        return interviewService.findString();
+    }
 }

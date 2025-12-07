@@ -1344,6 +1344,37 @@ public class InterviewServiceImpl implements InterviewService {
         return -1;
     }
 
+    @Override
+    public String findString(){
+        System.out.println(JSON.toJSONString(findString(new String[]{"at", "", "", "", "ball", "", "", "car", "", "","dad", "", ""}, "ta")));
+        return "success";
+    }
+
+    public int findString(String[] words, String s) {
+        int len = words.length, l = 0, r = len - 1;
+        while (l <= r) {
+            while (l <= r && words[l].isEmpty()) {
+                l++;
+            }
+            while (l <= r && words[r].isEmpty()) {
+                r--;
+            }
+            int mid = l + (r - l) / 2;
+            while (mid <= r && words[mid].isEmpty()) {
+                mid++;
+            }
+            if (words[mid].compareTo(s) == 0) {
+                return mid;
+            }else if (words[mid].compareTo(s) > 0) {
+                r = mid - 1;
+            } else {
+                l = mid + 1;
+            }
+        }
+        return -1;
+    }
+
+
 
 
 
