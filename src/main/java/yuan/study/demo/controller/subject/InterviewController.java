@@ -426,4 +426,18 @@ public class InterviewController {
     public String findString() {
         return interviewService.findString();
     }
+
+    /**
+     * 面试题 10.09. 排序矩阵查找
+     * 同yuan.study.demo.controller.subject.OfferSubjectController#findNumberIn2DArray(), 故跳过
+     */
+
+    /**
+     * 面试题 10.10. 数字流的秩
+     */
+    @GetMapping(value = "/streamRank")
+    public String streamRank() {
+        return interviewService.streamRank();
+    }
+
 }

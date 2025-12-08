@@ -1374,6 +1374,69 @@ public class InterviewServiceImpl implements InterviewService {
         return -1;
     }
 
+    @Override
+    public String streamRank(){
+        StreamRank streamRank = new StreamRank();
+
+        streamRank.track(4);
+        streamRank.track(3);
+        streamRank.track(5);
+        System.out.println(streamRank.getRankOfNumber(8));
+        streamRank.track(3);
+        System.out.println(streamRank.getRankOfNumber(2));
+        streamRank.track(1);
+        streamRank.track(5);
+        System.out.println(streamRank.getRankOfNumber(3));
+        System.out.println(streamRank.getRankOfNumber(5));
+        System.out.println(streamRank.getRankOfNumber(1));
+        streamRank.track(9);
+        System.out.println(streamRank.getRankOfNumber(6));
+        streamRank.track(3);
+        streamRank.track(4);
+        streamRank.track(1);
+        System.out.println(streamRank.getRankOfNumber(7));
+        streamRank.track(9);
+        streamRank.track(2);
+        streamRank.track(9);
+        return "success";
+    }
+
+    class StreamRank {
+
+        List<Integer> list;
+
+        public StreamRank() {
+            list = new ArrayList<>();
+        }
+
+        public void track(int x) {
+            int l = 0, r = list.size() - 1;
+            // 寻找第一个比它大的数
+            while (l <= r) {
+                int mid = (l + r) >> 1;
+                if (list.get(mid) < x) {
+                    l = mid + 1;
+                } else {
+                    r = mid - 1;
+                }
+            }
+            list.add(l, x);
+        }
+
+        public int getRankOfNumber(int x) {
+            int l = 0, r = list.size() - 1;
+            // 寻找最后一个不大于它的数 (可能不存在比它大的数)
+            while (l <= r) {
+                int mid = (l + r) >> 1;
+                if (list.get(mid) > x) {
+                    r = mid - 1;
+                } else {
+                    l = mid + 1;
+                }
+            }
+            return r + 1;
+        }
+    }
 
 
 
