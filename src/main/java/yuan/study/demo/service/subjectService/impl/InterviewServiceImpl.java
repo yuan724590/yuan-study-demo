@@ -1438,6 +1438,19 @@ public class InterviewServiceImpl implements InterviewService {
         }
     }
 
+    @Override
+    public String swapNumbers(){
+        System.out.println(JSON.toJSONString(swapNumbers(new int[]{1,2})));
+        return "success";
+    }
+
+    public int[] swapNumbers(int[] numbers) {
+        numbers[0] ^= numbers[1];
+        numbers[1] ^= numbers[0];
+        numbers[0] ^= numbers[1];
+        return numbers;
+    }
+
 
 
 

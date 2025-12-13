@@ -125,6 +125,13 @@
 	java.util.stream.Stream  →	Map<$key1$, $types::regularExpression(concat(guessElementType(expr), ""), ".*/.", "")$> $map$Map = $expr$.collect(Collectors.toMap($keyExpr$, e -> e, (o1,o2)->o1));
 	java.util.Map            →  Map<$key1$, $types::regularExpression(concat(guessElementType(expr), ""), ".*/.", "")$> $map$Map = $expr$.entrySet().stream().collect(Collectors.toMap($keyType:regularExpression(concat(guessElementType(expr), ""), ".*/.", "")$$key$, e -> e, (o1,o2)->o1));
 
+.groupByMapCount : group by attribute
+	ARRAY                    →  Arrays.stream($expr$).collect(Collectors.groupingBy($keyType:regularExpression(concat(guessElementType(expr), ""), ".*/.", "")$$key$));
+	java.util.Collection     →  Map<$key$, Long> $map$CountMap = $expr$.stream().collect(Collectors.groupingBy($keyType:regularExpression(concat(guessElementType(expr), ""), ".*/.", "")$$method$, Collectors.counting()));
+
+.toMapBoolean : Convert to map and remove duplicates
+	java.util.Collection     →  Map<$key1$, Boolean> $map$Map = $expr$.stream().collect(Collectors.toMap($keyType:regularExpression(concat(guessElementType(expr), ""), ".*/.", "")$$key$, e -> Boolean.TRUE, (o1,o2)->o1));
+
 .entrySet : the entry loop of a map
 	java.util.Map  →  for($entry:regularExpression(concat(typeOfVariable(expr), ""), "Map", "Map.Entry")$ entry : $expr$.entrySet()){\
                             $END$\

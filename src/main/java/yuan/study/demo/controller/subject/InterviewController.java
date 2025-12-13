@@ -440,4 +440,16 @@ public class InterviewController {
         return interviewService.streamRank();
     }
 
+    /**
+     * 面试题 10.11. 峰与谷
+     * 同yuan.study.demo.controller.subject.SubjectController#wiggleSort(), 故跳过
+     */
+
+    /**
+     * 面试题 16.01. 交换数字
+     */
+    @GetMapping(value = "/swapNumbers")
+    public String swapNumbers() {
+        return interviewService.swapNumbers();
+    }
 }
