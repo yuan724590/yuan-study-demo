@@ -1451,6 +1451,32 @@ public class InterviewServiceImpl implements InterviewService {
         return numbers;
     }
 
+    @Override
+    public String wordsFrequency(){
+        WordsFrequency wordsFrequency = new WordsFrequency(new String[]{"i", "have", "an", "apple", "he", "have", "a", "pen"});
+        System.out.println(JSON.toJSONString(wordsFrequency.get("you")));
+        System.out.println(JSON.toJSONString(wordsFrequency.get("have")));
+        System.out.println(JSON.toJSONString(wordsFrequency.get("an")));
+        System.out.println(JSON.toJSONString(wordsFrequency.get("apple")));
+        System.out.println(JSON.toJSONString(wordsFrequency.get("pen")));
+        return "success";
+    }
+
+    class WordsFrequency {
+
+        Map<String, Integer> map = new HashMap<>();
+
+        public WordsFrequency(String[] book) {
+            for (String s : book) {
+                map.put(s, map.getOrDefault(s, 0) + 1);
+            }
+        }
+
+        public int get(String word) {
+            return map.getOrDefault(word, 0);
+        }
+    }
+
 
 
 

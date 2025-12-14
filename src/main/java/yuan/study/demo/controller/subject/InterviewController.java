@@ -452,4 +452,12 @@ public class InterviewController {
     public String swapNumbers() {
         return interviewService.swapNumbers();
     }
+
+    /**
+     * 面试题 16.02. 单词频率
+     */
+    @GetMapping(value = "/wordsFrequency")
+    public String wordsFrequency() {
+        return interviewService.wordsFrequency();
+    }
 }
