@@ -460,4 +460,12 @@ public class InterviewController {
     public String wordsFrequency() {
         return interviewService.wordsFrequency();
     }
+
+    /**
+     * 面试题 16.03. 交点
+     */
+    @GetMapping(value = "/intersection1603")
+    public String intersection() {
+        return interviewService.intersection();
+    }
 }
