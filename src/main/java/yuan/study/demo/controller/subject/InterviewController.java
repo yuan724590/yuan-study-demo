@@ -468,4 +468,12 @@ public class InterviewController {
     public String intersection() {
         return interviewService.intersection();
     }
+
+    /**
+     * 面试题 16.04. 井字游戏
+     */
+    @GetMapping(value = "/tictactoe")
+    public String tictactoe() {
+        return interviewService.tictactoe();
+    }
 }

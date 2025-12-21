@@ -1542,6 +1542,69 @@ public class InterviewServiceImpl implements InterviewService {
         }
     }
 
+    @Override
+    public String tictactoe(){
+        System.out.println(JSON.toJSONString(tictactoe(new String[]{"O X"," XO","X O"})));
+        return "success";
+    }
+
+    public String tictactoe(String[] board) {
+        //是否有空格
+        boolean flag = false;
+        int n = board.length;
+        loop:
+        for (String row : board) {
+            char c = row.charAt(0);
+            for (int j = 1; j < n; j++) {
+                if (c != row.charAt(j)) {
+                    continue loop;
+                }
+            }
+            if (c != ' ') {
+                return String.valueOf(c);
+            }
+            if (!flag) {
+                flag = row.contains(" ");
+            }
+        }
+
+        loop:
+        for (int i = 0; i < n; i++) {
+            char c = board[0].charAt(i);
+            for (int j = 1; j < n; j++) {
+                if(c != board[j].charAt(i)){
+                    continue loop;
+                }
+            }
+            if(c != ' '){
+                return String.valueOf(c);
+            }
+        }
+        boolean vinFlag = true;
+        char c = board[0].charAt(0);
+        for (int i = 1; i < n; i++) {
+            if(c != board[i].charAt(i)){
+                vinFlag = false;
+                break;
+            }
+        }
+        if(vinFlag && c != ' '){
+            return String.valueOf(c);
+        }
+
+        vinFlag = true;
+        c = board[0].charAt(n - 1);
+        for (int i = 1; i < n; i++) {
+            if(c != board[i].charAt(n - i - 1)){
+                vinFlag = false;
+                break;
+            }
+        }
+        if(vinFlag && c != ' '){
+            return String.valueOf(c);
+        }
+        return flag ? "Pending" : "Draw";
+    }
 
 
 
