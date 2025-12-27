@@ -1727,6 +1727,13 @@ public class SubjectController {
     }
 
     /**
+     * 258. 各位相加
+     */
+    @GetMapping(value = "/addDigits")
+    public void addDigits(){
+        subjectService.addDigits();
+    }
+    /**
      * 264. 丑数 II
      * 同yuan.study.demo.service.subjectService.OfferSubjectService#nthUglyNumber(), 故跳过
      */

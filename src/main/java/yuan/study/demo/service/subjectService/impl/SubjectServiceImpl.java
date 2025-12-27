@@ -6361,6 +6361,18 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String addDigits(){
+        System.out.println(JSON.toJSONString(addDigits(38)));
+        return "success";
+    }
+
+    /**
+     * 减少量总是 9 的倍数, 直到为个位数
+     */
+    public int addDigits(int num) {
+        return (num - 1) % 9 + 1;
+    }
+    @Override
     public String hIndex(){
         System.out.println(JSON.toJSONString(hIndex(new int[]{3,0,6,1,5})));
         return "success";
