@@ -6372,6 +6372,26 @@ public class SubjectServiceImpl implements SubjectService {
     public int addDigits(int num) {
         return (num - 1) % 9 + 1;
     }
+
+    @Override
+    public String isUgly(){
+        System.out.println(JSON.toJSONString(isUgly(14)));
+        return "success";
+    }
+
+    public boolean isUgly(int n) {
+        if (n <= 0) {
+            return false;
+        }
+        while (n % 3 == 0) {
+            n /= 3;
+        }
+        while (n % 5 == 0) {
+            n /= 5;
+        }
+        return (n & (n - 1)) == 0;
+    }
+
     @Override
     public String hIndex(){
         System.out.println(JSON.toJSONString(hIndex(new int[]{3,0,6,1,5})));

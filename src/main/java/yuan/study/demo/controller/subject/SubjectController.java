@@ -1733,6 +1733,15 @@ public class SubjectController {
     public void addDigits(){
         subjectService.addDigits();
     }
+
+    /**
+     * 263. 丑数
+     */
+    @GetMapping(value = "/isUgly")
+    public void isUgly(){
+        subjectService.isUgly();
+    }
+
     /**
      * 264. 丑数 II
      * 同yuan.study.demo.service.subjectService.OfferSubjectService#nthUglyNumber(), 故跳过
