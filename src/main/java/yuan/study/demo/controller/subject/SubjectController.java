@@ -1878,6 +1878,14 @@ public class SubjectController {
     }
 
     /**
+     * 326. 3 的幂
+     */
+    @GetMapping(value = "/isPowerOfThree")
+    public void isPowerOfThree(){
+        subjectService.isPowerOfThree();
+    }
+
+    /**
      * 328. 奇偶链表
      */
     @GetMapping(value = "/oddEvenList")
