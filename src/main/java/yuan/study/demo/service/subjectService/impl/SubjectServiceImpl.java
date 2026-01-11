@@ -8644,6 +8644,38 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String validPalindrome(){
+        System.out.println(JSON.toJSONString(validPalindrome("abca")));
+        return "success";
+    }
+
+    public boolean validPalindrome(String s) {
+        int n = s.length(), left = 0, right = n - 1;
+        while(left < right){
+            if(s.charAt(left) != s.charAt(right)){
+                if(validPalindrome(s, left + 1, right) || validPalindrome(s, left, right - 1)){
+                    return true;
+                }
+                return false;
+            }
+            left++;
+            right--;
+        }
+        return true;
+    }
+
+    private boolean validPalindrome(String s, int left, int right){
+        while(left < right){
+            if(s.charAt(left) != s.charAt(right)){
+                return false;
+            }
+            left++;
+            right--;
+        }
+        return true;
+    }
+
+    @Override
     public String searchBST(){
         TreeNode root = new TreeNode(4);
         root.left = new TreeNode(2);

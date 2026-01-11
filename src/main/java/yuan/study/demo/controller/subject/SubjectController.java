@@ -2335,6 +2335,14 @@ public class SubjectController {
     }
 
     /**
+     * 680. 验证回文串 II
+     */
+    @GetMapping(value = "/validPalindrome")
+    public String validPalindrome() {
+        return subjectService.validPalindrome();
+    }
+
+    /**
      * 700. 二叉搜索树中的搜索
      */
     @GetMapping(value = "/searchBST")
