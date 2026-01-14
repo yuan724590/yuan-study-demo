@@ -1606,6 +1606,21 @@ public class InterviewServiceImpl implements InterviewService {
         return flag ? "Pending" : "Draw";
     }
 
+    @Override
+    public String trailingZeroes(){
+        System.out.println(JSON.toJSONString(tictactoe(new String[]{"O X"," XO","X O"})));
+        return "success";
+    }
+
+    public int trailingZeroes(int n) {
+        int res = 0;
+        while(n >= 5){
+            res += n / 5;
+            n = n / 5;
+        }
+        return res;
+    }
+
 
 
 
