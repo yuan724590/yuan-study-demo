@@ -478,10 +478,18 @@ public class InterviewController {
     }
 
     /**
-     * 面试题 16.04. 井字游戏
+     * 面试题 16.05. 阶乘尾数
      */
-    @GetMapping(value = "/trailingZeroes")
+    @GetMapping(value = "/trailingZeroes1605")
     public String trailingZeroes() {
         return interviewService.trailingZeroes();
+    }
+
+    /**
+     * 面试题 16.06. 最小差
+     */
+    @GetMapping(value = "/smallestDifference")
+    public String smallestDifference() {
+        return interviewService.smallestDifference();
     }
 }

@@ -1621,6 +1621,39 @@ public class InterviewServiceImpl implements InterviewService {
         return res;
     }
 
+    @Override
+    public String smallestDifference(){
+        System.out.println(JSON.toJSONString(smallestDifference(new int[]{-2147483648,1}, new int[]{2147483647,0})));
+        return "success";
+    }
+
+    public int smallestDifference(int[] a, int[] b) {
+        int m = a.length;
+        int n = b.length;
+        if (m == 1 && n == 1) {
+            return Math.abs(a[0] - b[0]);
+        }
+
+        Arrays.sort(a);
+        Arrays.sort(b);
+        int i = 0;
+        int j = 0;
+        long res = Long.MAX_VALUE;
+        while (i < m && j < n) {
+            if (a[i] == b[j]) {
+                return 0;
+            }
+            long diff = a[i] - b[j];
+            res = Math.min(Math.abs(diff), res);
+            if (diff > 0) {
+                j++;
+            } else {
+                i++;
+            }
+        }
+        return (int) res;
+    }
+
 
 
 
