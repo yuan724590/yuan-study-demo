@@ -1654,6 +1654,33 @@ public class InterviewServiceImpl implements InterviewService {
         return (int) res;
     }
 
+    @Override
+    public String maximum(){
+        System.out.println(JSON.toJSONString(maximum(1,2)));
+        return "success";
+    }
+
+    public int maximum(int a, int b) {
+        //0、在 Java 中，所有的整数都是以二进制「补码」的形式存储的
+        //1、在 Java 中，>> 是「带符号右移」操作符，它会将所有位向右移动指定的位数，「左边」空出的位「用原来的符号位」填充。
+        //注：右移操作不会改变原来的数，它只是返回一个新的结果。
+        //2、在 Java 中，>>> 是无符号右移操作符，它会将所有位向右移动指定的位数，左边空出的位用 0 填充，不论原来的数是正数还是负数。
+        //3、区别：>> 会保留原来的符号位，而 >>> 不会保留原来的符号位，而是总是用 0 填充。
+
+        //在 Java 中，int 类型是 32 位的，而 long 类型是 64 位的。如果 a 和 b 的值相差很大，那么 a - b 的结果可能会超出 int 类型的范围，导致溢出。
+        long x = (long) a - (long) b;
+
+        //x >> 63 这个操作的结果是 long 类型的，因为 x 是 long 类型的，而 >> 操作符不会改变操作数的类型。
+        //强转为int是因为要求返回的是int
+        //x >> 63获取x二进制「补码」的符号位，只能是0或-1，所有k为0或-1.
+        int k = (int) (x >> 63);
+
+        //若k=0，则结果为a；
+        //若k=1，则结果为b。
+        //返回的是int类型。
+        return (1 + k) * a - b * k;
+    }
+
 
 
 

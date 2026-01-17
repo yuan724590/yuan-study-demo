@@ -492,4 +492,12 @@ public class InterviewController {
     public String smallestDifference() {
         return interviewService.smallestDifference();
     }
+
+    /**
+     * 面试题 16.07. 最大数值
+     */
+    @GetMapping(value = "/maximum")
+    public String maximum() {
+        return interviewService.maximum();
+    }
 }
