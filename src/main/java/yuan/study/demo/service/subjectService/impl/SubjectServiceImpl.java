@@ -8704,6 +8704,28 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String numSubarrayProductLessThanK(){
+        System.out.println(JSON.toJSONString(numSubarrayProductLessThanK(new int[]{4,32,23,1,20,1,18,17,6,16,8,17,30,24,32,9,4,24,8,23,12,28,4,32,5}, 31)));
+        return "success";
+    }
+
+    public int numSubarrayProductLessThanK(int[] nums, int k) {
+        if (k <= 1) {
+            return 0;
+        }
+        int n = nums.length, ans = 0, l = 0, val = 1;
+        for (int r = 0; r < n; r++) {
+            val *= nums[r];
+            while(val >= k){
+                val /= nums[l];
+                l++;
+            }
+            ans += r - l + 1;
+        }
+        return ans;
+    }
+
+    @Override
     public String kthLargest(){
         KthLargest kthLargest = new KthLargest(3, new int[]{4, 5, 8, 2});
         System.out.println("add: " + kthLargest.add(3));

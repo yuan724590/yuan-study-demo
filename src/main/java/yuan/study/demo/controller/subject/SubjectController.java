@@ -2367,6 +2367,14 @@ public class SubjectController {
     }
 
     /**
+     * 713. 乘积小于 K 的子数组
+     */
+    @GetMapping(value = "/numSubarrayProductLessThanK")
+    public String numSubarrayProductLessThanK() {
+        return subjectService.numSubarrayProductLessThanK();
+    }
+
+    /**
      * 714. 买卖股票的最佳时机含手续费
      */
     @GetMapping(value = "/max/profit6")
