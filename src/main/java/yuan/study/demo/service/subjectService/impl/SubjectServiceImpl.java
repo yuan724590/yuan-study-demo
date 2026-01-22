@@ -9215,6 +9215,23 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String transpose(){
+        System.out.println(JSON.toJSONString(transpose(new int[][]{{1,2,3},{4,5,6}})));
+        return "success";
+    }
+
+    public int[][] transpose(int[][] matrix) {
+        int n = matrix.length, m = matrix[0].length;
+        int[][] arr = new int[m][n];
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                arr[j][i] = matrix[i][j];
+            }
+        }
+        return arr;
+    }
+
+    @Override
     public String stockSpanner(){
         StockSpanner stockSpanner = new StockSpanner();
         System.out.println(stockSpanner.next(91));

@@ -2495,6 +2495,14 @@ public class SubjectController {
     }
 
     /**
+     * 867. 转置矩阵
+     */
+    @GetMapping(value = "/transpose")
+    public String transpose() {
+        return subjectService.transpose();
+    }
+
+    /**
      * 901. 股票价格跨度
      */
     @GetMapping(value = "/stockSpanner")
