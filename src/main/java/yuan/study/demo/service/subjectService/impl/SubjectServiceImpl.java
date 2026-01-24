@@ -9871,6 +9871,23 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String subtractProductAndSum(){
+        System.out.println(JSON.toJSONString(subtractProductAndSum(234)));
+        return "success";
+    }
+
+    public int subtractProductAndSum(int n) {
+        int a = 1, b = 0;
+        while(n > 0){
+            int v = n % 10;
+            a *= v;
+            b += v;
+            n = n / 10;
+        }
+        return a - b;
+    }
+
+    @Override
     public String minFlips(){
         System.out.println(JSON.toJSONString(minFlips(2,6,5)));
         return "success";

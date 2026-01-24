@@ -2722,6 +2722,14 @@ public class SubjectController {
      */
 
     /**
+     * 1281. 整数的各位积和之差
+     */
+    @GetMapping(value = "/subtractProductAndSum")
+    public String subtractProductAndSum() {
+        return subjectService.subtractProductAndSum();
+    }
+
+    /**
      * 1318. 或运算的最小翻转次数
      */
     @GetMapping(value = "/minFlips")
