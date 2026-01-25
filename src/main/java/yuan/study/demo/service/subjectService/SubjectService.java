@@ -4919,6 +4919,26 @@ public interface SubjectService {
     String lowestCommonAncestor2();
 
     /**
+     * 将非负整数 num 转换为其对应的英文表示。
+     *
+     * 示例 1：
+     * 输入：num = 123
+     * 输出："One Hundred Twenty Three"
+     *
+     * 示例 2：
+     * 输入：num = 12345
+     * 输出："Twelve Thousand Three Hundred Forty Five"
+     *
+     * 示例 3：
+     * 输入：num = 1234567
+     * 输出："One Million Two Hundred Thirty Four Thousand Five Hundred Sixty Seven"
+     *
+     * 提示：
+     * 0 <= num <= 231 - 1
+     */
+    String numberToWords();
+
+    /**
      * 给你一个整数数组 nums，返回 数组 answer ，其中 answer[i] 等于 nums 中除 nums[i] 之外其余各元素的乘积 。
      *
      * 题目数据 保证 数组 nums之中任意元素的全部前缀元素和后缀的乘积都在  32 位 整数范围内。

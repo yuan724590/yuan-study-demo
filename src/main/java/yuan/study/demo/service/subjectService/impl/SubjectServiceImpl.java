@@ -6219,6 +6219,60 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String numberToWords(){
+        System.out.println(JSON.toJSONString(numberToWords(1234567)));
+        return "success";
+    }
+
+    private static final String[] ones = {"", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten",
+            "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Nineteen"};
+    private static final String[] tens = {"", "", "Twenty", "Thirty", "Forty", "Fifty", "Sixty", "Seventy", "Eighty", "Ninety"};
+    private static final String[] largeNumbers = {"", "Thousand", "Million", "Billion"};
+
+    public String numberToWords(int num) {
+        if (num == 0) {
+            return "Zero";
+        }
+
+        StringBuilder ans = new StringBuilder();
+
+        // 1_234_567_811
+        // One Billion + Two Hundred Thirty Four Million + Five Hundred Sixty Seven Thousand + Eight Hundred Eleven
+        // 拆分后，都是小于 1000 的数 + 大数单位（Billion/Million/Thousand/空）
+        for (int i = largeNumbers.length - 1; i >= 0; i--) {
+            int x = num / (int) Math.pow(10, i * 3) % 1000;
+            if (x == 0) {
+                continue;
+            }
+            // 百位
+            if (x >= 100) {
+                add(ans, ones[x / 100]);
+                add(ans, "Hundred");
+            }
+            // 十位和个位
+            if (x % 100 < 20) { // 特殊处理小于 20 的数
+                add(ans, ones[x % 100]);
+            } else {
+                add(ans, tens[x / 10 % 10]);
+                add(ans, ones[x % 10]);
+            }
+            add(ans, largeNumbers[i]); // 大数单位
+        }
+
+        return ans.toString();
+    }
+
+    private void add(StringBuilder ans, String s) {
+        if (s.isEmpty()) {
+            return;
+        }
+        if (ans.length() > 0) {
+            ans.append(' '); // 相邻单词之间添加空格
+        }
+        ans.append(s);
+    }
+
+    @Override
     public String productExceptSelf(){
         System.out.println(JSON.toJSONString(productExceptSelf(new int[]{-1,1,0,-3,3})));
         return "success";

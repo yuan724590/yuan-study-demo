@@ -1695,6 +1695,14 @@ public class SubjectController {
     }
 
     /**
+     * 273. 整数转换英文表示
+     */
+    @GetMapping(value = "/numberToWords")
+    public void numberToWords(){
+        subjectService.numberToWords();
+    }
+
+    /**
      * 238. 除自身以外数组的乘积
      */
     @GetMapping(value = "/productExceptSelf")
