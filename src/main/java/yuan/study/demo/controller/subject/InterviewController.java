@@ -505,4 +505,12 @@ public class InterviewController {
      * 面试题 16.08. 整数的英语表示
      * 同yuan.study.demo.controller.subject.SubjectController#numberToWords(), 故跳过
      */
+
+    /**
+     * 面试题 16.09. 运算
+     */
+    @GetMapping(value = "/operations")
+    public String operations() {
+        return interviewService.operations();
+    }
 }
