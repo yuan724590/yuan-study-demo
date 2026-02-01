@@ -513,4 +513,12 @@ public class InterviewController {
     public String operations() {
         return interviewService.operations();
     }
+
+    /**
+     * 面试题 16.10. 生存人数
+     */
+    @GetMapping(value = "/maxAliveYear")
+    public String maxAliveYear() {
+        return interviewService.maxAliveYear();
+    }
 }

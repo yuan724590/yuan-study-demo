@@ -1844,6 +1844,35 @@ public class InterviewServiceImpl implements InterviewService {
         }
     }
 
+    @Override
+    public String maxAliveYear(){
+        System.out.println(JSON.toJSONString(maxAliveYear(new int[]{1972,1908,1915,1957,1960,1948,1912,1903,1949,1977,1900,1957,1934,1929,1913,1902,1903,1901}, new int[]{1997,1932,1963,1997,1983,2000,1926,1962,1955,1997,1998,1989,1992,1975,1940,1903,1983,1969})));
+        return "success";
+    }
+
+    public int maxAliveYear(int[] birth, int[] death) {
+        // 先统计每年的人口数变化
+        int[] change = new int[102];
+        for (int i = 0; i < birth.length; i++) {
+            // 1900年出生的人导致1900年变化人数加1，存储在change[0]
+            change[birth[i] - 1900]++;
+            // 1900年死亡的人导致1901年变化人数减1，存储在change[1]
+            change[death[i] - 1899]--;
+        }
+        int maxAlive = 0;
+        int curAlive = 0;
+        int theYear = 1900;
+        // 再根据每年变化人数求一个最大值
+        for (int i = 0; i < 101; i++) {
+            curAlive += change[i];
+            if (curAlive > maxAlive) {
+                maxAlive = curAlive;
+                theYear = 1900 + i;
+            }
+        }
+        return theYear;
+    }
+
 
 
 
