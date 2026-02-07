@@ -521,4 +521,12 @@ public class InterviewController {
     public String maxAliveYear() {
         return interviewService.maxAliveYear();
     }
+
+    /**
+     * 面试题 16.11. 跳水板
+     */
+    @GetMapping(value = "/divingBoard")
+    public String divingBoard() {
+        return interviewService.divingBoard();
+    }
 }
