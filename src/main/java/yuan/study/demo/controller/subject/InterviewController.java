@@ -529,4 +529,12 @@ public class InterviewController {
     public String divingBoard() {
         return interviewService.divingBoard();
     }
+
+    /**
+     * 面试题 16.13. 平分正方形
+     */
+    @GetMapping(value = "/cutSquares")
+    public String cutSquares() {
+        return interviewService.cutSquares();
+    }
 }

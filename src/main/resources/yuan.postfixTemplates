@@ -80,6 +80,7 @@
 
 .sortAscNew : return asc sort number list
 	java.util.List           →  List<$keyType:regularExpression(concat(guessElementType(expr), ""), ".*/.", "")$$key$> $END$List = $expr$.stream().sorted().collect(Collectors.toList());
+	ARRAY                    →  Arrays.stream($expr$).sorted().toArray();
 
 .sortDescNew : return desc sort number list
 	java.util.List           →  List<$keyType:regularExpression(concat(guessElementType(expr), ""), ".*/.", "")$$key$> $END$List = $expr$.stream().sorted(Comparator.reverseOrder()).collect(Collectors.toList());
