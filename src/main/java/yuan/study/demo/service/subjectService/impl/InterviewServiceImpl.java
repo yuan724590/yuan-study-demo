@@ -1950,6 +1950,35 @@ public class InterviewServiceImpl implements InterviewService {
         res[y] = temp;
     }
 
+    @Override
+    public String masterMind(){
+        System.out.println(JSON.toJSONString(masterMind("RGRB", "BBBY")));
+        return "success";
+    }
+
+    public int[] masterMind(String solution, String guess) {
+        int real = 0, fake = 0, n = solution.length();
+        int[] arr = new int[26], fakeArr = new int[26];
+
+        for (int i = 0; i < n; i++) {
+            char sol = solution.charAt(i), gue = guess.charAt(i);
+            if(sol == gue){
+                real++;
+            }else{
+                if(arr[sol - 'A'] < 0) {
+                    fake++;
+                }
+                arr[sol - 'A']++;
+
+                if(arr[gue - 'A'] > 0) {
+                    fake++;
+                }
+                arr[gue - 'A']--;
+            }
+        }
+        return new int[]{real, fake};
+    }
+
 
 
 

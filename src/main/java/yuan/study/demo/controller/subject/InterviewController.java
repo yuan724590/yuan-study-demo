@@ -537,4 +537,12 @@ public class InterviewController {
     public String cutSquares() {
         return interviewService.cutSquares();
     }
+
+    /**
+     * 面试题 16.15. 珠玑妙算
+     */
+    @GetMapping(value = "/masterMind")
+    public String masterMind() {
+        return interviewService.masterMind();
+    }
 }
