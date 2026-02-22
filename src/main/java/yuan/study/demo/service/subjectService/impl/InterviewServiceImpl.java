@@ -1979,6 +1979,43 @@ public class InterviewServiceImpl implements InterviewService {
         return new int[]{real, fake};
     }
 
+    @Override
+    public String subSort(){
+        System.out.println(JSON.toJSONString(subSort(new int[]{1,2,4,7,10,11,7,12,6,7,16,18,19})));
+        return "success";
+    }
+
+    public int[] subSort(int[] arr) {
+        int n = arr.length;
+        if(n < 2){
+            return new int[]{-1, -1};
+        }
+        int i = 0, j = n - 1;
+        //找到递增的结束点
+        while(i < n - 1 && arr[i] <= arr[i + 1]){
+            i++;
+        }
+        //找到递减的结束点
+        while(j >= i && arr[j] >= arr[j - 1]){
+            j--;
+        }
+        if(i >= j){
+            return new int[]{-1, -1};
+        }
+        int l = i - 1, r = j;
+        for(; i < j; i++){
+            //判断当前值和前面递增序列的下标
+            while(l > 0 && arr[i] < arr[l]){
+                l--;
+            }
+            //判断当前值和后面递增序列的下标
+            while(r < n && arr[i] > arr[r]){
+                r++;
+            }
+        }
+        return new int[]{l + 1, r - 1};
+    }
+
 
 
 

@@ -545,4 +545,12 @@ public class InterviewController {
     public String masterMind() {
         return interviewService.masterMind();
     }
+
+    /**
+     * 面试题 16.16. 部分排序
+     */
+    @GetMapping(value = "/subSort")
+    public String subSort() {
+        return interviewService.subSort();
+    }
 }
