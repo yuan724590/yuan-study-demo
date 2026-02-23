@@ -2016,6 +2016,22 @@ public class InterviewServiceImpl implements InterviewService {
         return new int[]{l + 1, r - 1};
     }
 
+    @Override
+    public String maxSubArray(){
+        System.out.println(JSON.toJSONString(maxSubArray(new int[]{-2,1,-3,4,-1,2,1,-5,4})));
+        return "success";
+    }
+
+    public int maxSubArray(int[] nums) {
+        int max = nums[0], val = max, n = nums.length;
+        for (int i = 1; i < n; i++) {
+            int v = nums[i];
+            val = val < 0 ? v : val + v;
+            max = Math.max(max, val);
+        }
+        return max;
+    }
+
 
 
 

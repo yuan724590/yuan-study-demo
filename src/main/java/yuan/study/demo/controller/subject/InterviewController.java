@@ -553,4 +553,12 @@ public class InterviewController {
     public String subSort() {
         return interviewService.subSort();
     }
+
+    /**
+     * 面试题 16.17. 连续数列
+     */
+    @GetMapping(value = "/maxSubArray")
+    public String maxSubArray() {
+        return interviewService.maxSubArray();
+    }
 }
