@@ -2776,6 +2776,14 @@ public class SubjectController {
      */
 
     /**
+     * 1422. 分割字符串的最大得分
+     */
+    @GetMapping(value = "/maxScore1422")
+    public String maxScore1422() {
+        return subjectService.maxScore1422();
+    }
+
+    /**
      * 1431. 拥有最多糖果的孩子
      */
     @GetMapping(value = "/kidsWithCandies")

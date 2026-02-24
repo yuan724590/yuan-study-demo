@@ -9995,6 +9995,29 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String maxScore1422(){
+        System.out.println(JSON.toJSONString(maxScore("010")));
+        return "success";
+    }
+
+    /**
+     * result = 分隔符左边0的数量 + 分隔符右边1的数量
+     *        = (分隔符左边0的数量 - 分隔符左边1的数量) + 字符串中1的数量
+     */
+    public int maxScore(String S) {
+        char[] arr = S.toCharArray();
+        int n = arr.length, cnt1 = 0, delta = 0, maxDelta = -n;
+        for (int i = 0; i < n - 1; i++) {
+            //字符串中1的数量
+            cnt1 += arr[i] - '0';
+            //分隔符左边0的数量 - 分隔符左边1的数量
+            delta += arr[i] == '0' ? 1 : -1;
+            maxDelta = Math.max(maxDelta, delta);
+        }
+        return maxDelta + cnt1 + (arr[n - 1] - '0');
+    }
+
+    @Override
     public String goodNodes(){
         TreeNode root = new TreeNode(3);
         root.left = new TreeNode(1);
