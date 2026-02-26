@@ -561,4 +561,12 @@ public class InterviewController {
     public String maxSubArray() {
         return interviewService.maxSubArray();
     }
+
+    /**
+     * 面试题 16.18. 模式匹配
+     */
+    @GetMapping(value = "/patternMatching")
+    public String patternMatching() {
+        return interviewService.patternMatching();
+    }
 }

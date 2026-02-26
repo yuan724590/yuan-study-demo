@@ -2032,6 +2032,56 @@ public class InterviewServiceImpl implements InterviewService {
         return max;
     }
 
+    @Override
+    public String patternMatching(){
+        System.out.println(JSON.toJSONString(patternMatching("aaaaab", "xahnxdxyaahnxdxyaahnxdxyaahnxdxyaauxuhuo")));
+        return "success";
+    }
+
+    public boolean patternMatching(String pattern, String value) {
+        if (pattern.isEmpty()) {
+            return false;
+        }
+        char x = pattern.charAt(0);
+        int pn = pattern.length(), xn = 1;
+        for (int i = 1; i < pn; i++) {
+            if(pattern.charAt(i) == x){
+                xn++;
+            }
+        }
+        int n = value.length();
+        if(n == 0){
+            return xn == 0 || xn == pn;
+        }
+        int yn = pn - xn;
+        for (int xLen = 0; xn * xLen <= n; xLen++) {
+            int rest = n - xLen * xn;
+            if((yn != 0 || rest != 0) && (yn <= 0 || rest % yn != 0)){
+                //满足yn == 0 && rest == 0 / yn > 0 && rest % yn == 0时才处理
+                continue;
+            }
+            int yLen = yn == 0 ? 0 : rest / yn;
+            String xStr = value.substring(0, xLen), yStr = "";
+            StringBuilder sb = new StringBuilder(xStr);
+            for (int i = 1; i < pn; i++) {
+                if(pattern.charAt(i) == x){
+                    sb.append(xStr);
+                }else{
+                    if(yLen > 0 && yStr.isEmpty()){
+                        yStr = value.substring(xLen * i, xLen * i + yLen);
+                        if(xStr.equals(yStr)){
+                            break;
+                        }
+                    }
+                    sb.append(yStr);
+                }
+            }
+            if(sb.toString().equals(value)){
+                return true;
+            }
+        }
+        return false;
+    }
 
 
 
