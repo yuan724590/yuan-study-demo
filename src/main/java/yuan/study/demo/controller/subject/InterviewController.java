@@ -539,6 +539,14 @@ public class InterviewController {
     }
 
     /**
+     * 面试题 16.14. 最佳直线
+     */
+    @GetMapping(value = "/bestLine")
+    public String bestLine() {
+        return interviewService.bestLine();
+    }
+
+    /**
      * 面试题 16.15. 珠玑妙算
      */
     @GetMapping(value = "/masterMind")

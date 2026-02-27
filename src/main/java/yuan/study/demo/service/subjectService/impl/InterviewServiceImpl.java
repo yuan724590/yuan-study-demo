@@ -1951,6 +1951,39 @@ public class InterviewServiceImpl implements InterviewService {
     }
 
     @Override
+    public String bestLine(){
+        System.out.println(JSON.toJSONString(bestLine(new int[][]{{0,0}, {1,1}, {1,0}, {2,0}})));
+        return "success";
+    }
+
+    public int[] bestLine(int[][] points) {
+        int n = points.length, max = 2;
+        int[] arr = new int[]{0,1};
+        for (int i = 0; i < n; i++) {
+            int x1 = points[i][0];
+            int y1 = points[i][1];
+            for (int j = i + 1; j < n; j++) {
+                int x2 = points[j][0];
+                int y2 = points[j][1];
+                int num = 2;
+                for (int k = j + 1; k < n; k++) {
+                    int x3 = points[k][0];
+                    int y3 = points[k][1];
+                    if ((y1 - y2) * (x1 - x3) == (y1 - y3) * (x1 - x2)) {
+                        num++;
+                    }
+                }
+                if(num > max){
+                    arr[0] = i;
+                    arr[1] = j;
+                    max = num;
+                }
+            }
+        }
+        return arr;
+    }
+
+    @Override
     public String masterMind(){
         System.out.println(JSON.toJSONString(masterMind("RGRB", "BBBY")));
         return "success";
