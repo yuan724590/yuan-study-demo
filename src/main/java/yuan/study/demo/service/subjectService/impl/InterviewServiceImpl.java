@@ -2116,6 +2116,69 @@ public class InterviewServiceImpl implements InterviewService {
         return false;
     }
 
+    @Override
+    public String pondSizes(){
+        System.out.println(JSON.toJSONString(pondSizes(new int[][]{{0,2,1,0},{0,1,0,1},{1,1,0,1},{0,1,0,1}})));
+        return "success";
+    }
+
+    public int[] pondSizes(int[][] land) {
+        int m = land.length, n = land[0].length;
+        List<Integer> list = new ArrayList<>();
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if(land[i][j] != 0){
+                    continue;
+                }
+                list.add(pondSizes(land, m, n, i, j, 0));
+            }
+        }
+        int[] arr = new int[list.size()];
+        for (int i = 0; i < list.size(); i++) {
+            arr[i] = list.get(i);
+        }
+        Arrays.sort(arr);
+        return arr;
+    }
+
+    private int pondSizes(int[][] land, int m, int n, int i, int j, int num) {
+        land[i][j] = 1;
+        num++;
+        if(i > 0 && j > 0 && land[i - 1][j - 1] == 0){
+            //左上
+            num = pondSizes(land, m, n, i - 1, j - 1, num);
+        }
+        if(i > 0 && land[i - 1][j] == 0){
+            //上
+            num = pondSizes(land, m, n, i - 1, j, num);
+        }
+        if(i > 0 && j < n - 1 && land[i - 1][j + 1] == 0){
+            //右上
+            num = pondSizes(land, m, n, i - 1, j + 1, num);
+        }
+        if(j < n - 1 && land[i][j + 1] == 0){
+            //右
+            num = pondSizes(land, m, n, i, j + 1, num);
+        }
+        if(i < m - 1 && j < n - 1 && land[i + 1][j + 1] == 0){
+            //右下
+            num = pondSizes(land, m, n, i + 1, j + 1, num);
+        }
+        if(i < m - 1 && land[i + 1][j] == 0){
+            //下
+            num = pondSizes(land, m, n, i + 1, j, num);
+        }
+        if(i < m - 1 && j > 0 && land[i + 1][j - 1] == 0){
+            //左下
+            num = pondSizes(land, m, n, i + 1, j - 1, num);
+        }
+        if(j > 0 && land[i][j - 1] == 0){
+            //左
+            num = pondSizes(land, m, n, i, j - 1, num);
+        }
+        return num;
+    }
+
 
 
 

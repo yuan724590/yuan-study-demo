@@ -577,4 +577,12 @@ public class InterviewController {
     public String patternMatching() {
         return interviewService.patternMatching();
     }
+
+    /**
+     * 面试题 16.19. 水域大小
+     */
+    @GetMapping(value = "/pondSizes")
+    public String pondSizes() {
+        return interviewService.pondSizes();
+    }
 }
