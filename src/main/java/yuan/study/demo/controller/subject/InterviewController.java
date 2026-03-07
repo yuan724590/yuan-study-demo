@@ -585,4 +585,12 @@ public class InterviewController {
     public String pondSizes() {
         return interviewService.pondSizes();
     }
+
+    /**
+     * 面试题 16.20. T9键盘
+     */
+    @GetMapping(value = "/getValidT9Words")
+    public String getValidT9Words() {
+        return interviewService.getValidT9Words();
+    }
 }

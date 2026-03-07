@@ -2179,6 +2179,74 @@ public class InterviewServiceImpl implements InterviewService {
         return num;
     }
 
+    @Override
+    public String getValidT9Words(){
+        System.out.println(JSON.toJSONString(getValidT9Words("8733", new String[]{"tree", "used"})));
+        return "success";
+    }
+
+    public List<String> getValidT9Words(String num, String[] words) {
+        Map<Integer, String> map = new HashMap<>();
+        map.put(2, "abc");
+        map.put(3, "def");
+        map.put(4, "ghi");
+        map.put(5, "jkl");
+        map.put(6, "mno");
+        map.put(7, "pqrs");
+        map.put(8, "tuv");
+        map.put(9, "wxyz");
+        Trie trie = new Trie(map);
+        trie.insert(num);
+
+        int n = num.length();
+        List<String> list = new ArrayList<>();
+        for (String word : words) {
+            if(word.length() !=  n || !trie.startWith(word)){
+                continue;
+            }
+            list.add(word);
+        }
+        return list;
+    }
+
+    class Trie {
+        Trie[] child;
+        Map<Integer, String> map;
+        public Trie(Map<Integer, String> map){
+            this.map = map;
+            child = new Trie[26];
+        }
+
+        public Trie(){
+            child = new Trie[26];
+        }
+
+        public void insert(String num){
+            Trie child = this;
+            for (int i = 0; i < num.length(); i++) {
+                String s = map.get(num.charAt(i) - '0');
+                Trie t = new Trie();
+                for (char c : s.toCharArray()) {
+                    child.child[c - 'a'] = t;
+                }
+                child = t;
+            }
+        }
+
+        public boolean startWith(String word){
+            Trie child = this;
+            for (int i = 0; i < word.length(); i++) {
+                Trie t = child.child[word.charAt(i) - 'a'];
+                if(t == null){
+                    return false;
+                }
+                child = t;
+            }
+            return true;
+        }
+    }
+
+
 
 
 
