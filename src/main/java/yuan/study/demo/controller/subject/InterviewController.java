@@ -593,4 +593,12 @@ public class InterviewController {
     public String getValidT9Words() {
         return interviewService.getValidT9Words();
     }
+
+    /**
+     * 面试题 16.21. 交换和
+     */
+    @GetMapping(value = "/findSwapValues")
+    public String findSwapValues() {
+        return interviewService.findSwapValues();
+    }
 }

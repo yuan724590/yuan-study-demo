@@ -2246,6 +2246,40 @@ public class InterviewServiceImpl implements InterviewService {
         }
     }
 
+    @Override
+    public String findSwapValues(){
+        System.out.println(JSON.toJSONString(findSwapValues(new int[]{4, 1, 2, 1, 1, 2}, new int[]{3,6,3,3})));
+        return "success";
+    }
+
+    public int[] findSwapValues(int[] array1, int[] array2) {
+        // 记录两个数组的和
+        int sum1 = 0, sum2 = 0;
+        // 记录 array2 中的数都出现过哪些
+        Set<Integer> set = new HashSet<>();
+        for (int num : array1) {
+            sum1 += num;
+        }
+        for (int num : array2) {
+            set.add(num);
+            sum2 += num;
+        }
+        // 求两个数组之差
+        int diff = sum1 - sum2;
+        // 如果不是偶数差值，那么直接返回空数组
+        if (diff % 2 != 0) {
+            return new int[]{};
+        }
+        diff = diff >> 1;
+        // 从 array2 中找到能和 array1 中 num 配对的数，如果找到了就直接返回，没找到就返回空数组。
+        for (int num : array1) {
+            if (set.contains(num - diff)) {
+                return new int[]{num, num - diff};
+            }
+        }
+        return new int[0];
+    }
+
 
 
 
