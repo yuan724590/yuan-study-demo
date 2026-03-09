@@ -601,4 +601,12 @@ public class InterviewController {
     public String findSwapValues() {
         return interviewService.findSwapValues();
     }
+
+    /**
+     * 面试题 16.22. 兰顿蚂蚁
+     */
+    @GetMapping(value = "/printKMoves")
+    public String printKMoves() {
+        return interviewService.printKMoves();
+    }
 }
