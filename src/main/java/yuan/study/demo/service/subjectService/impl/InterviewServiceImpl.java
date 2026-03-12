@@ -2371,6 +2371,30 @@ public class InterviewServiceImpl implements InterviewService {
         return result;
     }
 
+    @Override
+    public String pairSums(){
+        System.out.println(JSON.toJSONString(pairSums(new int[]{5,6,5,6}, 11)));
+        return "success";
+    }
+
+    public List<List<Integer>> pairSums(int[] nums, int target) {
+        Arrays.sort(nums);
+
+        List<List<Integer>> ans = new LinkedList<>();
+        int left = 0, right = nums.length - 1;
+        while (left < right) {
+            int sum = nums[left] + nums[right];
+            if (sum < target){
+                ++left;
+            } else if (sum > target){
+                --right;
+            } else{
+                ans.add(Arrays.asList(nums[left++], nums[right--]));
+            }
+        }
+        return ans;
+    }
+
 
 
 

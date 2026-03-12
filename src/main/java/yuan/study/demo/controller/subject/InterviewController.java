@@ -609,4 +609,12 @@ public class InterviewController {
     public String printKMoves() {
         return interviewService.printKMoves();
     }
+
+    /**
+     * 面试题 16.24. 数对和
+     */
+    @GetMapping(value = "/pairSums")
+    public String pairSums() {
+        return interviewService.pairSums();
+    }
 }
