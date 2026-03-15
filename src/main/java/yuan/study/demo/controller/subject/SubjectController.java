@@ -2816,6 +2816,14 @@ public class SubjectController {
     }
 
     /**
+     * 1470. 重新排列数组
+     */
+    @GetMapping(value = "/shuffle")
+    public String shuffle() {
+        return subjectService.shuffle();
+    }
+
+    /**
      * 1484. 按日期分组销售产品
      * Activities -> sell_date, product
      * 查询每个日期、销售的不同产品的数量及其名称(逗号隔开)
