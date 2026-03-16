@@ -2395,6 +2395,21 @@ public class InterviewServiceImpl implements InterviewService {
         return ans;
     }
 
+    @Override
+    public String add(){
+        System.out.println(JSON.toJSONString(add(1, 1)));
+        return "success";
+    }
+
+    public int add(int a, int b) {
+        int m = a ^ b, n = (a & b) << 1;
+        while(n != 0){
+            int temp = m ^ n;
+            n = (m & n) << 1;
+            m = temp;
+        }
+        return m;
+    }
 
 
 

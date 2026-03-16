@@ -617,4 +617,22 @@ public class InterviewController {
     public String pairSums() {
         return interviewService.pairSums();
     }
+
+    /**
+     * 面试题 16.25. LRU 缓存
+     * 同yuan.study.demo.controller.subject.SubjectController#lruCache(), 故跳过
+     */
+
+    /**
+     * 面试题 16.26. 计算器
+     * 同yuan.study.demo.controller.subject.SubjectController#calculate(), 故跳过
+     */
+
+    /**
+     * 面试题 17.01. 不用加号的加法
+     */
+    @GetMapping(value = "/add")
+    public String add() {
+        return interviewService.add();
+    }
 }
