@@ -635,4 +635,12 @@ public class InterviewController {
     public String add() {
         return interviewService.add();
     }
+
+    /**
+     * 面试题 17.04. 消失的数字
+     */
+    @GetMapping(value = "/missingNumber1704")
+    public String missingNumber() {
+        return interviewService.missingNumber();
+    }
 }

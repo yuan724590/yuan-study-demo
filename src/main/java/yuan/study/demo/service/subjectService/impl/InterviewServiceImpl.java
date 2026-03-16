@@ -2411,6 +2411,25 @@ public class InterviewServiceImpl implements InterviewService {
         return m;
     }
 
+    @Override
+    public String missingNumber(){
+        System.out.println(JSON.toJSONString(missingNumber(new int[]{3,0,1})));
+        return "success";
+    }
+
+    /**
+     * 异或的特性: a ^ b ^ b = a
+     */
+    public int missingNumber(int[] nums) {
+        int n = nums.length, res = 0;
+        for (int i = 0; i < n; i++) {
+            res ^= i;
+            res ^= nums[i];
+        }
+        return res ^ n;
+    }
+
+
 
 
 
