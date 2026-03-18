@@ -2429,6 +2429,38 @@ public class InterviewServiceImpl implements InterviewService {
         return res ^ n;
     }
 
+    @Override
+    public String findLongestSubarray(){
+        System.out.println(JSON.toJSONString(findLongestSubarray(new String[]{"A","1","B","C","D","2","3","4","E","5","F","G","6","7","H","I","J","K","L","M"})));
+        return "success";
+    }
+
+    public String[] findLongestSubarray(String[] array) {
+        int n = array.length;
+        int[] arr = new int[n + 1];
+        for (int i = 0; i < n; i++){
+            arr[i + 1] = arr[i] + (array[i].charAt(0) >> 6 & 1) * 2 - 1;
+        }
+
+        // 符合要求的子数组 [begin,end)
+        int begin = 0, end = 0;
+        Map<Integer, Integer> first = new HashMap<>();
+        for (int i = 0; i <= n; i++) {
+            int j = first.getOrDefault(arr[i], -1);
+            if (j < 0){
+                first.put(arr[i], i);
+                // 更长的子数组
+            } else if (i - j > end - begin) {
+                begin = j;
+                end = i;
+            }
+        }
+
+        String[] sub = new String[end - begin];
+        System.arraycopy(array, begin, sub, 0, sub.length);
+        return sub;
+    }
+
 
 
 

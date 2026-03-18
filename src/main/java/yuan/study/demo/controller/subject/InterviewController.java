@@ -643,4 +643,12 @@ public class InterviewController {
     public String missingNumber() {
         return interviewService.missingNumber();
     }
+
+    /**
+     * 面试题 17.05. 字母与数字
+     */
+    @GetMapping(value = "/findLongestSubarray")
+    public String findLongestSubarray() {
+        return interviewService.findLongestSubarray();
+    }
 }
