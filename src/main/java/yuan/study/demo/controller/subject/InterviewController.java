@@ -651,4 +651,12 @@ public class InterviewController {
     public String findLongestSubarray() {
         return interviewService.findLongestSubarray();
     }
+
+    /**
+     * 面试题 17.06. 2出现的次数
+     */
+    @GetMapping(value = "/numberOf2sInRange")
+    public String numberOf2sInRange() {
+        return interviewService.numberOf2sInRange();
+    }
 }

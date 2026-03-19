@@ -2461,6 +2461,26 @@ public class InterviewServiceImpl implements InterviewService {
         return sub;
     }
 
+    @Override
+    public String numberOf2sInRange(){
+        System.out.println(JSON.toJSONString(numberOf2sInRange(25)));
+        return "success";
+    }
+
+    public int numberOf2sInRange(int n) {
+        int count = 0;
+        long a, b;
+        for(long i = 1; i <= n; i *= 10){
+            //当前位 + 高位组成的数
+            a = n / i;
+            //低位数字
+            b = n % i;
+            //a等于0或1时，高位不需加一；大于1时，需要加一
+            //当前位上出现1的数量 + 当前位上为1时,出现1的次数
+            count += (a + 7) / 10 * i + (a % 10 == 2 ? b + 1 : 0);
+        }
+        return count;
+    }
 
 
 
