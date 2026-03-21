@@ -659,4 +659,12 @@ public class InterviewController {
     public String numberOf2sInRange() {
         return interviewService.numberOf2sInRange();
     }
+
+    /**
+     * 面试题 17.06. 2出现的次数
+     */
+    @GetMapping(value = "/trulyMostPopular")
+    public String trulyMostPopular() {
+        return interviewService.trulyMostPopular();
+    }
 }

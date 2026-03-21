@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import yuan.study.demo.service.subjectService.InterviewService;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 
 @Slf4j
@@ -2480,6 +2481,61 @@ public class InterviewServiceImpl implements InterviewService {
             count += (a + 7) / 10 * i + (a % 10 == 2 ? b + 1 : 0);
         }
         return count;
+    }
+
+    @Override
+    public String trulyMostPopular(){
+        System.out.println(JSON.toJSONString(trulyMostPopular(new String[]{"John(15)","Jon(12)","Chris(13)","Kris(4)","Christopher(19)"}, new String[]{"(Jon,John)","(John,Johnny)","(Chris,Kris)","(Chris,Christopher)"})));
+        return "success";
+    }
+
+    public String[] trulyMostPopular(String[] names, String[] synonyms) {
+        Map<String, Integer> map = new HashMap<>();
+        //统计每个名字的频率
+        for (String name : names) {
+            int l = name.indexOf('(');
+            int frequency = Integer.parseInt(name.substring(l + 1, name.length() - 1));
+            map.put(name.substring(0, l), frequency);
+        }
+        //并查集， key(子孙)->value(祖宗)
+        Map<String, String> unionMap = new HashMap<>();
+        for (String pair : synonyms) {
+            int i = pair.indexOf(',');
+            String name1 = pair.substring(1, i);
+            String name2 = pair.substring(i + 1, pair.length() - 1);
+            //找name1祖宗
+            while (unionMap.containsKey(name1)) {
+                name1 = unionMap.get(name1);
+            }
+            //找name2祖宗
+            while (unionMap.containsKey(name2)) {
+                name2 = unionMap.get(name2);
+            }
+            //祖宗不同，要合并，主要为了解决同级中字典序最小的问题
+            if(!name1.equals(name2)){
+                //出现次数是两者之和
+                int frequency = map.getOrDefault(name1, 0) + map.getOrDefault(name2, 0);
+                String trulyName, nickName;
+                if(name1.compareTo(name2) < 0){
+                    trulyName = name1;
+                    nickName = name2;
+                }else{
+                    trulyName = name2;
+                    nickName = name1;
+                }
+                //小名作为大名的分支，即大名是小名的祖宗
+                unionMap.put(nickName, trulyName);
+                //更新数据
+                map.remove(nickName);
+                map.put(trulyName, frequency);
+            }
+        }
+        String[] res = new String[map.size()];
+        int i = 0;
+        for (String name : map.keySet()) {
+            res[i++] = name + '(' + map.get(name) + ')';
+        }
+        return res;
     }
 
 
