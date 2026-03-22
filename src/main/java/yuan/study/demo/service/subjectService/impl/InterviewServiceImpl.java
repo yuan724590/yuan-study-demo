@@ -2538,6 +2538,52 @@ public class InterviewServiceImpl implements InterviewService {
         return res;
     }
 
+    @Override
+    public String bestSeqAtIndex(){
+        System.out.println(JSON.toJSONString(bestSeqAtIndex(new int[]{65,70,56,75,60,68}, new int[]{100,150,90,190,95,110})));
+        return "success";
+    }
+
+    public int bestSeqAtIndex(int[] height, int[] weight) {
+        int n = height.length;
+        int[][] arr = new int[n][2];
+        for(int i = 0; i < n; i++){
+            arr[i][0] = height[i];
+            arr[i][1] = weight[i];
+        }
+
+        Arrays.sort(arr, (o1, o2) -> o1[0] == o2[0] ? Integer.compare(o1[1], o2[1]) : Integer.compare(o2[0], o1[0]));
+
+        int[][] dp = new int[n + 1][2];
+        dp[1] = arr[0];
+        int index = 1;
+        for(int i = 1; i < n; i++){
+            if(arr[i][1] < dp[index][1]){
+                dp[++index] = arr[i];
+            } else {
+                int pos = find(dp, arr[i], index);
+                dp[pos] = arr[i];
+            }
+        }
+
+        return index;
+    }
+
+    public int find(int[][] dp, int[] person, int index){
+        int left = 1;
+        int right = index;
+        while(left < right){
+            int mid = (left + right) / 2;
+            if(dp[mid][1] <= person[1]){
+                right = mid;
+            } else {
+                left = mid + 1;
+            }
+        }
+
+        return right;
+    }
+
 
 
 

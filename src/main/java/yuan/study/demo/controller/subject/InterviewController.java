@@ -667,4 +667,12 @@ public class InterviewController {
     public String trulyMostPopular() {
         return interviewService.trulyMostPopular();
     }
+
+    /**
+     * 面试题 17.08. 马戏团人塔
+     */
+    @GetMapping(value = "/bestSeqAtIndex")
+    public String bestSeqAtIndex() {
+        return interviewService.bestSeqAtIndex();
+    }
 }
