@@ -2584,6 +2584,39 @@ public class InterviewServiceImpl implements InterviewService {
         return right;
     }
 
+    @Override
+    public String getKthMagicNumber(){
+        System.out.println(JSON.toJSONString(getKthMagicNumber(getKthMagicNumber(5))));
+        return "success";
+    }
+
+    /**
+     * 3:[1]*3 [3]*3 [5]*3 [7]*3 [3*3]*3 [3*5]*3
+     * 5:[1]*5 [3]*5 [5]*5 [7]*5 [3*3]*5 [3*5]*5
+     * 7:[1]*7 [3]*7 [5]*7 [7]*7 [3*3]*7 [3*5]*7
+     * 如果分别只用3/5/7的话 前缀是相同的, 其前缀就是之前算出来的数
+     */
+    public int getKthMagicNumber(int k) {
+        int[] arr = new int[k + 1];
+        arr[1] = 1;
+        int c3 = 1, c5 = 1, c7 = 1;
+        for (int i = 2; i <= k; i++) {
+            int v3 = arr[c3] * 3, v5 = arr[c5] * 5, v7 = arr[c7] * 7;
+            int min = Math.min(v3, Math.min(v5, v7));
+            if(min == v3){
+                c3++;
+            }
+            if(min == v5){
+                c5++;
+            }
+            if(min == v7){
+                c7++;
+            }
+            arr[i] = min;
+        }
+        return arr[k];
+    }
+
 
 
 

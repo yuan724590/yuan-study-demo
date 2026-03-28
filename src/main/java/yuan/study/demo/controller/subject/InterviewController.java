@@ -675,4 +675,12 @@ public class InterviewController {
     public String bestSeqAtIndex() {
         return interviewService.bestSeqAtIndex();
     }
+
+    /**
+     * 面试题 17.09. 第 k 个数
+     */
+    @GetMapping(value = "/getKthMagicNumber")
+    public String getKthMagicNumber() {
+        return interviewService.getKthMagicNumber();
+    }
 }
