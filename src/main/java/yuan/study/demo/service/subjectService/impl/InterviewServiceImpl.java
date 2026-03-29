@@ -2617,6 +2617,32 @@ public class InterviewServiceImpl implements InterviewService {
         return arr[k];
     }
 
+    @Override
+    public String majorityElement(){
+        System.out.println(JSON.toJSONString(majorityElement(new int[]{1,2,5,9,5,9,5,5,5})));
+        return "success";
+    }
+
+    public int majorityElement(int[] nums) {
+        int res = -1, count = 0, n = nums.length;
+        for (int num : nums) {
+            if (count == 0) {
+                res = num;
+            }
+            if (num == res) {
+                count++;
+            } else {
+                count--;
+            }
+        }
+        count = 0;
+        for (int num : nums) {
+            if (num == res) {
+                count++;
+            }
+        }
+        return count * 2 > n ? res : -1;
+    }
 
 
 

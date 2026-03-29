@@ -683,4 +683,12 @@ public class InterviewController {
     public String getKthMagicNumber() {
         return interviewService.getKthMagicNumber();
     }
+
+    /**
+     * 面试题 17.10. 主要元素
+     */
+    @GetMapping(value = "/majorityElement")
+    public String majorityElement() {
+        return interviewService.majorityElement();
+    }
 }
