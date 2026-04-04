@@ -1546,7 +1546,7 @@ public class SubjectServiceImpl implements SubjectService {
         return permuteList;
     }
 
-    private void dfs(List<Integer> list,int[] nums){
+    private void dfs(List<Integer> list, int[] nums){
         if(list.size() == nums.length){
             permuteList.add(new ArrayList<>(list));
             return;
@@ -5911,41 +5911,36 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     public int calculate(String s) {
-        Deque<Integer> deque = new LinkedList<>();
-        deque.push(1);
-        int sign = 1, result = 0, n = s.length(), i = 0;
-        while (i < n) {
-            char c = s.charAt(i);
-            switch (c){
-                case ' ':
-                    i++;
-                    break;
-                case '+':
-                    sign = deque.peek();
-                    i++;
-                    break;
-                case '-':
-                    sign = - deque.peek();
-                    i++;
-                    break;
-                case '(':
-                    deque.push(sign);
-                    i++;
-                    break;
-                case ')':
-                    deque.pop();
-                    i++;
-                    break;
-                default:
-                    long num = 0;
-                    while (i < n && Character.isDigit(s.charAt(i))) {
-                        num = num * 10 + s.charAt(i) - '0';
-                        i++;
-                    }
-                    result += sign * num;
+        Deque<Integer> stack = new ArrayDeque<>();
+        char preSign = '+';
+        int num = 0, n = s.length();
+        for (int i = 0; i < n; i++) {
+            if (Character.isDigit(s.charAt(i))) {
+                num = num * 10 + s.charAt(i) - '0';
+            }
+            if (!Character.isDigit(s.charAt(i)) && s.charAt(i) != ' ' || i == n - 1) {
+                switch (preSign) {
+                    case '+':
+                        stack.push(num);
+                        break;
+                    case '-':
+                        stack.push(-num);
+                        break;
+                    case '*':
+                        stack.push(stack.pop() * num);
+                        break;
+                    default:
+                        stack.push(stack.pop() / num);
+                }
+                preSign = s.charAt(i);
+                num = 0;
             }
         }
-        return result;
+        int ans = 0;
+        while (!stack.isEmpty()) {
+            ans += stack.pop();
+        }
+        return ans;
     }
 
 
@@ -6154,6 +6149,44 @@ public class SubjectServiceImpl implements SubjectService {
         public boolean empty() {
             return stack2.isEmpty() && stack1.isEmpty();
         }
+    }
+
+    @Override
+    public String isPalindrome234(){
+        ListNode listNode1 = new ListNode(1);
+        ListNode listNode2 = new ListNode(2, listNode1);
+        ListNode listNode3 = new ListNode(2, listNode2);
+        ListNode listNode4 = new ListNode(1, listNode3);
+        System.out.println(JSON.toJSONString(isPalindrome(listNode4)));
+        return "success";
+    }
+
+    public boolean isPalindrome(ListNode head) {
+        //快慢指针取中间节点
+        ListNode slow = head;
+        ListNode fast = head;
+        while(fast.next != null && fast.next.next != null){
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        //反转后续的链表
+        slow = slow.next;
+        ListNode reverse = null;
+        while(slow != null){
+            ListNode next = slow.next;
+            slow.next = reverse;
+            reverse = slow;
+            slow = next;
+        }
+        //对比反转后的链表值
+        while(reverse != null){
+            if(reverse.val != head.val){
+                return false;
+            }
+            head = head.next;
+            reverse = reverse.next;
+        }
+        return true;
     }
 
     @Override

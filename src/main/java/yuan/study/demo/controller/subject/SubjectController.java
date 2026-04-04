@@ -1679,6 +1679,14 @@ public class SubjectController {
     }
 
     /**
+     * 234. 回文链表
+     */
+    @GetMapping(value = "/isPalindrome234")
+    public void isPalindrome234(){
+        subjectService.isPalindrome234();
+    }
+
+    /**
      * 235. 二叉搜索树的最近公共祖先
      */
     @GetMapping(value = "/lowest/common/ancestor")
