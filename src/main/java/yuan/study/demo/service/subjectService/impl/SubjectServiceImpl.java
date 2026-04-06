@@ -7868,6 +7868,106 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String flatten430(){
+        // 创建节点
+        Node430 node1 = new Node430(1);
+        Node430 node2 = new Node430(2);
+        Node430 node3 = new Node430(3);
+        Node430 node4 = new Node430(4);
+        Node430 node5 = new Node430(5);
+        Node430 node6 = new Node430(6);
+        Node430 node7 = new Node430(7);
+        Node430 node8 = new Node430(8);
+        Node430 node9 = new Node430(9);
+        Node430 node10 = new Node430(10);
+        Node430 node11 = new Node430(11);
+        Node430 node12 = new Node430(12);
+
+        // 构建第一级链表
+        node1.next = node2;
+        node2.prev = node1;
+        node2.next = node3;
+        node3.prev = node2;
+        node3.next = node4;
+        node4.prev = node3;
+        node4.next = node5;
+        node5.prev = node4;
+        node5.next = node6;
+        node6.prev = node5;
+
+        // 构建第二级链表 (3 -> 7-> 8-> 9-> 10)
+        node3.child = node7; // 3 的 child 指向 7
+        node7.next = node8;
+        node8.prev = node7;
+        node8.next = node9;
+        node9.prev = node8;
+        node9.next = node10;
+        node10.prev = node9;
+
+        // 构建第三级链表 (8 -> 11-> 12)
+        node8.child = node11; // 8 的 child 指向 11
+        node11.next = node12;
+        node12.prev = node11;
+        Node430 node = flatten(node1);
+        while(node != null){
+            System.out.println(node.val);
+            node = node.next;
+        }
+        return "success";
+    }
+
+    public Node430 flatten(Node430 head) {
+        dfs(head);
+        return head;
+    }
+
+    public Node430 dfs(Node430 node) {
+        Node430 cur = node;
+        // 记录链表的最后一个节点
+        Node430 last = null;
+
+        while (cur != null) {
+            Node430 next = cur.next;
+            //  如果有子节点，那么首先处理子节点
+            if (cur.child != null) {
+                Node430 childLast = dfs(cur.child);
+                //  将 node 与 child 相连
+                cur.next = cur.child;
+                cur.child.prev = cur;
+
+                //  如果 next 不为空，就将 last 与 next 相连
+                if (next != null) {
+                    childLast.next = next;
+                    next.prev = childLast;
+                }
+
+                // 将 child 置为空
+                cur.child = null;
+                last = childLast;
+            } else {
+                last = cur;
+            }
+            cur = next;
+        }
+        return last;
+    }
+
+    @Data
+    static class Node430 {
+        public int val;
+        public Node430 prev;
+        public Node430 next;
+        public Node430 child;
+
+        public Node430(int val) {
+            this.val = val;
+            this.prev = null;
+            this.next = null;
+            this.child = null;
+        }
+    }
+
+    @Override
     public String eraseOverlapIntervals(){
         System.out.println(JSON.toJSONString(eraseOverlapIntervals(new int[][]{{-52,31},{-73,-26},{82,97},{-65,-11},{-62,-49},{95,99},{58,95},{-31,49},{66,98},{-63,2},{30,47},{-40,-26}})));
         return "success";

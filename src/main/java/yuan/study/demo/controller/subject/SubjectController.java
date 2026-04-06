@@ -2102,6 +2102,14 @@ public class SubjectController {
     }
 
     /**
+     * 430. 扁平化多级双向链表
+     */
+    @GetMapping(value = "/flatten430")
+    public String flatten430() {
+        return subjectService.flatten430();
+    }
+
+    /**
      * 435. 无重叠区间
      */
     @GetMapping(value = "/eraseOverlapIntervals")
