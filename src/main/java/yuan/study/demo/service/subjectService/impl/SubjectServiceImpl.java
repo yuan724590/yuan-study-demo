@@ -8174,6 +8174,65 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String addTwoNumbers445(){
+        ListNode listNode1 = new ListNode(5);
+
+        ListNode listNode11 = new ListNode(5);
+        System.out.println(JSON.toJSONString(addTwoNumbers445(listNode1, listNode11)));
+        return "success";
+    }
+
+    public ListNode addTwoNumbers445(ListNode l1, ListNode l2) {
+        l1 = reverseList445(l1);
+        l2 = reverseList445(l2);
+        ListNode l3 = addTwo(l1, l2);
+        return reverseList445(l3);
+    }
+
+    private ListNode reverseList445(ListNode listNode){
+        ListNode node = null;
+        while(listNode != null){
+            ListNode next = listNode.next;
+            listNode.next = node;
+            node = listNode;
+            listNode = next;
+        }
+        return node;
+    }
+
+    private ListNode addTwo(ListNode l1, ListNode l2) {
+        int a = 0;
+        ListNode l3 = new ListNode(0);
+        ListNode copy = l3;
+        while(l1 != null && l2 != null){
+            int v = (a + l1.val + l2.val) % 10;
+            a = (a + l1.val + l2.val) / 10;
+            copy.next = new ListNode(v);
+            copy = copy.next;
+            l1 = l1.next;
+            l2 = l2.next;
+        }
+        while(l1 != null){
+            int v = (a + l1.val) % 10;
+            a = (a + l1.val) / 10;
+            copy.next = new ListNode(v);
+            copy = copy.next;
+            l1 = l1.next;
+        }
+        while(l2 != null){
+            int v = (a + l2.val) % 10;
+            a = (a + l2.val) / 10;
+            copy.next = new ListNode(v);
+            copy = copy.next;
+            l2 = l2.next;
+        }
+        if(a != 0){
+            copy.next = new ListNode(a);
+        }
+        return l3.next;
+    }
+
+    @Override
     public String deleteNode(){
         TreeNode treeNode = new TreeNode(5);
         treeNode.left = new TreeNode(3, new TreeNode(2), new TreeNode(4));
