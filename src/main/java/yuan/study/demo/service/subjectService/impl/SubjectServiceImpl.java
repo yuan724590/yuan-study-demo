@@ -9007,6 +9007,48 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String insert708(){
+        Node head3 = new Node(2);
+        Node head2 = new Node(1, head3);
+        Node head1 = new Node(1, head2);
+        head3.next = head1;
+        insert(head1, 2);
+        return "success";
+    }
+
+    public Node insert(Node head, int insertVal) {
+        Node node = new Node(insertVal);
+        if (head == null) {
+            node.next = node;
+            return node;
+        }
+        if (head.next == head) {
+            head.next = node;
+            node.next = head;
+            return head;
+        }
+        Node curr = head, next = head.next;
+        while (next != head) {
+            if (curr.val <= insertVal && insertVal <= next.val) {
+                //插入值在当前节点和下个节点之间
+                break;
+            }
+            if (curr.val > next.val) {
+                //此节点是最后的节点
+                if (curr.val < insertVal || insertVal < next.val) {
+                    //结尾节点值 < 插入值 || 插入值 < 开头节点值
+                    break;
+                }
+            }
+            curr = curr.next;
+            next = next.next;
+        }
+        curr.next = node;
+        node.next = next;
+        return head;
+    }
+
+    @Override
     public String maxProfit6(){
         System.out.println(JSON.toJSONString(maxProfit6(new int[]{2,1,4,4,2,3,2,5,1,2}, 1)));
         return "success";

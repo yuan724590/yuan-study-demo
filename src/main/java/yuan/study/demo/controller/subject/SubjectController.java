@@ -2391,6 +2391,14 @@ public class SubjectController {
     }
 
     /**
+     * 708. 循环有序列表的插入
+     */
+    @GetMapping(value = "/insert708")
+    public String insert708() {
+        return subjectService.insert708();
+    }
+
+    /**
      * 709. 转换成小写字母
      */
     @GetMapping(value = "/toLowerCase")
