@@ -691,4 +691,12 @@ public class InterviewController {
     public String majorityElement() {
         return interviewService.majorityElement();
     }
+
+    /**
+     * 面试题 17.11. 单词距离
+     */
+    @GetMapping(value = "/findClosest")
+    public String findClosest() {
+        return interviewService.findClosest();
+    }
 }

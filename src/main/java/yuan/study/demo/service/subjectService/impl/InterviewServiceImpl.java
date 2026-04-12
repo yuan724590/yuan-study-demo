@@ -2644,6 +2644,27 @@ public class InterviewServiceImpl implements InterviewService {
         return count * 2 > n ? res : -1;
     }
 
+    @Override
+    public String findClosest(){
+        System.out.println(JSON.toJSONString(findClosest(new String[]{"I","am","a","student","from","a","university","in","a","city"}, "a", "student")));
+        return "success";
+    }
+
+    public int findClosest(String[] words, String word1, String word2) {
+        int n = words.length, i1 = -n, i2 = -n, min = n;
+        for (int i = 0; i < n; i++) {
+            String str = words[i];
+            if(str.equals(word1)){
+                i1 = i;
+                min = Math.min(min, i1 - i2);
+            } else if (str.equals(word2)) {
+                i2 = i;
+                min = Math.min(min, i2 - i1);
+            }
+        }
+        return min;
+    }
+
 
 
 
