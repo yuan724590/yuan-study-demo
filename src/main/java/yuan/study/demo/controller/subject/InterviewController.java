@@ -699,4 +699,12 @@ public class InterviewController {
     public String findClosest() {
         return interviewService.findClosest();
     }
+
+    /**
+     * 面试题 17.12. BiNode
+     */
+    @GetMapping(value = "/convertBiNode")
+    public String convertBiNode() {
+        return interviewService.convertBiNode();
+    }
 }

@@ -2665,6 +2665,35 @@ public class InterviewServiceImpl implements InterviewService {
         return min;
     }
 
+    @Override
+    public String convertBiNode(){
+        TreeNode treeNode = new TreeNode(4);
+        treeNode.left = new TreeNode(2, new TreeNode(1), new TreeNode(3));
+        treeNode.left.left.left = new TreeNode(0);
+        treeNode.right = new TreeNode(5, null, new TreeNode(6));
+        System.out.println(JSON.toJSONString(convertBiNode(treeNode)));
+        return "success";
+    }
+
+    TreeNode  head = new TreeNode(-1);
+    TreeNode pre = head;
+
+    public TreeNode convertBiNode(TreeNode root) {
+        inOrder(root);
+        return head.right;
+    }
+
+    private void inOrder(TreeNode root) {
+        if (root == null) {
+            return;
+        }
+        inOrder(root.left);
+        pre.right = root;
+        pre = root;
+        root.left = null;
+        inOrder(root.right);
+    }
+
 
 
 
