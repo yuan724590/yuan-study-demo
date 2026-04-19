@@ -2006,6 +2006,14 @@ public class SubjectController {
     }
 
     /**
+     * 380. O(1) 时间插入、删除和获取随机元素
+     */
+    @GetMapping(value = "/randomizedSet")
+    public void randomizedSet(){
+        subjectService.randomizedSet();
+    }
+
+    /**
      * 386. 字典序排数
      */
     @GetMapping(value = "/lexicalOrder")
