@@ -707,4 +707,12 @@ public class InterviewController {
     public String convertBiNode() {
         return interviewService.convertBiNode();
     }
+
+    /**
+     * 面试题 17.13. 恢复空格
+     */
+    @GetMapping(value = "/respace")
+    public String respace() {
+        return interviewService.respace();
+    }
 }
