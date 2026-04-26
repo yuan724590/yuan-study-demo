@@ -2754,6 +2754,21 @@ public class InterviewServiceImpl implements InterviewService {
         }
     }
 
+    @Override
+    public String smallestK(){
+        System.out.println(JSON.toJSONString(smallestK(new int[]{1,3,5,7,2,4,6,8}, 4)));
+        return "success";
+    }
+
+    public int[] smallestK(int[] arr, int k) {
+        int[] vec = new int[k];
+        Arrays.sort(arr);
+        for (int i = 0; i < k; ++i) {
+            vec[i] = arr[i];
+        }
+        return vec;
+    }
+
 
 
 
