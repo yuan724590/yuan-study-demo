@@ -2769,6 +2769,42 @@ public class InterviewServiceImpl implements InterviewService {
         return vec;
     }
 
+    @Override
+    public String longestWord(){
+        System.out.println(JSON.toJSONString(longestWord(new String[]{"cat","banana","dog","nana","walk","walker","dogwalker"})));
+        return "success";
+    }
+
+    public String longestWord(String[] words) {
+        Arrays.sort(words, (o1, o2)->{
+            if(o1.length() == o2.length()){
+                return o1.compareTo(o2);
+            }else{
+                return Integer.compare(o2.length(), o1.length());
+            }
+        });
+        Set<String> set = new HashSet<>(Arrays.asList(words));
+        for (String word : words) {
+            set.remove(word);
+            if(longestWordFind(set, word)){
+                return word;
+            }
+        }
+        return "";
+    }
+
+    private boolean longestWordFind(Set<String> set, String word){
+        if(word.isEmpty()){
+            return true;
+        }
+        for (int i = 0; i < word.length(); i++) {
+            if(set.contains(word.substring(0, i + 1)) && longestWordFind(set, word.substring(i + 1))){
+                return true;
+            }
+        }
+        return false;
+    }
+
 
 
 

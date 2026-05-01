@@ -723,4 +723,12 @@ public class InterviewController {
     public String smallestK() {
         return interviewService.smallestK();
     }
+
+    /**
+     * 面试题 17.15. 最长单词
+     */
+    @GetMapping(value = "/longestWord")
+    public String longestWord() {
+        return interviewService.longestWord();
+    }
 }
