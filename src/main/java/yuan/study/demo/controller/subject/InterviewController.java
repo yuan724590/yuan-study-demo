@@ -731,4 +731,12 @@ public class InterviewController {
     public String longestWord() {
         return interviewService.longestWord();
     }
+
+    /**
+     * 面试题 17.16. 按摩师
+     */
+    @GetMapping(value = "/massage")
+    public String massage() {
+        return interviewService.massage();
+    }
 }

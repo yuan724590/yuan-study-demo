@@ -2805,6 +2805,21 @@ public class InterviewServiceImpl implements InterviewService {
         return false;
     }
 
+    @Override
+    public String massage(){
+        System.out.println(JSON.toJSONString(massage(new int[]{2,7,9,3,1})));
+        return "success";
+    }
+
+    public int massage(int[] nums) {
+        int n = nums.length;
+        int[] dp = new int[n + 2];
+        for (int i = 0; i < n; i++) {
+            dp[i + 2] = Math.max(dp[i + 1], dp[i] + nums[i]);
+        }
+        return dp[n + 1];
+    }
+
 
 
 
