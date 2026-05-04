@@ -7278,6 +7278,37 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String movingAverage(){
+        MovingAverage movingAverage = new MovingAverage(3);
+        System.out.println(movingAverage.next(1));
+        System.out.println(movingAverage.next(10));
+        System.out.println(movingAverage.next(3));
+        System.out.println(movingAverage.next(5));
+        return "success";
+    }
+
+    static class MovingAverage {
+        Queue<Integer> queue;
+        int size;
+        double sum;
+
+        public MovingAverage(int size) {
+            queue = new ArrayDeque<>();
+            this.size = size;
+            sum = 0;
+        }
+
+        public double next(int val) {
+            if (queue.size() == size) {
+                sum -= queue.poll();
+            }
+            queue.offer(val);
+            sum += val;
+            return sum / queue.size();
+        }
+    }
+
+    @Override
     public String intersection(){
         System.out.println(JSON.toJSONString(intersection(new int[]{1,2,2,1}, new int[]{2,2})));
         return "success";

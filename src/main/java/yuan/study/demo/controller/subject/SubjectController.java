@@ -1958,6 +1958,14 @@ public class SubjectController {
     }
 
     /**
+     * 346. 数据流中的移动平均值
+     */
+    @GetMapping(value = "/movingAverage")
+    public void movingAverage(){
+        subjectService.movingAverage();
+    }
+
+    /**
      * 349. 两个数组的交集
      */
     @GetMapping(value = "/intersection")
