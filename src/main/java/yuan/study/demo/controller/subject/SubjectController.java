@@ -2238,6 +2238,14 @@ public class SubjectController {
     }
 
     /**
+     * 539. 最小时间差
+     */
+    @GetMapping(value = "/findMinDifference")
+    public String findMinDifference() {
+        return subjectService.findMinDifference();
+    }
+
+    /**
      * 547. 省份数量
      */
     @GetMapping(value = "/findCircleNum")

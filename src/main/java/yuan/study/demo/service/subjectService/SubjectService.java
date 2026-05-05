@@ -6598,6 +6598,23 @@ public interface SubjectService {
     String updateBoard();
 
     /**
+     * 给定一个 24 小时制（小时:分钟 "HH:MM"）的时间列表，找出列表中任意两个时间的最小时间差并以分钟数表示。
+     *
+     * 示例 1：
+     * 输入：timePoints = ["23:59","00:00"]
+     * 输出：1
+     *
+     * 示例 2：
+     * 输入：timePoints = ["00:00","23:59","00:00"]
+     * 输出：0
+     *
+     * 提示：
+     * 2 <= timePoints.length <= 2 * 104
+     * timePoints[i] 格式为 "HH:MM"
+     */
+    String findMinDifference();
+
+    /**
      * 有 n 个城市，其中一些彼此相连，另一些没有相连。如果城市 a 与城市 b 直接相连，且城市 b 与城市 c 直接相连，那么城市 a 与城市 c 间接相连。
      *
      * 省份 是一组直接或间接相连的城市，组内不含其他没有相连的城市。
