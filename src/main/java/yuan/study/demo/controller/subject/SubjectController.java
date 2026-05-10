@@ -2615,6 +2615,14 @@ public class SubjectController {
     }
 
     /**
+     * 953. 验证外星语词典
+     */
+    @GetMapping(value = "/isAlienSorted")
+    public String isAlienSorted() {
+        return subjectService.isAlienSorted();
+    }
+
+    /**
      * 994. 腐烂的橘子
      */
     @GetMapping(value = "/orangesRotting")

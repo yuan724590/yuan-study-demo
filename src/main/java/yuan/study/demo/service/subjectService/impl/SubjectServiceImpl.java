@@ -9932,6 +9932,41 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public  String isAlienSorted(){
+        System.out.println(JSON.toJSONString(isAlienSorted(new String[]{"apple","app"}, "abcdefghijklmnopqrstuvwxyz")));
+        return "success";
+    }
+
+    public boolean isAlienSorted(String[] words, String order) {
+        int[] arr = new int[26];
+        int n = order.length();
+        for (int i = 0; i < n; i++) {
+            arr[order.charAt(i) - 'a'] = i;
+        }
+        List<String> list = new ArrayList<>(Arrays.asList(words));
+        while(list.size() > 1){
+            int m = list.size();
+            for (int i = m - 1; i > 0; i--) {
+                int s = Math.min(words[i].length(), words[i - 1].length()), j = 0;
+                for (; j < s; j++) {
+                    int now = arr[words[i].charAt(j) - 'a'];
+                    int pre = arr[words[i - 1].charAt(j) - 'a'];
+                    if(now < pre){
+                        return false;
+                    }else if(now > pre){
+                        break;
+                    }
+                }
+                if(j == s && words[i].length() < words[i - 1].length()){
+                    return false;
+                }
+                list.remove(i);
+            }
+        }
+        return true;
+    }
+
+    @Override
     public String orangesRotting(){
         System.out.println(JSON.toJSONString(orangesRotting(new int[][]{{2,1,1},{1,1,0},{0,1,1}})));
         return "success";
