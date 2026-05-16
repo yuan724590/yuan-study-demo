@@ -739,4 +739,13 @@ public class InterviewController {
     public String massage() {
         return interviewService.massage();
     }
+
+    /**
+     * 面试题 17.17. 多次搜索
+     */
+    @GetMapping(value = "/multiSearch")
+    public String multiSearch() {
+        return interviewService.multiSearch();
+    }
+
 }

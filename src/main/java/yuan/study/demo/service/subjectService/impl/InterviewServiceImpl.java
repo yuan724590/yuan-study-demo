@@ -2820,6 +2820,55 @@ public class InterviewServiceImpl implements InterviewService {
         return dp[n + 1];
     }
 
+    @Override
+    public String multiSearch(){
+        System.out.println(JSON.toJSONString(multiSearch("mississippi", new String[]{"is","ppi","hi","sis","i","ssippi"})));
+        return "success";
+    }
+
+    class multiSearchTrieTrie {
+
+        TrieNode root;
+
+        public multiSearchTrieTrie(String[] words){
+            root = new TrieNode();
+            for(String word : words){
+                TrieNode node = root;
+                for(char w : word.toCharArray()){
+                    int i = w - 'a';
+                    if(node.next[i] == null){
+                        node.next[i] = new TrieNode();
+                    }
+                    node = node.next[i];
+                }
+                node.end = word;
+            }
+        }
+
+        public List<String> search(String str){
+            TrieNode node = root;
+            List<String> res = new ArrayList<>();
+            for(char c : str.toCharArray()){
+                int i = c - 'a';
+                if(node.next[i] == null){
+                    break;
+                }
+                node = node.next[i];
+                if(node.end != null){
+                    res.add(node.end);
+                }
+            }
+            return res;
+        }
+    }
+
+    class TrieNode{
+
+        String end;
+
+        TrieNode[] next = new TrieNode[26];
+    }
+
 
 
 
