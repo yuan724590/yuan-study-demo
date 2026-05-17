@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import yuan.study.demo.service.subjectService.InterviewService;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 
 @Slf4j
@@ -2868,6 +2867,80 @@ public class InterviewServiceImpl implements InterviewService {
 
         TrieNode[] next = new TrieNode[26];
     }
+
+    public int[][] multiSearch(String big, String[] smalls) {
+        multiSearchTrieTrie trie = new multiSearchTrieTrie(smalls);
+        Map<String, List<Integer>> hit = new HashMap<>();
+        for(int i = 0; i < big.length(); i++){
+            List<String> matchList = trie.search(big.substring(i));
+            for(String word: matchList){
+                if(!hit.containsKey(word)){
+                    hit.put(word, new ArrayList<>());
+                }
+                hit.get(word).add(i);
+            }
+        }
+
+        int[][] res = new int[smalls.length][];
+
+        for(int i = 0; i < smalls.length; i++){
+            List<Integer> list = hit.get(smalls[i]);
+            if(list == null){
+                res[i] = new int[0];
+                continue;
+            }
+            int size = list.size();
+            res[i] = new int[size];
+            for(int j = 0; j < size; j++){
+                res[i][j] = list.get(j);
+            }
+        }
+        return res;
+    }
+
+    @Override
+    public String shortestSeq(){
+        System.out.println(JSON.toJSONString(shortestSeq(new int[]{7,5,9,0,2,1,3,5,7,9,1,1,5,8,8,9,7}, new int[]{1,5,9})));
+        return "success";
+    }
+
+    public int[] shortestSeq(int[] big, int[] small) {
+        int shortestStart = -1;
+        int shortestLength = Integer.MAX_VALUE;
+        Map<Integer, Integer> countMap = new HashMap<>();
+        int m = big.length, n = small.length;
+        for (int j : small) {
+            countMap.put(j, -1);
+        }
+        int meets = 0, start = 0, end = 0;
+        while (end < m) {
+            int curr = big[end];
+            if (countMap.containsKey(curr)) {
+                countMap.put(curr, countMap.getOrDefault(curr, 0) + 1);
+                if (countMap.get(curr) == 0) {
+                    meets++;
+                }
+            }
+            while (meets == n) {
+                if (end - start + 1 < shortestLength) {
+                    shortestStart = start;
+                    shortestLength = end - start + 1;
+                }
+                int prev = big[start];
+                if (countMap.containsKey(prev)) {
+                    countMap.put(prev, countMap.get(prev) - 1);
+                    if (countMap.get(prev) < 0) {
+                        meets--;
+                    }
+                }
+                start++;
+            }
+            end++;
+        }
+        return shortestStart < 0 ? new int[0] : new int[]{shortestStart, shortestStart + shortestLength - 1};
+    }
+
+
 
 
 

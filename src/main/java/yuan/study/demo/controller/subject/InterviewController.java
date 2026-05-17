@@ -748,4 +748,11 @@ public class InterviewController {
         return interviewService.multiSearch();
     }
 
+    /**
+     * 面试题 17.18. 最短超串
+     */
+    @GetMapping(value = "/shortestSeq")
+    public String shortestSeq() {
+        return interviewService.shortestSeq();
+    }
 }
