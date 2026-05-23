@@ -2940,6 +2940,36 @@ public class InterviewServiceImpl implements InterviewService {
         return shortestStart < 0 ? new int[0] : new int[]{shortestStart, shortestStart + shortestLength - 1};
     }
 
+    @Override
+    public String missingTwo(){
+        System.out.println(JSON.toJSONString(missingTwo(new int[]{1, 3, 4, 5, 6, 7, 8, 10})));
+        return "success";
+    }
+
+    public int[] missingTwo(int[] nums) {
+        //分别对当前数组、以及完整数组求和
+        int n = nums.length + 2;
+        int sum = 0, sumAll = (n + 1) * n / 2;
+        for (int num : nums) {
+            sum += num;
+        }
+        //两个和进行差值计算，得到缺失两个值的总和：x + y = sumAll - sum
+        int sumTwoNum = sumAll - sum;
+        //对差值进行对半计算，那么x,y必然有一个值是小于计算后的对半值
+        int mid = sumTwoNum / 2;
+        //同样使用对半值未基准，通过两个数组求和，得出差值即为x或者y
+        sumAll = (mid + 1) * mid / 2;
+        sum = 0;
+        for (int num : nums) {
+            if (num <= mid) {
+                sum += num;
+            }
+        }
+        int num1 = sumAll - sum;
+        int num2 = sumTwoNum - num1;
+        return new int[]{num1, num2};
+    }
+
 
 
 

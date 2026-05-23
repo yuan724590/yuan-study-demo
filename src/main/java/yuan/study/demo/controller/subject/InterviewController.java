@@ -755,4 +755,12 @@ public class InterviewController {
     public String shortestSeq() {
         return interviewService.shortestSeq();
     }
+
+    /**
+     * 面试题 17.19. 消失的两个数字
+     */
+    @GetMapping(value = "/missingTwo")
+    public String missingTwo() {
+        return interviewService.missingTwo();
+    }
 }
