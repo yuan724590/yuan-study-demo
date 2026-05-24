@@ -8506,6 +8506,39 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String largestValues(){
+        TreeNode node1 = new TreeNode(3, new TreeNode(5), new TreeNode(3));
+        TreeNode node2 = new TreeNode(2, null, new TreeNode(9));
+        TreeNode node3 = new TreeNode(1, node1, node2);
+        System.out.println(JSON.toJSONString(largestValues(node3)));
+        return "success";
+    }
+
+    List<Integer> largestValuesList = new ArrayList<>();
+
+    public List<Integer> largestValues(TreeNode root) {
+        if(root == null){
+            return largestValuesList;
+        }
+        largestValues(root, 1);
+        return largestValuesList;
+    }
+
+    public void largestValues(TreeNode root, int deep) {
+        if(largestValuesList.size() < deep){
+            largestValuesList.add(root.val);
+        }else if(largestValuesList.get(deep - 1) < root.val){
+            largestValuesList.set(deep - 1, root.val);
+        }
+        if(root.left != null){
+            largestValues(root.left, deep + 1);
+        }
+        if(root.right != null){
+            largestValues(root.right, deep + 1);
+        }
+    }
+
+    @Override
     public String findMaxLength(){
         System.out.println(JSON.toJSONString(findMaxLength(new int[]{0,1,1,1,1,1,0,0,0})));
         System.out.println(JSON.toJSONString(findMaxLength(new int[]{0,1,1,0,0,0,1})));

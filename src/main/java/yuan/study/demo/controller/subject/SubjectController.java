@@ -2222,6 +2222,14 @@ public class SubjectController {
     }
 
     /**
+     * 515. 在每个树行中找最大值
+     */
+    @GetMapping(value = "/largestValues")
+    public String largestValues() {
+        return subjectService.largestValues();
+    }
+
+    /**
      * 525. 连续数组
      */
     @GetMapping(value = "/findMaxLength")
