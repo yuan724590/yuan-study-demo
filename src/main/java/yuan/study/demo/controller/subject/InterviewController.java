@@ -763,4 +763,12 @@ public class InterviewController {
     public String missingTwo() {
         return interviewService.missingTwo();
     }
+
+    /**
+     * 面试题 17.20. 连续中值
+     */
+    @GetMapping(value = "/medianFinder")
+    public String medianFinder() {
+        return interviewService.medianFinder();
+    }
 }

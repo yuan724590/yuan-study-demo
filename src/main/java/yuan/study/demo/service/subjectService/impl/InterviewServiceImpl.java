@@ -2970,6 +2970,48 @@ public class InterviewServiceImpl implements InterviewService {
         return new int[]{num1, num2};
     }
 
+    @Override
+    public String medianFinder(){
+        MedianFinder medianFinder = new MedianFinder();
+        medianFinder.addNum(1);
+        medianFinder.addNum(2);
+        medianFinder.addNum(3);
+        medianFinder.addNum(4);
+        System.out.println(JSON.toJSONString(medianFinder.findMedian()));
+        return "success";
+    }
+
+    class MedianFinder {
+        PriorityQueue<Integer> queMin;
+        PriorityQueue<Integer> queMax;
+
+        public MedianFinder() {
+            queMin = new PriorityQueue<>((a, b) -> (b - a));
+            queMax = new PriorityQueue<>();
+        }
+
+        public void addNum(int num) {
+            if (queMin.isEmpty() || num <= queMin.peek()) {
+                queMin.offer(num);
+                if (queMax.size() + 1 < queMin.size()) {
+                    queMax.offer(queMin.poll());
+                }
+            } else {
+                queMax.offer(num);
+                if (queMax.size() > queMin.size()) {
+                    queMin.offer(queMax.poll());
+                }
+            }
+        }
+
+        public double findMedian() {
+            if (queMin.size() > queMax.size()) {
+                return queMin.peek();
+            }
+            return (queMin.peek() + queMax.peek()) / 2.0;
+        }
+    }
+
 
 
 
