@@ -2,6 +2,7 @@ package yuan.study.demo.service.subjectService.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.google.common.collect.Lists;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -3010,6 +3011,27 @@ public class InterviewServiceImpl implements InterviewService {
             }
             return (queMin.peek() + queMax.peek()) / 2.0;
         }
+    }
+
+    @Override
+    public String trap(){
+        System.out.println(JSON.toJSONString(trap(new int[]{5,2,1,3})));
+        return "success";
+    }
+
+    public int trap(int[] height) {
+        if(height.length == 0){
+            return 0;
+        }
+        int left = 0, right = height.length - 1;
+        int maxL = height[left], maxR = height[right];
+        int res = 0;
+        while(left < right){
+            maxL = Math.max(maxL, height[left]);
+            maxR = Math.max(maxR, height[right]);
+            res += maxL < maxR ? maxL - height[left++] : maxR - height[right--];
+        }
+        return res;
     }
 
 

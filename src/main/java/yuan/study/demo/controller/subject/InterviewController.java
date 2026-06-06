@@ -771,4 +771,12 @@ public class InterviewController {
     public String medianFinder() {
         return interviewService.medianFinder();
     }
+
+    /**
+     * 面试题 17.21. 直方图的水量
+     */
+    @GetMapping(value = "/trap1721")
+    public String trap() {
+        return interviewService.trap();
+    }
 }
