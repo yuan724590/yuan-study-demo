@@ -779,4 +779,12 @@ public class InterviewController {
     public String trap() {
         return interviewService.trap();
     }
+
+    /**
+     * 面试题 17.22. 单词转换
+     */
+    @GetMapping(value = "/findLadders1722")
+    public String findLadders() {
+        return interviewService.findLadders();
+    }
 }

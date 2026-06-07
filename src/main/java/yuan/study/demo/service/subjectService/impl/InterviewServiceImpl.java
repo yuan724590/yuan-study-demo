@@ -3034,6 +3034,55 @@ public class InterviewServiceImpl implements InterviewService {
         return res;
     }
 
+    @Override
+    public String findLadders(){
+        System.out.println(JSON.toJSONString(findLadders("hit", "cog", Lists.newArrayList("hot","dot","dog","lot","log","cog"))));
+        return "success";
+    }
+
+    public List<String> findLadders(String beginWord, String endWord, List<String> wordList) {
+        List<String> list = new ArrayList<>();
+        Set<String> set = new HashSet<>(wordList);
+        if(!set.contains(endWord)) {
+            return list;
+        }
+        Queue<List<String>> queue = new ArrayDeque<>();
+        list.add(beginWord);
+        queue.add(list);
+        set.remove(beginWord);
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            while (size > 0) {
+                List<String> curPath = queue.poll();
+                String curWord = curPath.get(curPath.size() - 1);
+                for (int i = 0; i < curWord.length(); i++) {
+                    char[] ch = curWord.toCharArray();
+                    char temp = ch[i];
+                    for (char j = 'a'; j <= 'z'; j++) {
+                        if (j == temp) {
+                            continue;
+                        }
+                        ch[i] = j;
+                        String nextWord = new String(ch);
+                        if (set.contains(nextWord)) {
+                            List<String> newPath = new ArrayList<>(curPath);
+                            newPath.add(nextWord);
+                            set.remove(nextWord);
+                            if (nextWord.equals(endWord)) {
+                                return newPath;
+                            } else {
+                                queue.add(newPath);
+                            }
+                        }
+                    }
+                    ch[i] = temp;
+                }
+                size--;
+            }
+        }
+        return new ArrayList<>();
+    }
+
 
 
 
