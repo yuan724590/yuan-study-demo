@@ -787,4 +787,12 @@ public class InterviewController {
     public String findLadders() {
         return interviewService.findLadders();
     }
+
+    /**
+     * 面试题 17.23. 最大黑方阵
+     */
+    @GetMapping(value = "/findSquare")
+    public String findSquare() {
+        return interviewService.findSquare();
+    }
 }

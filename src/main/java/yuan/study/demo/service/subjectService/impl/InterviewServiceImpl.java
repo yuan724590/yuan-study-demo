@@ -3083,6 +3083,44 @@ public class InterviewServiceImpl implements InterviewService {
         return new ArrayList<>();
     }
 
+    @Override
+    public String findSquare(){
+        System.out.println(JSON.toJSONString(findSquare(new int[][]{{1, 1, 1, 0, 1, 1, 0, 1, 0, 0}, {0, 1, 0, 1, 1, 0, 0, 0, 1, 1}, {0, 0, 1, 1, 0, 0, 1, 1, 1, 0}, {0, 1, 1, 1, 0, 1, 0, 0, 1, 0}, {1, 1, 0, 1, 1, 0, 1, 0, 0, 1}, {0, 1, 1, 0, 0, 0, 0, 1, 1, 0}, {1, 0, 0, 0, 0, 1, 1, 1, 1, 1}, {1, 0, 1, 0, 1, 0, 0, 0, 1, 0}, {1, 1, 1, 1, 0, 1, 0, 1, 0, 0}, {0, 0, 0, 0, 0, 0, 0, 1, 1, 0}})));
+        return "success";
+    }
+
+    /**
+     * 计算四个角的值
+     */
+    public int[] findSquare(int[][] matrix) {
+        int n = matrix.length, r = 0, c = 0, size = 0;
+        //左侧连续0的个数
+        int[][] left = new int[n + 1][n + 1];
+        //上方连续0的个数
+        int[][] up = new int[n + 1][n + 1];
+        for (int i = 1; i <= n; i++) {
+            for (int j = 1; j <= n; j++) {
+                if (matrix[i - 1][j - 1] != 0) {
+                    continue;
+                }
+                //当前是右下角进行计算
+                left[i][j] = left[i][j - 1] + 1;
+                up[i][j] = up[i - 1][j] + 1;
+                //从左侧 上方两个 取最小0的个数
+                int border = Math.min(left[i][j], up[i][j]);
+                //右上角的左侧连续0的个数 < 边长 || 左下角的上方连续0的个数 < 边长 说明没形成方形, 要缩小范围
+                while (left[i - border + 1][j] < border || up[i][j - border + 1] < border) {
+                    border--;
+                }
+                if (border > size) {
+                    r = i - border;
+                    c = j - border;
+                    size = border;
+                }
+            }
+        }
+        return size > 0 ? new int[]{r, c, size} : new int[0];
+    }
 
 
 
