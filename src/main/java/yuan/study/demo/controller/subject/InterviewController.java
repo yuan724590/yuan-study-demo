@@ -795,4 +795,12 @@ public class InterviewController {
     public String findSquare() {
         return interviewService.findSquare();
     }
+
+    /**
+     * 面试题 17.24. 最大子矩阵
+     */
+    @GetMapping(value = "/getMaxMatrix")
+    public String getMaxMatrix() {
+        return interviewService.getMaxMatrix();
+    }
 }
