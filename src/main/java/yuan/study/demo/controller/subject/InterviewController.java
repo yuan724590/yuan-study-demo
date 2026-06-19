@@ -803,4 +803,12 @@ public class InterviewController {
     public String getMaxMatrix() {
         return interviewService.getMaxMatrix();
     }
+
+    /**
+     * 面试题 17.25. 单词矩阵
+     */
+    @GetMapping(value = "/maxRectangle")
+    public String maxRectangle() {
+        return interviewService.maxRectangle();
+    }
 }

@@ -3167,6 +3167,97 @@ public class InterviewServiceImpl implements InterviewService {
         return ret;
     }
 
+    @Override
+    public String maxRectangle(){
+        System.out.println(JSON.toJSONString(maxRectangle(new String[]{"this", "real", "hard", "trh", "hea", "iar", "sld"})));
+        return "success";
+    }
+
+    MaxRectangleTrie maxRectangleTrie = new MaxRectangleTrie();
+    int maxRectangleMaxArea = 0;
+    List<String> maxRectangleAns = null;
+    //保存以长度为key，以单词集合为value的map，按照长度从大到小排序
+    TreeMap<Integer, Set<String>> maxRectangleMap = new TreeMap<>((o1, o2) -> o2 - o1);
+
+    public String[] maxRectangle(String[] words) {
+        //按照长度添加进map，同时添加到字典树中
+        for (String word : words) {
+            maxRectangleTrie.add(word);
+            maxRectangleMap.putIfAbsent(word.length(), new HashSet<>());
+            maxRectangleMap.get(word.length()).add(word);
+        }
+
+        //对每一个相同长度的单词集合dfs，找到集合中能组成矩形的最多单词，并更新全局变量ans和maxArea
+        for (int len : maxRectangleMap.keySet()) {
+            //关键，Node数组保存dfs时当前状态的所有字母在字典树中的位置，最开始时保存的都是字典树的根，如dfs了第一个单词this，数组变为{Node(t), Node(h), Node(i), Node(s)}，
+            //检查新单词的时候，直接从字典树的每个Node走到下一个位置，比如下一个单词是real，Node(t)的下一个节点中如果r不存在，说明无法构建，
+            //如果Node(t)->Node(r), Node(h)->Node(e), Node(i)->Node(a), Node(s)->Node(l)都存在，则可以继续尝试添加，另外如果这四个新的Node位置都是单词结尾（valid = true）,那么构成了一个有效矩形，可以尝试更新答案
+            MaxRectangleNode[] nodes = new MaxRectangleNode[len];
+            Arrays.fill(nodes, maxRectangleTrie.root);
+            List<String> list = new ArrayList<>(maxRectangleMap.get(len));
+            //四个参数：单词集合， 当前集合， Node数组
+            maxRectangleDfs(list, new ArrayList<>(), nodes);
+        }
+        return maxRectangleAns.toArray(new String[0]);
+    }
+
+    private void maxRectangleDfs(List<String> list, ArrayList<String> curList, MaxRectangleNode[] nodes) {
+        int len = nodes.length;
+        //因为一个矩形有两种构成方式，这里只检查以len作为长边的矩形，如this, real, hard检查过以后，可以不用检查trh, hra, iar, srd，二者是一样的。
+        if (len * len <= maxRectangleMaxArea || curList.size() == len) {
+            return;
+        }
+        search:
+        for (int p = 0; p < list.size(); p++) {
+            //如果每个新的Node都是单词结尾，allValid保持为true，是合格的矩形
+            boolean allValid = true;
+            MaxRectangleNode[] next = new MaxRectangleNode[nodes.length];
+            for (int i = 0; i < len; i++) {
+                if (nodes[i].children[list.get(p).charAt(i) - 'a'] == null) {
+                    continue search;
+                }
+                if (!nodes[i].children[list.get(p).charAt(i) - 'a'].valid) {
+                    allValid = false;
+                }
+                next[i] = nodes[i].children[list.get(p).charAt(i) - 'a'];
+            }
+            curList.add(list.get(p));
+            if (allValid && maxRectangleMaxArea < len * curList.size()) {
+                maxRectangleMaxArea = len * curList.size();
+                maxRectangleAns = new ArrayList<>(curList);
+            }
+            maxRectangleDfs(list, curList, next);
+            curList.remove(curList.size() - 1);
+        }
+    }
+
+    //常规字典树
+    class MaxRectangleTrie {
+        MaxRectangleNode root = new MaxRectangleNode('0');
+        void add(String word) {
+            MaxRectangleNode ptr = root;
+            for (char ch : word.toCharArray()) {
+                if (ptr.children[ch - 'a'] == null) {
+                    ptr.children[ch - 'a'] = new MaxRectangleNode(ch);
+                }
+                ptr = ptr.children[ch - 'a'];
+            }
+            ptr.valid = true;
+        }
+    }
+
+    class MaxRectangleNode {
+        char ch;
+        boolean valid;
+        MaxRectangleNode[] children = new MaxRectangleNode[26];
+        MaxRectangleNode(char ch) {
+            this.ch = ch;
+        }
+        public String toString() {
+            return ch + " " + valid;
+        }
+    }
+
 
 
 
