@@ -3258,6 +3258,41 @@ public class InterviewServiceImpl implements InterviewService {
         }
     }
 
+    @Override
+    public String computeSimilarities(){
+        System.out.println(JSON.toJSONString(computeSimilarities(new int[][]{{14, 15, 100, 9, 3},{32, 1, 9, 3, 5},{15, 29, 2, 6, 8, 7},{7, 10}})));
+        return "success";
+    }
+
+    public List<String> computeSimilarities(int[][] docs) {
+        List<String> ansList = new ArrayList<>();
+        //key: 数字值, value: 出现过的数组索引数组
+        Map<Integer, List<Integer>> map = new HashMap<>();
+        int n = docs.length;
+        int[][] help = new int[n][n];
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < docs[i].length; j++) {
+                List<Integer> list = map.get(docs[i][j]);
+                if (list == null) {
+                    list = new ArrayList<>();
+                    map.put(docs[i][j], list);
+                } else {
+                    for (Integer k : list) {
+                        help[i][k]++;
+                    }
+                }
+                list.add(i);
+            }
+
+            for (int k = 0; k < n; k++) {
+                if (help[i][k] > 0) {
+                    ansList.add(k + "," + i + ": " + String.format("%.4f", (double) help[i][k] / (docs[i].length + docs[k].length - help[i][k])));
+                }
+            }
+        }
+        return ansList;
+    }
+
 
 
 

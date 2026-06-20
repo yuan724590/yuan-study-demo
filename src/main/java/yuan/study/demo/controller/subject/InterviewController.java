@@ -811,4 +811,12 @@ public class InterviewController {
     public String maxRectangle() {
         return interviewService.maxRectangle();
     }
+
+    /**
+     * 面试题 17.26. 稀疏相似度
+     */
+    @GetMapping(value = "/computeSimilarities")
+    public String computeSimilarities() {
+        return interviewService.computeSimilarities();
+    }
 }
