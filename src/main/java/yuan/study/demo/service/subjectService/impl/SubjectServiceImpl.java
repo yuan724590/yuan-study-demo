@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import sun.reflect.generics.tree.Tree;
 import yuan.study.demo.entity.ListNode;
 import yuan.study.demo.service.subjectService.SubjectService;
 
@@ -2219,6 +2220,12 @@ public class SubjectServiceImpl implements SubjectService {
 
         TreeNode(int x) {
             val = x;
+        }
+
+        TreeNode(int x, int l, int r) {
+            val = x;
+            left = new TreeNode(l);
+            right = new TreeNode(r);
         }
     }
 
@@ -8506,6 +8513,36 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String findBottomLeftValue(){
+        TreeNode treeNode = new TreeNode(2, new TreeNode(4), null);
+        TreeNode treeNode1 = new TreeNode(5, new TreeNode(7), null);
+        TreeNode treeNode2 = new TreeNode(3, treeNode1, new TreeNode(6));
+        TreeNode treeNode0 = new TreeNode(1, treeNode, treeNode2);
+        System.out.println(JSON.toJSONString(findBottomLeftValue(treeNode0)));
+        return "success";
+    }
+
+    int val = Integer.MIN_VALUE, maxDeep = -1;
+
+    public int findBottomLeftValue(TreeNode root) {
+        findBottomLeftValue(root, 0);
+        return val;
+    }
+
+
+    public void findBottomLeftValue(TreeNode root, int deep) {
+        if(root == null){
+            return;
+        }
+        if(maxDeep < deep){
+            val = root.val;
+            maxDeep = deep;
+        }
+        findBottomLeftValue(root.left, deep + 1);
+        findBottomLeftValue(root.right, deep + 1);
+    }
+
+    @Override
     public String largestValues(){
         TreeNode node1 = new TreeNode(3, new TreeNode(5), new TreeNode(3));
         TreeNode node2 = new TreeNode(2, null, new TreeNode(9));
@@ -10243,6 +10280,11 @@ public class SubjectServiceImpl implements SubjectService {
             val = _val;
             left = _left;
             right = _right;
+            next = _next;
+        }
+
+        public Node(int _val, Node _next) {
+            val = _val;
             next = _next;
         }
 

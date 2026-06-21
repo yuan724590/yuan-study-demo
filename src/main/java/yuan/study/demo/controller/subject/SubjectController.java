@@ -2222,6 +2222,14 @@ public class SubjectController {
     }
 
     /**
+     * 513. 找树左下角的值
+     */
+    @GetMapping(value = "/findBottomLeftValue")
+    public String findBottomLeftValue() {
+        return subjectService.findBottomLeftValue();
+    }
+
+    /**
      * 515. 在每个树行中找最大值
      */
     @GetMapping(value = "/largestValues")
