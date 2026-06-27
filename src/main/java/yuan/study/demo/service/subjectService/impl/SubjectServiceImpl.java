@@ -2221,10 +2221,14 @@ public class SubjectServiceImpl implements SubjectService {
             val = x;
         }
 
-        TreeNode(int x, int l, int r) {
+        TreeNode(int x, Integer l, Integer r) {
             val = x;
-            left = new TreeNode(l);
-            right = new TreeNode(r);
+            if(l != null){
+                left = new TreeNode(l);
+            }
+            if(r != null){
+                right = new TreeNode(r);
+            }
         }
     }
 
