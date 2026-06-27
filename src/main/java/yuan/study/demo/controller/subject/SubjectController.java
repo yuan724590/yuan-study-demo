@@ -2559,6 +2559,14 @@ public class SubjectController {
     }
 
     /**
+     * 867. 转置矩阵
+     */
+    @GetMapping(value = "/transpose")
+    public String transpose() {
+        return subjectService.transpose();
+    }
+
+    /**
      * 872. 叶子相似的树
      */
     @GetMapping(value = "/leafSimilar")
@@ -2575,11 +2583,11 @@ public class SubjectController {
     }
 
     /**
-     * 867. 转置矩阵
+     * 897. 递增顺序搜索树
      */
-    @GetMapping(value = "/transpose")
-    public String transpose() {
-        return subjectService.transpose();
+    @GetMapping(value = "/increasingBST")
+    public String increasingBST() {
+        return subjectService.increasingBST();
     }
 
     /**

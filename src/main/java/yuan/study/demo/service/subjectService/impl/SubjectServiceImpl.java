@@ -6,7 +6,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import sun.reflect.generics.tree.Tree;
 import yuan.study.demo.entity.ListNode;
 import yuan.study.demo.service.subjectService.SubjectService;
 
@@ -9603,6 +9602,23 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String transpose(){
+        System.out.println(JSON.toJSONString(transpose(new int[][]{{1,2,3},{4,5,6}})));
+        return "success";
+    }
+
+    public int[][] transpose(int[][] matrix) {
+        int n = matrix.length, m = matrix[0].length;
+        int[][] arr = new int[m][n];
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                arr[j][i] = matrix[i][j];
+            }
+        }
+        return arr;
+    }
+
+    @Override
     public String leafSimilar(){
         TreeNode treeNode1 = new TreeNode(2, new TreeNode(7), new TreeNode(4));
         TreeNode treeNode2 = new TreeNode(5, new TreeNode(6), treeNode1);
@@ -9685,20 +9701,35 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
-    public String transpose(){
-        System.out.println(JSON.toJSONString(transpose(new int[][]{{1,2,3},{4,5,6}})));
+    public String increasingBST(){
+        TreeNode node = new TreeNode(2, 1, null);
+        TreeNode node1 = new TreeNode(3, node, new TreeNode(4));
+        TreeNode node2 = new TreeNode(8, 7, 9);
+        TreeNode node3 = new TreeNode(6, null, node2);
+        TreeNode node4 = new TreeNode(5, node1, node3);
+        System.out.println(increasingBST(node4));
         return "success";
     }
 
-    public int[][] transpose(int[][] matrix) {
-        int n = matrix.length, m = matrix[0].length;
-        int[][] arr = new int[m][n];
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < m; j++) {
-                arr[j][i] = matrix[i][j];
-            }
+    TreeNode treeNode897 = new TreeNode(0);
+
+    public TreeNode increasingBST(TreeNode root) {
+        TreeNode head = treeNode897;
+        inorder(root);
+        return head.right;
+    }
+
+    public void inorder(TreeNode root) {
+        if(root == null){
+            return;
         }
-        return arr;
+        inorder(root.left);
+
+        treeNode897.right = root;
+        treeNode897 = treeNode897.right;
+        root.left = null;
+
+        inorder(root.right);
     }
 
     @Override
