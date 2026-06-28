@@ -1806,6 +1806,14 @@ public class SubjectController {
      */
 
     /**
+     * 297. 二叉树的序列化与反序列化
+     */
+    @GetMapping(value = "/serialize")
+    public void serialize(){
+        subjectService.serialize();
+    }
+
+    /**
      * 300. 最长递增子序列
      */
     @GetMapping(value = "/lengthOfLIS")

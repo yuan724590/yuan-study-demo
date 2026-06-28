@@ -6620,6 +6620,67 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String serialize(){
+        TreeNode treeNode = new TreeNode(2);
+        TreeNode treeNode1 = new TreeNode(3, 4, 5);
+        TreeNode treeNode2 = new TreeNode(1, treeNode, treeNode1);
+        Codec codec = new Codec();
+        String data = codec.serialize(treeNode2);
+        System.out.println(data);
+        System.out.println(codec.deserialize(data));
+        return "success";
+    }
+
+    public class Codec {
+        public String serialize(TreeNode root) {
+            if (root == null) {
+                return "X";
+            }
+            String left = "(" + serialize(root.left) + ")";
+            String right = "(" + serialize(root.right) + ")";
+            return left + root.val + right;
+        }
+
+        public TreeNode deserialize(String data) {
+            int[] ptr = {0};
+            return parse(data, ptr);
+        }
+
+        public TreeNode parse(String data, int[] ptr) {
+            if (data.charAt(ptr[0]) == 'X') {
+                ++ptr[0];
+                return null;
+            }
+            TreeNode cur = new TreeNode(0);
+            cur.left = parseSubtree(data, ptr);
+            cur.val = parseInt(data, ptr);
+            cur.right = parseSubtree(data, ptr);
+            return cur;
+        }
+
+        public TreeNode parseSubtree(String data, int[] ptr) {
+            // 跳过左括号
+            ++ptr[0];
+            TreeNode subtree = parse(data, ptr);
+            // 跳过右括号
+            ++ptr[0];
+            return subtree;
+        }
+
+        public int parseInt(String data, int[] ptr) {
+            int x = 0, sgn = 1;
+            if (!Character.isDigit(data.charAt(ptr[0]))) {
+                sgn = -1;
+                ++ptr[0];
+            }
+            while (Character.isDigit(data.charAt(ptr[0]))) {
+                x = x * 10 + data.charAt(ptr[0]++) - '0';
+            }
+            return x * sgn;
+        }
+    }
+
+    @Override
     public String lengthOfLIS(){
         System.out.println(JSON.toJSONString(lengthOfLIS(new int[]{10,9,2,5,3,7,101,18})));
         return "success";
