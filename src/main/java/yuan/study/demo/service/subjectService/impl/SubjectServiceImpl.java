@@ -6553,6 +6553,36 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String inorderSuccessor(){
+        TreeNode treeNode = new TreeNode(2, 1, null);
+        TreeNode treeNode1 = new TreeNode(3, treeNode, new TreeNode(4));
+        TreeNode treeNode2 = new TreeNode(5, treeNode1, new TreeNode(6));
+        System.out.println(JSON.toJSONString(inorderSuccessor(treeNode2, new TreeNode(6))));
+        return "success";
+    }
+
+    public TreeNode inorderSuccessor(TreeNode root, TreeNode p) {
+        TreeNode treeNode = null;
+        if (p.right != null) {
+            treeNode = p.right;
+            while (treeNode.left != null) {
+                treeNode = treeNode.left;
+            }
+            return treeNode;
+        }
+        TreeNode node = root;
+        while (node != null) {
+            if (node.val > p.val) {
+                treeNode = node;
+                node = node.left;
+            } else {
+                node = node.right;
+            }
+        }
+        return treeNode;
+    }
+
+    @Override
     public String gameOfLife(){
         int[][] arr = new int[][]{{0,0,0,0,0},{0,0,1,0,0},{0,0,1,0,0},{0,0,1,0,0},{0,0,0,0,0}};
         gameOfLife(arr);

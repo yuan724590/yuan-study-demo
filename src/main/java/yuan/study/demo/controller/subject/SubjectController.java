@@ -1793,6 +1793,14 @@ public class SubjectController {
     }
 
     /**
+     * 285. 二叉搜索树中的中序后继
+     */
+    @GetMapping(value = "/inorderSuccessor")
+    public void inorderSuccessor(){
+        subjectService.inorderSuccessor();
+    }
+
+    /**
      * 289. 生命游戏
      */
     @GetMapping(value = "/gameOfLife")
