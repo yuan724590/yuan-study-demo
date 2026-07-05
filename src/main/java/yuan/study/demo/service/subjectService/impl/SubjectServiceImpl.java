@@ -8824,6 +8824,29 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String convertBST(){
+        TreeNode treeNode = new TreeNode(2, null, 3);
+        TreeNode treeNode1 = new TreeNode(1, new TreeNode(0), treeNode);
+        TreeNode treeNode2 = new TreeNode(7, null, 8);
+        TreeNode treeNode3 = new TreeNode(6, new TreeNode(5), treeNode2);
+        TreeNode treeNode4 = new TreeNode(4, treeNode1, treeNode3);
+        System.out.println(JSON.toJSONString(convertBST(treeNode4)));
+        return "success";
+    }
+
+    int convertBSTSum = 0;
+
+    public TreeNode convertBST(TreeNode root) {
+        if (root != null) {
+            convertBST(root.right);
+            convertBSTSum += root.val;
+            root.val = convertBSTSum;
+            convertBST(root.left);
+        }
+        return root;
+    }
+
+    @Override
     public String findMinDifference(){
         System.out.println(JSON.toJSONString(findMinDifference(Lists.newArrayList("23:59","00:00"))));
         return "success";

@@ -1795,7 +1795,7 @@ public class SubjectController {
     /**
      * 285. 二叉搜索树中的中序后继
      */
-    @GetMapping(value = "/inorderSuccessor")
+    @GetMapping(value = "/inorderSuccessor285")
     public void inorderSuccessor(){
         subjectService.inorderSuccessor();
     }
@@ -2270,6 +2270,14 @@ public class SubjectController {
     }
 
     /**
+     * 538. 把二叉搜索树转换为累加树
+     */
+    @GetMapping(value = "/convertBST")
+    public String convertBST() {
+        return subjectService.convertBST();
+    }
+
+    /**
      * 539. 最小时间差
      */
     @GetMapping(value = "/findMinDifference")
@@ -2677,6 +2685,11 @@ public class SubjectController {
     public String longestOnes() {
         return subjectService.longestOnes();
     }
+
+    /**
+     * 1038. 从二叉搜索树到更大和树
+     * 同yuan.study.demo.controller.subject.SubjectController#convertBST() 故跳过
+     */
 
     /**
      * 1045. 买下所有产品的客户
