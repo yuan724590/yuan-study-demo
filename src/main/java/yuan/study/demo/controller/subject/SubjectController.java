@@ -1982,6 +1982,14 @@ public class SubjectController {
     }
 
     /**
+     * 347. 前 K 个高频元素
+     */
+    @GetMapping(value = "/topKFrequent")
+    public void topKFrequent(){
+        subjectService.topKFrequent();
+    }
+
+    /**
      * 349. 两个数组的交集
      */
     @GetMapping(value = "/intersection")

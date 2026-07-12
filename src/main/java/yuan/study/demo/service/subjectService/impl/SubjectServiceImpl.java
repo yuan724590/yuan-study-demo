@@ -7410,6 +7410,21 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String topKFrequent(){
+        System.out.println(JSON.toJSONString(topKFrequent(new int[]{1,2,1,2,1,2,3,1,3,2}, 2)));
+        return "success";
+    }
+
+    public int[] topKFrequent(int[] nums, int k) {
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int num : nums) {
+            map.put(num, map.getOrDefault(num, 0) + 1);
+        }
+        return map.entrySet().stream().sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
+                .limit(k).mapToInt(Map.Entry::getKey).toArray();
+    }
+
+    @Override
     public String intersection(){
         System.out.println(JSON.toJSONString(intersection(new int[]{1,2,2,1}, new int[]{2,2})));
         return "success";
