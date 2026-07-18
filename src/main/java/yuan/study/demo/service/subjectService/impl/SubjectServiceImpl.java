@@ -9465,6 +9465,35 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String myCalendar(){
+        MyCalendar myCalendar = new MyCalendar();
+        System.out.println(JSON.toJSONString(myCalendar.book(20, 29)));
+        System.out.println(JSON.toJSONString(myCalendar.book(13, 22)));
+        System.out.println(JSON.toJSONString(myCalendar.book(44, 50)));
+        System.out.println(JSON.toJSONString(myCalendar.book(1, 7)));
+        System.out.println(JSON.toJSONString(myCalendar.book(2, 10)));
+        System.out.println(JSON.toJSONString(myCalendar.book(14, 20)));
+        return "success";
+    }
+
+    class MyCalendar {
+        private final TreeMap<Integer, Integer> treeMap = new TreeMap<>();
+
+        public MyCalendar() {
+        }
+
+        public boolean book(int startTime, int endTime) {
+            //查找并返回大于或等于指定键（key）的最小键所对应的键值对 entry‌。
+            Map.Entry<Integer, Integer> entry = treeMap.ceilingEntry(startTime + 1);
+            if (entry != null && entry.getValue() < endTime) {
+                return false;
+            }
+            treeMap.put(endTime, startTime);
+            return true;
+        }
+    }
+
+    @Override
     public String asteroidCollision(){
         System.out.println(JSON.toJSONString(asteroidCollision(new int[]{8,-8})));
         return "success";

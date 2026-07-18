@@ -2511,6 +2511,14 @@ public class SubjectController {
     }
 
     /**
+     * 729. 我的日程安排表 I
+     */
+    @GetMapping(value = "/myCalendar")
+    public String myCalendar() {
+        return subjectService.myCalendar();
+    }
+
+    /**
      * 735. 小行星碰撞
      */
     @GetMapping(value = "/asteroidCollision")
