@@ -2423,6 +2423,14 @@ public class SubjectController {
     }
 
     /**
+     * 648. 单词替换
+     */
+    @GetMapping(value = "/replaceWords")
+    public String replaceWords() {
+        return subjectService.replaceWords();
+    }
+
+    /**
      * 649. Dota2 参议院
      */
     @GetMapping(value = "/predictPartyVictory")
