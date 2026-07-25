@@ -9186,6 +9186,67 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String findTarget(){
+        TreeNode treeNode = new TreeNode(3, 2, 4);
+        TreeNode treeNode1 = new TreeNode(6, null, 7);
+        TreeNode treeNode2 = new TreeNode(5, treeNode, treeNode1);
+        System.out.println(JSON.toJSONString(findTarget(treeNode2, 9)));
+        return "success";
+    }
+
+    public boolean findTarget(TreeNode root, int k) {
+        TreeNode left = root, right = root;
+        Deque<TreeNode> leftStack = new ArrayDeque<>();
+        Deque<TreeNode> rightStack = new ArrayDeque<>();
+        //把root的左边都加进去
+        leftStack.push(left);
+        while (left.left != null) {
+            leftStack.push(left.left);
+            left = left.left;
+        }
+        //把root的右边都加进去
+        rightStack.push(right);
+        while (right.right != null) {
+            rightStack.push(right.right);
+            right = right.right;
+        }
+        //左不等于右就继续执行
+        while (left != right) {
+            if (left.val + right.val == k) {
+                return true;
+            }
+            if (left.val + right.val < k) {
+                //小于值, 往右
+                left = getLeft(leftStack);
+            } else {
+                //小于值, 往左
+                right = getRight(rightStack);
+            }
+        }
+        return false;
+    }
+
+    public TreeNode getLeft(Deque<TreeNode> stack) {
+        TreeNode root = stack.pop();
+        TreeNode node = root.right;
+        while (node != null) {
+            stack.push(node);
+            node = node.left;
+        }
+        return root;
+    }
+
+    public TreeNode getRight(Deque<TreeNode> stack) {
+        TreeNode root = stack.pop();
+        TreeNode node = root.left;
+        while (node != null) {
+            stack.push(node);
+            node = node.right;
+        }
+        return root;
+    }
+
+    @Override
     public String findClosestElements(){
         System.out.println(JSON.toJSONString(findClosestElements(new int[]{1,2,4,5}, 4, 3)));
         return "success";

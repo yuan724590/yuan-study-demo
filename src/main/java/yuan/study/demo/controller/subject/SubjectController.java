@@ -2439,6 +2439,14 @@ public class SubjectController {
     }
 
     /**
+     * 653. 两数之和 IV - 输入二叉搜索树
+     */
+    @GetMapping(value = "/findTarget")
+    public String findTarget() {
+        return subjectService.findTarget();
+    }
+
+    /**
      * 658. 找到 K 个最接近的元素
      */
     @GetMapping(value = "/findClosestElements")
