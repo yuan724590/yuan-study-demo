@@ -9763,6 +9763,37 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String pruneTree(){
+        TreeNode treeNode = new TreeNode(0, 0, 0);
+        TreeNode treeNode1 = new TreeNode(1, 0, 1);
+        TreeNode treeNode2 = new TreeNode(1, treeNode, treeNode1);
+        System.out.println(JSON.toJSONString(pruneTree(treeNode2)));
+        return "success";
+    }
+
+    public TreeNode pruneTree(TreeNode root) {
+        int val = pruneTree1(root);
+        return val == 0 ? null : root;
+    }
+
+    public int pruneTree1(TreeNode root) {
+        if(root == null){
+            return 0;
+        }
+        int val = root.val;
+        int left = pruneTree1(root.left);
+        if(left == 0){
+            root.left = null;
+        }
+
+        int right = pruneTree1(root.right);
+        if(right == 0){
+            root.right = null;
+        }
+        return val + left + right;
+    }
+
+    @Override
     public String canVisitAllRooms(){
         List<List<Integer>> list = new ArrayList<>();
         list.add(Lists.newArrayList(1, 3));

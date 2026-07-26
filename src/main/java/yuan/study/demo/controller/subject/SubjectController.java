@@ -2591,6 +2591,14 @@ public class SubjectController {
     }
 
     /**
+     * 814. 二叉树剪枝
+     */
+    @GetMapping(value = "/pruneTree")
+    public String pruneTree() {
+        return subjectService.pruneTree();
+    }
+
+    /**
      * 841. 钥匙和房间
      */
     @GetMapping(value = "/canVisitAllRooms")
