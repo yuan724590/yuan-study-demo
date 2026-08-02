@@ -2599,6 +2599,14 @@ public class SubjectController {
     }
 
     /**
+     * 820. 单词的压缩编码
+     */
+    @GetMapping(value = "/minimumLengthEncoding")
+    public String minimumLengthEncoding() {
+        return subjectService.minimumLengthEncoding();
+    }
+
+    /**
      * 841. 钥匙和房间
      */
     @GetMapping(value = "/canVisitAllRooms")
