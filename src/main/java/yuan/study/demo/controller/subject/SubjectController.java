@@ -2455,6 +2455,14 @@ public class SubjectController {
     }
 
     /**
+     * 676. 实现一个魔法字典
+     */
+    @GetMapping(value = "/magicDictionary")
+    public String magicDictionary() {
+        return subjectService.magicDictionary();
+    }
+
+    /**
      * 680. 验证回文串 II
      */
     @GetMapping(value = "/validPalindrome")

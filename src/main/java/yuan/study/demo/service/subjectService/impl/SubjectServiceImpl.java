@@ -9287,6 +9287,54 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String magicDictionary(){
+        MagicDictionary magicDictionary = new MagicDictionary();
+        magicDictionary.buildDict(new String[]{"hello", "leetcode"});
+        System.out.println(JSON.toJSONString(magicDictionary.search("hello")));
+        System.out.println(JSON.toJSONString(magicDictionary.search("hhllo")));
+        System.out.println(JSON.toJSONString(magicDictionary.search("hell")));
+        System.out.println(JSON.toJSONString(magicDictionary.search("leetcoded")));
+        return "success";
+    }
+
+    class MagicDictionary {
+
+        String[] str = null;
+
+        public MagicDictionary() {
+
+        }
+
+        public void buildDict(String[] dictionary) {
+            str = dictionary;
+        }
+
+        public boolean search(String searchWord) {
+            int m = searchWord.length();
+            loop:
+            for (String s : str) {
+                int n = s.length();
+                if(m != n){
+                    continue;
+                }
+                int diff = 0;
+                for (int i = 0; i < m; i++) {
+                    if(s.charAt(i) != searchWord.charAt(i)){
+                        diff++;
+                        if(diff > 1){
+                            continue loop;
+                        }
+                    }
+                }
+                if(diff == 1){
+                    return true;
+                }
+            }
+            return false;
+        }
+    }
+
+    @Override
     public String validPalindrome(){
         System.out.println(JSON.toJSONString(validPalindrome("abca")));
         return "success";
