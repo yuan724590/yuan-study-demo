@@ -2463,6 +2463,14 @@ public class SubjectController {
     }
 
     /**
+     * 677. 键值映射
+     */
+    @GetMapping(value = "/mapSum")
+    public String mapSum() {
+        return subjectService.mapSum();
+    }
+
+    /**
      * 680. 验证回文串 II
      */
     @GetMapping(value = "/validPalindrome")
