@@ -4938,26 +4938,6 @@ public interface SubjectService {
     String lowestCommonAncestor2();
 
     /**
-     * 将非负整数 num 转换为其对应的英文表示。
-     *
-     * 示例 1：
-     * 输入：num = 123
-     * 输出："One Hundred Twenty Three"
-     *
-     * 示例 2：
-     * 输入：num = 12345
-     * 输出："Twelve Thousand Three Hundred Forty Five"
-     *
-     * 示例 3：
-     * 输入：num = 1234567
-     * 输出："One Million Two Hundred Thirty Four Thousand Five Hundred Sixty Seven"
-     *
-     * 提示：
-     * 0 <= num <= 231 - 1
-     */
-    String numberToWords();
-
-    /**
      * 给你一个整数数组 nums，返回 数组 answer ，其中 answer[i] 等于 nums 中除 nums[i] 之外其余各元素的乘积 。
      *
      * 题目数据 保证 数组 nums之中任意元素的全部前缀元素和后缀的乘积都在  32 位 整数范围内。
@@ -5100,6 +5080,26 @@ public interface SubjectService {
      * -231 <= n <= 231 - 1
      */
     String isUgly();
+
+    /**
+     * 将非负整数 num 转换为其对应的英文表示。
+     *
+     * 示例 1：
+     * 输入：num = 123
+     * 输出："One Hundred Twenty Three"
+     *
+     * 示例 2：
+     * 输入：num = 12345
+     * 输出："Twelve Thousand Three Hundred Forty Five"
+     *
+     * 示例 3：
+     * 输入：num = 1234567
+     * 输出："One Million Two Hundred Thirty Four Thousand Five Hundred Sixty Seven"
+     *
+     * 提示：
+     * 0 <= num <= 231 - 1
+     */
+    String numberToWords();
 
     /**
      * 给你一个整数数组 citations ，其中 citations[i] 表示研究者的第 i 篇论文被引用的次数。计算并返回该研究者的 h 指数。
@@ -7978,6 +7978,26 @@ public interface SubjectService {
      * 0 <= k <= nums.length
      */
     String longestOnes();
+
+    /**
+     * 给你两个数组，arr1 和 arr2，arr2 中的元素各不相同，arr2 中的每个元素都出现在 arr1 中。
+     * 对 arr1 中的元素进行排序，使 arr1 中项的相对顺序和 arr2 中的相对顺序相同。未在 arr2 中出现过的元素需要按照升序放在 arr1 的末尾。
+     *
+     * 示例 1：
+     * 输入：arr1 = [2,3,1,3,2,4,6,7,9,2,19], arr2 = [2,1,4,3,9,6]
+     * 输出：[2,2,2,1,4,3,3,9,6,7,19]
+     *
+     * 示例  2:
+     * 输入：arr1 = [28,6,22,8,44,17], arr2 = [22,28,8,6]
+     * 输出：[22,28,8,6,17,44]
+     *
+     * 提示：
+     * 1 <= arr1.length, arr2.length <= 1000
+     * 0 <= arr1[i], arr2[i] <= 1000
+     * arr2 中的元素 arr2[i]  各不相同
+     * arr2 中的每个元素 arr2[i] 都出现在 arr1 中
+     */
+    String relativeSortArray();
 
     /**
      * 对于字符串 s 和 t，只有在 s = t + t + t + ... + t + t（t 自身连接 1 次或多次）时，我们才认定 “t 能除尽 s”。

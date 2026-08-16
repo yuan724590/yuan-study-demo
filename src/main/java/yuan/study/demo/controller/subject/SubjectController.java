@@ -1703,14 +1703,6 @@ public class SubjectController {
     }
 
     /**
-     * 273. 整数转换英文表示
-     */
-    @GetMapping(value = "/numberToWords")
-    public void numberToWords(){
-        subjectService.numberToWords();
-    }
-
-    /**
      * 238. 除自身以外数组的乘积
      */
     @GetMapping(value = "/productExceptSelf")
@@ -1767,6 +1759,14 @@ public class SubjectController {
      * 268. 丢失的数字
      * 同yuan.study.demo.controller.subject.OfferSubjectController#missingNumber(), 故跳过
      */
+
+    /**
+     * 273. 整数转换英文表示
+     */
+    @GetMapping(value = "/numberToWords")
+    public void numberToWords(){
+        subjectService.numberToWords();
+    }
 
     /**
      * 274. H 指数
@@ -2748,6 +2748,14 @@ public class SubjectController {
     @GetMapping(value = "/longestOnes")
     public String longestOnes() {
         return subjectService.longestOnes();
+    }
+
+    /**
+     * 1122. 数组的相对排序
+     */
+    @GetMapping(value = "/relativeSortArray")
+    public String relativeSortArray() {
+        return subjectService.relativeSortArray();
     }
 
     /**

@@ -3975,6 +3975,12 @@ public class SubjectServiceImpl implements SubjectService {
         solve(board, i, j + 1);
     }
 
+    @Override
+    public String partition131(){
+        System.out.println(JSON.toJSONString(partition131("aab")));
+        return "success";
+    }
+
     boolean[][] dp131;
     List<List<String>> listList131 = new ArrayList<>();
     List<String> list131 = new ArrayList<>();
@@ -4009,12 +4015,6 @@ public class SubjectServiceImpl implements SubjectService {
                 list131.remove(list131.size() - 1);
             }
         }
-    }
-
-    @Override
-    public String partition131(){
-        System.out.println(JSON.toJSONString(partition131("aab")));
-        return "success";
     }
 
     @Override
@@ -6262,60 +6262,6 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
-    public String numberToWords(){
-        System.out.println(JSON.toJSONString(numberToWords(1234567)));
-        return "success";
-    }
-
-    private static final String[] ones = {"", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten",
-            "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Nineteen"};
-    private static final String[] tens = {"", "", "Twenty", "Thirty", "Forty", "Fifty", "Sixty", "Seventy", "Eighty", "Ninety"};
-    private static final String[] largeNumbers = {"", "Thousand", "Million", "Billion"};
-
-    public String numberToWords(int num) {
-        if (num == 0) {
-            return "Zero";
-        }
-
-        StringBuilder ans = new StringBuilder();
-
-        // 1_234_567_811
-        // One Billion + Two Hundred Thirty Four Million + Five Hundred Sixty Seven Thousand + Eight Hundred Eleven
-        // 拆分后，都是小于 1000 的数 + 大数单位（Billion/Million/Thousand/空）
-        for (int i = largeNumbers.length - 1; i >= 0; i--) {
-            int x = num / (int) Math.pow(10, i * 3) % 1000;
-            if (x == 0) {
-                continue;
-            }
-            // 百位
-            if (x >= 100) {
-                add(ans, ones[x / 100]);
-                add(ans, "Hundred");
-            }
-            // 十位和个位
-            if (x % 100 < 20) { // 特殊处理小于 20 的数
-                add(ans, ones[x % 100]);
-            } else {
-                add(ans, tens[x / 10 % 10]);
-                add(ans, ones[x % 10]);
-            }
-            add(ans, largeNumbers[i]); // 大数单位
-        }
-
-        return ans.toString();
-    }
-
-    private void add(StringBuilder ans, String s) {
-        if (s.isEmpty()) {
-            return;
-        }
-        if (ans.length() > 0) {
-            ans.append(' '); // 相邻单词之间添加空格
-        }
-        ans.append(s);
-    }
-
-    @Override
     public String productExceptSelf(){
         System.out.println(JSON.toJSONString(productExceptSelf(new int[]{-1,1,0,-3,3})));
         return "success";
@@ -6487,6 +6433,60 @@ public class SubjectServiceImpl implements SubjectService {
             n /= 5;
         }
         return (n & (n - 1)) == 0;
+    }
+
+    @Override
+    public String numberToWords(){
+        System.out.println(JSON.toJSONString(numberToWords(1234567)));
+        return "success";
+    }
+
+    private static final String[] ones = {"", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten",
+            "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Nineteen"};
+    private static final String[] tens = {"", "", "Twenty", "Thirty", "Forty", "Fifty", "Sixty", "Seventy", "Eighty", "Ninety"};
+    private static final String[] largeNumbers = {"", "Thousand", "Million", "Billion"};
+
+    public String numberToWords(int num) {
+        if (num == 0) {
+            return "Zero";
+        }
+
+        StringBuilder ans = new StringBuilder();
+
+        // 1_234_567_811
+        // One Billion + Two Hundred Thirty Four Million + Five Hundred Sixty Seven Thousand + Eight Hundred Eleven
+        // 拆分后，都是小于 1000 的数 + 大数单位（Billion/Million/Thousand/空）
+        for (int i = largeNumbers.length - 1; i >= 0; i--) {
+            int x = num / (int) Math.pow(10, i * 3) % 1000;
+            if (x == 0) {
+                continue;
+            }
+            // 百位
+            if (x >= 100) {
+                add(ans, ones[x / 100]);
+                add(ans, "Hundred");
+            }
+            // 十位和个位
+            if (x % 100 < 20) { // 特殊处理小于 20 的数
+                add(ans, ones[x % 100]);
+            } else {
+                add(ans, tens[x / 10 % 10]);
+                add(ans, ones[x % 10]);
+            }
+            add(ans, largeNumbers[i]); // 大数单位
+        }
+
+        return ans.toString();
+    }
+
+    private void add(StringBuilder ans, String s) {
+        if (s.isEmpty()) {
+            return;
+        }
+        if (ans.length() > 0) {
+            ans.append(' '); // 相邻单词之间添加空格
+        }
+        ans.append(s);
     }
 
     @Override
@@ -10554,6 +10554,37 @@ public class SubjectServiceImpl implements SubjectService {
                 left++;
             }
             ans = Math.max(ans, i - left + 1);
+        }
+        return ans;
+    }
+
+    @Override
+    public String relativeSortArray(){
+        System.out.println(JSON.toJSONString(relativeSortArray(new int[]{2,3,1,3,2,4,6,7,9,2,19}, new int[]{2,1,4,3,9,6})));
+        return "success";
+    }
+
+    public int[] relativeSortArray(int[] arr1, int[] arr2) {
+        int max = 0;
+        for (int x : arr1) {
+            max = Math.max(max, x);
+        }
+        int[] frequency = new int[max + 1];
+        for (int x : arr1) {
+            ++frequency[x];
+        }
+        int[] ans = new int[arr1.length];
+        int index = 0;
+        for (int x : arr2) {
+            for (int i = 0; i < frequency[x]; ++i) {
+                ans[index++] = x;
+            }
+            frequency[x] = 0;
+        }
+        for (int x = 0; x <= max; ++x) {
+            for (int i = 0; i < frequency[x]; ++i) {
+                ans[index++] = x;
+            }
         }
         return ans;
     }
