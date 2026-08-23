@@ -1735,6 +1735,14 @@ public class SubjectController {
     }
 
     /**
+     * 256. 粉刷房子
+     */
+    @GetMapping(value = "/minCost")
+    public void minCost(){
+        subjectService.minCost();
+    }
+
+    /**
      * 258. 各位相加
      */
     @GetMapping(value = "/addDigits")
