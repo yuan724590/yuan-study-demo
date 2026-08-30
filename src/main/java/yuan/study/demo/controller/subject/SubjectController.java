@@ -2703,6 +2703,14 @@ public class SubjectController {
     }
 
     /**
+     * 919. 完全二叉树插入器
+     */
+    @GetMapping(value = "/cbtInserter")
+    public String cbtInserter() {
+        return subjectService.cbtInserter();
+    }
+
+    /**
      * 933. 最近的请求次数
      */
     @GetMapping(value = "/recentCounter")

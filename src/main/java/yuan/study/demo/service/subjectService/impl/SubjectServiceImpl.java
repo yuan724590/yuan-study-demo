@@ -1,6 +1,7 @@
 package yuan.study.demo.service.subjectService.impl;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.Lists;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -10251,6 +10252,62 @@ public class SubjectServiceImpl implements SubjectService {
             }
         }
         return temp == l;
+    }
+
+    @Override
+    public String cbtInserter(){
+        TreeNode treeNode = new TreeNode(1, new TreeNode(2), null);
+        CBTInserter cbtInserter = new CBTInserter(treeNode);
+        System.out.println(cbtInserter.insert(3));
+        System.out.println(cbtInserter.insert(4));
+        System.out.println(JSONObject.toJSONString(cbtInserter.get_root()));
+        return "success";
+    }
+
+
+
+    class CBTInserter {
+        Queue<TreeNode> candidate;
+        TreeNode root;
+
+        public CBTInserter(TreeNode root) {
+            this.candidate = new ArrayDeque<>();
+            this.root = root;
+
+            Queue<TreeNode> queue = new ArrayDeque<>();
+            queue.offer(root);
+
+            while (!queue.isEmpty()) {
+                TreeNode node = queue.poll();
+                if (node.left != null) {
+                    queue.offer(node.left);
+                }
+                if (node.right != null) {
+                    queue.offer(node.right);
+                }
+                if (node.left == null || node.right == null) {
+                    candidate.offer(node);
+                }
+            }
+        }
+
+        public int insert(int val) {
+            TreeNode child = new TreeNode(val);
+            TreeNode node = candidate.peek();
+            int ret = node.val;
+            if (node.left == null) {
+                node.left = child;
+            } else {
+                node.right = child;
+                candidate.poll();
+            }
+            candidate.offer(child);
+            return ret;
+        }
+
+        public TreeNode get_root() {
+            return root;
+        }
     }
 
     @Override
