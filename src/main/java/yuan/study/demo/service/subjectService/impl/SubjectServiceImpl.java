@@ -10311,6 +10311,30 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String minFlipsMonoIncr(){
+        System.out.println(JSON.toJSONString(minFlipsMonoIncr("00110")));
+        return "success";
+    }
+
+    public int minFlipsMonoIncr(String s) {
+        int n = s.length();
+        //左边1的个数, 右边0的个数
+        int dp0 = 0, dp1 = 0;
+        for (int i = 0; i < n; i++) {
+            char c = s.charAt(i);
+            int dp0New = dp0, dp1New = Math.min(dp0, dp1);
+            if (c == '1') {
+                dp0New++;
+            } else {
+                dp1New++;
+            }
+            dp0 = dp0New;
+            dp1 = dp1New;
+        }
+        return Math.min(dp0, dp1);
+    }
+
+    @Override
     public String recentCounter(){
         RecentCounter recentCounter = new RecentCounter();
         System.out.println(JSON.toJSONString(recentCounter.ping(1)));

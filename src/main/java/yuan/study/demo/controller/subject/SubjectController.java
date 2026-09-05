@@ -2711,6 +2711,14 @@ public class SubjectController {
     }
 
     /**
+     * 926. 将字符串翻转到单调递增
+     */
+    @GetMapping(value = "/minFlipsMonoIncr")
+    public String minFlipsMonoIncr() {
+        return subjectService.minFlipsMonoIncr();
+    }
+
+    /**
      * 933. 最近的请求次数
      */
     @GetMapping(value = "/recentCounter")
