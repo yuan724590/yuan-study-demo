@@ -3088,6 +3088,14 @@ public class SubjectController {
      */
 
     /**
+     * 1534. 统计好三元组
+     */
+    @GetMapping(value = "/countGoodTriplets")
+    public String countGoodTriplets() {
+        return subjectService.countGoodTriplets();
+    }
+
+    /**
      * 1581. 进店却未进行过交易的顾客
      * Visits -> visit_id, customer_id
      * Transactions -> transaction_id, visit_id, amount

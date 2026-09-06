@@ -519,20 +519,20 @@ public class SubjectServiceImpl implements SubjectService {
     private StringBuilder sb = new StringBuilder();
 
     // 结果集
-    private List<String> res = new ArrayList<>();
+    private List<String> letterCombinationList = new ArrayList<>();
 
     public List<String> letterCombinations(String digits) {
         if(digits == null || digits.length() == 0) {
-            return res;
+            return letterCombinationList;
         }
         backtrack(digits,0);
-        return res;
+        return letterCombinationList;
     }
 
     // 回溯函数
     private void backtrack(String digits,int index) {
         if(sb.length() == digits.length()) {
-            res.add(sb.toString());
+            letterCombinationList.add(sb.toString());
             return;
         }
         String val = map[digits.charAt(index)-'2'];
@@ -11253,6 +11253,40 @@ public class SubjectServiceImpl implements SubjectService {
             int n = map.getOrDefault(num, 0);
             map.put(num, n + 1);
             ans += n;
+        }
+        return ans;
+    }
+
+    @Override
+    public String countGoodTriplets(){
+        System.out.println(JSON.toJSONString(countGoodTriplets(new int[]{3,0,1,1,9,7}, 7, 2, 3)));
+        return "success";
+    }
+
+    public int countGoodTriplets(int[] arr, int a, int b, int c) {
+        int max = 0;
+        for (int x : arr) {
+            max = Math.max(max, x);
+        }
+        //表示 arr 中有多少元素小于 v
+        int[] ints = new int[max + 2];
+
+        int n = arr.length, ans = 0;
+        for (int j = 0; j < n; j++) {
+            int y = arr[j];
+            for (int k = j + 1; k < n; k++) {
+                int z = arr[k];
+                if (Math.abs(y - z) > b) {
+                    continue;
+                }
+                //去掉绝对值之后, i的取值范围
+                int l = Math.max(Math.max(y - a, z - c), 0);
+                int r = Math.min(Math.min(y + a, z + c), max);
+                ans += Math.max(ints[r + 1] - ints[l], 0);
+            }
+            for (int v = y + 1; v < ints.length; v++) {
+                ints[v]++;
+            }
         }
         return ans;
     }
