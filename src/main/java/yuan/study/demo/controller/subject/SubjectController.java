@@ -3353,4 +3353,12 @@ public class SubjectController {
     public String maxScore() {
         return subjectService.maxScore();
     }
+
+    /**
+     * 2586. 统计范围内的元音字符串数
+     */
+    @GetMapping(value = "/vowelStrings")
+    public String vowelStrings() {
+        return subjectService.vowelStrings();
+    }
 }
