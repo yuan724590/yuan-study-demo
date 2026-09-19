@@ -2302,6 +2302,14 @@ public class SubjectController {
     }
 
     /**
+     * 540. 有序数组中的单一元素
+     */
+    @GetMapping(value = "/singleNonDuplicate")
+    public String singleNonDuplicate() {
+        return subjectService.singleNonDuplicate();
+    }
+
+    /**
      * 547. 省份数量
      */
     @GetMapping(value = "/findCircleNum")

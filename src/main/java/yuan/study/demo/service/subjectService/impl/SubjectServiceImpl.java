@@ -8907,6 +8907,29 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String singleNonDuplicate(){
+        System.out.println(JSON.toJSONString(singleNonDuplicate(new int[]{1,1,2,3,3,4,4,8,8})));
+        return "success";
+    }
+
+    /**
+     * 通过下标计算左右的成对数
+     */
+    public int singleNonDuplicate(int[] nums) {
+        int low = 0, high = nums.length - 1;
+        while (low < high) {
+            int mid = (high - low) / 2 + low;
+            mid -= mid & 1;
+            if (nums[mid] == nums[mid + 1]) {
+                low = mid + 2;
+            } else {
+                high = mid;
+            }
+        }
+        return nums[low];
+    }
+
+    @Override
     public String findCircleNum(){
         System.out.println(JSON.toJSONString(findCircleNum(new int[][]{{1,0,0,0,0},{1,1,0,1,0},{0,0,1,1,1},{0,0,1,1,1},{0,0,1,1,1}})));
         return "success";
