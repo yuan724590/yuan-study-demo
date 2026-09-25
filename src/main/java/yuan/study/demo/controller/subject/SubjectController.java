@@ -2495,6 +2495,14 @@ public class SubjectController {
     }
 
     /**
+     * 695. 岛屿的最大面积
+     */
+    @GetMapping(value = "/maxAreaOfIsland")
+    public String maxAreaOfIsland() {
+        return subjectService.maxAreaOfIsland();
+    }
+
+    /**
      * 700. 二叉搜索树中的搜索
      */
     @GetMapping(value = "/searchBST")

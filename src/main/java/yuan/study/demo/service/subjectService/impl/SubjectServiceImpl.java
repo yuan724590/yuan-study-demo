@@ -9456,6 +9456,42 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String maxAreaOfIsland(){
+        System.out.println(JSON.toJSONString(maxAreaOfIsland(new int[][]{{0,0,1,0,0,0,0,1,0,0,0,0,0},{0,0,0,0,0,0,0,1,1,1,0,0,0},
+                {0,1,1,0,1,0,0,0,0,0,0,0,0},{0,1,0,0,1,1,0,0,1,0,1,0,0},{0,1,0,0,1,1,0,0,1,1,1,0,0},{0,0,0,0,0,0,0,0,0,0,1,0,0},{0,0,0,0,0,0,0,1,1,1,0,0,0},{0,0,0,0,0,0,0,1,1,0,0,0,0}})));
+        return "success";
+    }
+
+    public int maxAreaOfIsland(int[][] grid) {
+        int m = grid.length, n = grid[0].length, max = 0;
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if(grid[i][j] == 1){
+                    max = Math.max(maxAreaOfIsland(grid, i, j, 0), max);
+                }
+            }
+        }
+        return max;
+    }
+
+    private int maxAreaOfIsland(int[][] grid, int i, int j, int count) {
+        if(i < 0 || i > grid.length - 1 || j < 0 || j > grid[0].length - 1 || grid[i][j] != 1){
+            return count;
+        }
+        grid[i][j] = 2;
+        count++;
+        count = maxAreaOfIsland(grid, i - 1, j, count);
+
+        count = maxAreaOfIsland(grid, i + 1, j, count);
+
+        count = maxAreaOfIsland(grid, i, j - 1, count);
+
+        count = maxAreaOfIsland(grid, i, j + 1, count);
+        return count;
+    }
+
+
+    @Override
     public String searchBST(){
         TreeNode root = new TreeNode(4);
         root.left = new TreeNode(2);
