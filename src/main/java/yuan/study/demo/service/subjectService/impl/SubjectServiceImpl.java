@@ -7639,6 +7639,25 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String combinationSum4(){
+        System.out.println(combinationSum4(new int[]{1,2,3}, 4));
+        return "success";
+    }
+
+    public int combinationSum4(int[] nums, int target) {
+        int[] dp = new int[target + 1];
+        dp[0] = 1;
+        for (int i = 1; i <= target; i++) {
+            for (int num : nums) {
+                if (num <= i) {
+                    dp[i] += dp[i - num];
+                }
+            }
+        }
+        return dp[target];
+    }
+
+    @Override
     public String randomizedSet(){
         RandomizedSet randomizedSet = new RandomizedSet();
         System.out.println(randomizedSet.insert(0));

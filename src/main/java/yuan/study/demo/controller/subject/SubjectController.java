@@ -2046,6 +2046,14 @@ public class SubjectController {
     }
 
     /**
+     * 377. 组合总和 Ⅳ
+     */
+    @GetMapping(value = "/combinationSum4")
+    public void combinationSum4(){
+        subjectService.combinationSum4();
+    }
+
+    /**
      * 380. O(1) 时间插入、删除和获取随机元素
      */
     @GetMapping(value = "/randomizedSet")
