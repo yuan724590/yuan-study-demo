@@ -2158,6 +2158,14 @@ public class SubjectController {
     }
 
     /**
+     * 421. 数组中两个数的最大异或值
+     */
+    @GetMapping(value = "/findMaximumXOR")
+    public String findMaximumXOR() {
+        return subjectService.findMaximumXOR();
+    }
+
+    /**
      * 430. 扁平化多级双向链表
      */
     @GetMapping(value = "/flatten430")

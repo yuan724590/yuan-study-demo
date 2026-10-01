@@ -8104,6 +8104,43 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String findMaximumXOR(){
+        System.out.println(JSON.toJSONString(findMaximumXOR(new int[]{3,10,5,25,2,8})));
+        return "success";
+    }
+
+    public int findMaximumXOR(int[] nums) {
+        //取最大值
+        int max = 0;
+        for (int x : nums) {
+            max = Math.max(max, x);
+        }
+        //二进制补码表示中，最高位（最左边的位）为 1 之前，连续零的个数
+        int highBit = 31 - Integer.numberOfLeadingZeros(max);
+
+        int ans = 0, mask = 0;
+        Set<Integer> set = new HashSet<>();
+        // 从最高位开始枚举
+        for (int i = highBit; i >= 0; i--) {
+            set.clear();
+            mask |= 1 << i;
+            // newAns = 假设这个比特位也可以是 1
+            int newAns = ans | (1 << i);
+            for (int x : nums) {
+                // 低于 i 的比特位置为 0
+                x &= mask;
+                if (set.contains(newAns ^ x)) {
+                    // 存在一个数 满足异或后的值是另个数, 就把这位的1加进来
+                    ans = newAns;
+                    break;
+                }
+                set.add(x);
+            }
+        }
+        return ans;
+    }
+
+    @Override
     public String flatten430(){
         // 创建节点
         Node430 node1 = new Node430(1);
