@@ -1769,6 +1769,14 @@ public class SubjectController {
      */
 
     /**
+     * 269. 火星词典
+     */
+    @GetMapping(value = "/alienOrder")
+    public void alienOrder(){
+        subjectService.alienOrder();
+    }
+
+    /**
      * 273. 整数转换英文表示
      */
     @GetMapping(value = "/numberToWords")

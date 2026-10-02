@@ -6453,6 +6453,92 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String alienOrder(){
+        System.out.println(JSON.toJSONString(alienOrder(new String[]{"wrt","wrf","er","ett","rftt"})));
+        return "success";
+    }
+
+    //用来记录边的索引
+    int alienOrderIdx = 0;
+    //用来比对出现的字母数量，如果图建完之后是一个有向无环图，拓扑排序一定能完成，数量肯定跟题目中出现的字母数量一致
+    int alienOrderCnt = 0;
+    //用来存储顶点的
+    int[] alienOrderHeadArr = new int[26];
+    //用来存储这条边的尾结点的
+    int[] alienOrderEndArr = new int[26 * 26];
+    //用来存储这条边属于哪个顶点的
+    int[] alienOrderLineHeadArr = new int[26 * 26];
+    //拓扑排序，还需要出度和入度
+    int[] alienOrderIn = new int[26];
+    int[] alienOrderOut = new int[26];
+    //是否有这个字母所表示的顶点
+    boolean[] alienOrderVis = new boolean[26];
+
+    public String alienOrder(String[] ws) {
+        int n = ws.length;
+        Arrays.fill(alienOrderHeadArr, -1);
+        for (int i = 0; i < n; i++) {
+            for (char c : ws[i].toCharArray()) {
+                if (!alienOrderVis[c - 'a']) {
+                    alienOrderVis[c - 'a'] = true;
+                    alienOrderCnt++;
+                }
+            }
+            for (int j = 0; j < i; j++) {
+                if (!alienOrderBuild(ws[j], ws[i])) {
+                    return "";
+                }
+            }
+        }
+        Deque<Integer> deque = new ArrayDeque<>();
+        for (int i = 0; i < 26; i++) {
+            //拓扑排序，每次寻找入度为0的点开始遍历
+            if (alienOrderVis[i] && alienOrderIn[i] == 0) {
+                //是有可能存在好几个入度为0的点的，这个时候先删除里面哪个都ok
+                deque.addLast(i);
+            }
+        }
+        StringBuilder sb = new StringBuilder();
+        while (!deque.isEmpty()) {
+            int u = deque.pollFirst();
+            //遍历这个顶点的所有边
+            sb.append((char)(u + 'a'));
+            for (int i = alienOrderHeadArr[u]; i != -1; i = alienOrderLineHeadArr[i]) {
+                int j = alienOrderEndArr[i];
+                if (--alienOrderIn[j] == 0){
+                    deque.addLast(j);
+                }
+            }
+        }
+        return sb.length() == alienOrderCnt ? sb.toString() : "";
+    }
+
+    private boolean alienOrderBuild(String a, String b) {
+        int n = a.length(), m = b.length(), len = Math.min(n, m);
+        for (int i = 0; i < len; i++) {
+            int c1 = a.charAt(i) - 'a', c2 = b.charAt(i) - 'a';
+            //每次传进来两个字符串只会有两个顶点完成了建图
+            if (c1 != c2) {
+                alienOrderAdd(c1, c2);
+                return true;
+            }
+        }
+        //题目中说 如果前面 min(s.length, t.length) 字母都相同，那么 s.length < t.length 时，s 的字典顺序也小于 t 。
+        return n <= m;
+    }
+
+    /**
+     * 建图
+     */
+    private void alienOrderAdd(int a, int b) {
+        alienOrderEndArr[alienOrderIdx] = b;
+        alienOrderLineHeadArr[alienOrderIdx] = alienOrderHeadArr[a];
+        alienOrderHeadArr[a] = alienOrderIdx++;
+        alienOrderOut[a]++;
+        alienOrderIn[b]++;
+    }
+
+    @Override
     public String numberToWords(){
         System.out.println(JSON.toJSONString(numberToWords(1234567)));
         return "success";
