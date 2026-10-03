@@ -1130,6 +1130,14 @@ public class SubjectController {
     }
 
     /**
+     * 145. 二叉树的后序遍历
+     */
+    @GetMapping(value = "/postorderTraversal")
+    public void postorderTraversal(){
+        subjectService.postorderTraversal();
+    }
+
+    /**
      * 146. LRU 缓存
      */
     @GetMapping(value = "/lruCache")

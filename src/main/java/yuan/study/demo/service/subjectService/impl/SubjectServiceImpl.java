@@ -4400,6 +4400,32 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String postorderTraversal(){
+        TreeNode treeNode = new TreeNode(1);
+        TreeNode treeNode1 = new TreeNode(2);
+        TreeNode treeNode2 = new TreeNode(3);
+        treeNode.right = treeNode1;
+        treeNode1.left = treeNode2;
+        System.out.println(JSON.toJSONString(postorderTraversal(treeNode)));
+        return "success";
+    }
+
+    public List<Integer> postorderTraversal(TreeNode root) {
+        List<Integer> list = new ArrayList<>();
+        postorderTraversal(root, list);
+        return list;
+    }
+
+    public void postorderTraversal(TreeNode root, List<Integer> list) {
+        if(root == null){
+            return;
+        }
+        postorderTraversal(root.left, list);
+        postorderTraversal(root.right, list);
+        list.add(root.val);
+    }
+
+    @Override
     public String lruCache(){
         LRUCache lRUCache = new LRUCache(2);
         lRUCache.put(1, 1); // 缓存是 {1=1}
