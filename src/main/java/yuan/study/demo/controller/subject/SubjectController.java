@@ -1197,6 +1197,14 @@ public class SubjectController {
     public void findMin(){
         subjectService.findMin();
     }
+
+    /**
+     * 154. 寻找旋转排序数组中的最小值 II
+     */
+    @GetMapping(value = "/findMin154")
+    public void findMin154(){
+        subjectService.findMin154();
+    }
     /**
      * 160. 相交链表
      * 同yuan.study.demo.controller.subject.OfferSubjectController#getIntersectionNode()故跳过

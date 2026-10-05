@@ -4758,6 +4758,26 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String findMin154(){
+        System.out.println(JSON.toJSONString(findMin154(new int[]{3,4,5,1,2})));
+        return "success";
+    }
+
+    public int findMin154(int[] nums) {
+        int low = 0, high = nums.length - 1;
+        while (low < high) {
+            int mid = low + (high - low) / 2;
+            if (nums[mid] < nums[high]) {
+                high = mid;
+            } else if (nums[mid] > nums[high]) {
+                low = mid + 1;
+            } else {
+                high = high - 1;
+            }
+        }
+        return nums[low];
+    }
+    @Override
     public String findPeakElement(){
         System.out.println(JSON.toJSONString(findPeakElement(new int[]{1,2,3,1})));
         return "success";
