@@ -1205,6 +1205,15 @@ public class SubjectController {
     public void findMin154(){
         subjectService.findMin154();
     }
+
+    /**
+     * 155. 最小栈
+     */
+    @GetMapping(value = "/minStack")
+    public void minStack(){
+        subjectService.minStack();
+    }
+
     /**
      * 160. 相交链表
      * 同yuan.study.demo.controller.subject.OfferSubjectController#getIntersectionNode()故跳过

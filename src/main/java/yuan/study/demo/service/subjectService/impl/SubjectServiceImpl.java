@@ -4777,6 +4777,49 @@ public class SubjectServiceImpl implements SubjectService {
         }
         return nums[low];
     }
+
+    @Override
+    public String minStack(){
+        MinStack minStack = new MinStack();
+        minStack.push(-2);
+        minStack.push(0);
+        minStack.push(-3);
+        System.out.println(minStack.getMin());
+        minStack.pop();
+        System.out.println(minStack.top());
+        System.out.println(minStack.getMin());
+        return "success";
+    }
+
+    class MinStack {
+        Deque<Integer> xStack;
+        Deque<Integer> minStack;
+
+        public MinStack() {
+            xStack = new LinkedList<>();
+            minStack = new LinkedList<>();
+            minStack.push(Integer.MAX_VALUE);
+        }
+
+        public void push(int x) {
+            xStack.push(x);
+            minStack.push(Math.min(minStack.peek(), x));
+        }
+
+        public void pop() {
+            xStack.pop();
+            minStack.pop();
+        }
+
+        public int top() {
+            return xStack.peek();
+        }
+
+        public int getMin() {
+            return minStack.peek();
+        }
+    }
+
     @Override
     public String findPeakElement(){
         System.out.println(JSON.toJSONString(findPeakElement(new int[]{1,2,3,1})));
