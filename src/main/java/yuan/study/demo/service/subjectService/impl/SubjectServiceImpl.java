@@ -4837,6 +4837,25 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String maximumGap(){
+        System.out.println(JSON.toJSONString(maximumGap(new int[]{3,6,9,1})));
+        return "success";
+    }
+
+    public int maximumGap(int[] nums) {
+        int n = nums.length;
+        if(n < 2){
+            return 0;
+        }
+        Arrays.sort(nums);
+        int max = 0;
+        for (int i = 1; i < n; i++) {
+            max = Math.max(nums[i] - nums[i - 1], max);
+        }
+        return max;
+    }
+
+    @Override
     public String compareVersion(){
         System.out.println(JSON.toJSONString(compareVersion("1.01", "1.001")));
         return "success";

@@ -1228,6 +1228,14 @@ public class SubjectController {
     }
 
     /**
+     * 164. 最大间距
+     */
+    @GetMapping(value = "/maximumGap")
+    public void maximumGap(){
+        subjectService.maximumGap();
+    }
+
+    /**
      * 165. 比较版本号
      */
     @GetMapping(value = "/compareVersion")
