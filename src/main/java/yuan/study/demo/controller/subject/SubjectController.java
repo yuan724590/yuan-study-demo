@@ -1695,6 +1695,14 @@ public class SubjectController {
     }
 
     /**
+     * 228. 汇总区间
+     */
+    @GetMapping(value = "/summaryRanges")
+    public void summaryRanges(){
+        subjectService.summaryRanges();
+    }
+
+    /**
      * 230. 二叉搜索树中第K小的元素
      */
     @GetMapping(value = "/kthSmallest")

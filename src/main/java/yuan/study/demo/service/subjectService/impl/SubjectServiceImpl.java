@@ -6206,6 +6206,40 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String summaryRanges(){
+        System.out.println(JSON.toJSONString(summaryRanges(new int[]{-2,-1,1,2,2147483646,2147483647})));
+        return "success";
+    }
+
+    public List<String> summaryRanges(int[] nums) {
+        int n = nums.length;
+        List<String> list = new ArrayList<>();
+        if(n == 0){
+            return list;
+        }
+        int a = nums[0], b = Integer.MIN_VALUE;
+        for (int i = 1; i < n; i++) {
+            if(nums[i - 1] + 1 == nums[i]){
+                b = nums[i];
+                continue;
+            }
+            if(b != Integer.MIN_VALUE){
+                list.add(a + "->" + b);
+                b = Integer.MIN_VALUE;
+            }else{
+                list.add(String.valueOf(a));
+            }
+            a = nums[i];
+        }
+        if(b != Integer.MIN_VALUE){
+            list.add(a + "->" + b);
+        }else{
+            list.add(String.valueOf(a));
+        }
+        return list;
+    }
+
+    @Override
     public String kthSmallest(){
         TreeNode treeNode = new TreeNode(5);
         treeNode.left = new TreeNode(3);
