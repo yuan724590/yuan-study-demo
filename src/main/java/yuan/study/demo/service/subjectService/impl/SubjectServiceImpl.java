@@ -6240,6 +6240,105 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String majorityElement(){
+        System.out.println(JSON.toJSONString(majorityElement(new int[]{3,2,3})));
+        return "success";
+    }
+
+    /**
+     * 例如 A B A B C B C D B
+     * 模拟下投票过程:
+     *    前面两列是候选人，第三列是抵消者 , X 是抵消记号
+     *
+     *    第 N 轮情况      输入      说明
+     *    A                A         第 1 个候选人空缺，选择为 A
+     *
+     *    A B              B         第 2 个候选人空缺，选择为 B
+     *
+     *    A B              A         候选人 A 票数+1
+     *    A
+     *
+     *    A B              B         候选人 B 票数+1
+     *    A B
+     *
+     *    X X X            C         抵消一次
+     *    A B
+     *
+     *    X X X            B         候选人 B 票数+1
+     *    A B
+     *      B
+     *
+     *    X X X            C         再抵消一次
+     *    X X X
+     *      B
+     *
+     *    X X X            D         第一个候选人空缺，选用 D
+     *    X X X
+     *    D B
+     *
+     *    X X X
+     *    X X X            B         候选人 B 票数+1
+     *    D B
+     *      B
+     *
+     * 观察最后的图像，可以看到
+     *  1. 最终的候选者并不一定是要找的众数，比如数字 D
+     *  2. 但是消掉的数字一定不是要找的众数.
+     *     因为被消的任一行 X 表示的数字互不相同, 一个数字在所有 X 矩阵中出现的次数最多的情况只能是
+     *     在每个行都只出现一次的情况。而被消掉的行数不超过 n/3. 所以 X 中的任何数字，都不会是目标。
+     *
+     * 最终我们只需要再次检查下最终剩余的两个候选人，确定其是否真正为要找的众数
+     */
+    public List<Integer> majorityElement(int[] nums) {
+        int num1 = 0;
+        int num2 = 0;
+        int count1 = 0;
+        int count2 = 0;
+
+        for (int num : nums) {
+            if (count1 > 0 && num == num1) {
+                //如果该元素为第一个元素，则计数加1
+                count1++;
+            } else if (count2 > 0 && num == num2) {
+                //如果该元素为第二个元素，则计数加1
+                count2++;
+            } else if (count1 == 0) {
+                // 选择第一个元素
+                num1 = num;
+                count1++;
+            } else if (count2 == 0) {
+                // 选择第二个元素
+                num2 = num;
+                count2++;
+            } else {
+                //如果三个元素均不相同，则相互抵消1次
+                count1--;
+                count2--;
+            }
+        }
+
+        int cnt1 = 0;
+        int cnt2 = 0;
+        for (int num : nums) {
+            if (count1 > 0 && num == num1) {
+                cnt1++;
+            }
+            if (count2 > 0 && num == num2) {
+                cnt2++;
+            }
+        }
+        // 检测元素出现的次数是否满足要求, 避免垃圾数据 如 [3,2,3]中的2
+        List<Integer> ans = new ArrayList<>();
+        if (count1 > 0 && cnt1 > nums.length / 3) {
+            ans.add(num1);
+        }
+        if (count2 > 0 && cnt2 > nums.length / 3) {
+            ans.add(num2);
+        }
+        return ans;
+    }
+
+    @Override
     public String kthSmallest(){
         TreeNode treeNode = new TreeNode(5);
         treeNode.left = new TreeNode(3);

@@ -1703,6 +1703,14 @@ public class SubjectController {
     }
 
     /**
+     * 229. 多数元素 II
+     */
+    @GetMapping(value = "/majorityElement229")
+    public void majorityElement229(){
+        subjectService.majorityElement();
+    }
+
+    /**
      * 230. 二叉搜索树中第K小的元素
      */
     @GetMapping(value = "/kthSmallest")
