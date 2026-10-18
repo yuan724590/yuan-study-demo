@@ -1735,6 +1735,14 @@ public class SubjectController {
     }
 
     /**
+     * 233. 数字 1 的个数
+     */
+    @GetMapping(value = "/countDigitOne")
+    public void countDigitOne(){
+        subjectService.countDigitOne();
+    }
+
+    /**
      * 234. 回文链表
      */
     @GetMapping(value = "/isPalindrome234")

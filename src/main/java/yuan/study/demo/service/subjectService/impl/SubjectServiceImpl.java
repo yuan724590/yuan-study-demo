@@ -6432,6 +6432,24 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String countDigitOne(){
+        System.out.println(JSON.toJSONString(countDigitOne(13)));
+        return "success";
+    }
+
+    public int countDigitOne(int n) {
+        // mulk 表示 10^k
+        long mulk = 1;
+        int ans = 0;
+        while(n >= mulk){
+            //mulk 当前位数 + 开头是1造成的余数部分
+            ans += (int) ((n / (mulk * 10)) * mulk + Math.min(Math.max(n % (mulk * 10) - mulk + 1, 0), mulk));
+            mulk *= 10;
+        }
+        return ans;
+    }
+
+    @Override
     public String isPalindrome234(){
         ListNode listNode1 = new ListNode(1);
         ListNode listNode2 = new ListNode(2, listNode1);
