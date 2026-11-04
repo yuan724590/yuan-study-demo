@@ -1767,6 +1767,14 @@ public class SubjectController {
     }
 
     /**
+     * 237. 删除链表中的节点
+     */
+    @GetMapping(value = "/deleteNode237")
+    public void deleteNode237(){
+        subjectService.deleteNode237();
+    }
+
+    /**
      * 238. 除自身以外数组的乘积
      */
     @GetMapping(value = "/productExceptSelf")

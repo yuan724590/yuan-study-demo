@@ -6550,6 +6550,25 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String deleteNode237(){
+        ListNode listNode1 = new ListNode(4);
+        listNode1.next = new ListNode(5);
+        listNode1.next.next = new ListNode(1);
+        listNode1.next.next.next = new ListNode(9);
+        deleteNode(listNode1);
+        while(listNode1 != null){
+            System.out.println(listNode1.val);
+            listNode1 = listNode1.next;
+        }
+        return "success";
+    }
+
+    public void deleteNode(ListNode node) {
+        node.val = node.next.val;
+        node.next = node.next.next;
+    }
+
+    @Override
     public String productExceptSelf(){
         System.out.println(JSON.toJSONString(productExceptSelf(new int[]{-1,1,0,-3,3})));
         return "success";
