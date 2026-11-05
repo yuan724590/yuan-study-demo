@@ -2350,6 +2350,14 @@ public class SubjectController {
     }
 
     /**
+     * 494. 目标和
+     */
+    @GetMapping(value = "/findTargetSumWays")
+    public String findTargetSumWays() {
+        return subjectService.findTargetSumWays();
+    }
+
+    /**
      * 513. 找树左下角的值
      */
     @GetMapping(value = "/findBottomLeftValue")

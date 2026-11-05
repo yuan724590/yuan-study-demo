@@ -9087,6 +9087,42 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String findTargetSumWays(){
+        System.out.println(JSON.toJSONString(findTargetSumWays(new int[]{1,1,1,1,1}, 3)));
+        return "success";
+    }
+
+    public int findTargetSumWays(int[] nums, int target) {
+        int sum = 0;
+        for (int num : nums) {
+            sum += num;
+        }
+        int diff = sum - target;
+        //需要保证能够计算diff为0, 减去某个值再加上 就是2的倍数了
+        if (diff < 0 || diff % 2 != 0) {
+            return 0;
+        }
+        //将加的值改成减,就需要变化neg的数字和
+        int neg = diff / 2;
+        int n = nums.length;
+        //表示在数组 nums 的前 i 个数中选取元素，使得这些元素之和等于 j 的方案数
+        //假设数组 nums 的长度为 n，则最终答案为 dp[n][neg]
+        int[][] dp = new int[n + 1][neg + 1];
+        dp[0][0] = 1;
+        for (int i = 1; i <= n; i++) {
+            int num = nums[i - 1];
+            for (int j = 0; j <= neg; j++) {
+                if (j >= num) {
+                    dp[i][j] += dp[i - 1][j - num];
+                }else{
+                    dp[i][j] = dp[i - 1][j];
+                }
+            }
+        }
+        return dp[n][neg];
+    }
+
+    @Override
     public String findBottomLeftValue(){
         TreeNode treeNode = new TreeNode(2, new TreeNode(4), null);
         TreeNode treeNode1 = new TreeNode(5, new TreeNode(7), null);
