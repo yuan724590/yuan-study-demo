@@ -9211,6 +9211,44 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String solution(){
+        Solution solution = new Solution(new int[]{0,1,1,1,1});
+        System.out.println(JSON.toJSONString(solution.pickIndex()));
+        System.out.println(JSON.toJSONString(solution.pickIndex()));
+        System.out.println(JSON.toJSONString(solution.pickIndex()));
+        System.out.println(JSON.toJSONString(solution.pickIndex()));
+        System.out.println(JSON.toJSONString(solution.pickIndex()));
+        System.out.println(JSON.toJSONString(solution.pickIndex()));
+        return "success";
+    }
+
+    class Solution {
+        int[] sum;
+        public Solution(int[] w) {
+            int n = w.length;
+            sum = new int[n + 1];
+            for (int i = 1; i <= n; i++) {
+                sum[i] = sum[i - 1] + w[i - 1];
+            }
+        }
+
+        public int pickIndex() {
+            int n = sum.length;
+            int t = (int) (Math.random() * sum[n - 1]) + 1;
+            int l = 1, r = n - 1;
+            while (l < r) {
+                int mid = l + r >> 1;
+                if (sum[mid] >= t) {
+                    r = mid;
+                } else {
+                    l = mid + 1;
+                }
+            }
+            return r - 1;
+        }
+    }
+
+    @Override
     public String updateBoard(){
         char[][] arr = new char[][]{{'E','E','E','E','E','E','E','E'},
                         {'E','E','E','E','E','E','E','M'},

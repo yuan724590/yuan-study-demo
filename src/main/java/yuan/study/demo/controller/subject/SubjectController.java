@@ -2382,6 +2382,14 @@ public class SubjectController {
     }
 
     /**
+     * 528. 按权重随机选择
+     */
+    @GetMapping(value = "/solution")
+    public String solution() {
+        return subjectService.solution();
+    }
+
+    /**
      * 529. 扫雷游戏
      */
     @GetMapping(value = "/updateBoard")
