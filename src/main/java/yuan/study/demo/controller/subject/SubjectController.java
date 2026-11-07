@@ -2422,6 +2422,14 @@ public class SubjectController {
     }
 
     /**
+     * 542. 01 矩阵
+     */
+    @GetMapping(value = "/updateMatrix")
+    public String updateMatrix() {
+        return subjectService.updateMatrix();
+    }
+
+    /**
      * 547. 省份数量
      */
     @GetMapping(value = "/findCircleNum")
