@@ -2719,6 +2719,14 @@ public class SubjectController {
     }
 
     /**
+     * 752. 打开转盘锁
+     */
+    @GetMapping(value = "/openLock")
+    public String openLock() {
+        return subjectService.openLock();
+    }
+
+    /**
      * 785. 判断二分图
      */
     @GetMapping(value = "/isBipartite")

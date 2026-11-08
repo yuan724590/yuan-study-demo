@@ -10384,6 +10384,73 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String openLock(){
+        System.out.println(JSON.toJSONString(openLock(new String[]{"0201","0101","0102","1212","2002"}, "0202")));
+        return "success";
+    }
+
+    public int openLock(String[] deadends, String target) {
+        if ("0000".equals(target)) {
+            return 0;
+        }
+
+        Set<String> deadSet = new HashSet<>(Arrays.asList(deadends));
+        if (deadSet.contains("0000")) {
+            return -1;
+        }
+
+        int step = 0;
+        Queue<String> queue = new LinkedList<>();
+        queue.offer("0000");
+        Set<String> seen = new HashSet<>();
+        seen.add("0000");
+
+        while (!queue.isEmpty()) {
+            ++step;
+            int size = queue.size();
+            for (int i = 0; i < size; ++i) {
+                String status = queue.poll();
+                for (String nextStatus : openLockGet(status)) {
+                    if (!seen.contains(nextStatus) && !deadSet.contains(nextStatus)) {
+                        if (nextStatus.equals(target)) {
+                            return step;
+                        }
+                        queue.offer(nextStatus);
+                        seen.add(nextStatus);
+                    }
+                }
+            }
+        }
+
+        return -1;
+    }
+
+    public char openLockNumPrev(char x) {
+        return x == '0' ? '9' : (char) (x - 1);
+    }
+
+    public char openLockNumSucc(char x) {
+        return x == '9' ? '0' : (char) (x + 1);
+    }
+
+    /**
+     * 枚举 status 通过一次旋转得到的数字
+     */
+    public List<String> openLockGet(String status) {
+        List<String> ret = new ArrayList<>();
+        char[] array = status.toCharArray();
+        for (int i = 0; i < 4; ++i) {
+            char num = array[i];
+            array[i] = openLockNumPrev(num);
+            ret.add(new String(array));
+            array[i] = openLockNumSucc(num);
+            ret.add(new String(array));
+            array[i] = num;
+        }
+        return ret;
+    }
+
+    @Override
     public String isBipartite(){
         System.out.println(JSON.toJSONString(isBipartite(new int[][]{{1,2,3},{0,2},{0,1,3},{0,2}})));
         return "success";
