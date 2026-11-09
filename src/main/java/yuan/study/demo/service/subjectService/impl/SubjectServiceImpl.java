@@ -6727,6 +6727,35 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String binaryTreePaths(){
+        TreeNode treeNode = new TreeNode(1, 2, 3);
+        treeNode.left.right = new TreeNode(5);
+        System.out.println(JSON.toJSONString(binaryTreePaths(treeNode)));
+        return "success";
+    }
+
+    public List<String> binaryTreePaths(TreeNode root) {
+        List<String> list = new ArrayList<>();
+        constructPaths(root, "", list);
+        return list;
+    }
+
+    public void constructPaths(TreeNode root, String path, List<String> list) {
+        if (root == null) {
+            return;
+        }
+        StringBuffer sb = new StringBuffer(path);
+        sb.append(root.val);
+        if (root.left == null && root.right == null) {
+            list.add(sb.toString());
+        } else {
+            sb.append("->");
+            constructPaths(root.left, sb.toString(), list);
+            constructPaths(root.right, sb.toString(), list);
+        }
+    }
+
+    @Override
     public String addDigits(){
         System.out.println(JSON.toJSONString(addDigits(38)));
         return "success";

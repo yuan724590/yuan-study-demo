@@ -1791,6 +1791,11 @@ public class SubjectController {
     }
 
     /**
+     * 240. 搜索二维矩阵 II
+     * 同yuan.study.demo.controller.subject.OfferSubjectController#findNumberIn2DArray(), 故跳过
+     */
+
+    /**
      * 241. 为运算表达式设计优先级
      */
     @GetMapping(value = "/diffWaysToCompute")
@@ -1812,6 +1817,14 @@ public class SubjectController {
     @GetMapping(value = "/minCost")
     public void minCost(){
         subjectService.minCost();
+    }
+
+    /**
+     * 257. 二叉树的所有路径
+     */
+    @GetMapping(value = "/binaryTreePaths")
+    public void binaryTreePaths(){
+        subjectService.binaryTreePaths();
     }
 
     /**
