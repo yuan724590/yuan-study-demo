@@ -1836,6 +1836,14 @@ public class SubjectController {
     }
 
     /**
+     * 260. 只出现一次的数字 III
+     */
+    @GetMapping(value = "/singleNumber")
+    public void singleNumber(){
+        subjectService.singleNumber();
+    }
+
+    /**
      * 263. 丑数
      */
     @GetMapping(value = "/isUgly")
