@@ -6993,6 +6993,26 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String hIndex275(){
+        System.out.println(JSON.toJSONString(hIndex275(new int[]{0,1,3,5,6})));
+        return "success";
+    }
+
+    public int hIndex275(int[] citations) {
+        int n = citations.length;
+        int left = 0, right = n - 1;
+        while (left <= right) {
+            int mid = left + (right - left) / 2;
+            if (citations[mid] >= n - mid) {
+                right = mid - 1;
+            } else {
+                left = mid + 1;
+            }
+        }
+        return n - left;
+    }
+
+    @Override
     public String numSquares(){
         System.out.println(JSON.toJSONString(numSquares(12)));
         return "success";

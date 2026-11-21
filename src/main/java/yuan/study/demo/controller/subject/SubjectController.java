@@ -1886,6 +1886,14 @@ public class SubjectController {
     }
 
     /**
+     * 275. H 指数 II
+     */
+    @GetMapping(value = "/hIndex275")
+    public void hIndex275(){
+        subjectService.hIndex275();
+    }
+
+    /**
      * 279. 完全平方数
      */
     @GetMapping(value = "/numSquares")
