@@ -2844,6 +2844,14 @@ public class SubjectController {
     }
 
     /**
+     * 873. 最长的斐波那契子序列的长度
+     */
+    @GetMapping(value = "/lenLongestFibSubseq")
+    public String lenLongestFibSubseq() {
+        return subjectService.lenLongestFibSubseq();
+    }
+
+    /**
      * 875. 爱吃香蕉的珂珂
      */
     @GetMapping(value = "/minEatingSpeed")
