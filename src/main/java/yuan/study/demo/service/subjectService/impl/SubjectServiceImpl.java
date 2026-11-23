@@ -7013,6 +7013,29 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public String firstBadVersion(){
+        System.out.println(JSON.toJSONString(firstBadVersion(5)));
+        return "success";
+    }
+
+    public int firstBadVersion(int n) {
+        int left = 1, right = n;
+        while (left < right) {
+            int mid = left + ((right - left) >> 1);
+            if(isBadVersion(mid)){
+                right = mid;
+            }else{
+                left = mid + 1;
+            }
+        }
+        return left;
+    }
+
+    public boolean isBadVersion(int n){
+        return n >= 4;
+    }
+
+    @Override
     public String numSquares(){
         System.out.println(JSON.toJSONString(numSquares(12)));
         return "success";

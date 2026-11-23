@@ -1894,6 +1894,14 @@ public class SubjectController {
     }
 
     /**
+     * 278. 第一个错误的版本
+     */
+    @GetMapping(value = "/firstBadVersion")
+    public void firstBadVersion(){
+        subjectService.firstBadVersion();
+    }
+
+    /**
      * 279. 完全平方数
      */
     @GetMapping(value = "/numSquares")
