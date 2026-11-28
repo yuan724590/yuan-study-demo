@@ -1910,6 +1910,14 @@ public class SubjectController {
     }
 
     /**
+     * 282. 给表达式添加运算符
+     */
+    @GetMapping(value = "/addOperators")
+    public void addOperators(){
+        subjectService.addOperators();
+    }
+
+    /**
      * 283. 移动零
      */
     @GetMapping(value = "/moveZeroes")
